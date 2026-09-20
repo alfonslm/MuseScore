@@ -184,9 +184,15 @@ jobs:
         fi
         UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"MU4_${BUILD_NUMBER}_Mac${ADD_INFO}")"
 
+        BUILD_BRANCH="${{ github.head_ref }}"
+        if [ -z "$BUILD_BRANCH" ]; then
+          BUILD_BRANCH="${GITHUB_REF#refs/heads/}"
+        fi
+
         echo "github.repository: ${{ github.repository }}"
         echo "BUILD_MODE=$BUILD_MODE" | tee -a $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" | tee -a $GITHUB_ENV
+        echo "BUILD_BRANCH=$BUILD_BRANCH" | tee -a $GITHUB_ENV
         echo "DO_UPDATE_TS=$DO_UPDATE_TS" | tee -a $GITHUB_ENV
         echo "DO_PLACEHOLDER_TRANSLATIONS=$DO_PLACEHOLDER_TRANSLATIONS" | tee -a $GITHUB_ENV
         echo "DO_NOTARIZE=$DO_NOTARIZE" | tee -a $GITHUB_ENV
@@ -237,7 +243,7 @@ jobs:
       env:
         DOCKWIDGETS_V2: ${{ inputs.dockwidgets_v2 == 'ON' && 'ON' || 'OFF' }}
       run: |
-        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}"
+        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --branch "${BUILD_BRANCH}"
     - name: Show ccache stats
       run: |
         ccache -sv
@@ -419,9 +425,15 @@ jobs:
         fi
         UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"MU4_${BUILD_NUMBER}_MacArm64${ADD_INFO}")"
 
+        BUILD_BRANCH="${{ github.head_ref }}"
+        if [ -z "$BUILD_BRANCH" ]; then
+          BUILD_BRANCH="${GITHUB_REF#refs/heads/}"
+        fi
+
         echo "github.repository: ${{ github.repository }}"
         echo "BUILD_MODE=$BUILD_MODE" | tee -a $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" | tee -a $GITHUB_ENV
+        echo "BUILD_BRANCH=$BUILD_BRANCH" | tee -a $GITHUB_ENV
         echo "DO_UPDATE_TS=$DO_UPDATE_TS" | tee -a $GITHUB_ENV
         echo "DO_PLACEHOLDER_TRANSLATIONS=$DO_PLACEHOLDER_TRANSLATIONS" | tee -a $GITHUB_ENV
         echo "DO_NOTARIZE=$DO_NOTARIZE" | tee -a $GITHUB_ENV
@@ -472,7 +484,7 @@ jobs:
       env:
         DOCKWIDGETS_V2: ${{ inputs.dockwidgets_v2 == 'ON' && 'ON' || 'OFF' }}
       run: |
-        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --arch "arm64"
+        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --arch "arm64" --branch "${BUILD_BRANCH}"
     - name: Show ccache stats
       run: |
         ccache -sv
