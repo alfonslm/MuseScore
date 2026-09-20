@@ -30,6 +30,10 @@ install (DIRECTORY
     extensions
     DESTINATION ${MUSE_APP_INSTALL_RESOURCES_LOCATION}
     PATTERN ".*" EXCLUDE
+    PATTERN "stringgrip/test.js" EXCLUDE
+    PATTERN "stringgrip/test_score.js" EXCLUDE
+    PATTERN "stringgrip/build.sh" EXCLUDE
+    PATTERN "stringgrip/tools" EXCLUDE
     )
 
 install (DIRECTORY

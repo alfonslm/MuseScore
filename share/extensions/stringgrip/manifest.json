@@ -1,0 +1,16 @@
+{
+    "uri": "musescore://extensions/alfons/stringgrip",
+    "type": "composite",
+    "title": "String Grip",
+    "description": "Fingers bowed and fretted string parts (string + position, written to tab) and marks notes olive (stretch / extension / shift), amber (hard, professionals can) or red (impossible as written), by grip span in semitones or millimetres.",
+    "category": "composing-arranging-tools",
+    "version": "1.8.0",
+    "apiversion": 1,
+    "ui_context": "ProjectOpened",
+
+    "actions": [
+        { "code": "check", "type": "form",   "title": "String Grip: check playability…", "path": "Main.qml" },
+        { "code": "quick", "type": "macros", "title": "String Grip: quick check (default settings)", "path": "quick.js" },
+        { "code": "clear", "type": "macros", "title": "String Grip: clear markings", "path": "clear.js" }
+    ]
+}

@@ -16084,6 +16084,13 @@
                   <shortName>Vln.</shortName>
                   <description>Solo violin.</description>
                   <musicXMLid>strings.violin</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>55</string>
+                        <string>62</string>
+                        <string>69</string>
+                        <string>76</string>
+                  </StringData>
                   <clef>G</clef>
                   <barlineSpan>1</barlineSpan>
                   <aPitchRange>55-88</aPitchRange>
@@ -16143,6 +16150,13 @@
                   <shortName>Vla.</shortName>
                   <description>Solo viola.</description>
                   <musicXMLid>strings.viola</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>48</string>
+                        <string>55</string>
+                        <string>62</string>
+                        <string>69</string>
+                  </StringData>
                   <clef>C3</clef>
                   <barlineSpan>1</barlineSpan>
                   <aPitchRange>48-79</aPitchRange>
@@ -16201,6 +16215,13 @@
                   <shortName>Vc.</shortName>
                   <description>Violoncello.</description>
                   <musicXMLid>strings.cello</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>36</string>
+                        <string>43</string>
+                        <string>50</string>
+                        <string>57</string>
+                  </StringData>
                   <clef>F</clef>
                   <barlineSpan>1</barlineSpan>
                   <aPitchRange>36-67</aPitchRange>
@@ -16260,6 +16281,13 @@
                   <shortName>Cb.</shortName>
                   <description>Contrabass (double bass).</description>
                   <musicXMLid>strings.contrabass</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>40</string>
+                        <string>45</string>
+                        <string>50</string>
+                        <string>55</string>
+                  </StringData>
                   <transposingClef>F</transposingClef>
                   <concertClef>F8vb</concertClef>
                   <barlineSpan>1</barlineSpan>
