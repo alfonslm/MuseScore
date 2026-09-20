@@ -1238,8 +1238,10 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         IF_ASSERT_FAILED(staffType) {
             return;
         }
-        Font font(staffType->fretFont());
-        font.setPointSizeF(font.pointSizeF() * item->magS());
+        // Use a general text font (not the tab fret-number font, which only defines digits
+        // and a handful of letter-frets, not a full alphabet) so every note letter renders correctly.
+        Font font(item->style().styleSt(Sid::staffTextFontFace), Font::Type::Text);
+        font.setPointSizeF(item->style().styleD(Sid::staffTextFontSize) * item->magS());
         painter->setFont(font);
         FontMetrics fm(font);
 

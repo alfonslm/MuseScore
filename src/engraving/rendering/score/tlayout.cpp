@@ -1883,9 +1883,11 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
         break;
     }
     if (item->clefType() == ClefType::TAB_STRING_NAMES && !ldata->stringNames.empty() && clefStaffType) {
-        // custom bbox for the stack of open-string names, instead of a symbol bbox
-        Font font(clefStaffType->fretFont());
-        font.setPointSizeF(font.pointSizeF() * item->magS());
+        // custom bbox for the stack of open-string names, instead of a symbol bbox.
+        // Use a general text font (not the tab fret-number font, which only defines digits
+        // and a handful of letter-frets, not a full alphabet) so every note letter renders correctly.
+        Font font(conf.styleSt(Sid::staffTextFontFace), Font::Type::Text);
+        font.setPointSizeF(conf.styleD(Sid::staffTextFontSize) * item->magS());
         FontMetrics fm(font);
         double width = 0.0;
         double above = 0.0;    // tallest extent above the text baseline
