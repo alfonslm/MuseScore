@@ -50,6 +50,17 @@ check("bass octave bowed red (skip)", r[0].level === E.RED, r[0]);
 r = E.analyse(seq([30], 500), "cello");
 check("cello below C2 red", r[0].level === E.RED && r[0].flags[0].code === "low", r[0]);
 
+// 8b. A KEPT fingering that is off the end of the fingerboard must be flagged red,
+// not silently swapped for a different fingering with no flag at all (regression:
+// fixedCandidate used to reject out-of-range frets before evaluate() ever ran,
+// so analyse() treated the note as unfingered instead of flagging it).
+// Violin E6 (88) forced onto the D string (open 62): fret 26, past maxFret 22.
+r = E.analyse(seq([88], 500), "violin", {}, [[1]]);
+check("kept fret past maxFret is red, not silently discarded", r[0].level === E.RED && r[0].flags.some(f => f.code === "high"), r[0]);
+// analyseKeeping must treat it like any other impossible kept fingering: replaced.
+let kr = E.analyseKeeping(seq([88], 500), "violin", {}, [[1]]);
+check("keep: out-of-range user fret replaced, not silently kept", kr.results[0].source === "engine" && kr.results[0].changed && kr.results[0].level !== E.RED, kr.results[0]);
+
 // 9. Scale in first position on violin: no shifts expected (G3..B4)
 r = E.analyse(seq([55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72, 74, 76, 78, 79], 300), "violin");
 check("violin G major 1st pos no flags", r.every(x => x.level === E.OK), r.map(x => [x.strings, x.frets, x.flags.map(f=>f.code)]));
@@ -183,7 +194,7 @@ check("cello 1 -> 6 directly: olive extension", E.analyse(seq([44, 49], 250), Ob
 // 14i. Keep the score's fingering unless the engine finds a better one (per phrase, (sum of weights)^2)
 // Violin: A4 on the D string fret 7 (fine, white) instead of open A -> equally good -> kept
 let mineFix = [[1]];   // string index 1 = D string (low->high)
-let kr = E.analyseKeeping(seq([69], 300), "violin", {}, mineFix);
+kr = E.analyseKeeping(seq([69], 300), "violin", {}, mineFix);
 check("keep: equally good user fingering kept", kr.results[0].source === "kept" && kr.results[0].strings[0] === 1 && !kr.results[0].changed, kr.results[0]);
 // A bad user fingering: violin G3-string climb 57 60 64 69 72 76 all forced on the G string -> shifts/high pos
 const climb = [57, 60, 64, 69, 72, 76];
