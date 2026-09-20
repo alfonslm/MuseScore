@@ -303,12 +303,16 @@ function fixedCandidate(ev, strs, prof, M, opts) {
     for (var i = 0; i < strs.length; i++) {
         var st = strs[i];
         if (st === null || st === undefined || st < 0 || st >= prof.strings.length) return null;
-        var f = ev.pitches[i] - prof.strings[st];
-        if (f < 0 || f > prof.maxFret) return null;
         seen[st] = (seen[st] || 0) + 1;
     }
     var legal = true;
     for (var k in seen) if (seen[k] > 1) legal = false;
+    // Note: an out-of-range fret (below the nut or past maxFret) is not rejected
+    // here. It is still the score's real fingering, so it must go through
+    // evaluate() to get its RED "low"/"high" flag, exactly like any other kept
+    // fingering. Silently discarding it here would make analyse() treat the
+    // note as unfingered and quietly replace it with a computed candidate,
+    // hiding an impossible fingering instead of flagging it.
     return evaluate(ev, strs.slice(), prof, M, opts, legal);
 }
 

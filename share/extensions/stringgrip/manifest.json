@@ -4,7 +4,7 @@
     "title": "String Grip",
     "description": "Fingers bowed and fretted string parts (string + position, written to tab) and marks notes olive (stretch / extension / shift), amber (hard, professionals can) or red (impossible as written), by grip span in semitones or millimetres.",
     "category": "composing-arranging-tools",
-    "version": "1.8.0",
+    "version": "1.8.1",
     "apiversion": 1,
     "ui_context": "ProjectOpened",
 
