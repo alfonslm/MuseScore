@@ -1826,11 +1826,11 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
                     }
                     const instrString& openString = stringList[index];
                     const String pitchStr = pitch2string(openString.pitch, openString.useFlat);
-                    Char accidental;
+                    String accidental;
                     if (pitchStr.size() > 1) {
                         Char sym(pitchStr[1]);
                         if (!sym.isDigit()) {
-                            accidental = sym;
+                            accidental = String(sym);
                         }
                     }
                     ldata->stringNames.push_back(String(pitchStr[0]).toUpper() + accidental);
