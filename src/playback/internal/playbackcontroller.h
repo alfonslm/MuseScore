@@ -40,6 +40,7 @@
 #include "tours/itoursservice.h"
 
 #include "drumsetloader.h"
+#include "keyswitchtestassignments.h"
 
 #include "../iplaybackcontroller.h"
 #include "../iplaybackconfiguration.h"
@@ -271,6 +272,7 @@ private:
     bool m_isRangeSelection = false;
 
     DrumsetLoader m_drumsetLoader;
+    KeyswitchTestAssignments m_keyswitchTestAssignments;
     std::unique_ptr<OnlineSoundsController> m_onlineSoundsController;
 
     bool m_measureInputLag = false;

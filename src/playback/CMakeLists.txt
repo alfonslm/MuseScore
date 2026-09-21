@@ -48,6 +48,8 @@ target_sources(playback PRIVATE
     internal/soundprofilesrepository.h
     internal/drumsetloader.cpp
     internal/drumsetloader.h
+    internal/keyswitchtestassignments.cpp
+    internal/keyswitchtestassignments.h
     internal/knownaudiopluginsconfigurator.cpp
     internal/knownaudiopluginsconfigurator.h
 )

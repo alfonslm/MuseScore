@@ -1209,6 +1209,15 @@ void PlaybackController::doAddTrack(const InstrumentTrackId& instrumentTrackId, 
         }
     }
 
+    //! NOTE Dev-only, no-UI keyswitch map wiring for testing (KEYSWITCH-INSTRUCTIONS.md Step 2).
+    //! Never overrides a keyswitchMapId already present (e.g. once there's real UI/score storage for it).
+    if (!muse::contains(inParams.configuration, std::string("keyswitchMapId"))) {
+        const std::string testMapId = m_keyswitchTestAssignments.mapIdFor(instrumentTrackId);
+        if (!testMapId.empty()) {
+            inParams.configuration["keyswitchMapId"] = testMapId;
+        }
+    }
+
     uint64_t playbackKey = notationPlaybackKey();
 
     TrackParams trackParams;
