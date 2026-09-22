@@ -35,6 +35,7 @@ while [[ "$#" -gt 0 ]]; do
         --crash_log_url) CRASH_REPORT_URL="$2"; BUILD_CRASHPAD_CLIENT=ON; shift ;;
         --dockwidgets_v2) DOCKWIDGETS_V2="$2"; shift ;;
         --archs) ARCHS="$2"; shift ;;
+        --branch) BUILD_BRANCH="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -73,4 +74,4 @@ bash ./ninja_build.sh -t install
 bash ./buildscripts/ci/tools/make_release_channel_env.sh -c $MUSE_APP_BUILD_MODE
 bash ./buildscripts/ci/tools/make_version_env.sh $BUILD_NUMBER
 bash ./buildscripts/ci/tools/make_revision_env.sh $MUSESCORE_REVISION
-bash ./buildscripts/ci/tools/make_branch_env.sh
+bash ./buildscripts/ci/tools/make_branch_env.sh "$BUILD_BRANCH"

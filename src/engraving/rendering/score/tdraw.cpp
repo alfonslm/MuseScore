@@ -1224,11 +1224,44 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         return;
     }
 
-    if (ldata->symId == SymId::noSym || (item->staff() && !const_cast<const Staff*>(item->staff())->staffType(item->tick())->genClef())) {
+    const bool drawStringNames = item->clefType() == ClefType::TAB_STRING_NAMES && !ldata->stringNames.empty();
+
+    if ((ldata->symId == SymId::noSym && !drawStringNames)
+        || (item->staff() && !const_cast<const Staff*>(item->staff())->staffType(item->tick())->genClef())) {
         return;
     }
 
     painter->setPen(item->curColor(opt));
+
+    if (drawStringNames) {
+        const StaffType* staffType = item->staff() ? const_cast<const Staff*>(item->staff())->staffType(item->tick()) : nullptr;
+        IF_ASSERT_FAILED(staffType) {
+            return;
+        }
+        // Use a general text font (not the tab fret-number font, which only defines digits
+        // and a handful of letter-frets, not a full alphabet) so every note letter renders correctly.
+        Font font(item->style().styleSt(Sid::staffTextFontFace), Font::Type::Text);
+        font.setPointSizeF(item->style().styleD(Sid::staffTextFontSize) * item->magS());
+        painter->setFont(font);
+        FontMetrics fm(font);
+
+        const double lineDistAbs = staffType->lineDistance().toAbsolute(item->spatium());
+        const int lines = static_cast<int>(ldata->stringNames.size());
+        const double halfHeight = lineDistAbs * (lines - 1) * 0.5;
+        for (int i = 0; i < lines; ++i) {
+            const String& name = ldata->stringNames[i];
+            if (name.empty()) {
+                continue;
+            }
+            const RectF r = fm.boundingRect(name);
+            const double lineY = -halfHeight + i * lineDistAbs;
+            const double x = -(r.left() + r.width() * 0.5);
+            const double y = lineY - (r.top() + r.bottom()) * 0.5;
+            painter->drawText(PointF(x, y), name);
+        }
+        return;
+    }
+
     item->drawSymbol(ldata->symId, painter);
 }
 
