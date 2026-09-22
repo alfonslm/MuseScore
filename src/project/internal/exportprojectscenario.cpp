@@ -503,7 +503,7 @@ Ret ExportProjectScenario::exportPartsInOnePass(INotationWriterPtr writer, const
                                                 const muse::io::path_t& destinationPath, bool isCreatingOnlyOneFile,
                                                 bool isExportingOnlyOneScore, const INotationWriter::Options& options) const
 {
-    std::vector<std::unique_ptr<FileStream>> files;
+    std::vector<std::unique_ptr<FileStream> > files;
     files.reserve(notations.size());
 
     INotationWriter::PartExportTargetList targets;

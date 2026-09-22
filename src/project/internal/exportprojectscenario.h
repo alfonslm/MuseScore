@@ -95,8 +95,8 @@ private:
     //! destination file per notation and renders them all in a single writer->writeParts() call
     //! instead of looping write() once per notation.
     muse::Ret exportPartsInOnePass(INotationWriterPtr writer, const notation::INotationPtrList& notations,
-                                   const muse::io::path_t& destinationPath, bool isCreatingOnlyOneFile,
-                                   bool isExportingOnlyOneScore, const INotationWriter::Options& options) const;
+                                   const muse::io::path_t& destinationPath, bool isCreatingOnlyOneFile, bool isExportingOnlyOneScore,
+                                   const INotationWriter::Options& options) const;
 
     void showExportProgress(bool isAudioExport) const;
 
