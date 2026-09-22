@@ -31,6 +31,7 @@
 #include "log.h"
 
 #include "audio/common/audioerrors.h"
+#include "global/async/notifylist.h"
 
 #include "notation/inotation.h"
 #include "notation/inotationparts.h"
