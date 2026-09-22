@@ -104,7 +104,17 @@ if $DO_SIGN; then
         rm -f "$APP_ZIP"
     fi
 else
-    echo "Skipping code signing"
+    # macdeployqt rewrites load commands (rpath fixups) while bundling Qt,
+    # which invalidates whatever ad-hoc signature the compiler originally
+    # embedded. On Apple Silicon, AMFI refuses to launch code whose signature
+    # doesn't match its current bytes and silently SIGKILLs it, so without a
+    # signing certificate we still need to re-sign ad-hoc (identity "-") to
+    # get a launchable .app.
+    echo "No signing certificate configured; re-signing ad-hoc so the app can launch"
+    find "${APP_PATH}/Contents/Frameworks" -maxdepth 1 -type f -name "*.dylib" \
+        -exec codesign --force --sign - {} +
+    codesign --force --deep --sign - "${APP_PATH}/Contents/PlugIns/MuseScoreQuickLookPreviewExtension.appex"
+    codesign --force --deep --sign - "${APP_PATH}"
 fi
 
 ################################################################

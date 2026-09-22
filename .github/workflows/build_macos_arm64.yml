@@ -1,13 +1,9 @@
-name: 'Build: Linux'
+name: 'Build: macOS arm64'
 
 on:
   pull_request:
   workflow_dispatch:
     inputs:
-      platforms:
-        description: 'Platforms to build:'
-        default: 'linux_x64 linux_arm64'
-        required: true
       build_mode:
         description: 'Build mode: devel, nightly, testing, stable'
         default: 'devel'
@@ -26,11 +22,6 @@ on:
         required: false
   workflow_call:
     inputs:
-      platforms:
-        description: 'Platforms to build:'
-        default: 'linux_x64 linux_arm64'
-        type: string
-        required: true
       build_mode:
         description: 'Build mode: devel, nightly, testing, stable'
         default: 'devel'
@@ -80,37 +71,16 @@ on:
 concurrency:
   # If run via workflow_call, ${{ github.workflow }} is the root workflow's name (e.g. 'Deploy'),
   # which is the same for all workflows called in that run, hence we must add a unique suffix here.
-  group: ${{ github.workflow }} ${{ github.event_name }} ${{ github.ref }} ${{ github.event.issue.number }} linux
+  group: ${{ github.workflow }} ${{ github.event_name }} ${{ github.ref }} macos-arm64
   cancel-in-progress: true
 
+env:
+  # This information is public and can be extracted by anyone from the final .app file
+  APPLE_TEAM_ID: 6EPAF2X3PR
+
 jobs:
-  build:
-    if: inputs.platforms == '' || contains(inputs.platforms, 'linux_x64') || contains(inputs.platforms, 'linux_arm64')
-    runs-on: ${{ matrix.runs-on }}
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: ${{
-          (inputs.platforms == ''
-           || (contains(inputs.platforms, 'linux_x64') && contains(inputs.platforms, 'linux_arm64')))
-          && fromJson('["linux_x64","linux_arm64"]')
-          || (contains(inputs.platforms, 'linux_x64') && fromJson('["linux_x64"]')
-          || (contains(inputs.platforms, 'linux_arm64') && fromJson('["linux_arm64"]')
-          || fromJson('[]')))
-          }}
-        include:
-          - platform: linux_x64
-            arch: x86_64
-            runs-on: ubuntu-24.04
-            qt-host: linux
-            qt-arch: linux_gcc_64
-            dump-symbols-arch: x86-64
-          - platform: linux_arm64
-            arch: aarch64
-            runs-on: ubuntu-24.04-arm
-            qt-host: linux_arm64
-            qt-arch: linux_gcc_arm64
-            dump-symbols-arch: aarch64
+  macos_arm64:
+    runs-on: xcode-27
     steps:
     - name: Clone repository
       uses: actions/checkout@v7
@@ -134,6 +104,8 @@ jobs:
         SENTRY_MUSE_MU4_KEY: ${{ secrets.SENTRY_MUSE_MU4_KEY }}
         SENTRY_MUSE_MU4_SANDBOX_KEY: ${{ secrets.SENTRY_MUSE_MU4_SANDBOX_KEY }}
         SENTRY_PROJECT: ${{ inputs.sentry_project }}
+        APPLE_USERNAME: ${{ secrets.APPLE_USERNAME }}
+        APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
         TRANSIFEX_API_TOKEN: ${{ secrets.TRANSIFEX_API_TOKEN }}
         OSUOSL_SSH_ENCRYPT_SECRET: ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }}
       run: |
@@ -147,6 +119,18 @@ jobs:
           bash ./buildscripts/ci/tools/make_build_number.sh
         fi
         BUILD_NUMBER=$(cat ./build.artifacts/env/build_number.env)
+
+        DO_NOTARIZE='false'
+        if [ "$BUILD_MODE" != "devel" ]; then
+          DO_NOTARIZE='true'
+          if [ -z "$APPLE_USERNAME" ]; then
+            echo "::warning::APPLE_USERNAME is empty; notarization disabled"
+            DO_NOTARIZE='false'
+          elif [ -z "$APPLE_PASSWORD" ]; then
+            echo "::warning::APPLE_PASSWORD is empty, notarization disabled"
+            DO_NOTARIZE='false'
+          fi
+        fi
 
         DO_UPDATE_TS='false'
         if [[ "$BUILD_MODE" == "testing" || "$BUILD_MODE" == "stable" ]]; then
@@ -198,13 +182,20 @@ jobs:
         if [ "${{ github.event_name }}" == "pull_request" ]; then
           ADD_INFO="_${{ github.event.pull_request.number }}_${pull_request_title}"
         fi
-        UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"MU4_${BUILD_NUMBER}_Lin_${{ matrix.arch }}${ADD_INFO}")"
+        UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"MU4_${BUILD_NUMBER}_Mac_arm64${ADD_INFO}")"
+
+        BUILD_BRANCH="${{ github.head_ref }}"
+        if [ -z "$BUILD_BRANCH" ]; then
+          BUILD_BRANCH="${GITHUB_REF#refs/heads/}"
+        fi
 
         echo "github.repository: ${{ github.repository }}"
         echo "BUILD_MODE=$BUILD_MODE" | tee -a $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" | tee -a $GITHUB_ENV
+        echo "BUILD_BRANCH=$BUILD_BRANCH" | tee -a $GITHUB_ENV
         echo "DO_UPDATE_TS=$DO_UPDATE_TS" | tee -a $GITHUB_ENV
         echo "DO_PLACEHOLDER_TRANSLATIONS=$DO_PLACEHOLDER_TRANSLATIONS" | tee -a $GITHUB_ENV
+        echo "DO_NOTARIZE=$DO_NOTARIZE" | tee -a $GITHUB_ENV
         echo "DO_UPLOAD_SYMBOLS=$DO_UPLOAD_SYMBOLS" | tee -a $GITHUB_ENV
         echo "SENTRY_PROJECT=$SENTRY_PROJECT" | tee -a $GITHUB_ENV
         echo "SENTRY_URL=$SENTRY_URL" | tee -a $GITHUB_ENV
@@ -221,27 +212,24 @@ jobs:
           restore-keys: ${{runner.os}}-${{runner.arch}}-ccache-
       - name: Setup ccache
         run: |
-          sudo apt-get install -y ccache
+          brew install ccache
           bash ./buildscripts/ci/tools/setup_ccache_config.sh
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
         version: 6.10.2
-        host: ${{ matrix.qt-host }}
+        host: 'mac'
         target: 'desktop'
-        arch: ${{ matrix.qt-arch }}
+        arch: 'clang_64'
         modules: 'qt5compat qtnetworkauth qtshadertools qtwebsockets'
         cache: true
-    - name: Setup environment
-      run: |
-        bash ./buildscripts/ci/linux/setup.sh --arch ${{ matrix.arch }} --build-pipewire
 
     - parallel:
       - name: Generate _en.ts files
         env:
           LUPDATE_ARGS: ""
-          POSTPROCESS_ARGS: ${{ env.DO_PLACEHOLDER_TRANSLATIONS == 'true' && '--generate-placeholder-translations' || '' }}
+          POSTPROCESS_ARGS: "--warn-only ${{ env.DO_PLACEHOLDER_TRANSLATIONS == 'true' && '--generate-placeholder-translations' || '' }}"
         run: |
           bash ./tools/translations/run_lupdate.sh
       - name: Update .ts files (tx pull)
@@ -251,20 +239,42 @@ jobs:
           token: ${{ secrets.TRANSIFEX_API_TOKEN }}
           args: "pull -f"
 
-    - name: Register gcc problem matcher
-      run: echo "::add-matcher::.github/problem_matchers/gcc.json"
-
     - name: Build
       env:
         DOCKWIDGETS_V2: ${{ inputs.dockwidgets_v2 == 'ON' && 'ON' || 'OFF' }}
       run: |
-        bash ./buildscripts/ci/linux/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --arch ${{ matrix.arch }} --build-pipewire --dockwidgets_v2 "${DOCKWIDGETS_V2}"
+        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --archs "arm64" --branch "${BUILD_BRANCH}"
     - name: Show ccache stats
       run: |
         ccache -sv
     - name: Package
+      env:
+        MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET: ${{ secrets.MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET }}
+        MAC_SIGN_CERTIFICATE_PASSWORD: ${{ secrets.MAC_SIGN_CERTIFICATE_PASSWORD }}
+        APPLE_USERNAME: ${{ secrets.APPLE_USERNAME }}
+        APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
       run: |
-        bash ./buildscripts/ci/linux/package.sh --arch ${{ matrix.arch }} --build-pipewire
+        PACKAGE_ARGS=(
+          --signsecret "${MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET}"
+          --signpass "${MAC_SIGN_CERTIFICATE_PASSWORD}"
+        )
+        if [ "$DO_NOTARIZE" = "true" ]; then
+          PACKAGE_ARGS+=(
+            --user "${APPLE_USERNAME}"
+            --password "${APPLE_PASSWORD}"
+            --team-id "$APPLE_TEAM_ID"
+          )
+        fi
+
+        bash ./buildscripts/ci/macos/package.sh "${PACKAGE_ARGS[@]}"
+
+    - name: Notarize
+      if: env.DO_NOTARIZE == 'true'
+      env:
+        APPLE_USERNAME: ${{ secrets.APPLE_USERNAME }}
+        APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+      run: |
+        bash ./buildscripts/ci/macos/notarize.sh -u "${APPLE_USERNAME}" -p "${APPLE_PASSWORD}" -t "$APPLE_TEAM_ID"
     - name: Checksum
       run: |
         bash ./buildscripts/ci/tools/checksum.sh
@@ -273,22 +283,18 @@ jobs:
       env:
         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_MUSE_AUTH_TOKEN }}
       run: |
-        APP_BIN=$(find "$(pwd)/build.release/src/app/" -type f -name "mscore4portable*" -print -quit)
-        ARCH=${{ matrix.dump-symbols-arch }}
-        sudo cmake -DAPP_BIN=${APP_BIN} \
-                   -DARCH=${ARCH} \
-                   -DSENTRY_URL=https://sentry.musescore.com \
-                   -DSENTRY_ORG=sentry \
-                   -DSENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
-                   -DSENTRY_PROJECT=${SENTRY_PROJECT} \
-                   -DSTAGE=${BUILD_MODE} \
-                   -P buildscripts/ci/crashdumps/ci_generate_and_upload.cmake
-    - name: Publish to OSUOSL
-      if: env.DO_PUBLISH == 'true'
-      env:
-        OSUOSL_SSH_ENCRYPT_SECRET: ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }}
-      run: |
-        bash ./buildscripts/ci/tools/osuosl/publish.sh -s "${OSUOSL_SSH_ENCRYPT_SECRET}" --os linux --arch ${{ matrix.arch }} -v 4
+        APP_BIN=$(pwd)/applebuild/mscore.app/Contents/MacOS/mscore
+        GENERATE_ARCHS=("arm64")
+        BUILD_DIR=$(pwd)/applebuild
+        cmake -DAPP_BIN=${APP_BIN} \
+              -DGENERATE_ARCHS="${GENERATE_ARCHS}" \
+              -DBUILD_DIR=${BUILD_DIR} \
+              -DSENTRY_URL=https://sentry.musescore.com \
+              -DSENTRY_ORG=sentry \
+              -DSENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
+              -DSENTRY_PROJECT=${SENTRY_PROJECT} \
+              -DSTAGE=${BUILD_MODE} \
+              -P buildscripts/ci/crashdumps/ci_generate_and_upload.cmake
     - name: Upload artifacts on GitHub
       uses: actions/upload-artifact@v7
       with:

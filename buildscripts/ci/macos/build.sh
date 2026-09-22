@@ -27,14 +27,14 @@ ARTIFACTS_DIR=build.artifacts
 CRASH_REPORT_URL=""
 BUILD_CRASHPAD_CLIENT="OFF"
 DOCKWIDGETS_V2=OFF
-OSX_ARCHITECTURES="arm64;x86_64"
+ARCHS="arm64;x86_64"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -n|--number) BUILD_NUMBER="$2"; shift ;;
         --crash_log_url) CRASH_REPORT_URL="$2"; BUILD_CRASHPAD_CLIENT=ON; shift ;;
         --dockwidgets_v2) DOCKWIDGETS_V2="$2"; shift ;;
-        --arch) OSX_ARCHITECTURES="$2"; shift ;;
+        --archs) ARCHS="$2"; shift ;;
         --branch) BUILD_BRANCH="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -54,11 +54,12 @@ if [ "$BUILD_MODE" == "stable" ]; then MUSE_APP_BUILD_MODE=release; fi
 
 echo "MUSE_APP_BUILD_MODE: $MUSE_APP_BUILD_MODE"
 echo "BUILD_NUMBER: $BUILD_NUMBER"
+echo "ARCHS: $ARCHS"
 echo "CRASH_REPORT_URL: $CRASH_REPORT_URL"
 
 MUSESCORE_REVISION=$(git rev-parse --short=7 HEAD)
 
-CMAKE_OSX_ARCHITECTURES="$OSX_ARCHITECTURES" \
+CMAKE_OSX_ARCHITECTURES="$ARCHS" \
 MUSESCORE_INSTALL_DIR="../applebuild" \
 MUSE_APP_BUILD_MODE=$MUSE_APP_BUILD_MODE \
 MUSESCORE_BUILD_NUMBER=$BUILD_NUMBER \
