@@ -27,6 +27,7 @@ SIGN_CERTIFICATE_PASSWORD=""
 APPLE_TEAM_ID=""
 APPLE_USERNAME=""
 APPLE_PASSWORD=""
+BRANCH_NAME=""
 
 SIGN_ARGS=""
 
@@ -37,6 +38,7 @@ while [[ "$#" -gt 0 ]]; do
         --team-id) APPLE_TEAM_ID="$2"; shift ;;
         -u|--user) APPLE_USERNAME="$2"; shift ;;
         -p|--password) APPLE_PASSWORD="$2"; shift ;;
+        --branch) BRANCH_NAME="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -91,6 +93,13 @@ fi
 if [ "$BUILD_MODE" == "stable" ]; then
     APP_NAME="MuseScore $VERSION_MAJOR"
     VOL_NAME="MuseScore-Studio-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+fi
+
+# Non-stable builds carry the source branch in the .app's own name (not just the
+# CI artifact zip), so several builds sitting side by side in Finder/Applications
+# stay tellable apart.
+if [ -n "$BRANCH_NAME" ] && [ "$BUILD_MODE" != "stable" ]; then
+    APP_NAME="${BRANCH_NAME} ${APP_NAME}"
 fi
 
 buildscripts/packaging/macOS/package.sh --app-name "$APP_NAME" --vol-name "$VOL_NAME" --user "$APPLE_USERNAME" --password "$APPLE_PASSWORD" --team-id "$APPLE_TEAM_ID" $SIGN_ARGS

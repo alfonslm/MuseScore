@@ -182,7 +182,8 @@ jobs:
         if [ "${{ github.event_name }}" == "pull_request" ]; then
           ADD_INFO="_${{ github.event.pull_request.number }}_${pull_request_title}"
         fi
-        UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"MU4_${BUILD_NUMBER}_Mac_Universal${ADD_INFO}")"
+        BRANCH_NAME="$(tr '/' '_' <<<"${{ github.head_ref || github.ref_name }}")"
+        UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"${BRANCH_NAME}_MU4_${BUILD_NUMBER}_Mac_Universal${ADD_INFO}")"
 
         echo "github.repository: ${{ github.repository }}"
         echo "BUILD_MODE=$BUILD_MODE" | tee -a $GITHUB_ENV
@@ -195,6 +196,7 @@ jobs:
         echo "SENTRY_URL=$SENTRY_URL" | tee -a $GITHUB_ENV
         echo "DO_PUBLISH=$DO_PUBLISH" | tee -a $GITHUB_ENV
         echo "UPLOAD_ARTIFACT_NAME=$UPLOAD_ARTIFACT_NAME" | tee -a $GITHUB_ENV
+        echo "BRANCH_NAME=$BRANCH_NAME" | tee -a $GITHUB_ENV
 
     - parallel:
       - name: Restore ccache files
@@ -251,6 +253,7 @@ jobs:
         PACKAGE_ARGS=(
           --signsecret "${MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET}"
           --signpass "${MAC_SIGN_CERTIFICATE_PASSWORD}"
+          --branch "$BRANCH_NAME"
         )
         if [ "$DO_NOTARIZE" = "true" ]; then
           PACKAGE_ARGS+=(
