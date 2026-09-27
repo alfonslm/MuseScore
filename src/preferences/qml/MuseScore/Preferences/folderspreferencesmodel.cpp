@@ -21,6 +21,8 @@
  */
 #include "folderspreferencesmodel.h"
 
+#include <QUrl>
+
 #include "translation.h"
 
 #include "muse_framework_config.h"
@@ -249,6 +251,14 @@ void FoldersPreferencesModel::rescanVstPlugins()
     if (registerAudioPluginsScenario()) {
         registerAudioPluginsScenario()->rescanAllPlugins();
     }
+}
+
+void FoldersPreferencesModel::openKeyswitchMapsFolder()
+{
+    //! NOTE Dev-only, no UI to relocate this folder yet -- see KEYSWITCH-INSTRUCTIONS.md.
+    io::path_t path = globalConfiguration()->userDataPath() + "/Keyswitch Maps";
+    fileSystem()->makePath(path);
+    platformInteractive()->openUrl(QUrl::fromLocalFile(path.toQString()));
 }
 
 QString FoldersPreferencesModel::pathsToString(const io::paths_t& paths) const
