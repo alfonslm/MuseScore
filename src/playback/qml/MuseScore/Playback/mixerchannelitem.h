@@ -40,6 +40,7 @@
 #include "inputresourceitem.h"
 #include "outputresourceitem.h"
 #include "auxsenditem.h"
+#include "expressionmappingmodel.h"
 
 namespace mu::playback {
 class MixerChannelItem : public QObject, public muse::async::Asyncable, public muse::Contextable
@@ -55,6 +56,9 @@ class MixerChannelItem : public QObject, public muse::async::Asyncable, public m
     Q_PROPERTY(
         QList<mu::playback::OutputResourceItem*> outputResourceItemList READ outputResourceItemList NOTIFY outputResourceItemListChanged)
     Q_PROPERTY(QList<mu::playback::AuxSendItem*> auxSendItemList READ auxSendItemList NOTIFY auxSendItemListChanged)
+
+    Q_PROPERTY(mu::playback::ExpressionMappingModel * expressionMappingModel READ expressionMappingModel CONSTANT)
+    Q_PROPERTY(QString keyswitchMapId READ keyswitchMapId WRITE setKeyswitchMapId NOTIFY keyswitchMapIdChanged)
 
     Q_PROPERTY(float leftChannelPressure READ leftChannelPressure NOTIFY leftChannelPressureChanged)
     Q_PROPERTY(float rightChannelPressure READ rightChannelPressure NOTIFY rightChannelPressureChanged)
@@ -148,6 +152,11 @@ public:
 
     const QMap<muse::audio::aux_channel_idx_t, AuxSendItem*>& auxSendItems() const;
 
+    ExpressionMappingModel* expressionMappingModel() const;
+
+    QString keyswitchMapId() const;
+    void setKeyswitchMapId(const QString& mapId);
+
 public slots:
     void setTitle(QString title);
 
@@ -184,6 +193,7 @@ signals:
     void inputResourceItemChanged();
     void outputResourceItemListChanged();
     void auxSendItemListChanged();
+    void keyswitchMapIdChanged();
 
 protected:
     notation::INotationPlaybackPtr notationPlayback() const;
@@ -228,6 +238,7 @@ protected:
     bool m_hasBalanceAutomation = false;
 
     InputResourceItem* m_inputResourceItem = nullptr;
+    ExpressionMappingModel* m_expressionMappingModel = nullptr;
     QMap<muse::audio::AudioFxChainOrder, OutputResourceItem*> m_outputResourceItems;
     QMap<muse::audio::aux_channel_idx_t, AuxSendItem*> m_auxSendItems;
 

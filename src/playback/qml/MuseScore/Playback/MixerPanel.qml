@@ -212,6 +212,23 @@ ColumnLayout {
                 }
             }
 
+            MixerExpressionMappingSection {
+                id: expressionMappingSection
+
+                headerVisible: contextMenuModel.labelsSectionVisible
+                headerWidth: prv.headerWidth
+                channelItemWidth: prv.channelItemWidth
+
+                model: mixerPanelModel
+
+                navigationRowStart: 50
+                needReadChannelName: prv.isPanelActivated
+
+                onNavigateControlIndexChanged: function(index) {
+                    prv.setNavigateControlIndex(index)
+                }
+            }
+
             MixerFxSection {
                 id: fxSection
 

@@ -28,6 +28,8 @@
 #include "modularity/ioc.h"
 #include "async/asyncable.h"
 #include "iglobalconfiguration.h"
+#include "io/ifilesystem.h"
+#include "interactive/iplatforminteractive.h"
 #include "project/iprojectconfiguration.h"
 #include "notation/inotationconfiguration.h"
 #include "extensions/iextensionsconfiguration.h"
@@ -44,6 +46,8 @@ class FoldersPreferencesModel : public QAbstractListModel, public muse::Contexta
     Q_PROPERTY(bool vstEnabled READ vstEnabled CONSTANT)
 
     muse::GlobalInject<muse::IGlobalConfiguration> globalConfiguration;
+    muse::GlobalInject<muse::io::IFileSystem> fileSystem;
+    muse::GlobalInject<muse::IPlatformInteractive> platformInteractive;
     muse::GlobalInject<project::IProjectConfiguration> projectConfiguration;
     muse::GlobalInject<notation::INotationConfiguration> notationConfiguration;
     muse::GlobalInject<muse::extensions::IExtensionsConfiguration> extensionsConfiguration;
@@ -63,6 +67,10 @@ public:
 
     Q_INVOKABLE void load();
     Q_INVOKABLE void rescanVstPlugins();
+    Q_INVOKABLE void openKeyswitchMapsFolder();
+    //! NOTE Returns false if a file with this name already exists at the destination
+    //! (never overwrites a user's own edits) or if the copy failed.
+    Q_INVOKABLE bool exportDefaultKeyswitchMap();
 
 private:
     void setupConnections();

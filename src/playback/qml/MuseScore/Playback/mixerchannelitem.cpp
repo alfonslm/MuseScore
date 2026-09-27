@@ -51,6 +51,14 @@ static const std::string TRACK_ID_KEY("trackId");
 static const std::string RESOURCE_ID_KEY("resourceId");
 static const std::string CHAIN_ORDER_KEY("chainOrder");
 
+static const std::string KEYSWITCH_MAP_ID_KEY("keyswitchMapId");
+
+static QString keyswitchMapIdOf(const AudioInputParams& params)
+{
+    auto it = params.configuration.find(KEYSWITCH_MAP_ID_KEY);
+    return it != params.configuration.end() ? QString::fromStdString(it->second) : QString();
+}
+
 MixerChannelItem::MixerChannelItem(QObject* parent, Type type, bool outputOnly, audio::TrackId trackId)
     : QObject(parent), muse::Contextable(muse::iocCtxForQmlObject(this)),
     m_type(type),
@@ -62,6 +70,9 @@ MixerChannelItem::MixerChannelItem(QObject* parent, Type type, bool outputOnly, 
     if (!m_outputOnly) {
         m_inputResourceItem = buildInputResourceItem();
     }
+
+    m_expressionMappingModel = new ExpressionMappingModel(this);
+    m_expressionMappingModel->reload();
 
     m_panel = new ui::NavigationPanel(this);
     m_panel->setDirection(ui::NavigationPanel::Vertical);
@@ -266,8 +277,14 @@ void MixerChannelItem::loadInputParams(const AudioInputParams& newParams)
         return;
     }
 
+    bool keyswitchMapChanged = keyswitchMapId() != keyswitchMapIdOf(newParams);
+
     m_inputParams = newParams;
     m_inputResourceItem->setParams(newParams);
+
+    if (keyswitchMapChanged) {
+        emit keyswitchMapIdChanged();
+    }
 }
 
 void MixerChannelItem::loadOutputParams(const AudioOutputParams& newParams)
@@ -860,4 +877,32 @@ QList<AuxSendItem*> MixerChannelItem::auxSendItemList() const
 const QMap<aux_channel_idx_t, AuxSendItem*>& MixerChannelItem::auxSendItems() const
 {
     return m_auxSendItems;
+}
+
+ExpressionMappingModel* MixerChannelItem::expressionMappingModel() const
+{
+    return m_expressionMappingModel;
+}
+
+QString MixerChannelItem::keyswitchMapId() const
+{
+    return keyswitchMapIdOf(m_inputParams);
+}
+
+void MixerChannelItem::setKeyswitchMapId(const QString& mapId)
+{
+    if (keyswitchMapId() == mapId) {
+        return;
+    }
+
+    AudioInputParams newParams = m_inputParams;
+    if (mapId.isEmpty()) {
+        newParams.configuration.erase(KEYSWITCH_MAP_ID_KEY);
+    } else {
+        newParams.configuration[KEYSWITCH_MAP_ID_KEY] = mapId.toStdString();
+    }
+
+    m_inputParams = newParams;
+    emit keyswitchMapIdChanged();
+    emit inputParamsChanged(m_inputParams);
 }
