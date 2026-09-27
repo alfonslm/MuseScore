@@ -1238,14 +1238,7 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         IF_ASSERT_FAILED(staffType) {
             return;
         }
-        // Hardcode a plain text font rather than reading Sid::staffTextFontFace: that style
-        // property is user-configurable and may point at a music-symbol font, which can remap
-        // plain Latin letters to unrelated (and wildly differently sized) glyphs.
-        Font font(u"Edwin", Font::Type::Text);
-        font.setPointSizeF(10.0 * item->magS());
-        painter->setFont(font);
-        FontMetrics fm(font);
-
+        const double pointSize = 10.0 * item->magS();
         const double lineDistAbs = staffType->lineDistance().toAbsolute(item->spatium());
         const int lines = static_cast<int>(ldata->stringNames.size());
         const double halfHeight = lineDistAbs * (lines - 1) * 0.5;
@@ -1254,10 +1247,18 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
             if (name.empty()) {
                 continue;
             }
+            // Build the font fresh for each letter rather than sharing one Font/FontMetrics
+            // pair across the loop: a plain text font ("Edwin" here, rather than
+            // Sid::staffTextFontFace, which is user/score-configurable and may point at a
+            // music-symbol font that remaps plain Latin letters to unrelated glyphs).
+            Font font(u"Edwin", Font::Type::Text);
+            font.setPointSizeF(pointSize);
+            FontMetrics fm(font);
             const RectF r = fm.boundingRect(name);
             const double lineY = -halfHeight + i * lineDistAbs;
             const double x = -(r.left() + r.width() * 0.5);
             const double y = lineY - (r.top() + r.bottom()) * 0.5;
+            painter->setFont(font);
             painter->drawText(PointF(x, y), name);
         }
         return;
