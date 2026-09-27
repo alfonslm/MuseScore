@@ -1884,7 +1884,20 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
     }
     if (item->clefType() == ClefType::TAB_STRING_NAMES && !ldata->stringNames.empty() && clefStaffType) {
         // custom bbox for the stack of open-string names, instead of a symbol bbox.
-        const double pointSize = 10.0 * item->magS();
+        double lineDistAbs = lineDist.toAbsolute(_spatium);
+        double halfHeight = lineDistAbs * (lines - 1) * 0.5;
+
+        // Size the letters from the staff's own line distance rather than a fixed point
+        // size: a fixed size overlaps on a tightly-spaced tab staff (or leaves the letters
+        // too small on a widely-spaced one). Measure a probe font's cap height and scale so
+        // the drawn cap height is a fixed fraction of the space between two lines.
+        Font probeFont(u"Edwin", Font::Type::Text);
+        probeFont.setPointSizeF(10.0);
+        const double probeCapHeight = FontMetrics(probeFont).capHeight();
+        const double pointSize = probeCapHeight > 0.0
+                                  ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
+                                  : 10.0 * item->magS();
+
         double width = 0.0;
         double above = 0.0;    // tallest extent above the text baseline
         double below = 0.0;    // tallest extent below the text baseline
@@ -1901,8 +1914,6 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
             above = std::max(above, -r.top());
             below = std::max(below, r.bottom());
         }
-        double lineDistAbs = lineDist.toAbsolute(_spatium);
-        double halfHeight = lineDistAbs * (lines - 1) * 0.5;
         RectF bbox(-width * 0.5, -halfHeight - above, width, halfHeight * 2.0 + above + below);
         Shape shape(bbox, item);
         bool isMidMeasureClef = item->isMidMeasureClef();

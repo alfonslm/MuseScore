@@ -1238,10 +1238,21 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         IF_ASSERT_FAILED(staffType) {
             return;
         }
-        const double pointSize = 10.0 * item->magS();
         const double lineDistAbs = staffType->lineDistance().toAbsolute(item->spatium());
         const int lines = static_cast<int>(ldata->stringNames.size());
         const double halfHeight = lineDistAbs * (lines - 1) * 0.5;
+
+        // Size the letters from the staff's own line distance rather than a fixed point
+        // size: a fixed size overlaps on a tightly-spaced tab staff (or leaves the letters
+        // too small on a widely-spaced one). Measure a probe font's cap height and scale so
+        // the drawn cap height is a fixed fraction of the space between two lines.
+        Font probeFont(u"Edwin", Font::Type::Text);
+        probeFont.setPointSizeF(10.0);
+        const double probeCapHeight = FontMetrics(probeFont).capHeight();
+        const double pointSize = probeCapHeight > 0.0
+                                  ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
+                                  : 10.0 * item->magS();
+
         for (int i = 0; i < lines; ++i) {
             const String& name = ldata->stringNames[i];
             if (name.empty()) {
