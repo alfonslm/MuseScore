@@ -1,0 +1,22 @@
+name: 'Sync: upstream-main'
+
+on:
+  schedule:
+    # Nightly at 04:00 UTC
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.repository == 'alfonslm/MuseScore'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch musescore/MuseScore main and reset upstream-main to it
+        run: |
+          git fetch https://github.com/musescore/MuseScore.git +main:refs/heads/upstream-main
+          git push origin refs/heads/upstream-main --force
