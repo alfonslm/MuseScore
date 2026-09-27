@@ -100,6 +100,26 @@ BaseSection {
                 Qt.callLater(root.model.openKeyswitchMapsFolder)
             }
         }
+
+        FlatButton {
+            Layout.alignment: Qt.AlignVCenter
+            text: qsTrc("preferences", "Export Default Map")
+
+            navigation.name: "exportDefaultKeyswitchMapButton"
+            navigation.panel: root.navigation
+            navigation.row: view.count + 2
+
+            onClicked: {
+                exportStatusLabel.text = root.model.exportDefaultKeyswitchMap()
+                                         ? qsTrc("preferences", "Exported")
+                                         : qsTrc("preferences", "Already exists")
+            }
+        }
+
+        StyledTextLabel {
+            id: exportStatusLabel
+            Layout.alignment: Qt.AlignVCenter
+        }
     }
 
     RowLayout {
@@ -113,7 +133,7 @@ BaseSection {
 
             navigation.name: "rescanVstPluginsButton"
             navigation.panel: root.navigation
-            navigation.row: view.count + 2
+            navigation.row: view.count + 3
 
             onClicked: {
                 Qt.callLater(root.model.rescanVstPlugins)

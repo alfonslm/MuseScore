@@ -255,10 +255,31 @@ void FoldersPreferencesModel::rescanVstPlugins()
 
 void FoldersPreferencesModel::openKeyswitchMapsFolder()
 {
-    //! NOTE Dev-only, no UI to relocate this folder yet -- see KEYSWITCH-INSTRUCTIONS.md.
+    //! NOTE Not a relocatable FilePicker row like the other folders here -- this location
+    //! isn't configurable yet, it's always userDataPath()/Keyswitch Maps.
     io::path_t path = globalConfiguration()->userDataPath() + "/Keyswitch Maps";
     fileSystem()->makePath(path);
     platformInteractive()->openUrl(QUrl::fromLocalFile(path.toQString()));
+}
+
+bool FoldersPreferencesModel::exportDefaultKeyswitchMap()
+{
+    static const io::path_t RESOURCE_PATH(":/vst/resources/keyswitch/Default Example.json");
+
+    io::path_t destDir = globalConfiguration()->userDataPath() + "/Keyswitch Maps";
+    fileSystem()->makePath(destDir);
+
+    io::path_t destPath = destDir + "/Default Example.json";
+    if (fileSystem()->exists(destPath)) {
+        return false;
+    }
+
+    RetVal<ByteArray> content = fileSystem()->readFile(RESOURCE_PATH);
+    if (!content.ret) {
+        return false;
+    }
+
+    return fileSystem()->writeFile(destPath, content.val);
 }
 
 QString FoldersPreferencesModel::pathsToString(const io::paths_t& paths) const
