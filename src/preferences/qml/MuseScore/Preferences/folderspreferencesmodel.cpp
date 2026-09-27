@@ -261,6 +261,26 @@ void FoldersPreferencesModel::openKeyswitchMapsFolder()
     platformInteractive()->openUrl(QUrl::fromLocalFile(path.toQString()));
 }
 
+bool FoldersPreferencesModel::exportDefaultKeyswitchMap()
+{
+    static const io::path_t RESOURCE_PATH(":/preferences/resources/keyswitch/Default Example.json");
+
+    io::path_t destDir = globalConfiguration()->userDataPath() + "/Keyswitch Maps";
+    fileSystem()->makePath(destDir);
+
+    io::path_t destPath = destDir + "/Default Example.json";
+    if (fileSystem()->exists(destPath)) {
+        return false;
+    }
+
+    RetVal<ByteArray> content = fileSystem()->readFile(RESOURCE_PATH);
+    if (!content.ret) {
+        return false;
+    }
+
+    return fileSystem()->writeFile(destPath, content.val);
+}
+
 QString FoldersPreferencesModel::pathsToString(const io::paths_t& paths) const
 {
     return QString::fromStdString(io::pathsToString(paths));
