@@ -589,7 +589,15 @@ void LayoutPanelTreeModel::removeSelectedRows()
         return f.row() < s.row();
     });
 
-    removeRows(firstIndex.row(), selectedIndexList.size(), firstIndex.parent());
+    //! NOTE Only count indexes that actually share firstIndex's parent -- a stale/inconsistent
+    //! selection (e.g. left over from a broken currentIndex binding) can otherwise contain
+    //! indexes from a different parent, inflating the count passed to removeRows and causing
+    //! it to remove more rows than actually exist under this parent.
+    int count = std::count_if(selectedIndexList.cbegin(), selectedIndexList.cend(), [&firstIndex](const QModelIndex& index) {
+        return index.parent() == firstIndex.parent();
+    });
+
+    removeRows(firstIndex.row(), count, firstIndex.parent());
 }
 
 bool LayoutPanelTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, int count, const QModelIndex& destinationParent,
