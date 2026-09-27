@@ -263,7 +263,7 @@ void FoldersPreferencesModel::openKeyswitchMapsFolder()
 
 bool FoldersPreferencesModel::exportDefaultKeyswitchMap()
 {
-    static const io::path_t RESOURCE_PATH(":/preferences/resources/keyswitch/Default Example.json");
+    static const io::path_t RESOURCE_PATH(":/vst/resources/keyswitch/Default Example.json");
 
     io::path_t destDir = globalConfiguration()->userDataPath() + "/Keyswitch Maps";
     fileSystem()->makePath(destDir);

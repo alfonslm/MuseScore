@@ -43,6 +43,11 @@ public:
     const KeyswitchMap* mapById(const std::string& id);
     void reload();
 
+    //! NOTE Called once at app startup (VSTModule::onInit) so the folder exists and has a
+    //! starting point in it before the user ever needs to go looking for it. Never overwrites
+    //! a file already there under the same name.
+    void ensureDefaultMapExists();
+
 private:
     KeyswitchMapRegistry() = default;
 

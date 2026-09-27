@@ -87,6 +87,13 @@ set_source_files_properties(
     SKIP_UNITY_BUILD_INCLUSION ON
 )
 
+qt_add_resources(muse_vst muse_vst_keyswitch_resources
+    PREFIX
+        /vst
+    FILES
+        "resources/keyswitch/Default Example.json"
+)
+
 target_link_libraries(muse_vst PRIVATE vst3sdk)
 
 if (MUSE_QT_SUPPORT)

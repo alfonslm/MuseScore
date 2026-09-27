@@ -134,11 +134,4 @@ qt_add_qml_module(preferences_qml
         TARGET muse_uicomponents_qml
 )
 
-qt_add_resources(preferences_qml preferences_keyswitch_resources
-    PREFIX
-        /preferences
-    FILES
-        "resources/keyswitch/Default Example.json"
-)
-
 fixup_qml_module_dependencies(preferences_qml)
