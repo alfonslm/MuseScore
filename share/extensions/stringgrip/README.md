@@ -207,7 +207,30 @@ that grade, amber what's above it, red what's not reasonably playable.
 ## Setting up tab staves for violin, viola, cello, double bass
 
 MuseScore's built-in bowed strings have no string tuning, so no tablature staff
-type is offered for them. Add the tuning to a *copy* of the score first:
+type is offered for them. Two ways to add it:
+
+### For every score at once (recommended)
+
+MuseScore already merges extra instrument-definition files from a folder you
+choose, on top of the built-in ones — no core changes needed, and it never
+touches the (generated) `instruments.xml`, so it can't be overwritten by a
+future regeneration:
+
+1. Copy `instrument-presets/*.xml` (one file per instrument: `violin.xml`,
+   `viola.xml`, `violoncello.xml`, `contrabass.xml`) to a folder of your
+   choice.
+2. Edit → Preferences → Folders → **Instruments and score orders** → point
+   it at that folder.
+3. Restart MuseScore. Tablature is now offered for all four instruments, in
+   every score, from then on.
+
+Each file only sets `<StringData>` on the matching built-in instrument by
+`id` — every other field (clef, pitch range, description, …) is left exactly
+as MuseScore already has it.
+
+### For a single score
+
+Add the tuning to a *copy* of the score instead:
 
     uv run python tools/add_string_data.py "My Score.mscz" --dry-run
     uv run python tools/add_string_data.py "My Score.mscz" --five "Violin"
@@ -216,7 +239,7 @@ type is offered for them. Add the tuning to a *copy* of the score first:
 - `--five PART` (exact part name) gives a violin or viola five strings,
   C3 G3 D4 A4 E5.
 
-Then in MuseScore:
+Either way, then in MuseScore:
 1. Instruments panel → the staff's ⚙ → **Create a linked staff**.
 2. Set the new staff's type to **Tablature** (4 or 5 strings).
 3. Run String Grip.
@@ -235,6 +258,9 @@ A full orchestral score takes a few seconds (about 4 s for ~10,000 string notes)
   in its header.
 - `score.js` — walks the score, applies colours and string/fret.
 - `Main.qml` — the dialog. `quick.js`, `clear.js` — menu actions without a dialog.
+- `instrument-presets/*.xml` — one file per instrument, adding `<StringData>`
+  to violin/viola/violoncello/contrabass via MuseScore's own user-instruments
+  folder (see "Setting up tab staves" above).
 - `tools/add_string_data.py` — adds string tuning to bowed parts in a .mscz copy.
 - `test.js`, `test_score.js` — `node test.js && node test_score.js`.
 - `build.sh` — runs the tests and builds `StringGrip-<version>.mext` +
