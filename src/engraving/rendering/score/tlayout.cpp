@@ -1884,10 +1884,11 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
     }
     if (item->clefType() == ClefType::TAB_STRING_NAMES && !ldata->stringNames.empty() && clefStaffType) {
         // custom bbox for the stack of open-string names, instead of a symbol bbox.
-        // Use a general text font (not the tab fret-number font, which only defines digits
-        // and a handful of letter-frets, not a full alphabet) so every note letter renders correctly.
-        Font font(conf.styleSt(Sid::staffTextFontFace), Font::Type::Text);
-        font.setPointSizeF(conf.styleD(Sid::staffTextFontSize) * item->magS());
+        // Hardcode a plain text font rather than reading Sid::staffTextFontFace: that style
+        // property is user-configurable and may point at a music-symbol font, which can remap
+        // plain Latin letters to unrelated (and wildly differently sized) glyphs.
+        Font font(u"Edwin", Font::Type::Text);
+        font.setPointSizeF(10.0 * item->magS());
         FontMetrics fm(font);
         double width = 0.0;
         double above = 0.0;    // tallest extent above the text baseline

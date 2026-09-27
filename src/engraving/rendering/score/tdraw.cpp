@@ -1238,10 +1238,11 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         IF_ASSERT_FAILED(staffType) {
             return;
         }
-        // Use a general text font (not the tab fret-number font, which only defines digits
-        // and a handful of letter-frets, not a full alphabet) so every note letter renders correctly.
-        Font font(item->style().styleSt(Sid::staffTextFontFace), Font::Type::Text);
-        font.setPointSizeF(item->style().styleD(Sid::staffTextFontSize) * item->magS());
+        // Hardcode a plain text font rather than reading Sid::staffTextFontFace: that style
+        // property is user-configurable and may point at a music-symbol font, which can remap
+        // plain Latin letters to unrelated (and wildly differently sized) glyphs.
+        Font font(u"Edwin", Font::Type::Text);
+        font.setPointSizeF(10.0 * item->magS());
         painter->setFont(font);
         FontMetrics fm(font);
 
