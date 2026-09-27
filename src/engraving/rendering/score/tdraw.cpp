@@ -1250,8 +1250,8 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         probeFont.setPointSizeF(10.0);
         const double probeCapHeight = FontMetrics(probeFont).capHeight();
         const double pointSize = probeCapHeight > 0.0
-                                  ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
-                                  : 10.0 * item->magS();
+                                 ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
+                                 : 10.0 * item->magS();
 
         for (int i = 0; i < lines; ++i) {
             const String& name = ldata->stringNames[i];

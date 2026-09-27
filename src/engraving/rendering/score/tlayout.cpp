@@ -1895,8 +1895,8 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
         probeFont.setPointSizeF(10.0);
         const double probeCapHeight = FontMetrics(probeFont).capHeight();
         const double pointSize = probeCapHeight > 0.0
-                                  ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
-                                  : 10.0 * item->magS();
+                                 ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
+                                 : 10.0 * item->magS();
 
         double width = 0.0;
         double above = 0.0;    // tallest extent above the text baseline
