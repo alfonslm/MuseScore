@@ -59,9 +59,11 @@ public:
     using Options = std::map<OptionKey, muse::Val>;
 
     //! NOTE One destination file for one part/excerpt notation, used by writeParts() below.
+    //! The writer reports this file's own progress to `progress` (optional)
     struct PartExportTarget {
         notation::INotationPtr notation;
         muse::io::IODevice* device = nullptr;
+        muse::Progress progress;
     };
     using PartExportTargetList = std::vector<PartExportTarget>;
 

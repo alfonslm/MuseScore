@@ -82,7 +82,7 @@ Column {
         onHoveredChanged: {
             if (hovered) {
                 ui.tooltip.show(idleUntilFirstNoteCheckBox, qsTrc("project/export", "Idle instruments until their first note"),
-                                qsTrc("project/export", "Skips processing each instrument until shortly before its first note, since it's silent until then. Turn this off for instruments that make sound without notes, such as drones or noise generators."))
+                                qsTrc("project/export", "Skips processing each instrument until shortly before its first note, since it’s silent until then. Turn this off for instruments that make sound without notes, such as drones or noise generators."))
             } else {
                 ui.tooltip.hide(idleUntilFirstNoteCheckBox)
             }

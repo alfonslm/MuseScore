@@ -75,6 +75,7 @@ private:
 
     muse::modularity::ContextPtr m_iocContext;
     muse::Progress m_progress;
+    std::vector<muse::Progress> m_partsProgress; // per engine target of writeParts()
     bool m_isCompleted = false;
     muse::Ret m_writeRet;
 

@@ -173,6 +173,10 @@ void AbstractAudioWriter::doWrite(io::IODevice& dstDevice, const SoundTrackForma
         case SaveSoundTrackStage::Unknown:
             m_progress.progress(current, total);
             break;
+        case SaveSoundTrackStage::LoadingEffects:
+        case SaveSoundTrackStage::WritingSoundTrackFile:
+            // multi-file export only
+            break;
         }
     };
 
@@ -246,6 +250,7 @@ Ret AbstractAudioWriter::writeParts(INotationPtr masterNotation, const PartExpor
 
     std::vector<muse::audio::SoundTrackTarget> engineTargets;
     engineTargets.reserve(targets.size());
+    m_partsProgress.clear();
 
     //! NOTE One engine target (one output file) per part, containing all of the part's tracks
     //! (a part has several when it has instrument changes)
@@ -276,6 +281,7 @@ Ret AbstractAudioWriter::writeParts(INotationPtr masterNotation, const PartExpor
         }
 
         engineTargets.push_back(std::move(engineTarget));
+        m_partsProgress.push_back(target.progress);
     }
 
     if (engineTargets.empty()) {
@@ -311,6 +317,7 @@ void AbstractAudioWriter::doWriteParts(const std::vector<muse::audio::SoundTrack
     muse::ContextInject<muse::audio::IPlayback> playbackInj = { m_iocContext };
 
     const std::string processingOnlineSoundsMsg = trc("iex_audio", "Processing online sounds…");
+    const std::string loadingEffectsMsg = trc("iex_audio", "Loading effects…");
 
     muse::ContextInject<context::IGlobalContext> globalContext = { m_iocContext };
     m_notationForRestore = globalContext()->currentNotation();
@@ -321,10 +328,19 @@ void AbstractAudioWriter::doWriteParts(const std::vector<muse::audio::SoundTrack
         playbackController()->setNotation(m_notationForRestore);
     };
 
-    auto sendProgress = [this, processingOnlineSoundsMsg](int64_t current, int64_t total, SaveSoundTrackStage stage) {
+    auto sendProgress = [this, processingOnlineSoundsMsg, loadingEffectsMsg](int64_t current, int64_t total, SaveSoundTrackStage stage) {
         switch (stage) {
         case SaveSoundTrackStage::ProcessingOnlineSounds:
             m_progress.progress(current, total, processingOnlineSoundsMsg);
+            break;
+        case SaveSoundTrackStage::LoadingEffects:
+            m_progress.progress(0, 100, loadingEffectsMsg);
+            break;
+        case SaveSoundTrackStage::WritingSoundTrackFile:
+            //! NOTE current = percent, total = file index
+            if (total >= 0 && static_cast<size_t>(total) < m_partsProgress.size()) {
+                m_partsProgress.at(static_cast<size_t>(total)).progress(current, 100);
+            }
             break;
         case SaveSoundTrackStage::WritingSoundTrack:
         case SaveSoundTrackStage::Unknown:
