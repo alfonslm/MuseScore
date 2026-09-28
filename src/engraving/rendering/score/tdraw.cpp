@@ -1234,11 +1234,12 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
     painter->setPen(item->curColor(opt));
 
     if (drawStringNames) {
-        const StaffType* staffType = item->staff() ? const_cast<const Staff*>(item->staff())->staffType(item->tick()) : nullptr;
-        IF_ASSERT_FAILED(staffType) {
-            return;
-        }
-        const double lineDistAbs = staffType->lineDistance().toAbsolute(item->spatium());
+        // Use the line distance layoutClef computed the bbox from, rather than re-deriving
+        // it from the staff type at the clef's own tick: that lookup can select a different
+        // staff-type instance than the one layoutClef used for this clef (e.g. around a
+        // staff-type change coinciding with the clef), leaving the drawn text out of sync
+        // with its measured/laid-out bbox.
+        const double lineDistAbs = ldata->stringNamesLineDist;
         const int lines = static_cast<int>(ldata->stringNames.size());
         const double halfHeight = lineDistAbs * (lines - 1) * 0.5;
 

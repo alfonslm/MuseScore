@@ -1814,7 +1814,12 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
         clefStaffType = st;
 
         if (item->clefType() == ClefType::TAB_STRING_NAMES) {
-            const StringData* stringData = item->staff()->part() ? item->staff()->part()->stringData(tick, item->staffIdx()) : nullptr;
+            // Use the clef's own tick (not the measure-start tick used for staff-type
+            // selection above) so a mid-measure re-tuning takes effect exactly where it
+            // occurs, even for a clef segment at the very end of that measure.
+            const StringData* stringData = item->staff()->part()
+                                           ? item->staff()->part()->stringData(item->tick(), item->staffIdx())
+                                           : nullptr;
             const int numStrings = stringData ? static_cast<int>(stringData->strings()) : 0;
             if (numStrings > 0) {
                 const std::vector<instrString>& stringList = stringData->stringList();
@@ -1886,6 +1891,10 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
         // custom bbox for the stack of open-string names, instead of a symbol bbox.
         double lineDistAbs = lineDist.toAbsolute(_spatium);
         double halfHeight = lineDistAbs * (lines - 1) * 0.5;
+        // Store the line distance used here so TDraw::draw uses the exact same value,
+        // instead of re-deriving it from the staff type at the clef's own tick (which can
+        // pick a different staff-type instance than the one selected above for this clef).
+        ldata->stringNamesLineDist = lineDistAbs;
 
         // Size the letters from the staff's own line distance rather than a fixed point
         // size: a fixed size overlaps on a tightly-spaced tab staff (or leaves the letters
