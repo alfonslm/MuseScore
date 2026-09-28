@@ -2,8 +2,10 @@ name: 'Sync: upstream-main'
 
 on:
   schedule:
-    # Nightly at 04:00 UTC
-    - cron: '0 4 * * *'
+    # 04:00 Europe/Berlin (CET/CEST). Cron is UTC-only, so this fires at both
+    # possible UTC offsets (03:00 UTC in winter, 02:00 UTC in summer) and the
+    # job below skips the run that doesn't actually land on 04:00 local time.
+    - cron: '0 2,3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -14,9 +16,20 @@ jobs:
     if: github.repository == 'alfonslm/MuseScore'
     runs-on: ubuntu-latest
     steps:
+      - name: Only proceed at 04:00 Europe/Berlin
+        if: github.event_name == 'schedule'
+        run: |
+          hour=$(TZ=Europe/Berlin date +%H)
+          if [ "$hour" != "04" ]; then
+            echo "It's $hour:00 in Europe/Berlin, not 04:00; skipping this trigger."
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          fi
+
       - uses: actions/checkout@v4
+        if: env.SKIP != 'true'
 
       - name: Fetch musescore/MuseScore main and reset upstream-main to it
+        if: env.SKIP != 'true'
         run: |
           git fetch https://github.com/musescore/MuseScore.git +main:refs/heads/upstream-main
           git push origin refs/heads/upstream-main --force
