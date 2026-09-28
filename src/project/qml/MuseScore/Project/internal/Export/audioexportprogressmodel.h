@@ -40,8 +40,6 @@ class AudioExportProgressModel : public QObject, public muse::Contextable
     Q_PROPERTY(QVariant overallProgress READ overallProgress NOTIFY loaded)
     Q_PROPERTY(QVariantList files READ files NOTIFY loaded)
 
-    muse::ContextInject<IExportProjectScenario> exportProjectScenario = { this };
-
 public:
     explicit AudioExportProgressModel(QObject* parent = nullptr);
 
@@ -54,6 +52,8 @@ signals:
     void loaded();
 
 private:
+    muse::ContextInject<IExportProjectScenario> exportProjectScenario = { this };
+
     QVariant m_overallProgress;
     QVariantList m_files;
 };
