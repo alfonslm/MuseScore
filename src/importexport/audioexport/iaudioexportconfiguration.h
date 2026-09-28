@@ -52,6 +52,10 @@ public:
     virtual bool multiStemRender() const = 0;
     virtual void setMultiStemRender(bool enabled) = 0;
 
+    //! NOTE Multi-stem render: don't process an instrument until shortly before its first note
+    virtual bool idleUntilFirstNote() const = 0;
+    virtual void setIdleUntilFirstNote(bool enabled) = 0;
+
     virtual muse::audio::AudioSampleFormat exportWavSampleFormat() const = 0;
     virtual void setExportWavSampleFormat(muse::audio::AudioSampleFormat format) = 0;
 

@@ -23,25 +23,21 @@
 #include "exportprojectscenario.h"
 
 #include <memory>
-#include <set>
 
 #include "global/io/fileinfo.h"
 #include "global/io/filestream.h"
-#include "global/async/notifylist.h"
 
 #include "translation.h"
 #include "defer.h"
 #include "log.h"
 
 #include "engraving/dom/score.h"
-#include "engraving/dom/part.h"
 
 #include "notation/iexcerptnotation.h" // IWYU pragma: keep
 #include "notation/imasternotation.h"
 #include "notation/inotation.h"
 #include "notation/inotationelements.h" // IWYU pragma: keep
 #include "notation/inotationpainting.h" // IWYU pragma: keep
-#include "notation/inotationparts.h" // IWYU pragma: keep
 
 #include "inotationproject.h"
 
@@ -163,15 +159,12 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
     std::vector<ViewMode> viewModes = this->viewModes(notations);
     setViewModes(notations, ViewMode::PAGE);
 
-    //! NOTE When a writer can render several parts in a single pass (currently only audio),
-    //! take that path instead of doing a full separate write() per notation: it behaves like
-    //! a single export operation (one progress cycle), same as MULTI_PART below.
-    bool containsMainNotation = std::find_if(notations.cbegin(), notations.cend(), [this](INotationPtr notation) {
-        return isMainNotation(notation);
-    }) != notations.cend();
+    //! NOTE When a writer can render several notations at the same time (currently only audio),
+    //! take that path instead of doing a full separate write() per notation: it behaves like a single
+    //! export operation (one progress cycle), same as MULTI_PART below. Parts sharing instruments and the
+    //! full score are fine: every track is still rendered only once (see ParallelSoundTrackWriter)
     bool useBatchPartExport = unitType == INotationWriter::UnitType::PER_PART
-                              && writer->supportsBatchPartExport() && notations.size() > 1 && !containsMainNotation
-                              && !partsShareInstruments(notations);
+                              && writer->supportsBatchPartExport() && notations.size() > 1;
 
     Progress* writerProgress = writer->progress();
     size_t fileCount = useBatchPartExport ? 1 : exportFileCount(notations, unitType);
@@ -502,25 +495,6 @@ Ret ExportProjectScenario::doExportLoop(const muse::io::path_t& scorePath, std::
     }
 
     return muse::make_ok();
-}
-
-bool ExportProjectScenario::partsShareInstruments(const INotationPtrList& notations) const
-{
-    //! NOTE The one-pass export renders each part on its own thread, so an instrument can't be
-    //! in two of the selected parts (e.g. a combined percussion part and the individual ones)
-    std::set<mu::engraving::InstrumentTrackId> seen;
-
-    for (const INotationPtr& notation : notations) {
-        for (const mu::engraving::Part* part : notation->parts()->partList()) {
-            for (const mu::engraving::InstrumentTrackId& instrumentTrackId : part->instrumentTrackIdList()) {
-                if (!seen.insert(instrumentTrackId).second) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
 }
 
 Ret ExportProjectScenario::exportPartsInOnePass(INotationWriterPtr writer, const INotationPtrList& notations,

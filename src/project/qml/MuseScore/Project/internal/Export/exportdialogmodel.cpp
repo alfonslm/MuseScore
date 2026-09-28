@@ -708,6 +708,21 @@ void ExportDialogModel::setMultiStemRender(bool enabled)
     emit multiStemRenderChanged(enabled);
 }
 
+bool ExportDialogModel::idleUntilFirstNote() const
+{
+    return audioExportConfiguration()->idleUntilFirstNote();
+}
+
+void ExportDialogModel::setIdleUntilFirstNote(bool enabled)
+{
+    if (enabled == idleUntilFirstNote()) {
+        return;
+    }
+
+    audioExportConfiguration()->setIdleUntilFirstNote(enabled);
+    emit idleUntilFirstNoteChanged(enabled);
+}
+
 QList<int> ExportDialogModel::availableBitRates() const
 {
     const std::vector<int>& rates = audioExportConfiguration()->availableMp3BitRates();

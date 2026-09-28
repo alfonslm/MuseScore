@@ -91,8 +91,6 @@ private:
 
     muse::Ret doExportLoop(const muse::io::path_t& path, std::function<muse::Ret(muse::io::IODevice&)> exportFunction) const;
 
-    bool partsShareInstruments(const notation::INotationPtrList& notations) const;
-
     //! NOTE Used for writers that support INotationWriter::supportsBatchPartExport(): opens one
     //! destination file per notation and renders them all in a single writer->writeParts() call
     //! instead of looping write() once per notation.

@@ -34,7 +34,7 @@ ExportSettingsPage {
         showBitRateControl: true
     }
 
-    MultiStemRenderCheckBox {
+    MultiStemRenderSettings {
         model: root.model
         navigationPanel: root.navigationPanel
         navigationOrder: root.navigationOrder + 4

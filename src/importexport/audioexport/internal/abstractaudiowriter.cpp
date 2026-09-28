@@ -342,7 +342,10 @@ void AbstractAudioWriter::doWriteParts(const std::vector<muse::audio::SoundTrack
         sendProgress(current, total, stage);
     });
 
-    playback->saveSoundTracks(format, engineTargets)
+    SoundTracksExportOptions exportOptions;
+    exportOptions.idleUntilFirstNote = configuration()->idleUntilFirstNote();
+
+    playback->saveSoundTracks(format, engineTargets, exportOptions)
     .onResolve(this, [this, playback, restorePlaybackState](const bool /*result*/) {
         LOGI() << "Successfully saved sound tracks";
 
