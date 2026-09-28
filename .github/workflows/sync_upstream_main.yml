@@ -17,19 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch musescore/MuseScore main and the current upstream-main
+      - name: Fetch musescore/MuseScore main and reset upstream-main to it
         run: |
-          git fetch https://github.com/musescore/MuseScore.git main:refs/remotes/upstream-fetch/main
-          git fetch origin upstream-main:refs/remotes/origin/upstream-main
-
-      - name: Reset upstream-main to it, unless someone is using the branch
-        run: |
-          # upstream-main is meant to be a pure mirror. If its current tip isn't
-          # an ancestor of upstream's history, something else (a local commit,
-          # an in-progress checkout) has been pushed there - leave it alone
-          # rather than force-pushing over it.
-          if git merge-base --is-ancestor origin/upstream-main upstream-fetch/main; then
-            git push origin upstream-fetch/main:refs/heads/upstream-main --force
-          else
-            echo "::warning::upstream-main has commits not from musescore/MuseScore (someone appears to be using the branch); skipping this sync."
-          fi
+          git fetch https://github.com/musescore/MuseScore.git +main:refs/heads/upstream-main
+          git push origin refs/heads/upstream-main --force
