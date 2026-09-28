@@ -693,6 +693,21 @@ void ExportDialogModel::setSampleRate(int rate)
     emit sampleRateChanged(rate);
 }
 
+bool ExportDialogModel::multiStemRender() const
+{
+    return audioExportConfiguration()->multiStemRender();
+}
+
+void ExportDialogModel::setMultiStemRender(bool enabled)
+{
+    if (enabled == multiStemRender()) {
+        return;
+    }
+
+    audioExportConfiguration()->setMultiStemRender(enabled);
+    emit multiStemRenderChanged(enabled);
+}
+
 QList<int> ExportDialogModel::availableBitRates() const
 {
     const std::vector<int>& rates = audioExportConfiguration()->availableMp3BitRates();

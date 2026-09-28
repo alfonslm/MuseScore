@@ -23,21 +23,25 @@
 #include "exportprojectscenario.h"
 
 #include <memory>
+#include <set>
 
 #include "global/io/fileinfo.h"
 #include "global/io/filestream.h"
+#include "global/async/notifylist.h"
 
 #include "translation.h"
 #include "defer.h"
 #include "log.h"
 
 #include "engraving/dom/score.h"
+#include "engraving/dom/part.h"
 
 #include "notation/iexcerptnotation.h" // IWYU pragma: keep
 #include "notation/imasternotation.h"
 #include "notation/inotation.h"
 #include "notation/inotationelements.h" // IWYU pragma: keep
 #include "notation/inotationpainting.h" // IWYU pragma: keep
+#include "notation/inotationparts.h" // IWYU pragma: keep
 
 #include "inotationproject.h"
 
@@ -166,7 +170,8 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
         return isMainNotation(notation);
     }) != notations.cend();
     bool useBatchPartExport = unitType == INotationWriter::UnitType::PER_PART
-                              && writer->supportsBatchPartExport() && notations.size() > 1 && !containsMainNotation;
+                              && writer->supportsBatchPartExport() && notations.size() > 1 && !containsMainNotation
+                              && !partsShareInstruments(notations);
 
     Progress* writerProgress = writer->progress();
     size_t fileCount = useBatchPartExport ? 1 : exportFileCount(notations, unitType);
@@ -497,6 +502,25 @@ Ret ExportProjectScenario::doExportLoop(const muse::io::path_t& scorePath, std::
     }
 
     return muse::make_ok();
+}
+
+bool ExportProjectScenario::partsShareInstruments(const INotationPtrList& notations) const
+{
+    //! NOTE The one-pass export renders each part on its own thread, so an instrument can't be
+    //! in two of the selected parts (e.g. a combined percussion part and the individual ones)
+    std::set<mu::engraving::InstrumentTrackId> seen;
+
+    for (const INotationPtr& notation : notations) {
+        for (const mu::engraving::Part* part : notation->parts()->partList()) {
+            for (const mu::engraving::InstrumentTrackId& instrumentTrackId : part->instrumentTrackIdList()) {
+                if (!seen.insert(instrumentTrackId).second) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 Ret ExportProjectScenario::exportPartsInOnePass(INotationWriterPtr writer, const INotationPtrList& notations,

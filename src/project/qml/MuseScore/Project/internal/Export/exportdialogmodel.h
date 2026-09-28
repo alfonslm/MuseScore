@@ -85,6 +85,7 @@ class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus, pu
     Q_PROPERTY(ViewMode viewMode READ viewMode WRITE setViewMode NOTIFY viewModeChanged FINAL)
 
     Q_PROPERTY(int sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
+    Q_PROPERTY(bool multiStemRender READ multiStemRender WRITE setMultiStemRender NOTIFY multiStemRenderChanged)
     Q_PROPERTY(int bitRate READ bitRate WRITE setBitRate NOTIFY bitRateChanged)
     Q_PROPERTY(QVariantList availableSampleFormats READ availableSampleFormats NOTIFY availableSampleFormatsChanged)
     Q_PROPERTY(int selectedSampleFormat READ selectedSampleFormat WRITE setSelectedSampleFormat NOTIFY selectedSampleFormatChanged)
@@ -188,6 +189,9 @@ public:
     int sampleRate() const;
     void setSampleRate(int sampleRate);
 
+    bool multiStemRender() const;
+    void setMultiStemRender(bool enabled);
+
     Q_INVOKABLE QList<int> availableBitRates() const;
     int bitRate() const;
     void setBitRate(int bitRate);
@@ -263,6 +267,7 @@ signals:
 
     void availableSampleRatesChanged();
     void sampleRateChanged(int sampleRate);
+    void multiStemRenderChanged(bool enabled);
     void availableBitRatesChanged();
     void bitRateChanged(int bitRate);
     void availableSampleFormatsChanged();

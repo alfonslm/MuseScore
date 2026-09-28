@@ -47,6 +47,11 @@ public:
 
     virtual muse::audio::samples_t exportBufferSize() const = 0;
 
+    //! NOTE When exporting several parts, render them all at the same time
+    //! (one file per part, on several threads) instead of one after another
+    virtual bool multiStemRender() const = 0;
+    virtual void setMultiStemRender(bool enabled) = 0;
+
     virtual muse::audio::AudioSampleFormat exportWavSampleFormat() const = 0;
     virtual void setExportWavSampleFormat(muse::audio::AudioSampleFormat format) = 0;
 

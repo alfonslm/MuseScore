@@ -208,7 +208,8 @@ void AbstractAudioWriter::doWrite(io::IODevice& dstDevice, const SoundTrackForma
 
 bool AbstractAudioWriter::supportsBatchPartExport() const
 {
-    return true;
+    //! NOTE "Multi-stem render" in the export dialog; off means one export per part, one after another
+    return configuration()->multiStemRender();
 }
 
 Ret AbstractAudioWriter::writeParts(INotationPtr masterNotation, const PartExportTargetList& targets, const Options& options)
@@ -246,12 +247,15 @@ Ret AbstractAudioWriter::writeParts(INotationPtr masterNotation, const PartExpor
     std::vector<muse::audio::SoundTrackTarget> engineTargets;
     engineTargets.reserve(targets.size());
 
+    //! NOTE One engine target (one output file) per part, containing all of the part's tracks
+    //! (a part has several when it has instrument changes)
     for (const PartExportTarget& target : targets) {
         IF_ASSERT_FAILED(target.notation && target.device) {
             continue;
         }
 
-        bool foundTrack = false;
+        muse::audio::SoundTrackTarget engineTarget;
+        engineTarget.dstDevice = target.device;
 
         for (const mu::engraving::Part* part : target.notation->parts()->partList()) {
             for (const mu::engraving::InstrumentTrackId& instrumentTrackId : part->instrumentTrackIdList()) {
@@ -260,14 +264,18 @@ Ret AbstractAudioWriter::writeParts(INotationPtr masterNotation, const PartExpor
                     continue;
                 }
 
-                engineTargets.push_back({ it->second, target.device });
-                foundTrack = true;
+                if (!muse::contains(engineTarget.trackIds, it->second)) {
+                    engineTarget.trackIds.push_back(it->second);
+                }
             }
         }
 
-        if (!foundTrack) {
+        if (engineTarget.trackIds.empty()) {
             LOGE() << "Could not find a mixer track for part: " << target.notation->name();
+            continue;
         }
+
+        engineTargets.push_back(std::move(engineTarget));
     }
 
     if (engineTargets.empty()) {
