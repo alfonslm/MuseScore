@@ -322,6 +322,28 @@ Column {
                 { text: qsTrc("propertiespanel", "Cut"), value: 1 }
             ]
         }
+
+        DropdownPropertyView {
+            id: playbackStateCurveSection
+
+            titleText: qsTrc("propertiespanel", "Curve")
+            propertyItem: root.model ? root.model.playbackStateCurve : null
+
+            visible: root.model && root.model.playbackStateCurve ? root.model.playbackStateCurve.isEnabled : false
+            height: visible ? implicitHeight : 0
+
+            navigationName: "Playback marking curve"
+            navigationPanel: root.navigationPanel
+            navigationRowStart: playbackStateTransitionSection.navigationRowEnd + 1
+
+            model: [
+                //: Fade curve that starts and ends softly (S-curve)
+                { text: qsTrc("propertiespanel", "Smooth"), value: 0 },
+                { text: qsTrc("propertiespanel", "Linear"), value: 1 },
+                //: Fade curve that is linear in decibels, like a fader with an audio taper
+                { text: qsTrc("propertiespanel", "Audio taper"), value: 2 }
+            ]
+        }
     }
 
     FlatButton {
@@ -329,7 +351,7 @@ Column {
 
         navigation.name: "Staff text properties"
         navigation.panel: root.navigationPanel
-        navigation.row: playbackStateTransitionSection.navigationRowEnd + 1
+        navigation.row: playbackStateCurveSection.navigationRowEnd + 1
 
         text: qsTrc("propertiespanel", "Staff text properties")
 

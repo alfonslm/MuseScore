@@ -534,6 +534,14 @@ void PlaybackContext::updatePlaybackStateMap(const StaffTextBase* text, const in
 
     event.time = static_cast<duration_t>(std::max(0, params.timeMs)) * 1000;
     event.fade = params.transition == PlaybackStateTransition::FADE;
+    switch (params.curve) {
+    case PlaybackStateCurve::SMOOTH: event.curve = PlaybackStateEvent::Curve::Smooth;
+        break;
+    case PlaybackStateCurve::LINEAR: event.curve = PlaybackStateEvent::Curve::Linear;
+        break;
+    case PlaybackStateCurve::AUDIO: event.curve = PlaybackStateEvent::Curve::Audio;
+        break;
+    }
 
     //! NOTE A marking applies to its whole staff
     const staff_idx_t staffIdx = text->staffIdx();

@@ -131,7 +131,13 @@ void TextSettingsModel::createProperties()
         emit requestReloadPropertyItems();
     });
 
-    m_playbackStateTransition = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE_TRANSITION);
+    m_playbackStateTransition = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE_TRANSITION,
+                                                  [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        onPropertyValueChanged(pid, newValue);
+        updatePlaybackStatePropertiesAvailability();
+    });
+
+    m_playbackStateCurve = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE_CURVE);
 }
 
 void TextSettingsModel::requestElements()
@@ -176,7 +182,8 @@ void TextSettingsModel::loadProperties()
         Pid::PLAYBACK_STATE,
         Pid::PLAYBACK_STATE_TIME,
         Pid::PLAYBACK_STATE_TIME_UNIT,
-        Pid::PLAYBACK_STATE_TRANSITION
+        Pid::PLAYBACK_STATE_TRANSITION,
+        Pid::PLAYBACK_STATE_CURVE
     };
 
     loadProperties(textPropertyIdSet);
@@ -291,6 +298,9 @@ void TextSettingsModel::loadProperties(const PropertyIdSet& propertyIdSet)
     }
     if (muse::contains(propertyIdSet, Pid::PLAYBACK_STATE_TRANSITION)) {
         loadPropertyItem(m_playbackStateTransition);
+    }
+    if (muse::contains(propertyIdSet, Pid::PLAYBACK_STATE_CURVE)) {
+        loadPropertyItem(m_playbackStateCurve);
     }
 
     updateTextPropertiesAvailability();
@@ -454,6 +464,11 @@ PropertyItem* TextSettingsModel::playbackStateTimeUnit() const
 PropertyItem* TextSettingsModel::playbackStateTransition() const
 {
     return m_playbackStateTransition;
+}
+
+PropertyItem* TextSettingsModel::playbackStateCurve() const
+{
+    return m_playbackStateCurve;
 }
 
 bool TextSettingsModel::isPlaybackStateAvailable() const
@@ -722,6 +737,12 @@ void TextSettingsModel::updatePlaybackStatePropertiesAvailability()
     m_playbackStateTime->setIsEnabled(isMarking);
     m_playbackStateTimeUnit->setIsEnabled(isMarking);
     m_playbackStateTransition->setIsEnabled(isMarking);
+
+    //! NOTE The curve only shapes fades; a cut has none
+    const bool isFade = !m_playbackStateTransition->isUndefined()
+                        && m_playbackStateTransition->value().toInt()
+                        == static_cast<int>(mu::engraving::PlaybackStateTransition::FADE);
+    m_playbackStateCurve->setIsEnabled(isMarking && isFade);
 }
 
 void TextSettingsModel::updateStaffPropertiesAvailability()

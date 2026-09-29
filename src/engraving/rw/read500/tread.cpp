@@ -834,6 +834,7 @@ bool TRead::readProperties(StaffTextBase* t, XmlReader& e, ReadContext& ctx)
     } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_TIME)) {
     } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_TIME_UNIT)) {
     } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_TRANSITION)) {
+    } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_CURVE)) {
     } else if (!readProperties(toTextBase(t), e, ctx)) {
         return false;
     }

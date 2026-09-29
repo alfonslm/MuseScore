@@ -1378,11 +1378,18 @@ enum class PlaybackStateTransition : unsigned char {
     CUT,
 };
 
+enum class PlaybackStateCurve : unsigned char {
+    SMOOTH = 0, // S-curve
+    LINEAR,
+    AUDIO,      // linear in dB
+};
+
 struct PlaybackStateParams {
     PlaybackStateType type = PlaybackStateType::NONE;
     int timeMs = 90; // wake-up lead for On/Live, fade or delay for Off/Idle
     PlaybackStateTimeUnit timeUnit = PlaybackStateTimeUnit::MILLISECONDS; // how the time is shown
     PlaybackStateTransition transition = PlaybackStateTransition::FADE;
+    PlaybackStateCurve curve = PlaybackStateCurve::SMOOTH; // shape of the fade
 
     bool isOn() const { return type != PlaybackStateType::NONE; }
 };

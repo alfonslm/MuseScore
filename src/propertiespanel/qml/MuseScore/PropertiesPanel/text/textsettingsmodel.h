@@ -63,6 +63,7 @@ class TextSettingsModel : public PropertiesPanelAbstractModel
     Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateTime READ playbackStateTime CONSTANT)
     Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateTimeUnit READ playbackStateTimeUnit CONSTANT)
     Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateTransition READ playbackStateTransition CONSTANT)
+    Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateCurve READ playbackStateCurve CONSTANT)
     Q_PROPERTY(bool isPlaybackStateAvailable READ isPlaybackStateAvailable NOTIFY isPlaybackStateAvailableChanged)
 
     Q_PROPERTY(QVariantList textStyles READ textStyles NOTIFY textStylesChanged)
@@ -127,6 +128,7 @@ public:
     PropertyItem* playbackStateTime() const;
     PropertyItem* playbackStateTimeUnit() const;
     PropertyItem* playbackStateTransition() const;
+    PropertyItem* playbackStateCurve() const;
     bool isPlaybackStateAvailable() const;
 
     QVariantList textStyles();
@@ -227,6 +229,7 @@ private:
     PropertyItem* m_playbackStateTime = nullptr;
     PropertyItem* m_playbackStateTimeUnit = nullptr;
     PropertyItem* m_playbackStateTransition = nullptr;
+    PropertyItem* m_playbackStateCurve = nullptr;
     bool m_isPlaybackStateAvailable = false;
 
     QVariantList m_textStyles;

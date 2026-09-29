@@ -523,6 +523,7 @@ static constexpr PropertyMetaData propertyList[] = {
     { Pid::PLAYBACK_STATE_TIME,                 P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateTime",               QT_TRANSLATE_NOOP("engraving/propertyName", "playback state time") },
     { Pid::PLAYBACK_STATE_TIME_UNIT,            P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateTimeUnit",           QT_TRANSLATE_NOOP("engraving/propertyName", "playback state time unit") },
     { Pid::PLAYBACK_STATE_TRANSITION,           P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateTransition",         QT_TRANSLATE_NOOP("engraving/propertyName", "playback state transition") },
+    { Pid::PLAYBACK_STATE_CURVE,                P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateCurve",              QT_TRANSLATE_NOOP("engraving/propertyName", "playback state fade curve") },
 
     { Pid::END,                                 P_TYPE::INT,                       PropertyGroup::NONE,       false, "++end++",                         nullptr }
 };

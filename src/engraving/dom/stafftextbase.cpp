@@ -118,6 +118,8 @@ PropertyValue StaffTextBase::getProperty(Pid propertyId) const
         return static_cast<int>(m_playbackState.timeUnit);
     case Pid::PLAYBACK_STATE_TRANSITION:
         return static_cast<int>(m_playbackState.transition);
+    case Pid::PLAYBACK_STATE_CURVE:
+        return static_cast<int>(m_playbackState.curve);
     default:
         return TextBase::getProperty(propertyId);
     }
@@ -137,6 +139,9 @@ bool StaffTextBase::setProperty(Pid propertyId, const PropertyValue& v)
         break;
     case Pid::PLAYBACK_STATE_TRANSITION:
         m_playbackState.transition = static_cast<PlaybackStateTransition>(v.toInt());
+        break;
+    case Pid::PLAYBACK_STATE_CURVE:
+        m_playbackState.curve = static_cast<PlaybackStateCurve>(v.toInt());
         break;
     default:
         return TextBase::setProperty(propertyId, v);
@@ -159,6 +164,8 @@ PropertyValue StaffTextBase::propertyDefault(Pid id) const
         return static_cast<int>(defaults.timeUnit);
     case Pid::PLAYBACK_STATE_TRANSITION:
         return static_cast<int>(defaults.transition);
+    case Pid::PLAYBACK_STATE_CURVE:
+        return static_cast<int>(defaults.curve);
     default:
         return TextBase::propertyDefault(id);
     }
