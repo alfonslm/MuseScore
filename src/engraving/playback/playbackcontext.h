@@ -37,6 +37,7 @@ class Score;
 class Part;
 class MeasureRepeat;
 class TextBase;
+class StaffTextBase;
 class ChordRest;
 class RepeatSegment;
 
@@ -64,6 +65,9 @@ public:
         const track_idx_t trackFrom, const track_idx_t trackTo) const;
     muse::mpe::SyllableEvent syllable(const track_idx_t trackIdx, const int nominalPositionTick) const;
 
+    std::map<muse::mpe::timestamp_t, muse::mpe::PlaybackStateEventList> playbackStates(
+        const track_idx_t trackFrom, const track_idx_t trackTo) const;
+
     muse::mpe::DynamicAutomationLayers dynamicLevelLayers(const track_idx_t trackFrom, const track_idx_t trackTo) const;
 
     bool hasSoundFlags(const track_idx_t trackFrom, const track_idx_t trackTo) const;
@@ -81,6 +85,9 @@ private:
     using SyllableMap = std::map<int /*nominalPositionTick*/, muse::mpe::SyllableEvent>;
     using SyllablesByTrack = std::map<track_idx_t, SyllableMap>;
 
+    using PlaybackStateMap = std::map<int /*nominalPositionTick*/, muse::mpe::PlaybackStateEvent>;
+    using PlaybackStatesByTrack = std::map<track_idx_t, PlaybackStateMap>;
+
     using PlayTechniquesMap = std::map<int /*nominalPositionTick*/, mu::engraving::PlayingTechniqueType>;
     using PlayTechniquesByTrack = std::map<track_idx_t, PlayTechniquesMap>;
 
@@ -89,6 +96,7 @@ private:
     void updatePlayTechMap(const Part* part, const PlayTechAnnotation* annotation, const int segmentPositionTick);
     void updateSoundPresetAndTextArticulationMap(const Part* part, const SoundFlagMap& flagsOnSegment, const int segmentPositionTick);
     void updateSyllableMap(const TextBase* text, const int segmentPositionTick);
+    void updatePlaybackStateMap(const StaffTextBase* text, const int segmentPositionTick);
 
     void handleSegmentAnnotations(const Segment* segment, const int segmentPositionTick, const track_idx_t trackFrom,
                                   const track_idx_t trackTo);
@@ -108,6 +116,7 @@ private:
     SoundPresetsByTrack m_soundPresetsByTrack;
     TextArticulationsByTrack m_textArticulationsByTrack;
     SyllablesByTrack m_syllablesByTrack;
+    PlaybackStatesByTrack m_playbackStatesByTrack;
     PlayTechniquesByTrack m_playTechniquesByTrack;
 
     std::unordered_map<const ChordRest*, int> m_currentVerseNumByChordRest;

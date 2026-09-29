@@ -3071,6 +3071,13 @@ void TWrite::writeProperties(const StaffTextBase* item, XmlWriter& xml, WriteCon
         int swingRatio = item->swingParameters().swingRatio;
         xml.tag("swing", { { "unit", TConv::toXml(swingUnit) }, { "ratio", swingRatio } });
     }
+    if (item->playbackState().isOn()) {
+        writeProperty(item, xml, Pid::PLAYBACK_STATE);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_TIME);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_TIME_UNIT);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_TRANSITION);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_CURVE);
+    }
 
     writeProperties(toTextBase(item), xml, ctx, true);
 }

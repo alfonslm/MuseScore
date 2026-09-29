@@ -59,6 +59,13 @@ class TextSettingsModel : public PropertiesPanelAbstractModel
     Q_PROPERTY(mu::propertiespanel::PropertyItem * textPlacement READ textPlacement CONSTANT)
     Q_PROPERTY(mu::propertiespanel::PropertyItem * textScriptAlignment READ textScriptAlignment CONSTANT)
 
+    Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackState READ playbackState CONSTANT)
+    Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateTime READ playbackStateTime CONSTANT)
+    Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateTimeUnit READ playbackStateTimeUnit CONSTANT)
+    Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateTransition READ playbackStateTransition CONSTANT)
+    Q_PROPERTY(mu::propertiespanel::PropertyItem * playbackStateCurve READ playbackStateCurve CONSTANT)
+    Q_PROPERTY(bool isPlaybackStateAvailable READ isPlaybackStateAvailable NOTIFY isPlaybackStateAvailableChanged)
+
     Q_PROPERTY(QVariantList textStyles READ textStyles NOTIFY textStylesChanged)
 
     Q_PROPERTY(bool areTextPropertiesAvailable READ areTextPropertiesAvailable NOTIFY areTextPropertiesAvailableChanged)
@@ -116,6 +123,14 @@ public:
     PropertyItem* textPlacement() const;
     PropertyItem* textScriptAlignment() const;
 
+    //! NOTE On/Off and Live/Standby playback markings, for staff text only
+    PropertyItem* playbackState() const;
+    PropertyItem* playbackStateTime() const;
+    PropertyItem* playbackStateTimeUnit() const;
+    PropertyItem* playbackStateTransition() const;
+    PropertyItem* playbackStateCurve() const;
+    bool isPlaybackStateAvailable() const;
+
     QVariantList textStyles();
 
     bool areTextPropertiesAvailable() const;
@@ -152,6 +167,7 @@ signals:
 
     void areTextPropertiesAvailableChanged(bool areTextPropertiesAvailable);
     void areStaffTextPropertiesAvailableChanged(bool areStaffTextPropertiesAvailable);
+    void isPlaybackStateAvailableChanged();
     void isSpecialCharactersInsertionAvailableChanged(bool isSpecialCharactersInsertionAvailable);
     void isDynamicSpecificSettingsChanged(bool isDynamicSpecificSettings);
     void isHorizontalAlignmentAvailableChanged(bool isHorizontalAlignmentAvailable);
@@ -171,6 +187,8 @@ private:
     void updateTextPropertiesAvailability();
     void updateFramePropertiesAvailability();
     void updateStaffPropertiesAvailability();
+    void updatePlaybackStatePropertiesAvailability();
+    bool isPlaybackStateTimeInSeconds() const;
     void updateIsDynamicSpecificSettings();
     void updateIsHorizontalAlignmentAvailable();
     void updateIsSymbolSizeAvailable();
@@ -206,6 +224,13 @@ private:
     PropertyItem* m_textType = nullptr;
     PropertyItem* m_textPlacement = nullptr;
     PropertyItem* m_textScriptAlignment = nullptr;
+
+    PropertyItem* m_playbackState = nullptr;
+    PropertyItem* m_playbackStateTime = nullptr;
+    PropertyItem* m_playbackStateTimeUnit = nullptr;
+    PropertyItem* m_playbackStateTransition = nullptr;
+    PropertyItem* m_playbackStateCurve = nullptr;
+    bool m_isPlaybackStateAvailable = false;
 
     QVariantList m_textStyles;
 
