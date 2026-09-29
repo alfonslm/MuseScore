@@ -1358,6 +1358,35 @@ enum class PreferSharpFlat : char {
     NONE, SHARPS, FLATS, AUTO
 };
 
+//! NOTE Playback marking on a staff text: switches the instrument On/Off (hard) or Live/Idle (soft)
+//! from there on. See muse::mpe::PlaybackStateEvent for the playback behaviour
+enum class PlaybackStateType : unsigned char {
+    NONE = 0,
+    ON,
+    OFF,
+    LIVE,
+    IDLE,
+};
+
+enum class PlaybackStateTimeUnit : unsigned char {
+    MILLISECONDS = 0,
+    SECONDS,
+};
+
+enum class PlaybackStateTransition : unsigned char {
+    FADE = 0,
+    CUT,
+};
+
+struct PlaybackStateParams {
+    PlaybackStateType type = PlaybackStateType::NONE;
+    int timeMs = 90; // wake-up lead for On/Live, fade or delay for Off/Idle
+    PlaybackStateTimeUnit timeUnit = PlaybackStateTimeUnit::MILLISECONDS; // how the time is shown
+    PlaybackStateTransition transition = PlaybackStateTransition::FADE;
+
+    bool isOn() const { return type != PlaybackStateType::NONE; }
+};
+
 struct SwingParameters {
     int swingUnit = 0;
     int swingRatio = 0;

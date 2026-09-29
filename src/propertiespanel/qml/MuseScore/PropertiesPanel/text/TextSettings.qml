@@ -224,12 +224,112 @@ Column {
         navigationRowStart: textStyleSection.navigationRowEnd + 1
     }
 
+    Column {
+        id: playbackStateSection
+
+        width: parent.width
+        spacing: 12
+
+        visible: root.model ? root.model.isPlaybackStateAvailable : false
+        height: visible ? implicitHeight : 0
+
+        SeparatorLine { anchors.margins: -12 }
+
+        DropdownPropertyView {
+            id: playbackStateDropdown
+
+            titleText: qsTrc("propertiespanel", "Playback marking")
+            propertyItem: root.model ? root.model.playbackState : null
+
+            navigationName: "Playback marking"
+            navigationPanel: root.navigationPanel
+            navigationRowStart: textPlacementSection.navigationRowEnd + 1
+
+            model: [
+                { text: qsTrc("propertiespanel", "None"), value: 0 },
+                { text: qsTrc("propertiespanel", "On"), value: 1 },
+                { text: qsTrc("propertiespanel", "Off"), value: 2 },
+                { text: qsTrc("propertiespanel", "Live"), value: 3 },
+                { text: qsTrc("propertiespanel", "Idle"), value: 4 }
+            ]
+        }
+
+        Item {
+            width: parent.width
+            height: childrenRect.height
+
+            visible: root.model && root.model.playbackStateTime ? root.model.playbackStateTime.isEnabled : false
+
+            SpinBoxPropertyView {
+                id: playbackStateTimeSection
+
+                anchors.left: parent.left
+                anchors.right: parent.horizontalCenter
+                anchors.rightMargin: 2
+
+                titleText: qsTrc("propertiespanel", "Time")
+                propertyItem: root.model ? root.model.playbackStateTime : null
+
+                navigationName: "Playback marking time"
+                navigationPanel: root.navigationPanel
+                navigationRowStart: playbackStateDropdown.navigationRowEnd + 1
+
+                readonly property bool inSeconds: root.model && root.model.playbackStateTimeUnit
+                                                  ? root.model.playbackStateTimeUnit.value === 1 : false
+
+                decimals: inSeconds ? 2 : 0
+                step: inSeconds ? 0.1 : 10
+                minValue: 0
+                maxValue: inSeconds ? 600 : 600000
+            }
+
+            DropdownPropertyView {
+                id: playbackStateTimeUnitSection
+
+                anchors.left: parent.horizontalCenter
+                anchors.leftMargin: 2
+                anchors.right: parent.right
+
+                titleText: qsTrc("propertiespanel", "Unit")
+                propertyItem: root.model ? root.model.playbackStateTimeUnit : null
+
+                navigationName: "Playback marking time unit"
+                navigationPanel: root.navigationPanel
+                navigationRowStart: playbackStateTimeSection.navigationRowEnd + 1
+
+                model: [
+                    //: Milliseconds
+                    { text: qsTrc("propertiespanel", "ms"), value: 0 },
+                    //: Seconds
+                    { text: qsTrc("propertiespanel", "s"), value: 1 }
+                ]
+            }
+        }
+
+        FlatRadioButtonGroupPropertyView {
+            id: playbackStateTransitionSection
+
+            titleText: qsTrc("propertiespanel", "Transition")
+            propertyItem: root.model ? root.model.playbackStateTransition : null
+
+            visible: root.model && root.model.playbackStateTime ? root.model.playbackStateTime.isEnabled : false
+
+            navigationPanel: root.navigationPanel
+            navigationRowStart: playbackStateTimeUnitSection.navigationRowEnd + 1
+
+            model: [
+                { text: qsTrc("propertiespanel", "Fade"), value: 0 },
+                { text: qsTrc("propertiespanel", "Cut"), value: 1 }
+            ]
+        }
+    }
+
     FlatButton {
         width: parent.width
 
         navigation.name: "Staff text properties"
         navigation.panel: root.navigationPanel
-        navigation.row: textPlacementSection.navigationRowEnd + 1
+        navigation.row: playbackStateTransitionSection.navigationRowEnd + 1
 
         text: qsTrc("propertiespanel", "Staff text properties")
 

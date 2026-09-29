@@ -830,6 +830,10 @@ bool TRead::readProperties(StaffTextBase* t, XmlReader& e, ReadContext& ctx)
         int fretId = e.intAttribute("fretId", 0);
         t->setCapo(fretId);
         e.readNext();
+    } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE)) {
+    } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_TIME)) {
+    } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_TIME_UNIT)) {
+    } else if (readProperty(t, tag, e, ctx, Pid::PLAYBACK_STATE_TRANSITION)) {
     } else if (!readProperties(toTextBase(t), e, ctx)) {
         return false;
     }

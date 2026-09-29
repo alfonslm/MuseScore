@@ -21,6 +21,8 @@
  */
 #include "textsettingsmodel.h"
 
+#include <cmath>
+
 #include <QFont>
 
 #include "types/commontypes.h"
@@ -109,6 +111,27 @@ void TextSettingsModel::createProperties()
     });
     m_textPlacement = buildPropertyItem(mu::engraving::Pid::PLACEMENT);
     m_textScriptAlignment = buildPropertyItem(mu::engraving::Pid::TEXT_SCRIPT_ALIGN);
+
+    m_playbackState = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        onPropertyValueChanged(pid, newValue);
+        updatePlaybackStatePropertiesAvailability();
+    });
+
+    //! NOTE The time is stored in milliseconds, and shown in the unit chosen for it
+    m_playbackStateTime = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE_TIME,
+                                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        const double value = newValue.toDouble();
+        const int ms = static_cast<int>(std::lround(isPlaybackStateTimeInSeconds() ? value * 1000.0 : value));
+        onPropertyValueChanged(pid, ms);
+    });
+
+    m_playbackStateTimeUnit = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE_TIME_UNIT,
+                                                [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        onPropertyValueChanged(pid, newValue);
+        emit requestReloadPropertyItems();
+    });
+
+    m_playbackStateTransition = buildPropertyItem(mu::engraving::Pid::PLAYBACK_STATE_TRANSITION);
 }
 
 void TextSettingsModel::requestElements()
@@ -149,7 +172,11 @@ void TextSettingsModel::loadProperties()
         Pid::FRAME_ROUND,
         Pid::TEXT_STYLE,
         Pid::PLACEMENT,
-        Pid::TEXT_SCRIPT_ALIGN
+        Pid::TEXT_SCRIPT_ALIGN,
+        Pid::PLAYBACK_STATE,
+        Pid::PLAYBACK_STATE_TIME,
+        Pid::PLAYBACK_STATE_TIME_UNIT,
+        Pid::PLAYBACK_STATE_TRANSITION
     };
 
     loadProperties(textPropertyIdSet);
@@ -251,9 +278,25 @@ void TextSettingsModel::loadProperties(const PropertyIdSet& propertyIdSet)
         });
     }
 
+    if (muse::contains(propertyIdSet, Pid::PLAYBACK_STATE)) {
+        loadPropertyItem(m_playbackState);
+    }
+    if (muse::contains(propertyIdSet, Pid::PLAYBACK_STATE_TIME_UNIT)) {
+        loadPropertyItem(m_playbackStateTimeUnit);
+    }
+    if (muse::contains(propertyIdSet, Pid::PLAYBACK_STATE_TIME) || muse::contains(propertyIdSet, Pid::PLAYBACK_STATE_TIME_UNIT)) {
+        loadPropertyItem(m_playbackStateTime, [this](const QVariant& elementPropertyValue) -> QVariant {
+            return isPlaybackStateTimeInSeconds() ? elementPropertyValue.toInt() / 1000.0 : elementPropertyValue.toDouble();
+        });
+    }
+    if (muse::contains(propertyIdSet, Pid::PLAYBACK_STATE_TRANSITION)) {
+        loadPropertyItem(m_playbackStateTransition);
+    }
+
     updateTextPropertiesAvailability();
     updateFramePropertiesAvailability();
     updateStaffPropertiesAvailability();
+    updatePlaybackStatePropertiesAvailability();
     updateIsDynamicSpecificSettings();
     updateIsHorizontalAlignmentAvailable();
     updateIsSystemObjectBelowBottomStaff();
@@ -391,6 +434,31 @@ PropertyItem* TextSettingsModel::textType() const
 PropertyItem* TextSettingsModel::textPlacement() const
 {
     return m_textPlacement;
+}
+
+PropertyItem* TextSettingsModel::playbackState() const
+{
+    return m_playbackState;
+}
+
+PropertyItem* TextSettingsModel::playbackStateTime() const
+{
+    return m_playbackStateTime;
+}
+
+PropertyItem* TextSettingsModel::playbackStateTimeUnit() const
+{
+    return m_playbackStateTimeUnit;
+}
+
+PropertyItem* TextSettingsModel::playbackStateTransition() const
+{
+    return m_playbackStateTransition;
+}
+
+bool TextSettingsModel::isPlaybackStateAvailable() const
+{
+    return m_isPlaybackStateAvailable;
 }
 
 PropertyItem* TextSettingsModel::textScriptAlignment() const
@@ -626,6 +694,34 @@ void TextSettingsModel::updateFramePropertiesAvailability()
     m_frameMargin->setIsEnabled(isFrameVisible);
     m_frameCornerRadius->setIsEnabled(
         static_cast<TextTypes::FrameType>(m_frameType->value().toInt()) == TextTypes::FrameType::FRAME_TYPE_SQUARE);
+}
+
+bool TextSettingsModel::isPlaybackStateTimeInSeconds() const
+{
+    return !m_playbackStateTimeUnit->isUndefined()
+           && m_playbackStateTimeUnit->value().toInt() == static_cast<int>(mu::engraving::PlaybackStateTimeUnit::SECONDS);
+}
+
+void TextSettingsModel::updatePlaybackStatePropertiesAvailability()
+{
+    bool isAvailable = !m_elementList.isEmpty();
+    for (const EngravingItem* item : m_elementList) {
+        if (!item->isStaffText()) {
+            isAvailable = false;
+            break;
+        }
+    }
+
+    if (m_isPlaybackStateAvailable != isAvailable) {
+        m_isPlaybackStateAvailable = isAvailable;
+        emit isPlaybackStateAvailableChanged();
+    }
+
+    const bool isMarking = !m_playbackState->isUndefined()
+                           && m_playbackState->value().toInt() != static_cast<int>(mu::engraving::PlaybackStateType::NONE);
+    m_playbackStateTime->setIsEnabled(isMarking);
+    m_playbackStateTimeUnit->setIsEnabled(isMarking);
+    m_playbackStateTransition->setIsEnabled(isMarking);
 }
 
 void TextSettingsModel::updateStaffPropertiesAvailability()

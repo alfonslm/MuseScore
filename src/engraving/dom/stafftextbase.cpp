@@ -22,6 +22,8 @@
 
 #include "stafftextbase.h"
 
+#include <algorithm>
+
 #include "score.h"
 #include "segment.h"
 #include "staff.h"
@@ -102,5 +104,62 @@ void StaffTextBase::removed()
     Score* s = score();
     if (s && swing()) {
         s->updateSwing();
+    }
+}
+
+PropertyValue StaffTextBase::getProperty(Pid propertyId) const
+{
+    switch (propertyId) {
+    case Pid::PLAYBACK_STATE:
+        return static_cast<int>(m_playbackState.type);
+    case Pid::PLAYBACK_STATE_TIME:
+        return m_playbackState.timeMs;
+    case Pid::PLAYBACK_STATE_TIME_UNIT:
+        return static_cast<int>(m_playbackState.timeUnit);
+    case Pid::PLAYBACK_STATE_TRANSITION:
+        return static_cast<int>(m_playbackState.transition);
+    default:
+        return TextBase::getProperty(propertyId);
+    }
+}
+
+bool StaffTextBase::setProperty(Pid propertyId, const PropertyValue& v)
+{
+    switch (propertyId) {
+    case Pid::PLAYBACK_STATE:
+        m_playbackState.type = static_cast<PlaybackStateType>(v.toInt());
+        break;
+    case Pid::PLAYBACK_STATE_TIME:
+        m_playbackState.timeMs = std::max(0, v.toInt());
+        break;
+    case Pid::PLAYBACK_STATE_TIME_UNIT:
+        m_playbackState.timeUnit = static_cast<PlaybackStateTimeUnit>(v.toInt());
+        break;
+    case Pid::PLAYBACK_STATE_TRANSITION:
+        m_playbackState.transition = static_cast<PlaybackStateTransition>(v.toInt());
+        break;
+    default:
+        return TextBase::setProperty(propertyId, v);
+    }
+
+    triggerLayout();
+    return true;
+}
+
+PropertyValue StaffTextBase::propertyDefault(Pid id) const
+{
+    const PlaybackStateParams defaults;
+
+    switch (id) {
+    case Pid::PLAYBACK_STATE:
+        return static_cast<int>(defaults.type);
+    case Pid::PLAYBACK_STATE_TIME:
+        return defaults.timeMs;
+    case Pid::PLAYBACK_STATE_TIME_UNIT:
+        return static_cast<int>(defaults.timeUnit);
+    case Pid::PLAYBACK_STATE_TRANSITION:
+        return static_cast<int>(defaults.transition);
+    default:
+        return TextBase::propertyDefault(id);
     }
 }

@@ -207,6 +207,22 @@ TextArticulationEvent PlaybackContext::textArticulation(const track_idx_t trackI
     return result;
 }
 
+std::map<timestamp_t, PlaybackStateEventList> PlaybackContext::playbackStates(const track_idx_t trackFrom,
+                                                                              const track_idx_t trackTo) const
+{
+    std::map<timestamp_t, PlaybackStateEventList> result;
+
+    collectByTrackRange(m_playbackStatesByTrack, trackFrom, trackTo, m_score, m_usedTracks, result,
+                        [](PlaybackStateEventList& list, const PlaybackStateEvent& event) {
+        //! NOTE The same marking is stored for every voice of its staff; the part needs it once
+        if (list.empty() || !(list.back() == event)) {
+            list.push_back(event);
+        }
+    });
+
+    return result;
+}
+
 std::map<timestamp_t, SyllableEventList> PlaybackContext::syllables(const track_idx_t trackFrom, const track_idx_t trackTo) const
 {
     std::map<timestamp_t, SyllableEventList> result;
@@ -354,6 +370,7 @@ void PlaybackContext::clear(const track_idx_t trackFrom, const track_idx_t track
     eraseTickRangeByTrack(m_soundPresetsByTrack);
     eraseTickRangeByTrack(m_textArticulationsByTrack);
     eraseTickRangeByTrack(m_syllablesByTrack);
+    eraseTickRangeByTrack(m_playbackStatesByTrack);
     eraseTickRangeByTrack(m_playTechniquesByTrack);
     eraseTickRangeByTrack(m_multiVerseLyricsPositionMap);
 
@@ -498,6 +515,35 @@ void PlaybackContext::updateSyllableMap(const TextBase* text, const int segmentP
     }
 }
 
+void PlaybackContext::updatePlaybackStateMap(const StaffTextBase* text, const int segmentPositionTick)
+{
+    const PlaybackStateParams& params = text->playbackState();
+
+    PlaybackStateEvent event;
+    switch (params.type) {
+    case PlaybackStateType::ON: event.type = PlaybackStateEvent::Type::On;
+        break;
+    case PlaybackStateType::OFF: event.type = PlaybackStateEvent::Type::Off;
+        break;
+    case PlaybackStateType::LIVE: event.type = PlaybackStateEvent::Type::Live;
+        break;
+    case PlaybackStateType::IDLE: event.type = PlaybackStateEvent::Type::Idle;
+        break;
+    case PlaybackStateType::NONE: return;
+    }
+
+    event.time = static_cast<duration_t>(std::max(0, params.timeMs)) * 1000;
+    event.fade = params.transition == PlaybackStateTransition::FADE;
+
+    //! NOTE A marking applies to its whole staff
+    const staff_idx_t staffIdx = text->staffIdx();
+    for (voice_idx_t voiceIdx = 0; voiceIdx < VOICES; ++voiceIdx) {
+        const track_idx_t trackIdx = staff2track(staffIdx, voiceIdx);
+        event.layerIdx = static_cast<layer_idx_t>(staffIdx);
+        m_playbackStatesByTrack[trackIdx][segmentPositionTick] = event;
+    }
+}
+
 void PlaybackContext::handleSegmentAnnotations(const Segment* segment, const int segmentPositionTick,
                                                const track_idx_t trackFrom, const track_idx_t trackTo)
 {
@@ -522,6 +568,10 @@ void PlaybackContext::handleSegmentAnnotations(const Segment* segment, const int
         if (annotation->isSticking()) {
             updateSyllableMap(toTextBase(annotation), segmentPositionTick);
             continue;
+        }
+
+        if (annotation->isStaffText() && toStaffText(annotation)->playbackState().isOn()) {
+            updatePlaybackStateMap(toStaffText(annotation), segmentPositionTick);
         }
 
         if (annotation->isStaffText()) {
