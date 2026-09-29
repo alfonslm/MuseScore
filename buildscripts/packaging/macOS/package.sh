@@ -189,14 +189,9 @@ if $DO_SIGN; then
         spctl --assess --type execute -vvv "${APP_PATH}" || true
     fi
 else
-    # macdeployqt rewrites load commands (rpath fixups) while bundling Qt, and
-    # removing the dSYM bundles and renaming Resources/qml invalidates the
-    # signatures macdeployqt just made — so everything needs re-signing from
-    # the inside out. On Apple Silicon, AMFI refuses to launch code whose
-    # signature doesn't match its current bytes and silently SIGKILLs it, so
-    # without a signing certificate we still need to re-sign ad-hoc (identity
-    # "-") to get a launchable .app.
-    echo "No signing certificate configured; re-signing ad-hoc so the app can launch"
+    # Removing the dSYM bundles and renaming Resources/qml invalidated the
+    # signatures that macdeployqt just made, so sign again, from the inside out.
+    echo "Ad-hoc code sign"
 
     # As above: signed here rather than by macdeployqt, which cannot see them.
     find "${APP_PATH}/Contents/Frameworks" -maxdepth 1 -type f -name "*.dylib" \
