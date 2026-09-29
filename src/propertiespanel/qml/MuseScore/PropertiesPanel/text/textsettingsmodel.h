@@ -123,7 +123,7 @@ public:
     PropertyItem* textPlacement() const;
     PropertyItem* textScriptAlignment() const;
 
-    //! NOTE On/Off and Live/Idle playback markings, for staff text only
+    //! NOTE On/Off and Live/Standby playback markings, for staff text only
     PropertyItem* playbackState() const;
     PropertyItem* playbackStateTime() const;
     PropertyItem* playbackStateTimeUnit() const;

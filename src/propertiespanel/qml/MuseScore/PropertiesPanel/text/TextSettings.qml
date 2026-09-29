@@ -250,7 +250,7 @@ Column {
                 { text: qsTrc("propertiespanel", "On"), value: 1 },
                 { text: qsTrc("propertiespanel", "Off"), value: 2 },
                 { text: qsTrc("propertiespanel", "Live"), value: 3 },
-                { text: qsTrc("propertiespanel", "Idle"), value: 4 }
+                { text: qsTrc("propertiespanel", "Standby"), value: 4 }
             ]
         }
 

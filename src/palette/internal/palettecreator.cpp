@@ -1525,7 +1525,7 @@ PalettePtr PaletteCreator::newTextPalette(bool defaultPalette)
     st->setXmlText(QT_TRANSLATE_NOOP("palette", "Staff text"));
     sp->appendElement(st, QT_TRANSLATE_NOOP("palette", "Staff text"))->setElementTranslated(true);
 
-    //! NOTE Playback markings: staff texts that switch the instrument on/off or between live/idle
+    //! NOTE Playback markings: staff texts that switch the instrument on/off or between live/standby
     struct PlaybackStateInfo {
         const char* text;
         const char* name;
@@ -1536,7 +1536,7 @@ PalettePtr PaletteCreator::newTextPalette(bool defaultPalette)
         { QT_TRANSLATE_NOOP("palette", "On"), QT_TRANSLATE_NOOP("palette", "Playback on"), PlaybackStateType::ON },
         { QT_TRANSLATE_NOOP("palette", "Off"), QT_TRANSLATE_NOOP("palette", "Playback off"), PlaybackStateType::OFF },
         { QT_TRANSLATE_NOOP("palette", "Live"), QT_TRANSLATE_NOOP("palette", "Playback live"), PlaybackStateType::LIVE },
-        { QT_TRANSLATE_NOOP("palette", "Idle"), QT_TRANSLATE_NOOP("palette", "Playback idle"), PlaybackStateType::IDLE },
+        { QT_TRANSLATE_NOOP("palette", "Standby"), QT_TRANSLATE_NOOP("palette", "Playback standby (idle)"), PlaybackStateType::STANDBY },
     };
 
     for (const PlaybackStateInfo& info : playbackStates) {

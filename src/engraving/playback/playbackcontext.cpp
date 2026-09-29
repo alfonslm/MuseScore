@@ -527,7 +527,7 @@ void PlaybackContext::updatePlaybackStateMap(const StaffTextBase* text, const in
         break;
     case PlaybackStateType::LIVE: event.type = PlaybackStateEvent::Type::Live;
         break;
-    case PlaybackStateType::IDLE: event.type = PlaybackStateEvent::Type::Idle;
+    case PlaybackStateType::STANDBY: event.type = PlaybackStateEvent::Type::Standby;
         break;
     case PlaybackStateType::NONE: return;
     }
