@@ -158,6 +158,11 @@ void AbstractLayoutPanelTreeItem::moveChildrenOnScore(const MoveParams&)
 
 void AbstractLayoutPanelTreeItem::removeChildren(int row, int count, bool deleteChild)
 {
+    if (row < 0 || count <= 0 || row + count > m_children.size()) {
+        LOGE() << "Invalid range: row=" << row << ", count=" << count << ", childCount=" << m_children.size();
+        return;
+    }
+
     for (int i = row + count - 1; i >= row; --i) {
         AbstractLayoutPanelTreeItem* child = m_children.at(i);
 
