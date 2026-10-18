@@ -55,7 +55,6 @@
 using namespace mu;
 using namespace mu::notation;
 using namespace mu::engraving;
-using namespace muse::actions;
 
 static constexpr int PIXELSSTEPSFACTOR = 5;
 
@@ -132,7 +131,8 @@ void NotationViewInputController::onNotationChanged()
         m_view->hideContextMenu();
         m_view->hideElementPopup();
 
-        if (AbstractElementPopupModel::hasElementEditPopup(selectedItem)) {
+        if (!(QApplication::mouseButtons() & Qt::RightButton)
+            && AbstractElementPopupModel::hasElementEditPopup(selectedItem)) {
             m_view->showElementPopup(type);
         }
     }, Asyncable::Mode::SetReplace /* FIXME */);
@@ -1233,16 +1233,17 @@ void NotationViewInputController::mouseReleaseEvent(QMouseEvent* event)
     m_isCanvasDragged = false;
 
     if (interaction->isDragStarted()) {
-        bool isDraggingHairpinSegmentGrip
+        bool isDraggingHairpinSegmentStartEndGrip
             = interaction->isGripEditStarted()
               && interaction->selection()->element()
-              && interaction->selection()->element()->isHairpinSegment();
+              && interaction->selection()->element()->isHairpinSegment()
+              && interaction->isStartEndGripSelected();
 
         interaction->endDrag();
 
-        // When dragging of hairpin ends on a note or rest, open dynamic popup
+        // When dragging start or end of hairpin to a note or rest, open dynamic popup
         // Check for note or rest happens in Score::addText which is called through addTextToItem in toggleDynamicPopup
-        if (isDraggingHairpinSegmentGrip) {
+        if (isDraggingHairpinSegmentStartEndGrip) {
             interaction->toggleDynamicPopup();
         }
     }
