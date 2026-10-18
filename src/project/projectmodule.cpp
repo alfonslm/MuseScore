@@ -22,11 +22,12 @@
 #include "projectmodule.h"
 
 #include "modularity/ioc.h"
+#include "global/api/ifilesystemapirestriction.h"
+
 #include "internal/projectcreator.h"
 #include "internal/projectautosaver.h"
 #include "internal/projectactionscontroller.h"
 #include "internal/engravingpluginapihelper.h"
-#include "internal/projectuiactions.h"
 #include "internal/projectconfiguration.h"
 #include "internal/openprojectscenario.h"
 #include "internal/saveprojectscenario.h"
@@ -53,7 +54,6 @@
 #endif
 
 #include "rcommand/icommandsstate.h"
-#include "ui/iuiactionsregister.h"
 #include "interactive/iinteractiveuriregister.h"
 
 using namespace mu::project;
@@ -91,6 +91,7 @@ void ProjectModule::resolveImports()
         ir->registerQmlUri(Uri("musescore://project/migration"), "MuseScore.Project", "MigrationDialog");
         ir->registerQmlUri(Uri("musescore://project/properties"), "MuseScore.Project", "ProjectPropertiesDialog");
         ir->registerQmlUri(Uri("musescore://project/upload/progress"), "MuseScore.Project", "UploadProgressDialog");
+        ir->registerQmlUri(Uri("musescore://project/export/audioprogress"), "MuseScore.Project", "AudioExportProgressDialog");
         ir->registerQmlUri(Uri("musescore://project/upload/success"), "MuseScore.Project", "ProjectUploadedDialog");
         ir->registerQmlUri(Uri("musescore://project/audiogenerationsettings"), "MuseScore.Project", "AudioGenerationSettingsDialog");
         ir->registerQmlUri(Uri("musescore://project/convert/selectfiles"), "MuseScore.Project", "ConvertFileToScoreDialog");
@@ -100,6 +101,21 @@ void ProjectModule::resolveImports()
     auto cr = globalIoc()->resolve<muse::rcommand::ICommandsRegister>(mname);
     if (cr) {
         cr->reg(std::make_shared<ProjectCommandsRegister>());
+    }
+}
+
+void ProjectModule::registerApi()
+{
+    auto fsRestriction = globalIoc()->resolve<muse::api::IFileSystemApiRestriction>(moduleName());
+    if (fsRestriction) {
+        fsRestriction->addAllowedPathBase("userProjectsPath", m_configuration->userProjectsPath());
+        fsRestriction->addAllowedPathBase("userTemplatesPath", m_configuration->userTemplatesPath());
+        m_configuration->userProjectsPathChanged().onReceive(this, [fsRestriction](const muse::io::path_t& path) {
+            fsRestriction->addAllowedPathBase("userProjectsPath", path);
+        });
+        m_configuration->userTemplatesPathChanged().onReceive(this, [fsRestriction](const muse::io::path_t& path) {
+            fsRestriction->addAllowedPathBase("userTemplatesPath", path);
+        });
     }
 }
 
@@ -153,11 +169,6 @@ void ProjectContext::resolveImports()
     auto cs = ioc()->resolve<muse::rcommand::ICommandsState>(mname);
     if (cs) {
         cs->reg(std::make_shared<ProjectCommandsState>(iocContext()));
-    }
-
-    auto ar = ioc()->resolve<muse::ui::IUiActionsRegister>(mname);
-    if (ar) {
-        ar->reg(std::make_shared<ProjectUiActions>(m_actionsController, iocContext()));
     }
 }
 
