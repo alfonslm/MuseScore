@@ -9,6 +9,10 @@ on:
 
 permissions:
   contents: write
+  # upstream-main mirrors musescore/MuseScore's own .github/workflows/*.yml
+  # files too; pushing a change to those needs this extra permission or
+  # GitHub rejects the push.
+  workflows: write
 
 jobs:
   sync:
