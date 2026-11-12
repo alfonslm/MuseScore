@@ -890,6 +890,25 @@ TEST_F(MidiRenderer_Tests, caesura)
     checkEventInterval(events, 960, 1871, 67, defVol);
 }
 
+TEST_F(MidiRenderer_Tests, caesuraExtendMeasure)
+{
+    CompatMidiRendererInternal::Context context;
+    context.pauseMode = PauseMapMode::ExtendMeasure;
+
+    EventsHolder events = getNoteOnEvents(renderMidiEventsWithPause(u"caesura.mscx", context));
+    EXPECT_EQ(events.size(), 1);
+    EXPECT_EQ(events[DEFAULT_CHANNEL].size(), 4);
+
+    // 2 seconds at 120 bpm: the 4/4 measure of the caesura gets 4 more beats
+    EXPECT_EQ(CompatMidiRender::tick(context, 0), 0);
+    EXPECT_EQ(CompatMidiRender::tick(context, 911), 911);
+    EXPECT_EQ(CompatMidiRender::tick(context, 960), 2880);
+    EXPECT_EQ(CompatMidiRender::tick(context, 1871), 3791);
+
+    const std::map<int, Fraction> expectedTimeSigs { { 0, Fraction(8, 4) } };
+    EXPECT_EQ(context.pauseMap->timeSigEvents(), expectedTimeSigs);
+}
+
 /*****************************************************************************
 
    Hairpin + dynamic tests

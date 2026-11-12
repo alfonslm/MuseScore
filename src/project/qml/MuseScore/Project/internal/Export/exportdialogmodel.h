@@ -91,6 +91,8 @@ class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus, pu
 
     Q_PROPERTY(bool midiExpandRepeats READ midiExpandRepeats WRITE setMidiExpandRepeats NOTIFY midiExpandRepeatsChanged)
     Q_PROPERTY(bool midiExportRpns READ midiExportRpns WRITE setMidiExportRpns NOTIFY midiExportRpnsChanged)
+    Q_PROPERTY(
+        bool midiExtendMeasuresForPauses READ midiExtendMeasuresForPauses WRITE setMidiExtendMeasuresForPauses NOTIFY midiExtendMeasuresForPausesChanged)
 
     Q_PROPERTY(MusicXmlLayoutType musicXmlLayoutType READ musicXmlLayoutType WRITE setMusicXmlLayoutType NOTIFY musicXmlLayoutTypeChanged)
 
@@ -202,6 +204,9 @@ public:
     bool midiExportRpns() const;
     void setMidiExportRpns(bool exportRpns);
 
+    bool midiExtendMeasuresForPauses() const;
+    void setMidiExtendMeasuresForPauses(bool extend);
+
     bool meiExportLayout() const;
     void setMeiExportLayout(bool exportLayout);
 
@@ -270,6 +275,7 @@ signals:
 
     void midiExpandRepeatsChanged(bool expandRepeats);
     void midiExportRpnsChanged(bool exportRpns);
+    void midiExtendMeasuresForPausesChanged(bool extend);
 
     void musicXmlLayoutTypeChanged(MusicXmlLayoutType layoutType);
 

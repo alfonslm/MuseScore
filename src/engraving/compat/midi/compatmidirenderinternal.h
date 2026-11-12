@@ -161,6 +161,7 @@ public:
         bool instrumentsHaveEffects = false; //!when effect is applied, new channel should be used
         bool useDefaultArticulations = false; //!using default articulations means ignoring the ones stored for each instrument
         bool applyCaesuras = false; //! to add pauses (caesura) between midi events
+        PauseMapMode pauseMode = PauseMapMode::InsertMeasure; //! how the ticks of a pause are added, see PauseMapMode
         HarmonyChannelSetting harmonyChannelSetting = HarmonyChannelSetting::DEFAULT;
         std::unordered_set<std::string> partsWithMutedHarmony;
 
