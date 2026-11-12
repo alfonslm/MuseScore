@@ -38,8 +38,10 @@ protected:
     {
         std::vector<PauseMap::MeasureSpan> result;
         const int ticks = timeSig.ticks();
+        int utick = 0;
         for (int i = 0; i < count; ++i) {
-            result.push_back({ i * ticks, ticks, timeSig });
+            result.push_back({ utick, ticks, timeSig });
+            utick += ticks;
         }
         return result;
     }
