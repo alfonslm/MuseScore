@@ -16,7 +16,7 @@ jobs:
       # isn't writable from this account. Remove once that PR merges upstream and this
       # submodule is repointed at EXPECTED_URL/EXPECTED_BRANCH.
       ALLOWED_FORK_URL: https://github.com/alfonslm/muse_framework.git
-      ALLOWED_FORK_BRANCH: keyswitch-maps
+      ALLOWED_FORK_BRANCH: main
     steps:
     - name: Clone repository
       uses: actions/checkout@v7
