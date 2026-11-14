@@ -16,7 +16,7 @@ Routes that were evaluated, in the user's order of interest:
 |---|---|---|
 | A | MIDI export where a pause lengthens its bar instead of inserting a bar | **in progress, this branch** |
 | C | Load VOCALOID7 as a VST3 in MuseScore as it is today | needs a 10-minute test **by the user** |
-| D | Send tempo / beat position to VST plugins | not started; only if C shows it is needed |
+| D | Send tempo / beat position to VST plugins | **first version written**, draft PRs alfonslm/muse_framework#4 and alfonslm/MuseScore#15 |
 | E | ARA2 hosting in MuseScore | not started; large |
 | B | Direct `.vpr` (Vocaloid project) export with lyrics | not started; optional |
 
@@ -165,7 +165,39 @@ playback inside MuseScore. If it does not start or ignores position, go to D.
 
 ## 6. Routes D, E, B – outlines
 
-### D. Tempo and musical position in `ProcessContext` (est. 1–2 weeks, both repos)
+### D. Tempo and musical position in `ProcessContext`
+
+**Status (2026-11-14): first version written, not yet run with a plugin.**
+
+- Framework, branch `claude/busy-cori-tiki06` of alfonslm/muse_framework, draft PR alfonslm/muse_framework#4:
+  `audio/common/musicaltimemap.h` (`MusicalTimeMap`, `MusicalPosition`), `IPlayer::setMusicalTimeMap()` →
+  RPC `SetMusicalTimeMap` → `ContextPlayer`; `IPlayheadPosition::musicalPosition()`; optional
+  `setPlayheadPosition()` on `ISynthesizer` / `IFxProcessor`; `VstAudioClient::updateProcessContext()` fills
+  tempo, time signature, `projectTimeMusic`, `barPositionMusic` and their valid flags.
+- MuseScore, branch `claude/vst-transport` (from `main`, **not** stacked on route A), draft PR alfonslm/MuseScore#15:
+  `src/engraving/playback/musicaltimemapbuilder.*`, `INotationPlayback::musicalTimeMap()` +
+  `musicalTimeMapChanged()`, sent from `PlaybackController::setupPlayer()`.
+  On that branch `.gitmodules` points `muse` at the fork (user's decision), so the
+  `check_muse_framework` check fails there on purpose.
+- Verified: 7 framework + 8 builder unit tests pass locally; changed files pass syntax-only compiles
+  (VST host files against the pinned VST3 SDK headers). Not verified: full build, the real test
+  binaries, anything with a real plugin.
+- Left: get CI green on both PRs; run uncrustify; try a transport-following plugin and VOCALOID7;
+  fill `systemTime`, `continousTimeSamples` and the loop (cycle) fields; decide whether note events
+  should carry `ppqPosition`.
+
+**Other host gaps found while reading the VST code (not fixed, each matters for a plugin with its own editor):**
+
+1. An instrument plugin is deactivated when playback stops (`VstSynthesiser::setMode` →
+   `VstAudioClient::setIsActive(false)` → `setProcessing(false)` / `setActive(false)`), and
+   `VstAudioClient::process` returns early while inactive. Until playback restarts or a note is auditioned
+   from the score, the plugin produces no audio and sees no transport: auditioning inside Vocaloid's own
+   piano roll while MuseScore is stopped would be silent. Effects are not deactivated, only instruments.
+2. `VstComponentHandler::restartComponent()` returns OK for every flag and does nothing, and
+   `getLatencySamples()` is never called: no latency compensation, no reaction to bus changes.
+3. No ARA (see E).
+
+The original design notes follow.
 
 Goal: fill `tempo`, `timeSigNumerator/Denominator`, `projectTimeMusic`, `barPositionMusic` and
 set `kTempoValid | kTimeSigValid | kProjectTimeMusicValid | kBarPositionValid` in
