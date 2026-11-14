@@ -11,6 +11,8 @@ Working notes for whoever continues this (human or agent). Written 2026-11-12, s
 - Route D and the "keep running when stopped" option: framework side merged into `alfonslm/muse_framework`
   `beta` (PR 4); MuseScore side is PR 15 (`claude/vst-transport` → `beta`), all checks green.
 - Nothing has been tried with VOCALOID7 yet. That is the next step, and it needs the user.
+- Route D leftovers (`systemTime`, `continousTimeSamples`, cycle fields in `ProcessContext`) are on
+  hold: `alfonslm/muse_framework` PR 6 (another session) reworks the same player and engine code.
 
 ## 1. Goal
 
@@ -129,28 +131,30 @@ Done in the cloud sandbox (no Qt 6.8 there, see section 7):
 
 ## 4. Route A – what is left
 
-1. **Build the real thing with Qt and run the tests** (see section 7). Everything outside
-   `src/engraving` is uncompiled.
-2. Run `iex_midi_tests` and `engraving_tests` – existing MIDI reference tests must still pass
-   unchanged (legacy mode must be byte-identical).
-3. Add an end-to-end export test in `src/importexport/midi/tests/midiexport_tests.cpp`:
-   `ExportMidi em(score); em.setPauseMode(PauseMapMode::ExtendMeasure);` on
-   `midiexport_data/testPauses.mscx`, `testPausesRepeats.mscx` and
-   `testPausesTempoTimesigChange.mscx`; generate `-ref.mid` files, and inspect them once by hand
-   (the test utils have an SMF→YAML serializer, `utils/smfyamlserializer.h`).
-4. Run uncrustify (`tools/codestyle/tidy_file.sh`); it is not installed in the cloud sandbox.
+Status 2026-11-14 (evening):
+
+1. ~~Build with Qt~~ — done: the full app builds in CI (Linux, macOS arm64) on the `beta` line.
+2. **Run `iex_midi_tests` and `engraving_tests`** — still not done. "Check: Unit Tests (utest)" is
+   disabled on the fork (`disabled_fork`); it has to be enabled in the Actions tab first. The
+   pause-map tests (`engraving/tests/midi/pausemap_tests.cpp`, 13 tests) pass locally against the
+   Qt-free engraving build; nothing that needs Qt has been run.
+3. ~~End-to-end export test~~ — written, **not yet run** (needs the unit-test workflow):
+   `MidiExportTests.pausesExtendMeasure`, `playbackSpeed`, `midiTempo` in
+   `src/importexport/midi/tests/midiexport_tests.cpp`. They export to memory and read the file back,
+   so no reference `.mid` files are needed.
+4. ~~uncrustify~~ — done: the code style check passed in CI, and the files touched since were run
+   through uncrustify 0.74.0 (the version `muse_deps` pins) locally.
 5. **Try it with VOCALOID7** (user): export with the option on, import in Vocaloid, check that
    bar numbers match and the vocal lines up with a MuseScore audio export of the same score.
    Things to watch for and likely fixes:
    - Vocaloid rejects signatures like 17/16 or 7/4 → restrict the gap unit (e.g. always whole
      beats) in `gapTicks()`;
    - Vocaloid ignores mid-file time signatures → fall back to legacy, or go to route B;
-   - **pickup bars**: MuseScore writes only nominal time signatures, so an anacrusis shifts every
-     barline in any DAW. Cheap follow-up in the same spirit: in ExtendMeasure mode also emit the
-     actual length of irregular measures as time signatures (`Measure::ticks()` vs `timesig()`).
-6. Known quirk, not touched: `exportmidi.cpp` writes tempo as `1 / bps * tempoMultiplier`, so a
-   playback-speed slider ≠ 100 % changes the exported tempo the *wrong way round* (and scales
-   pauses). Worth a separate fix + upstream report.
+   - ~~pickup bars~~ — done: in ExtendMeasure mode every measure whose real length differs from
+     its time signature (pickups, shortened measures, measures lengthened by a pause) gets a time
+     signature for its real length (`PauseMap::calculate`).
+6. ~~Playback speed in MIDI export~~ — fixed in the fork: the exported tempo was multiplied by the
+   speed instead of divided (`ExportMidi::midiTempo`). Upstream has the same bug; not reported there.
 7. Decide with the user whether the option should default to on in their fork.
 8. If this goes upstream: drop `docs/vocaloid/` from the PR, add the string to translations
    as the upstream process requires.
