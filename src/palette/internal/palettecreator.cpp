@@ -570,6 +570,8 @@ PalettePtr PaletteCreator::newLayoutPalette()
     sp->appendActionIcon(ActionIconType::FFRAME, FRAME_MAG);
     sp->appendActionIcon(ActionIconType::STAFF_TYPE_CHANGE);
     sp->appendActionIcon(ActionIconType::MEASURE);
+    sp->appendActionIcon(ActionIconType::STAVE_SHARING_CHANGE);
+    sp->appendActionIcon(ActionIconType::RESET_STAVE_SHARING_CHANGE);
 
     return sp;
 }
@@ -1085,7 +1087,7 @@ PalettePtr PaletteCreator::newClefsPalette(bool defaultPalette)
         ClefType::F, ClefType::F_8VA, ClefType::F_15MA,
         ClefType::F8_VB, ClefType::F15_MB, ClefType::F_B, ClefType::F_C, ClefType::F_F18C, ClefType::F_19C,
         ClefType::PERC,
-        ClefType::PERC2, ClefType::TAB, ClefType::TAB4, ClefType::TAB_SERIF, ClefType::TAB4_SERIF
+        ClefType::PERC2, ClefType::TAB, ClefType::TAB4, ClefType::TAB_SERIF, ClefType::TAB4_SERIF, ClefType::TAB_STRING_NAMES
     };
 
     for (ClefType clefType : defaultPalette ? clefsDefault : clefsMaster) {
@@ -1523,6 +1525,29 @@ PalettePtr PaletteCreator::newTextPalette(bool defaultPalette)
     auto st = makeElement<StaffText>(paletteScore());
     st->setXmlText(QT_TRANSLATE_NOOP("palette", "Staff text"));
     sp->appendElement(st, QT_TRANSLATE_NOOP("palette", "Staff text"))->setElementTranslated(true);
+
+    //! NOTE Playback markings: staff texts that switch the instrument on/off or between live/standby
+    struct PlaybackStateInfo {
+        const char* text;
+        const char* name;
+        PlaybackStateType type;
+    };
+
+    const std::vector<PlaybackStateInfo> playbackStates {
+        { QT_TRANSLATE_NOOP("palette", "On"), QT_TRANSLATE_NOOP("palette", "Playback on"), PlaybackStateType::ON },
+        { QT_TRANSLATE_NOOP("palette", "Off"), QT_TRANSLATE_NOOP("palette", "Playback off"), PlaybackStateType::OFF },
+        { QT_TRANSLATE_NOOP("palette", "Live"), QT_TRANSLATE_NOOP("palette", "Playback live"), PlaybackStateType::LIVE },
+        { QT_TRANSLATE_NOOP("palette", "Standby"), QT_TRANSLATE_NOOP("palette", "Playback standby (idle)"), PlaybackStateType::STANDBY },
+    };
+
+    for (const PlaybackStateInfo& info : playbackStates) {
+        auto playbackStateText = makeElement<StaffText>(paletteScore());
+        playbackStateText->setXmlText(info.text);
+        PlaybackStateParams params;
+        params.type = info.type;
+        playbackStateText->setPlaybackState(params);
+        sp->appendElement(playbackStateText, info.name)->setElementTranslated(true);
+    }
 
     auto staffTextLine = makeElement<TextLine>(paletteScore());
     staffTextLine->setBeginText(u"Staff");

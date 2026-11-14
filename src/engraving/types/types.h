@@ -218,6 +218,10 @@ enum class ElementType : unsigned char {
     TAPPING_HALF_SLUR,
     TAPPING_HALF_SLUR_SEGMENT,
     TAPPING_TEXT,
+    JIANPU_OCTAVE_DOT,
+    JIANPU_DURATION_LINE,
+
+    STAVE_SHARING_CHANGE,
 
     ROOT_ITEM,
     DUMMY,
@@ -291,7 +295,7 @@ constexpr bool autoplaceAppliesToType(ElementType type)
     case ElementType::MEASURE_NUMBER:
     case ElementType::MMREST_RANGE:
 
-    // Note/measure-attached texts and symbols
+    // Note/measure/segment-attached texts and symbols
     case ElementType::TIMESIG:
     case ElementType::REST:
     case ElementType::MMREST:
@@ -321,6 +325,7 @@ constexpr bool autoplaceAppliesToType(ElementType type)
     case ElementType::HARMONY:
     case ElementType::HARP_DIAGRAM:
     case ElementType::STICKING:
+    case ElementType::STAVE_SHARING_CHANGE:
         return true;
     default:
         return false;
@@ -752,6 +757,7 @@ enum class ClefType : signed char {
     TAB_SERIF,
     TAB4_SERIF,
     // new clefs to be added between here
+    TAB_STRING_NAMES,
     C4_8VB,
     G8_VB_C,
     // and here in oder to not break TAB clef style
@@ -1027,6 +1033,7 @@ enum class TextStyleType : unsigned char {
     FRET_DIAGRAM_FRET_NUMBER,
     HARP_PEDAL_DIAGRAM,
     HARP_PEDAL_TEXT_DIAGRAM,
+    JIANPU_NUMBER,
 
     // Line-oriented styles
     TEXTLINE,
@@ -1182,6 +1189,12 @@ enum class CourtesyBarlineMode : char {
     DOUBLE_BEFORE_COURTESY = 2,
 };
 
+// How the tonic ("1") of a Jianpu staff is determined
+enum class JianpuNumbering : char {
+    FOLLOW_SCORE_KEY = 0,     // tonic follows the actual key signature
+    CUSTOM           = 1      // tonic and mode are selected independently
+};
+
 enum class FermataType : signed char {
     Undefined = -1,
     VeryShort,
@@ -1320,9 +1333,9 @@ enum class MarkerType : unsigned char {
 };
 
 enum class StaffGroup : unsigned char {
-    STANDARD, PERCUSSION, TAB
+    STANDARD, PERCUSSION, TAB, JIANPU
 };
-constexpr int STAFF_GROUP_MAX = int(StaffGroup::TAB) + 1; // out of enum to avoid compiler complains about not handled switch cases
+constexpr int STAFF_GROUP_MAX = int(StaffGroup::JIANPU) + 1; // out of enum to avoid compiler complains about not handled switch cases
 
 // keep in sync with the _presets initialization in StaffType::initStaffTypes() and _defaultPreset for legacy scores
 enum class StaffTypes : signed char {
@@ -1335,6 +1348,7 @@ enum class StaffTypes : signed char {
     TAB_ITALIAN, TAB_FRENCH,
     TAB_7COMMON, TAB_8COMMON, TAB_9COMMON, TAB_10COMMON,
     TAB_7SIMPLE, TAB_8SIMPLE, TAB_9SIMPLE, TAB_10SIMPLE,
+    JIANPU,
     STAFF_TYPES,
     PERC_DEFAULT = StaffTypes::PERC_5LINE,
     TAB_DEFAULT = StaffTypes::TAB_6COMMON,
@@ -1464,6 +1478,42 @@ enum class PreferSharpFlat : char {
     NONE, SHARPS, FLATS, AUTO
 };
 
+//! NOTE Playback marking on a staff text: switches the instrument On/Off (hard) or Live/Standby (soft)
+//! from there on. See muse::mpe::PlaybackStateEvent for the playback behaviour
+enum class PlaybackStateType : unsigned char {
+    NONE = 0,
+    ON,
+    OFF,
+    LIVE,
+    STANDBY, // also called idle
+};
+
+enum class PlaybackStateTimeUnit : unsigned char {
+    MILLISECONDS = 0,
+    SECONDS,
+};
+
+enum class PlaybackStateTransition : unsigned char {
+    FADE = 0,
+    CUT,
+};
+
+enum class PlaybackStateCurve : unsigned char {
+    SMOOTH = 0, // S-curve
+    LINEAR,
+    AUDIO,      // linear in dB
+};
+
+struct PlaybackStateParams {
+    PlaybackStateType type = PlaybackStateType::NONE;
+    int timeMs = 90; // wake-up lead for On/Live, fade or delay for Off/Standby
+    PlaybackStateTimeUnit timeUnit = PlaybackStateTimeUnit::MILLISECONDS; // how the time is shown
+    PlaybackStateTransition transition = PlaybackStateTransition::FADE;
+    PlaybackStateCurve curve = PlaybackStateCurve::SMOOTH; // shape of the fade
+
+    bool isOn() const { return type != PlaybackStateType::NONE; }
+};
+
 struct SwingParameters {
     int swingUnit = 0;
     int swingRatio = 0;
@@ -1578,7 +1628,23 @@ enum class ActionIconType : signed char {
     NOTE_ANCHORED_LINE,
 
     SYSTEM_LOCK,
-    PAGE_LOCK
+    PAGE_LOCK,
+
+    STAVE_SHARING_CHANGE,
+    RESET_STAVE_SHARING_CHANGE
+};
+
+enum class TupletNumberType : unsigned char {
+    SHOW_NUMBER, SHOW_RELATION, NO_TEXT, DEFAULT /*from style*/
+};
+
+enum class TupletBracketType : unsigned char {
+    AUTO_BRACKET, SHOW_BRACKET, SHOW_NO_BRACKET, DEFAULT /*from style*/
+};
+
+// what a tuplet command uses the selected duration as
+enum class TupletSelectedDuration : unsigned char {
+    SUBDIVISION, TUPLET_LENGTH, DEFAULT /*from configuration*/
 };
 } // mu::engraving
 

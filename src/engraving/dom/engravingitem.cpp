@@ -469,6 +469,12 @@ bool EngravingItem::onTabStaff() const
     return stt ? stt->isTabStaff() : false;
 }
 
+bool EngravingItem::onJianpuStaff() const
+{
+    const Staff* st = staff();
+    return st ? st->isJianpuStaff(tick()) : false;
+}
+
 bool EngravingItem::hasGrips() const
 {
     return gripsCount() > 0;
@@ -1758,9 +1764,8 @@ PropertyValue EngravingItem::propertyDefault(Pid pid) const
     }
     case Pid::SELECTED:
         return false;
-    case Pid::OFFSET: {
+    case Pid::OFFSET:
         return PropertyValue::fromValue(PointF());
-    }
     case Pid::MIN_DISTANCE: {
         PropertyValue v = EngravingObject::propertyDefault(pid);
         if (v.isValid()) {
@@ -2282,7 +2287,7 @@ bool EngravingItem::isUserModified() const
 
 void EngravingItem::triggerLayout() const
 {
-    if (ownershipParent()) {
+    if (isInScoreTree()) {
         score()->setLayout(tick(), staffIdx(), this);
     }
 }
@@ -2297,14 +2302,14 @@ void EngravingItem::triggerLayout() const
 
 void EngravingItem::triggerLayoutAll() const
 {
-    if (ownershipParent()) {
+    if (isInScoreTree()) {
         score()->setLayoutAll(staffIdx(), this);
     }
 }
 
 void EngravingItem::triggerLayoutToEnd() const
 {
-    if (ownershipParent()) {
+    if (isInScoreTree()) {
         score()->setLayout(tick(), score()->endTick(), staffIdx(), staffIdx(), this);
     }
 }

@@ -83,7 +83,7 @@ void NotationBraille::init()
         setIntervalDirection(direction);
     });
 
-    globalContext()->currentNotationChanged().onNotify(this, [this]() {
+    projectSession()->currentNotationChanged().onNotify(this, [this]() {
         if (notation()) {
             notation()->interaction()->selectionChanged().onNotify(this, [this]() {
                 doBraille();
@@ -323,7 +323,7 @@ void NotationBraille::setCurrentItemPosition(const int start, const int end)
 
 INotationPtr NotationBraille::notation()
 {
-    return globalContext()->currentNotation();
+    return projectSession()->currentNotation();
 }
 
 INotationInteractionPtr NotationBraille::interaction()
@@ -884,7 +884,7 @@ void NotationBraille::toggleMode()
         break;
     }
 
-    commandDispatcher()->dispatch(notation::TOGGLE_NOTE_INPUT_COMMAND);
+    commandDispatcher()->dispatch(notation::ToggleNoteInputDefaultCommand {});
 
     const QString stateTitle = interaction()->noteInput()->isNoteInputMode()
                                //: Braille input with 6 keyboard keys (F,D,S & J,K,L) to represent the 6 dots in a braille cell.

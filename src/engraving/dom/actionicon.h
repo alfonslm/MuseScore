@@ -37,10 +37,11 @@ class ActionIcon final : public EngravingItem
     DECLARE_CLASSOF(ElementType::ACTION_ICON)
 
 public:
-    ActionIcon(DummyParentOr<EngravingItem> score);
+    ActionIcon(DummyParent* parent);
     ~ActionIcon() override = default;
 
     ActionIcon* clone() const override;
+    void setOwnershipParent(EngravingObject*) = delete;
 
     void setActionType(ActionIconType val);
     ActionIconType actionType() const;
@@ -56,7 +57,6 @@ public:
 private:
     ActionIconType m_actionType = ActionIconType::UNDEFINED;
     muse::TranslatableString m_title;
-    char16_t m_icon = 0;
     muse::draw::Font m_iconFont;
 };
 }

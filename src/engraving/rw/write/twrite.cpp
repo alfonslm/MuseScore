@@ -1271,23 +1271,9 @@ void TWrite::write(const ChordLine* item, XmlWriter& xml, WriteContext& ctx)
     writeProperty(item, xml, Pid::CHORD_LINE_STRAIGHT);
     writeProperty(item, xml, Pid::CHORD_LINE_WAVY);
     writeProperty(item, xml, Pid::PLAY);
-    xml.tag("lengthX", item->lengthX(), 0.0);
-    xml.tag("lengthY", item->lengthY(), 0.0);
     writeItemProperties(item, xml, ctx);
-    if (item->modified()) {
-        //! NOTE Need separated "given" data and layout data
-        const ChordLine::LayoutData* ldata = item->ldata();
-        const PainterPath& path = ldata->path;
-        size_t n = path.elementCount();
-        xml.startElement("Path");
-        for (size_t i = 0; i < n; ++i) {
-            const PainterPath::Element& e = path.elementAt(i);
-            double spatium = item->spatium();
-            double x = e.x / spatium;
-            double y = e.y / spatium;
-            xml.tag("Element", { { "type", int(e.type) }, { "x", x }, { "y", y } });
-        }
-        xml.endElement();
+    for (size_t i = 0; i < size_t(ChordLine::Point::POINTS_COUNT); ++i) {
+        writeProperty(item, xml, ChordLine::bezierOffsetPid(ChordLine::Point(i)));
     }
     xml.endElement();
 }
@@ -2307,6 +2293,12 @@ void TWrite::write(const KeySig* item, XmlWriter& xml, WriteContext& ctx)
         xml.tag("mode", TConv::toXml(item->mode()));
     }
 
+    if (item->jianpuNumbering() != JianpuNumbering::FOLLOW_SCORE_KEY) {
+        xml.tag("jianpuNumbering", TConv::toXml(item->jianpuNumbering()));
+        xml.tag("jianpuTonicKey", TConv::toXml(item->jianpuTonicKey()));
+        xml.tag("jianpuTonicMode", TConv::toXml(item->jianpuTonicMode()));
+    }
+
     writeProperty(item, xml, Pid::SHOW_COURTESY);
     writeProperty(item, xml, Pid::IS_COURTESY);
 
@@ -2431,6 +2423,7 @@ void TWrite::write(const MeasureRepeat* item, XmlWriter& xml, WriteContext& ctx)
     xml.startElement(item);
     writeProperty(item, xml, Pid::SUBTYPE);
     writeProperties(toRest(item), xml, ctx);
+    writeProperty(item, xml, Pid::MEASURE_REPEAT_NUMBER_OFFSET);
     writeItems(item->el(), xml, ctx);
     xml.endElement();
 }
@@ -2635,6 +2628,21 @@ void TWrite::write(const Part* item, XmlWriter& xml, WriteContext& ctx)
     xml.endElement();
 }
 
+static void writeStaveSharingState(const StaveSharingState& state, const Fraction& tick, XmlWriter& xml)
+{
+    if (!state.isUserModified()) {
+        return;
+    }
+    xml.startElement("StaveSharingState", { { "tick", tick.toString() } });
+    if (state.isReset()) {
+        xml.tag("isReset", state.isReset());
+    }
+    for (const auto& [originTrack, sharedTrack] : state.userTrackMap().value()) {
+        xml.tag("trackMap", { { "origin", originTrack }, { "shared", sharedTrack } });
+    }
+    xml.endElement();
+}
+
 void TWrite::write(const SharedPart* item, XmlWriter& xml, WriteContext& ctx)
 {
     xml.startElement(item, { { "id", item->id().toUint64() } });
@@ -2642,6 +2650,12 @@ void TWrite::write(const SharedPart* item, XmlWriter& xml, WriteContext& ctx)
     writeItemEid(item, xml);
 
     xml.tag(propertyName(Pid::SHARED_PART_ENABLED), item->getProperty(Pid::SHARED_PART_ENABLED).toBool());
+
+    const Fraction& endTick = item->score()->endTick();
+
+    for (const auto& [tick, state] : item->staveSharingStatesBetweenTicks(Fraction(0, 1), endTick)) {
+        writeStaveSharingState(state, tick, xml);
+    }
 
     writeProperties(item, xml, ctx);
 
@@ -2862,19 +2876,10 @@ void TWrite::writeSlur(const SlurTieSegment* seg, XmlWriter& xml, WriteContext& 
 
     xml.startElement(seg, { { "no", no } });
 
-    double _spatium = seg->style().spatium();
-    if (!seg->ups(Grip::START).off.isNull()) {
-        xml.tagPoint("o1", seg->ups(Grip::START).off / _spatium);
-    }
-    if (!seg->ups(Grip::BEZIER1).off.isNull()) {
-        xml.tagPoint("o2", seg->ups(Grip::BEZIER1).off / _spatium);
-    }
-    if (!seg->ups(Grip::BEZIER2).off.isNull()) {
-        xml.tagPoint("o3", seg->ups(Grip::BEZIER2).off / _spatium);
-    }
-    if (!seg->ups(Grip::END).off.isNull()) {
-        xml.tagPoint("o4", seg->ups(Grip::END).off / _spatium);
-    }
+    writeProperty(seg, xml, Pid::BEZIER_OFFSET1);
+    writeProperty(seg, xml, Pid::BEZIER_OFFSET2);
+    writeProperty(seg, xml, Pid::BEZIER_OFFSET3);
+    writeProperty(seg, xml, Pid::BEZIER_OFFSET4);
 
     if (seg->isHammerOnPullOffSegment()) {
         writeProperties(toHammerOnPullOffSegment(seg), xml, ctx);
@@ -3062,6 +3067,13 @@ void TWrite::writeProperties(const StaffTextBase* item, XmlWriter& xml, WriteCon
         int swingRatio = item->swingParameters().swingRatio;
         xml.tag("swing", { { "unit", TConv::toXml(swingUnit) }, { "ratio", swingRatio } });
     }
+    if (item->playbackState().isOn()) {
+        writeProperty(item, xml, Pid::PLAYBACK_STATE);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_TIME);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_TIME_UNIT);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_TRANSITION);
+        writeProperty(item, xml, Pid::PLAYBACK_STATE_CURVE);
+    }
 
     writeProperties(toTextBase(item), xml, ctx, true);
 }
@@ -3111,12 +3123,15 @@ void TWrite::write(const StaffType* item, XmlWriter& xml, WriteContext& ctx)
     if (item->color() != ctx.configuration()->defaultColor()) {
         xml.tagProperty(Pid::COLOR, item->color());
     }
-    if (item->group() == StaffGroup::STANDARD) {
+    if (item->group() == StaffGroup::STANDARD || item->group() == StaffGroup::JIANPU) {
         xml.tag("noteheadScheme", TConv::toXml(item->noteHeadScheme()), TConv::toXml(NoteHeadScheme::HEAD_NORMAL));
+        if (item->group() == StaffGroup::JIANPU) {
+            xml.tag("jianpuTextStyle", TConv::toXml(item->jianpuTextStyle()));
+        }
     }
     xml.tag("instrumentLabelVisibility", TConv::toXml(item->instrumentLabelVisibility()),
             TConv::toXml(InstrumentLabelVisibility::AUTO));
-    if (item->group() == StaffGroup::STANDARD || item->group() == StaffGroup::PERCUSSION) {
+    if (item->group() == StaffGroup::STANDARD || item->group() == StaffGroup::JIANPU || item->group() == StaffGroup::PERCUSSION) {
         if (!item->genKeysig()) {
             xml.tag("keysig", item->genKeysig());
         }
@@ -3606,9 +3621,7 @@ static void writeTimeSig(Score* score, const Fraction& tick, XmlWriter& xml, Wri
 void TWrite::writeSegments(XmlWriter& xml, WriteContext& ctx, track_idx_t strack, track_idx_t etrack,
                            Segment* sseg, Segment* eseg, bool writeSystemElements, bool forceTimeSig)
 {
-    Score* score = sseg->score();
-    Fraction startTick = ctx.curTick();
-    bool clip          = ctx.clipboardmode();
+    bool clip = ctx.clipboardmode();
 
     // in clipboard mode, ls might be in an mmrest
     // since we are traversing regular measures,
@@ -3632,6 +3645,25 @@ void TWrite::writeSegments(XmlWriter& xml, WriteContext& ctx, track_idx_t strack
         }
     }
 
+    std::vector<Segment*> segments;
+    for (Segment* segment = sseg; segment && segment != eseg; segment = segment->next1()) {
+        segments.push_back(segment);
+    }
+
+    writeSegments(xml, ctx, strack, etrack, segments, writeSystemElements, forceTimeSig);
+}
+
+void TWrite::writeSegments(XmlWriter& xml, WriteContext& ctx, track_idx_t strack, track_idx_t etrack, const std::vector<Segment*>& segments,
+                           bool writeSystemElements, bool forceTimeSig)
+{
+    if (segments.empty()) {
+        return;
+    }
+
+    Segment* sseg = segments.front();
+    Score* score = sseg->score();
+    Fraction startTick = ctx.curTick();
+
     int lastTrackWritten = static_cast<int>(strack - 1);   // for counting necessary <voice> tags
     for (track_idx_t track = strack; track < etrack; ++track) {
         if (!ctx.canWriteVoice(track)) {
@@ -3651,7 +3683,7 @@ void TWrite::writeSegments(XmlWriter& xml, WriteContext& ctx, track_idx_t strack
         bool crWritten = false;          // for forceTimeSig
         bool keySigWritten = false;      // for forceTimeSig
 
-        for (Segment* segment = sseg; segment && segment != eseg; segment = segment->next1()) {
+        for (Segment* segment : segments) {
             if (!segment->enabled()) {
                 continue;
             }

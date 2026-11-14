@@ -33,6 +33,7 @@
 #include "../editing/editmeasures.h"
 #include "../editing/editmeasurerepeat.h"
 #include "../editing/editstaff.h"
+#include "../editing/editstavesharing.h"
 #include "../editing/editsystemlocks.h"
 #include "../editing/edittimesig.h"
 #include "../editing/inserttime.h"
@@ -1692,7 +1693,7 @@ EngravingItem* Measure::drop(Transaction& tx, EditData& data)
             break;
         }
         default:
-            break;
+            return MeasureBase::drop(tx, data);
         }
         break;
 
@@ -1737,6 +1738,10 @@ void Measure::adjustToLen(Fraction nf, bool appendRestsIfNecessary)
     score()->undoInsertTime(startTick, diff);
 
     for (Score* s : score()->scoreList()) {
+        if (diff < Fraction(0, 1)) {
+            EditStaveSharing::removeStaveSharingStatesOnRemoveTime(s->transactionManager()->currentOrDummyTransaction(), s, startTick,
+                                                                   startTick - diff);
+        }
         s->undo(new InsertTime(s, startTick, diff));
         Measure* m = s->tick2measure(tick());
         s->undo(new ChangeMeasureLen(m, nf));

@@ -27,7 +27,6 @@
 #include "log.h"
 
 #include "notation/imasternotation.h" // IWYU pragma: keep
-#include "notation/inotationautomation.h"
 #include "notation/inotationplayback.h"
 
 #include "project/inotationproject.h"
@@ -51,6 +50,14 @@ static const std::string TRACK_ID_KEY("trackId");
 static const std::string RESOURCE_ID_KEY("resourceId");
 static const std::string CHAIN_ORDER_KEY("chainOrder");
 
+static const std::string KEYSWITCH_MAP_ID_KEY("keyswitchMapId");
+
+static QString keyswitchMapIdOf(const AudioInputParams& params)
+{
+    auto it = params.configuration.find(KEYSWITCH_MAP_ID_KEY);
+    return it != params.configuration.end() ? QString::fromStdString(it->second) : QString();
+}
+
 MixerChannelItem::MixerChannelItem(QObject* parent, Type type, bool outputOnly, audio::TrackId trackId)
     : QObject(parent), muse::Contextable(muse::iocCtxForQmlObject(this)),
     m_type(type),
@@ -62,6 +69,9 @@ MixerChannelItem::MixerChannelItem(QObject* parent, Type type, bool outputOnly, 
     if (!m_outputOnly) {
         m_inputResourceItem = buildInputResourceItem();
     }
+
+    m_expressionMappingModel = new ExpressionMappingModel(this);
+    m_expressionMappingModel->reload();
 
     m_panel = new ui::NavigationPanel(this);
     m_panel->setDirection(ui::NavigationPanel::Vertical);
@@ -266,8 +276,14 @@ void MixerChannelItem::loadInputParams(const AudioInputParams& newParams)
         return;
     }
 
+    bool keyswitchMapChanged = keyswitchMapId() != keyswitchMapIdOf(newParams);
+
     m_inputParams = newParams;
     m_inputResourceItem->setParams(newParams);
+
+    if (keyswitchMapChanged) {
+        emit keyswitchMapIdChanged();
+    }
 }
 
 void MixerChannelItem::loadOutputParams(const AudioOutputParams& newParams)
@@ -543,25 +559,43 @@ void MixerChannelItem::setMuted(bool mute)
 
 mu::notation::INotationPlaybackPtr MixerChannelItem::notationPlayback() const
 {
-    project::INotationProjectPtr project = context()->currentProject();
+    project::INotationProjectPtr project = context()->project();
     return project ? project->masterNotation()->playback() : nullptr;
+}
+
+std::optional<notation::AutomationCurveKey> MixerChannelItem::automationCurveKey(notation::AutomationType type) const
+{
+    if (m_type == Type::Master) {
+        return notation::AutomationCurveKey::global(type);
+    }
+
+    if (m_instrumentTrackId.isValid()) {
+        return notation::AutomationCurveKey::instrument(type, m_instrumentTrackId);
+    }
+
+    return std::nullopt;
+}
+
+bool MixerChannelItem::hasAutomationCurve(notation::AutomationType type) const
+{
+    const std::optional<notation::AutomationCurveKey> key = automationCurveKey(type);
+    if (!key) {
+        return false;
+    }
+
+    const INotationProjectPtr project = context()->project();
+    if (!project) {
+        return false;
+    }
+
+    const notation::AutomationDataConstPtr automationData = project->masterNotation()->automation()->automationData();
+    return automationData && !automationData->curve(*key).empty();
 }
 
 void MixerChannelItem::updateHasAutomationFlags()
 {
-    bool hasVolumeAutomation = false;
-    bool hasBalanceAutomation = false;
-
-    INotationProjectPtr project = context()->currentProject();
-    const notation::AutomationDataConstPtr automationData
-        = (project && m_instrumentTrackId.isValid()) ? project->masterNotation()->automation()->automationData() : nullptr;
-
-    if (automationData) {
-        hasVolumeAutomation = !automationData->curve(
-            notation::AutomationCurveKey::instrument(notation::AutomationType::Volume, m_instrumentTrackId)).empty();
-        hasBalanceAutomation = !automationData->curve(
-            notation::AutomationCurveKey::instrument(notation::AutomationType::Pan, m_instrumentTrackId)).empty();
-    }
+    const bool hasVolumeAutomation = hasAutomationCurve(notation::AutomationType::Volume);
+    const bool hasBalanceAutomation = hasAutomationCurve(notation::AutomationType::Pan);
 
     if (m_hasVolumeAutomation != hasVolumeAutomation) {
         m_hasVolumeAutomation = hasVolumeAutomation;
@@ -860,4 +894,32 @@ QList<AuxSendItem*> MixerChannelItem::auxSendItemList() const
 const QMap<aux_channel_idx_t, AuxSendItem*>& MixerChannelItem::auxSendItems() const
 {
     return m_auxSendItems;
+}
+
+ExpressionMappingModel* MixerChannelItem::expressionMappingModel() const
+{
+    return m_expressionMappingModel;
+}
+
+QString MixerChannelItem::keyswitchMapId() const
+{
+    return keyswitchMapIdOf(m_inputParams);
+}
+
+void MixerChannelItem::setKeyswitchMapId(const QString& mapId)
+{
+    if (keyswitchMapId() == mapId) {
+        return;
+    }
+
+    AudioInputParams newParams = m_inputParams;
+    if (mapId.isEmpty()) {
+        newParams.configuration.erase(KEYSWITCH_MAP_ID_KEY);
+    } else {
+        newParams.configuration[KEYSWITCH_MAP_ID_KEY] = mapId.toStdString();
+    }
+
+    m_inputParams = newParams;
+    emit keyswitchMapIdChanged();
+    emit inputParamsChanged(m_inputParams);
 }

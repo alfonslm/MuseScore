@@ -47,12 +47,13 @@ void InstrumentsActionsController::init()
 
 void InstrumentsActionsController::selectInstruments()
 {
-    IMasterNotationPtr master = context()->currentMasterNotation();
+    IMasterNotationPtr master = context()->masterNotation();
     IF_ASSERT_FAILED(master) {
         return;
     }
 
-    async::Promise<PartInstrumentListScoreOrder> selectedInstruments = selectInstrumentsScenario()->selectInstruments();
+    const ScoreOrder& currentOrder = master->parts()->scoreOrder();
+    async::Promise<PartInstrumentListScoreOrder> selectedInstruments = selectInstrumentsScenario()->selectInstruments(currentOrder);
     selectedInstruments.onResolve(this, [master](const PartInstrumentListScoreOrder& sel) {
         master->parts()->setParts(sel.instruments, sel.scoreOrder);
     });
@@ -60,7 +61,7 @@ void InstrumentsActionsController::selectInstruments()
 
 void InstrumentsActionsController::changeInstrument()
 {
-    IMasterNotationPtr master = context()->currentMasterNotation();
+    IMasterNotationPtr master = context()->masterNotation();
     IF_ASSERT_FAILED(master) {
         return;
     }

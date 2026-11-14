@@ -69,6 +69,9 @@ static constexpr PropertyMetaData propertyList[] = {
     { Pid::SHOW_IF_ENTIRE_SYSTEM_EMPTY,         P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, false, "showIfEntireSystemEmpty",         QT_TRANSLATE_NOOP("engraving/propertyName", "show if entire system empty") },
     { Pid::SHOW_COURTESY,                       P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, false, "showCourtesySig",                 QT_TRANSLATE_NOOP("engraving/propertyName", "show courtesy") },
     { Pid::KEYSIG_MODE,                         P_TYPE::KEY_MODE,                  PropertyGroup::APPEARANCE, false, "keysig_mode",                     QT_TRANSLATE_NOOP("engraving/propertyName", "key signature mode") },
+    { Pid::JIANPU_NUMBERING,                    P_TYPE::JIANPU_NUMBERING,          PropertyGroup::APPEARANCE, false, "jianpuNumbering",                 QT_TRANSLATE_NOOP("engraving/propertyName", "Jianpu numbering") },
+    { Pid::JIANPU_TONIC_KEY,                    P_TYPE::KEY,                       PropertyGroup::APPEARANCE, false, "jianpuTonicKey",                  QT_TRANSLATE_NOOP("engraving/propertyName", "Jianpu tonal center") },
+    { Pid::JIANPU_TONIC_MODE,                   P_TYPE::KEY_MODE,                  PropertyGroup::APPEARANCE, false, "jianpuTonicMode",                 QT_TRANSLATE_NOOP("engraving/propertyName", "Jianpu tonic mode") },
     { Pid::SLUR_STYLE_TYPE,                     P_TYPE::SLUR_STYLE_TYPE,           PropertyGroup::APPEARANCE, false, "lineType",                        QT_TRANSLATE_NOOP("engraving/propertyName", "line type") },
     { Pid::PITCH,                               P_TYPE::INT,                       PropertyGroup::NONE,       true,  "pitch",                           QT_TRANSLATE_NOOP("engraving/propertyName", "pitch") },
     { Pid::CENT_OFFSET,                         P_TYPE::REAL,                      PropertyGroup::NONE,       true,  "centOffset",                      QT_TRANSLATE_NOOP("engraving/propertyName", "cent offset") },
@@ -249,16 +252,17 @@ static constexpr PropertyMetaData propertyList[] = {
     { Pid::MMREST_NUMBER_OFFSET,                P_TYPE::SPATIUM,                   PropertyGroup::APPEARANCE, false, "mmRestNumberOffset",              QT_TRANSLATE_NOOP("engraving/propertyName", "vertical offset of multimeasure rest number") },
     { Pid::MMREST_NUMBER_VISIBLE,               P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, false, "mmRestNumberVisible",             QT_TRANSLATE_NOOP("engraving/propertyName", "visibility of multimeasure rest number") },
 
-    { Pid::MEASURE_REPEAT_NUMBER_POS,           P_TYPE::SPATIUM,                   PropertyGroup::APPEARANCE, false, "measureRepeatNumberPos",          QT_TRANSLATE_NOOP("engraving/propertyName", "vertical position of measure repeat number") },
+    { Pid::MEASURE_REPEAT_NUMBER_POS,           P_TYPE::SPATIUM,                   PropertyGroup::APPEARANCE, false, "measureRepeatNumberPos",          QT_TRANSLATE_NOOP("engraving/propertyName", "vertical position of measure repeat number") }, // Deprecated
+    { Pid::MEASURE_REPEAT_NUMBER_OFFSET,        P_TYPE::SPATIUM,                   PropertyGroup::APPEARANCE, false, "measureRepeatNumberOffset",       QT_TRANSLATE_NOOP("engraving/propertyName", "vertical offset of measure repeat number") },
     { Pid::REPEAT_COUNT,                        P_TYPE::INT,                       PropertyGroup::APPEARANCE, true,  "repeatCount",                     QT_TRANSLATE_NOOP("engraving/propertyName", "repeat count") },
 
     { Pid::USER_STRETCH,                        P_TYPE::REAL,                      PropertyGroup::NONE,       false, "stretch",                         QT_TRANSLATE_NOOP("engraving/propertyName", "stretch") },
     { Pid::MEASURE_NUMBER_OFFSET,               P_TYPE::INT,                       PropertyGroup::APPEARANCE, true,  "noOffset",                        QT_TRANSLATE_NOOP("engraving/propertyName", "measure number offset") },
     { Pid::EXCLUDE_FROM_NUMBERING,              P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, true,  "irregular",                       QT_TRANSLATE_NOOP("engraving/propertyName", "exclude from numbering") },
-    { Pid::SLUR_UOFF1,                          P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o1",                              QT_TRANSLATE_NOOP("engraving/propertyName", "start offset") },
-    { Pid::SLUR_UOFF2,                          P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o2",                              QT_TRANSLATE_NOOP("engraving/propertyName", "left shoulder offset") },
-    { Pid::SLUR_UOFF3,                          P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o3",                              QT_TRANSLATE_NOOP("engraving/propertyName", "right shoulder offset") },
-    { Pid::SLUR_UOFF4,                          P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o4",                              QT_TRANSLATE_NOOP("engraving/propertyName", "end offset") },
+    { Pid::BEZIER_OFFSET1,                      P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o1",                              QT_TRANSLATE_NOOP("engraving/propertyName", "start offset") },
+    { Pid::BEZIER_OFFSET2,                      P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o2",                              QT_TRANSLATE_NOOP("engraving/propertyName", "first control point offset") },
+    { Pid::BEZIER_OFFSET3,                      P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o3",                              QT_TRANSLATE_NOOP("engraving/propertyName", "second control point offset") },
+    { Pid::BEZIER_OFFSET4,                      P_TYPE::POINT,                     PropertyGroup::POSITION,   false, "o4",                              QT_TRANSLATE_NOOP("engraving/propertyName", "end offset") },
     { Pid::STAFF_MOVE,                          P_TYPE::INT,                       PropertyGroup::APPEARANCE, true,  "staffMove",                       QT_TRANSLATE_NOOP("engraving/propertyName", "staff move") },
     { Pid::VERSE,                               P_TYPE::INT,                       PropertyGroup::APPEARANCE, true,  "no",                              QT_TRANSLATE_NOOP("engraving/propertyName", "verse") },
 
@@ -464,8 +468,6 @@ static constexpr PropertyMetaData propertyList[] = {
     { Pid::START_WITH_MEASURE_ONE,              P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, true,  "startWithMeasureOne",             QT_TRANSLATE_NOOP("engraving/propertyName", "start with measure one") },
     { Pid::FIRST_SYSTEM_INDENTATION,            P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, true,  "firstSystemIndentation",          QT_TRANSLATE_NOOP("engraving/propertyName", "first system indentation") },
 
-    { Pid::PATH,                                P_TYPE::DRAW_PATH,                 PropertyGroup::APPEARANCE, false, "path",                            QT_TRANSLATE_NOOP("engraving/propertyName", "path") },
-
     { Pid::PREFER_SHARP_FLAT,                   P_TYPE::INT,                       PropertyGroup::APPEARANCE, true,  "preferSharpFlat",                 QT_TRANSLATE_NOOP("engraving/propertyName", "prefer sharps or flats") },
 
     { Pid::PLAY_TECH_TYPE,                      P_TYPE::PLAYTECH_TYPE,             PropertyGroup::APPEARANCE, true,  "playTechType",                    QT_TRANSLATE_NOOP("engraving/propertyName", "playing technique type") },
@@ -518,6 +520,12 @@ static constexpr PropertyMetaData propertyList[] = {
     { Pid::STAFF_REFLECT_TRANSPOSITION,         P_TYPE::BOOL,                      PropertyGroup::APPEARANCE, false, "",                                QT_TRANSLATE_NOOP("engraving/propertyName", "reflect transposition") },
 
     { Pid::SHARED_PART_ENABLED,                 P_TYPE::BOOL,                      PropertyGroup::NONE,       false, "sharedPartEnabled",               QT_TRANSLATE_NOOP("engraving/propertyName", "shared part enabled") },
+
+    { Pid::PLAYBACK_STATE,                      P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackState",                   QT_TRANSLATE_NOOP("engraving/propertyName", "playback state") },
+    { Pid::PLAYBACK_STATE_TIME,                 P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateTime",               QT_TRANSLATE_NOOP("engraving/propertyName", "playback state time") },
+    { Pid::PLAYBACK_STATE_TIME_UNIT,            P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateTimeUnit",           QT_TRANSLATE_NOOP("engraving/propertyName", "playback state time unit") },
+    { Pid::PLAYBACK_STATE_TRANSITION,           P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateTransition",         QT_TRANSLATE_NOOP("engraving/propertyName", "playback state transition") },
+    { Pid::PLAYBACK_STATE_CURVE,                P_TYPE::INT,                       PropertyGroup::NONE,       true,  "playbackStateCurve",              QT_TRANSLATE_NOOP("engraving/propertyName", "playback state fade curve") },
 
     { Pid::END,                                 P_TYPE::INT,                       PropertyGroup::NONE,       false, "++end++",                         nullptr }
 };
@@ -580,6 +588,9 @@ bool propertyLinkSameScore(Pid id)
 {
     assert(id < Pid::END);
     switch (id) {
+    case Pid::JIANPU_NUMBERING:
+    case Pid::JIANPU_TONIC_KEY:
+    case Pid::JIANPU_TONIC_MODE:
     case Pid::STAFF_BARLINE_SPAN:
     case Pid::STAFF_BARLINE_SPAN_FROM:
     case Pid::STAFF_BARLINE_SPAN_TO:

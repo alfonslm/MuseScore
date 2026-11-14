@@ -191,11 +191,18 @@ jobs:
         if [ "${{ github.event_name }}" == "pull_request" ]; then
           ADD_INFO="_${{ github.event.pull_request.number }}_${pull_request_title}"
         fi
-        UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"MU4_${BUILD_NUMBER}_Mac_Universal${ADD_INFO}")"
+        BRANCH_NAME="$(tr '/' '_' <<<"${{ github.head_ref || github.ref_name }}")"
+        UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"${BRANCH_NAME}_MU4_${BUILD_NUMBER}_Mac_Universal${ADD_INFO}")"
+
+        BUILD_BRANCH="${{ github.head_ref }}"
+        if [ -z "$BUILD_BRANCH" ]; then
+          BUILD_BRANCH="${GITHUB_REF#refs/heads/}"
+        fi
 
         echo "github.repository: ${{ github.repository }}"
         echo "BUILD_MODE=$BUILD_MODE" | tee -a $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" | tee -a $GITHUB_ENV
+        echo "BUILD_BRANCH=$BUILD_BRANCH" | tee -a $GITHUB_ENV
         echo "DO_UPDATE_TS=$DO_UPDATE_TS" | tee -a $GITHUB_ENV
         echo "DO_PLACEHOLDER_TRANSLATIONS=$DO_PLACEHOLDER_TRANSLATIONS" | tee -a $GITHUB_ENV
         echo "DO_SIGN=$DO_SIGN" | tee -a $GITHUB_ENV
@@ -205,6 +212,7 @@ jobs:
         echo "SENTRY_URL=$SENTRY_URL" | tee -a $GITHUB_ENV
         echo "DO_PUBLISH=$DO_PUBLISH" | tee -a $GITHUB_ENV
         echo "UPLOAD_ARTIFACT_NAME=$UPLOAD_ARTIFACT_NAME" | tee -a $GITHUB_ENV
+        echo "BRANCH_NAME=$BRANCH_NAME" | tee -a $GITHUB_ENV
 
     - parallel:
       - name: Restore ccache files
@@ -247,10 +255,11 @@ jobs:
       env:
         DOCKWIDGETS_V2: ${{ inputs.dockwidgets_v2 == 'ON' && 'ON' || 'OFF' }}
       run: |
-        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --archs "arm64;x86_64"
+        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --archs "arm64;x86_64" --branch "${BUILD_BRANCH}"
     - name: Show ccache stats
       run: |
         ccache -sv
+        echo "ccache: restored '${{ steps.restore-ccache.outputs.cache-matched-key || 'nothing' }}', $(ccache -s | grep -m1 -E '^ *Hits:' | sed -E 's/^ *Hits: *//')" | tee -a $GITHUB_STEP_SUMMARY
 
     # Must run before Package: macdeployqt strips the binary and package.sh
     # deletes the dSYM bundles
@@ -285,7 +294,7 @@ jobs:
         APPLE_USERNAME: ${{ secrets.APPLE_USERNAME }}
         APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
       run: |
-        PACKAGE_ARGS=()
+        PACKAGE_ARGS=(--branch "$BRANCH_NAME")
         if [ "$DO_SIGN" = "true" ]; then
           PACKAGE_ARGS+=(--sign)
         fi
@@ -305,7 +314,7 @@ jobs:
 
     - name: Checksum
       run: |
-        bash ./buildscripts/ci/tools/checksum.sh
+        bash ./muse/buildscripts/ci/tools/checksum.sh
 
     - name: Publish to OSUOSL
       if: env.DO_PUBLISH == 'true'
@@ -321,12 +330,13 @@ jobs:
 
     - name: Prepare ccache files for saving
       id: prepare-save-ccache
-      if: always()
+      if: always() && github.event_name != 'pull_request'
       run: |
         ccache --recompress 10
         echo "CCACHE_TIMESTAMP=$(date -u +"%F-%T")" | tee -a $GITHUB_OUTPUT
+
     - name: Save ccache files
-      if: always()
+      if: always() && github.event_name != 'pull_request'
       uses: actions/cache/save@v6
       with:
         key: ${{ steps.restore-ccache.outputs.cache-primary-key }}${{ steps.prepare-save-ccache.outputs.CCACHE_TIMESTAMP }}

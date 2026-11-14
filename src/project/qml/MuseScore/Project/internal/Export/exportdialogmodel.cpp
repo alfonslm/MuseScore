@@ -277,7 +277,7 @@ void ExportDialogModel::selectSavedNotations()
 
 IMasterNotationPtr ExportDialogModel::masterNotation() const
 {
-    return context()->currentMasterNotation();
+    return context()->masterNotation();
 }
 
 bool ExportDialogModel::isMainNotation(INotationPtr notation) const
@@ -693,6 +693,36 @@ void ExportDialogModel::setSampleRate(int rate)
     emit sampleRateChanged(rate);
 }
 
+bool ExportDialogModel::multiStemRender() const
+{
+    return audioExportConfiguration()->multiStemRender();
+}
+
+void ExportDialogModel::setMultiStemRender(bool enabled)
+{
+    if (enabled == multiStemRender()) {
+        return;
+    }
+
+    audioExportConfiguration()->setMultiStemRender(enabled);
+    emit multiStemRenderChanged(enabled);
+}
+
+bool ExportDialogModel::idleUntilFirstNote() const
+{
+    return audioExportConfiguration()->idleUntilFirstNote();
+}
+
+void ExportDialogModel::setIdleUntilFirstNote(bool enabled)
+{
+    if (enabled == idleUntilFirstNote()) {
+        return;
+    }
+
+    audioExportConfiguration()->setIdleUntilFirstNote(enabled);
+    emit idleUntilFirstNoteChanged(enabled);
+}
+
 QList<int> ExportDialogModel::availableBitRates() const
 {
     const std::vector<int>& rates = audioExportConfiguration()->availableMp3BitRates();
@@ -742,6 +772,21 @@ void ExportDialogModel::setMidiExportRpns(bool exportRpns)
 
     midiImportExportConfiguration()->setIsMidiExportRpns(exportRpns);
     emit midiExportRpnsChanged(exportRpns);
+}
+
+bool ExportDialogModel::midiExtendMeasuresForPauses() const
+{
+    return midiImportExportConfiguration()->isMidiExportExtendMeasuresForPauses();
+}
+
+void ExportDialogModel::setMidiExtendMeasuresForPauses(bool extend)
+{
+    if (extend == midiExtendMeasuresForPauses()) {
+        return;
+    }
+
+    midiImportExportConfiguration()->setIsMidiExportExtendMeasuresForPauses(extend);
+    emit midiExtendMeasuresForPausesChanged(extend);
 }
 
 bool ExportDialogModel::meiExportLayout() const

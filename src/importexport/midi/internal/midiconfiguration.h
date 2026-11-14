@@ -50,6 +50,9 @@ public:
     bool isMidiExportRpns() const override;
     void setIsMidiExportRpns(bool exportRpns) override;
 
+    bool isMidiExportExtendMeasuresForPauses() const override;
+    void setIsMidiExportExtendMeasuresForPauses(bool extend) override;
+
 private:
     muse::async::Channel<int> m_midiShortestNoteChanged;
     muse::async::Channel<bool> m_roundTempoChanged;

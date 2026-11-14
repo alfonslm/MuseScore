@@ -29,8 +29,10 @@
 #include "translation.h"
 #include "defer.h"
 
+#include "engraving/dom/excerpt.h"
 #include "engraving/dom/score.h"
 
+#include "notation/inotationelements.h" // IWYU pragma: keep
 #include "notation/inotationinteraction.h" // IWYU pragma: keep
 #include "notation/inotationselection.h" // IWYU pragma: keep
 #include "notation/inotationstyle.h" // IWYU pragma: keep
@@ -86,7 +88,7 @@ void LayoutPanelTreeModel::init()
     });
 
     onMasterNotationChanged();
-    context()->currentMasterNotationChanged().onNotify(this, [this]() {
+    context()->masterNotationChanged().onNotify(this, [this]() {
         onMasterNotationChanged();
     });
 
@@ -102,7 +104,7 @@ void LayoutPanelTreeModel::init()
 
 void LayoutPanelTreeModel::onMasterNotationChanged()
 {
-    m_masterNotation = context()->currentMasterNotation();
+    m_masterNotation = context()->masterNotation();
 }
 
 void LayoutPanelTreeModel::onNotationChanged()
@@ -119,6 +121,7 @@ void LayoutPanelTreeModel::onNotationChanged()
 
     if (m_notation) {
         load();
+        setupExcerptNameConnection();
     } else {
         clear();
     }
@@ -322,6 +325,18 @@ void LayoutPanelTreeModel::setupNotationConnections()
     }, Mode::SetReplace /*because this channel is from MasterScore*/);
 }
 
+void LayoutPanelTreeModel::setupExcerptNameConnection()
+{
+    const engraving::Excerpt* excerpt = m_notation->elements()->msScore()->excerpt();
+    if (!excerpt) {
+        return;
+    }
+
+    excerpt->nameChanged().onNotify(m_partsNotifyReceiver.get(), [this]() {
+        emit scoreChanged();
+    });
+}
+
 void LayoutPanelTreeModel::updateSelectedRows()
 {
     if (!m_layoutPanelVisible || !m_notation) {
@@ -360,6 +375,7 @@ void LayoutPanelTreeModel::onScoreChanged(const mu::engraving::ScoreChanges& cha
     }
 
     updateIsStaveSharingEnabled();
+    updateIsHideEmptyStavesEnabled();
 
     for (AbstractLayoutPanelTreeItem* item : m_rootItem->childItems()) {
         item->onScoreChanged(changes);
@@ -376,6 +392,9 @@ void LayoutPanelTreeModel::clear()
     deleteItems();
     endResetModel();
 
+    updateIsHideEmptyStavesEnabled();
+
+    emit scoreChanged();
     emit isEmptyChanged();
     emit isAddingAvailableChanged(false);
 }
@@ -443,7 +462,9 @@ void LayoutPanelTreeModel::load()
     updateIsAddingSystemMarkingsAvailable();
 
     updateIsStaveSharingEnabled();
+    updateIsHideEmptyStavesEnabled();
 
+    emit scoreChanged();
     emit isEmptyChanged();
     emit isAddingAvailableChanged(true);
 }
@@ -452,6 +473,19 @@ void LayoutPanelTreeModel::toggleStaveSharing(bool on)
 {
     m_notation->parts()->toggleStaveSharing(on);
     updateIsStaveSharingEnabled();
+}
+
+void LayoutPanelTreeModel::toggleHideEmptyStaves(bool on)
+{
+    if (!m_notation || isHideEmptyStavesEnabled() == on) {
+        return;
+    }
+
+    m_notation->undoStack()->prepareChanges(TranslatableString("undoableAction", "Hide empty staves"));
+    m_notation->style()->setStyleValue(StyleId::hideEmptyStaves, on);
+    m_notation->undoStack()->commitChanges();
+
+    updateIsHideEmptyStavesEnabled();
 }
 
 void LayoutPanelTreeModel::sortParts(PartList& parts, const PartList& referenceParts)
@@ -581,7 +615,15 @@ void LayoutPanelTreeModel::removeSelectedRows()
         return f.row() < s.row();
     });
 
-    removeRows(firstIndex.row(), selectedIndexList.size(), firstIndex.parent());
+    //! NOTE Only count indexes that actually share firstIndex's parent -- a stale/inconsistent
+    //! selection (e.g. left over from a broken currentIndex binding) can otherwise contain
+    //! indexes from a different parent, inflating the count passed to removeRows and causing
+    //! it to remove more rows than actually exist under this parent.
+    int count = std::count_if(selectedIndexList.cbegin(), selectedIndexList.cend(), [&firstIndex](const QModelIndex& index) {
+        return index.parent() == firstIndex.parent();
+    });
+
+    removeRows(firstIndex.row(), count, firstIndex.parent());
 }
 
 bool LayoutPanelTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, int count, const QModelIndex& destinationParent,
@@ -711,11 +753,6 @@ void LayoutPanelTreeModel::changeEnabled(const QModelIndex& index, bool enable)
     item->setIsEnabled(enable);
 
     setLoadingBlocked(false);
-}
-
-QItemSelectionModel* LayoutPanelTreeModel::selectionModel() const
-{
-    return m_selectionModel;
 }
 
 QModelIndex LayoutPanelTreeModel::index(int row, int column, const QModelIndex& parent) const
@@ -850,6 +887,16 @@ int LayoutPanelTreeModel::selectedItemsType() const
 bool LayoutPanelTreeModel::isStaveSharingEnabled() const
 {
     return m_isStaveSharingEnabled;
+}
+
+bool LayoutPanelTreeModel::isHideEmptyStavesEnabled() const
+{
+    return m_isHideEmptyStavesEnabled;
+}
+
+QString LayoutPanelTreeModel::scoreName() const
+{
+    return m_notation ? m_notation->name() : QString();
 }
 
 QString LayoutPanelTreeModel::addInstrumentsKeyboardShortcut() const
@@ -1054,6 +1101,17 @@ void LayoutPanelTreeModel::updateIsStaveSharingEnabled()
 
     m_isStaveSharingEnabled = enabled;
     emit isStaveSharingEnabledChanged(enabled);
+}
+
+void LayoutPanelTreeModel::updateIsHideEmptyStavesEnabled()
+{
+    bool enabled = m_notation && m_notation->style()->styleValue(StyleId::hideEmptyStaves).toBool();
+    if (enabled == m_isHideEmptyStavesEnabled) {
+        return;
+    }
+
+    m_isHideEmptyStavesEnabled = enabled;
+    emit isHideEmptyStavesEnabledChanged(enabled);
 }
 
 void LayoutPanelTreeModel::setItemsSelected(const QModelIndexList& indexes, bool selected)

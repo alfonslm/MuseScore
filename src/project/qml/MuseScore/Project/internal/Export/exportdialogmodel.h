@@ -34,7 +34,7 @@
 
 #include "interactive/iinteractive.h"
 #include "media/ivideoencoderresolver.h"
-#include "context/iglobalcontext.h"
+#include "project/iprojectsession.h"
 #include "importexport/imagesexport/iimagesexportconfiguration.h"
 #include "importexport/musicxml/imusicxmlconfiguration.h"
 #include "importexport/midi/imidiconfiguration.h"
@@ -85,12 +85,16 @@ class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus, pu
     Q_PROPERTY(ViewMode viewMode READ viewMode WRITE setViewMode NOTIFY viewModeChanged FINAL)
 
     Q_PROPERTY(int sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
+    Q_PROPERTY(bool multiStemRender READ multiStemRender WRITE setMultiStemRender NOTIFY multiStemRenderChanged)
+    Q_PROPERTY(bool idleUntilFirstNote READ idleUntilFirstNote WRITE setIdleUntilFirstNote NOTIFY idleUntilFirstNoteChanged)
     Q_PROPERTY(int bitRate READ bitRate WRITE setBitRate NOTIFY bitRateChanged)
     Q_PROPERTY(QVariantList availableSampleFormats READ availableSampleFormats NOTIFY availableSampleFormatsChanged)
     Q_PROPERTY(int selectedSampleFormat READ selectedSampleFormat WRITE setSelectedSampleFormat NOTIFY selectedSampleFormatChanged)
 
     Q_PROPERTY(bool midiExpandRepeats READ midiExpandRepeats WRITE setMidiExpandRepeats NOTIFY midiExpandRepeatsChanged)
     Q_PROPERTY(bool midiExportRpns READ midiExportRpns WRITE setMidiExportRpns NOTIFY midiExportRpnsChanged)
+    Q_PROPERTY(
+        bool midiExtendMeasuresForPauses READ midiExtendMeasuresForPauses WRITE setMidiExtendMeasuresForPauses NOTIFY midiExtendMeasuresForPausesChanged)
 
     Q_PROPERTY(MusicXmlLayoutType musicXmlLayoutType READ musicXmlLayoutType WRITE setMusicXmlLayoutType NOTIFY musicXmlLayoutTypeChanged)
 
@@ -124,7 +128,7 @@ class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus, pu
     muse::GlobalInject<INotationWritersRegister> writers;
     muse::GlobalInject<muse::media::IVideoEncoderResolver> videoEncoderResolver;
     muse::ContextInject<muse::IInteractive> interactive = { this };
-    muse::ContextInject<context::IGlobalContext> context = { this };
+    muse::ContextInject<project::IProjectSession> context = { this };
     muse::ContextInject<IExportProjectScenario> exportProjectScenario = { this };
 
 public:
@@ -188,6 +192,16 @@ public:
     int sampleRate() const;
     void setSampleRate(int sampleRate);
 
+    //! NOTE Audio export setting, see IAudioExportConfiguration::multiStemRender()
+    bool multiStemRender() const;
+    //! NOTE See multiStemRender()
+    void setMultiStemRender(bool enabled);
+
+    //! NOTE Audio export setting, see IAudioExportConfiguration::idleUntilFirstNote()
+    bool idleUntilFirstNote() const;
+    //! NOTE See idleUntilFirstNote()
+    void setIdleUntilFirstNote(bool enabled);
+
     Q_INVOKABLE QList<int> availableBitRates() const;
     int bitRate() const;
     void setBitRate(int bitRate);
@@ -201,6 +215,9 @@ public:
 
     bool midiExportRpns() const;
     void setMidiExportRpns(bool exportRpns);
+
+    bool midiExtendMeasuresForPauses() const;
+    void setMidiExtendMeasuresForPauses(bool extend);
 
     bool meiExportLayout() const;
     void setMeiExportLayout(bool exportLayout);
@@ -263,6 +280,8 @@ signals:
 
     void availableSampleRatesChanged();
     void sampleRateChanged(int sampleRate);
+    void multiStemRenderChanged(bool enabled);
+    void idleUntilFirstNoteChanged(bool enabled);
     void availableBitRatesChanged();
     void bitRateChanged(int bitRate);
     void availableSampleFormatsChanged();
@@ -270,6 +289,7 @@ signals:
 
     void midiExpandRepeatsChanged(bool expandRepeats);
     void midiExportRpnsChanged(bool exportRpns);
+    void midiExtendMeasuresForPausesChanged(bool extend);
 
     void musicXmlLayoutTypeChanged(MusicXmlLayoutType layoutType);
 
