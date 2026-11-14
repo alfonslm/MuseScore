@@ -169,6 +169,22 @@ playback inside MuseScore. If it does not start or ignores position, go to D.
 
 **Status (2026-11-14): first version written, not yet run with a plugin.**
 
+**Both PRs were moved onto the fork's `beta` line the same day** (user's decision): framework PR 4 merges
+framework `beta` and targets `beta`; MuseScore PR 15 merges the integration branch of PR 13
+(`claude/youthful-albattani-otzuhh`) and targets `beta`. `beta` is where the fork's newer engine lives
+(parallel export, On/Off and Live/Standby markings, keyswitch maps); `main` has none of it. Route A (PR 12)
+is still based on `main`.
+
+**Host gap 1 below now has an option** (same two PRs): Diagnostic > VST > "Keep instruments running when
+playback is stopped" (`command://vst/keep-instruments-running`, off by default, applies to all VST
+instruments). Setting `audio/plugins/keepInstrumentsActiveWhenIdle` → `AudioEngineConfig` →
+`VstSynthesiser::shouldProcessWhenIdle()`; `AudioContext::withSourcesToProcessWhenIdle()` keeps such tracks
+in the mixer's idle set. Independent of Live/Standby, which only govern playback. Untested with a real plugin.
+
+Framework `beta` itself has two audio test files that do not compile (`rpcpacker_tests.cpp` static
+assertion without `PlaybackStateEvent`; `AudioContextMock` without `saveSoundTracks`); a separate task was
+suggested for that.
+
 - Framework, branch `claude/busy-cori-tiki06` of alfonslm/muse_framework, draft PR alfonslm/muse_framework#4:
   `audio/common/musicaltimemap.h` (`MusicalTimeMap`, `MusicalPosition`), `IPlayer::setMusicalTimeMap()` →
   RPC `SetMusicalTimeMap` → `ContextPlayer`; `IPlayheadPosition::musicalPosition()`; optional
