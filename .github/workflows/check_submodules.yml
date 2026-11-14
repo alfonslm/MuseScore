@@ -39,6 +39,8 @@ jobs:
         fi
 
     - name: Verify muse_framework commit is in upstream
+      env:
+        HEAD_BRANCH: ${{ github.head_ref }}
       run: |
         SHA=$(git ls-tree HEAD muse | awk '{print $3}')
         if [ -z "${SHA}" ]; then
@@ -46,12 +48,27 @@ jobs:
           exit 1
         fi
         echo "Pinned commit: ${SHA}"
-        TMP=$(mktemp -d)
-        git clone --quiet --filter=tree:0 --no-checkout --single-branch --branch "${SUBMODULE_BRANCH}" "${SUBMODULE_URL}" "${TMP}"
-        if ! git -C "${TMP}" merge-base --is-ancestor "${SHA}" "origin/${SUBMODULE_BRANCH}"; then
-          echo "::error::muse_framework is pinned to ${SHA}, which is not on the ${SUBMODULE_BRANCH} branch of ${SUBMODULE_URL}"
-          exit 1
+
+        # For the fork, a pull request may also pin a commit of the framework branch that
+        # has the same name as its own branch: internal builds pair a MuseScore branch
+        # with a framework branch before either is merged.
+        BRANCHES="${SUBMODULE_BRANCH}"
+        if [ "${SUBMODULE_URL}" = "${ALLOWED_FORK_URL}" ] && [ -n "${HEAD_BRANCH}" ]; then
+          BRANCHES="${BRANCHES} ${HEAD_BRANCH}"
         fi
+
+        TMP=$(mktemp -d)
+        git clone --quiet --filter=tree:0 --no-checkout "${SUBMODULE_URL}" "${TMP}"
+        for BRANCH in ${BRANCHES}; do
+          if git -C "${TMP}" rev-parse --verify --quiet "origin/${BRANCH}^{commit}" > /dev/null \
+             && git -C "${TMP}" merge-base --is-ancestor "${SHA}" "origin/${BRANCH}"; then
+            echo "Pinned commit is on the ${BRANCH} branch of ${SUBMODULE_URL}"
+            exit 0
+          fi
+        done
+
+        echo "::error::muse_framework is pinned to ${SHA}, which is not on any of these branches of ${SUBMODULE_URL}: ${BRANCHES}"
+        exit 1
 
     - name: Verify muse_framework commit on upstream HEAD
       if: false
