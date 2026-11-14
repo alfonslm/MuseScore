@@ -167,6 +167,7 @@ void PauseMap::calculate(const Score* s, PauseMapMode mode)
 //   calculate
 //    Lengthen the measure a pause belongs to instead of inserting a whole measure,
 //    so that the measures of the MIDI file stay in step with those of the score.
+//    Irregular measures (pickups) get their actual length as time signature for the same reason.
 //    The extra ticks get a tempo that makes them last exactly as long as the pause.
 //---------------------------------------------------------
 
@@ -209,19 +210,32 @@ void PauseMap::calculate(const std::vector<TempoTimePoint>& tempoPoints, const s
         extraTicksByMeasure[measureIdx] += gap;
     }
 
-    for (const auto& [measureIdx, extraTicks] : extraTicksByMeasure) {
-        const MeasureSpan& measure = measures[measureIdx];
-        const Fraction timeSig = timeSigForTicks(measure.ticks + extraTicks, measure.timeSig);
+    //! NOTE Every measure that is not as long as its time signature says gets a time signature of its own:
+    //! one lengthened by a pause, and one that is irregular in the score (a pickup, a measure shortened
+    //! before a repeat). Otherwise the bar lines of everything after it are off in the MIDI file.
+    auto actualTicks = [&](size_t idx) {
+        const auto extra = extraTicksByMeasure.find(idx);
+        return measures[idx].ticks + (extra != extraTicksByMeasure.end() ? extra->second : 0);
+    };
+
+    for (size_t idx = 0; idx < measures.size(); ++idx) {
+        const MeasureSpan& measure = measures[idx];
+        const int ticks = actualTicks(idx);
+        if (ticks == measure.timeSig.ticks()) {
+            continue;
+        }
+
+        const Fraction timeSig = timeSigForTicks(ticks, measure.timeSig);
         if (!timeSig.isValid()) {
-            LOGW() << "no time signature for the measure lengthened by a pause at utick " << measure.utick
+            LOGW() << "no time signature for the measure of " << ticks << " ticks at utick " << measure.utick
                    << ", later measures will not line up";
             continue;
         }
 
         m_timeSigEvents[tickWithPauses(measure.utick)] = timeSig;
 
-        const size_t nextIdx = measureIdx + 1;
-        if (nextIdx < measures.size() && extraTicksByMeasure.find(nextIdx) == extraTicksByMeasure.end()) {
+        const size_t nextIdx = idx + 1;
+        if (nextIdx < measures.size() && actualTicks(nextIdx) == measures[nextIdx].timeSig.ticks()) {
             m_timeSigEvents[tickWithPauses(measures[nextIdx].utick)] = measures[nextIdx].timeSig;
         }
     }

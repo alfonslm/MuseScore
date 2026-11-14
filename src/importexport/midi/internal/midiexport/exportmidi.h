@@ -47,6 +47,10 @@ public:
     //! How caesuras, breath pauses and section breaks are written, see engraving::PauseMapMode
     void setPauseMode(engraving::PauseMapMode mode) { m_pauseMode = mode; }
 
+    //! MIDI tempo (microseconds per quarter note) of `bps` quarter notes per second played at the playback
+    //! speed `tempoMultiplier` (as the playback speed slider sets it: 0.5 = half speed), within MIDI's range
+    static int midiTempo(double bps, double tempoMultiplier);
+
     bool write(const QString& name, bool midiExpandRepeats, bool exportRPNs);
     bool write(QIODevice* device, bool midiExpandRepeats, bool exportRPNs);
     bool write(const QString& name, bool midiExpandRepeats, bool exportRPNs, const engraving::SynthesizerState& synthState);
