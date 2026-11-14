@@ -22,7 +22,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: '17 3 * * *' # daily at 03:17 UTC
+    - cron: '17 3 * * 0' # weekly, Sundays at 03:17 UTC
 
 concurrency:
   group: cleanup-old-builds
