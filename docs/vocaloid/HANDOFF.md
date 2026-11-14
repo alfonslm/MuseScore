@@ -1,8 +1,16 @@
 # VOCALOID7 ⇄ MuseScore: handoff
 
-Working notes for whoever continues this (human or agent). Written 2026-11-12.
-Branch: `claude/busy-cori-tiki06` in `alfonslm/MuseScore` (and the same branch name in
-`alfonslm/muse_framework`, untouched so far).
+Working notes for whoever continues this (human or agent). Written 2026-11-12, status updated 2026-11-14.
+
+**Where things are (2026-11-14):**
+
+- The fork's integration branch is `beta` in both repositories; see `CLAUDE.md` at the repository root for
+  the branch and submodule conventions.
+- Route A (MIDI export option) is in the integration branch of PR 13 and reaches `beta` with it. Its own
+  PR 12 (against `main`) was closed without merging; nothing is lost.
+- Route D and the "keep running when stopped" option: framework side merged into `alfonslm/muse_framework`
+  `beta` (PR 4); MuseScore side is PR 15 (`claude/vst-transport` → `beta`), all checks green.
+- Nothing has been tried with VOCALOID7 yet. That is the next step, and it needs the user.
 
 ## 1. Goal
 
@@ -14,9 +22,9 @@ Routes that were evaluated, in the user's order of interest:
 
 | | Route | Status |
 |---|---|---|
-| A | MIDI export where a pause lengthens its bar instead of inserting a bar | **in progress, this branch** |
+| A | MIDI export where a pause lengthens its bar instead of inserting a bar | written, on the `beta` line via PR 13; untested with Vocaloid |
 | C | Load VOCALOID7 as a VST3 in MuseScore as it is today | needs a 10-minute test **by the user** |
-| D | Send tempo / beat position to VST plugins | **first version written**, draft PRs alfonslm/muse_framework#4 and alfonslm/MuseScore#15 |
+| D | Send tempo / beat position to VST plugins | written; framework merged (alfonslm/muse_framework#4), MuseScore side in alfonslm/MuseScore#15; untested with a plugin |
 | E | ARA2 hosting in MuseScore | not started; large |
 | B | Direct `.vpr` (Vocaloid project) export with lyrics | not started; optional |
 
