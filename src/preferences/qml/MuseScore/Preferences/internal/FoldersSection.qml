@@ -77,6 +77,52 @@ BaseSection {
     }
 
     RowLayout {
+        width: parent.width
+        height: 30
+
+        spacing: root.columnSpacing
+
+        StyledTextLabel {
+            Layout.preferredWidth: root.columnWidth
+            text: qsTrc("preferences", "Keyswitch Maps")
+            horizontalAlignment: Text.AlignLeft
+        }
+
+        FlatButton {
+            Layout.alignment: Qt.AlignVCenter
+            text: qsTrc("preferences", "Open Folder")
+
+            navigation.name: "openKeyswitchMapsFolderButton"
+            navigation.panel: root.navigation
+            navigation.row: view.count + 1
+
+            onClicked: {
+                Qt.callLater(root.model.openKeyswitchMapsFolder)
+            }
+        }
+
+        FlatButton {
+            Layout.alignment: Qt.AlignVCenter
+            text: qsTrc("preferences", "Export Default Map")
+
+            navigation.name: "exportDefaultKeyswitchMapButton"
+            navigation.panel: root.navigation
+            navigation.row: view.count + 2
+
+            onClicked: {
+                exportStatusLabel.text = root.model.exportDefaultKeyswitchMap()
+                                         ? qsTrc("preferences", "Exported")
+                                         : qsTrc("preferences", "Already exists")
+            }
+        }
+
+        StyledTextLabel {
+            id: exportStatusLabel
+            Layout.alignment: Qt.AlignVCenter
+        }
+    }
+
+    RowLayout {
         visible: root.model.vstEnabled
         width: parent.width
 
@@ -87,7 +133,7 @@ BaseSection {
 
             navigation.name: "rescanVstPluginsButton"
             navigation.panel: root.navigation
-            navigation.row: view.count + 1
+            navigation.row: view.count + 3
 
             onClicked: {
                 Qt.callLater(root.model.rescanVstPlugins)
