@@ -286,9 +286,9 @@ Ret AbstractAudioWriter::writeParts(INotationPtr masterNotation, const PartExpor
 
     if (engineTargets.empty()) {
         //! NOTE Switch playback back to the notation the user has open, as doWriteParts() does after an export
-        muse::ContextInject<context::IGlobalContext> globalContext = { m_iocContext };
+        muse::ContextInject<project::IProjectSession> projectSession = { m_iocContext };
         playbackController()->setIsExportingAudio(false);
-        playbackController()->setNotation(globalContext()->currentNotation());
+        playbackController()->setNotation(projectSession()->currentNotation());
         return make_ret(Err::NoAudioToExport);
     }
 
@@ -322,8 +322,8 @@ void AbstractAudioWriter::doWriteParts(const std::vector<muse::audio::SoundTrack
     const std::string processingOnlineSoundsMsg = trc("iex_audio", "Processing online sounds…");
     const std::string loadingEffectsMsg = trc("iex_audio", "Loading effects…");
 
-    muse::ContextInject<context::IGlobalContext> globalContext = { m_iocContext };
-    m_notationForRestore = globalContext()->currentNotation();
+    muse::ContextInject<project::IProjectSession> projectSession = { m_iocContext };
+    m_notationForRestore = projectSession()->currentNotation();
 
     auto restorePlaybackState = [this]() {
         muse::ContextInject<playback::IPlaybackController> playbackController = { m_iocContext };
