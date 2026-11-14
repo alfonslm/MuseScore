@@ -207,7 +207,9 @@ void PluginAPI::registerQmlTypes()
     qmlRegisterAnonymousType<OrnamentIntervalWrapper>("MuseScore", 3);
     qRegisterMetaType<OrnamentIntervalWrapper*>("OrnamentIntervalWrapper*");
 
+#ifdef QT_QPROCESS_SUPPORTED
     qmlRegisterType<MsProcess>("MuseScore", 3, 0, "QProcess");
+#endif
     qmlRegisterType<FileIO, 1>("FileIO",    3, 0, "FileIO");
 
     qmlTypesRegistered = true;
@@ -427,7 +429,7 @@ void PluginAPI::cmd(const QString& s)
         { "paste", notation::PASTE_COMMAND },
         { "paste-half", notation::PASTE_HALF_COMMAND },
         { "paste-double", notation::PASTE_DOUBLE_COMMAND },
-        { "select-all", notation::SELECT_ALL_COMMAND },
+        { "select-all", notation::SelectAllCommand::id },
         { "delete", notation::DELETE_COMMAND },
         { "next-chord", notation::MOVE_RIGHT_COMMAND },
         { "prev-chord", notation::MOVE_LEFT_COMMAND },

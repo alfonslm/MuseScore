@@ -446,6 +446,11 @@ PropertyValue TRead::readPropertyValue(Pid id, XmlReader& e, ReadContext& ctx)
 
     case P_TYPE::KEY_MODE:
         return PropertyValue(TConv::fromXml(e.readAsciiText(), KeyMode::NONE));
+    case P_TYPE::KEY:
+        return PropertyValue(TConv::fromXml(e.readAsciiText(), Key::C));
+
+    case P_TYPE::JIANPU_NUMBERING:
+        return PropertyValue(TConv::fromXml(e.readAsciiText(), JianpuNumbering::FOLLOW_SCORE_KEY));
 
     case P_TYPE::TEXT_STYLE:
         return PropertyValue(TConv::fromXml(e.readAsciiText(), TextStyleType::DEFAULT));
@@ -1382,6 +1387,12 @@ void TRead::read(KeySig* s, XmlReader& e, ReadContext& ctx)
             sig.setCustom(true);
         } else if (tag == "mode") {
             sig.setMode(TConv::fromXml(e.readAsciiText(), KeyMode::UNKNOWN));
+        } else if (tag == "jianpuNumbering") {
+            sig.setJianpuNumbering(TConv::fromXml(e.readAsciiText(), JianpuNumbering::FOLLOW_SCORE_KEY));
+        } else if (tag == "jianpuTonicKey") {
+            sig.setJianpuTonicKey(TConv::fromXml(e.readAsciiText(), Key::C));
+        } else if (tag == "jianpuTonicMode") {
+            sig.setJianpuTonicMode(TConv::fromXml(e.readAsciiText(), KeyMode::MAJOR));
         } else if (tag == "subtype") {
             subtype = e.readInt();
         } else if (tag == "forInstrumentChange") {
@@ -2618,65 +2629,22 @@ bool TRead::readProperties(ChordRest* ch, XmlReader& e, ReadContext& ctx)
 
 void TRead::read(ChordLine* l, XmlReader& e, ReadContext& ctx)
 {
-    //! NOTE Need separated "given" data and layout data
-    ChordLine::LayoutData* ldata = l->mutldata();
-    ldata->path = PainterPath();
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
         if (tag == "Path") {
-            PainterPath path;
-            PointF curveTo;
-            PointF p1;
-            int state = 0;
-            while (e.readNextStartElement()) {
-                const AsciiStringView nextTag(e.name());
-                if (nextTag == "Element") {
-                    int type = e.intAttribute("type");
-                    double x  = e.doubleAttribute("x");
-                    double y  = e.doubleAttribute("y");
-                    double spatium = ctx.spatium();
-                    x *= spatium;
-                    y *= spatium;
-                    switch (PainterPath::ElementType(type)) {
-                    case PainterPath::ElementType::MoveToElement:
-                        path.moveTo(x, y);
-                        break;
-                    case PainterPath::ElementType::LineToElement:
-                        path.lineTo(x, y);
-                        break;
-                    case PainterPath::ElementType::CurveToElement:
-                        curveTo.rx() = x;
-                        curveTo.ry() = y;
-                        state = 1;
-                        break;
-                    case PainterPath::ElementType::CurveToDataElement:
-                        if (state == 1) {
-                            p1.rx() = x;
-                            p1.ry() = y;
-                            state = 2;
-                        } else if (state == 2) {
-                            path.cubicTo(curveTo, p1, PointF(x, y));
-                            state = 0;
-                        }
-                        break;
-                    }
-                    e.skipCurrentElement();           //needed to go to next EngravingItem in Path
-                } else {
-                    e.unknown();
-                }
-            }
-            ldata->path = path;
-            l->setModified(true);
+            compat::CompatUtils::readChordLinePath(l, e);
         } else if (tag == "subtype") {
             l->setChordLineType(TConv::fromXml(e.readAsciiText(), ChordLineType::NOTYPE));
         } else if (tag == "straight") {
             l->setStraight(e.readInt());
         } else if (tag == "wavy") {
             l->setWavy(e.readInt());
-        } else if (tag == "lengthX") {
-            l->setLengthX(e.readInt());
-        } else if (tag == "lengthY") {
-            l->setLengthY(e.readInt());
+        } else if (tag == "lengthX" || tag == "lengthY") { // obsolete
+            e.skipCurrentElement();
+        } else if (readProperty(l, tag, e, ctx, Pid::BEZIER_OFFSET1)) {
+        } else if (readProperty(l, tag, e, ctx, Pid::BEZIER_OFFSET2)) {
+        } else if (readProperty(l, tag, e, ctx, Pid::BEZIER_OFFSET3)) {
+        } else if (readProperty(l, tag, e, ctx, Pid::BEZIER_OFFSET4)) {
         } else if (tag == "play") {
             l->setPlayChordLine(e.readBool());
         } else if (!readItemProperties(l, e, ctx)) {
@@ -3207,6 +3175,7 @@ void TRead::read(MeasureRepeat* r, XmlReader& e, ReadContext& ctx)
         const AsciiStringView tag(e.name());
         if (tag == "subtype") {
             r->setNumMeasures(e.readInt());
+        } else if (TRead::readProperty(r, tag, e, ctx, Pid::MEASURE_REPEAT_NUMBER_OFFSET)) {
         } else if (!readProperties(toRest(r), e, ctx)) {
             e.unknown();
         }
@@ -3530,6 +3499,32 @@ void TRead::read(Part* p, XmlReader& e, ReadContext& ctx)
     }
 }
 
+static void readStaveSharingState(SharedPart* p, XmlReader& e)
+{
+    const Fraction tick = Fraction::fromString(e.attribute("tick"));
+    StaveSharingState state;
+    SharedTrackMap trackMap;
+
+    while (e.readNextStartElement()) {
+        const AsciiStringView tag(e.name());
+        if (tag == "isReset") {
+            state.setIsReset(e.readBool());
+        } else if (tag == "trackMap") {
+            const int originTrack = e.intAttribute("origin", -1);
+            const int sharedTrack = e.intAttribute("shared", -1);
+            if (originTrack != -1 && sharedTrack != -1) {
+                trackMap.insert({ static_cast<track_idx_t>(originTrack), static_cast<track_idx_t>(sharedTrack) });
+            }
+            e.skipCurrentElement();
+        } else {
+            e.unknown();
+        }
+    }
+
+    state.setUserTrackMap(trackMap);
+    p->setStaveSharingStateAtTick(state, tick);
+}
+
 void TRead::read(SharedPart* p, XmlReader& e, ReadContext& ctx)
 {
     p->setId(e.intAttribute("id", 0));
@@ -3538,6 +3533,8 @@ void TRead::read(SharedPart* p, XmlReader& e, ReadContext& ctx)
         const AsciiStringView tag(e.name());
         if (tag == "sharedPartEnabled") {
             p->setProperty(Pid::SHARED_PART_ENABLED, e.readBool());
+        } else if (tag == "StaveSharingState") {
+            readStaveSharingState(p, e);
         } else if (!readProperties(p, e, ctx)) {
             e.unknown();
         }
@@ -3785,17 +3782,12 @@ bool TRead::readProperties(SlurTie* s, XmlReader& e, ReadContext& ctx)
 
 void TRead::read(SlurTieSegment* s, XmlReader& e, ReadContext& ctx)
 {
-    double _spatium = s->style().spatium();
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
-        if (tag == "o1") {
-            s->ups(Grip::START).off = e.readPoint() * _spatium;
-        } else if (tag == "o2") {
-            s->ups(Grip::BEZIER1).off = e.readPoint() * _spatium;
-        } else if (tag == "o3") {
-            s->ups(Grip::BEZIER2).off = e.readPoint() * _spatium;
-        } else if (tag == "o4") {
-            s->ups(Grip::END).off = e.readPoint() * _spatium;
+        if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET1)) {
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET2)) {
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET3)) {
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET4)) {
         } else if (tag == "HammerOnPullOffText") {
             DO_ASSERT(s->isHammerOnPullOffSegment());
             readHopoText(toHammerOnPullOffSegment(s), e, ctx, e.intAttribute("idx"));
@@ -4041,6 +4033,8 @@ void TRead::read(StaffType* t, XmlReader& e, ReadContext& ctx)
             t->setFretUseTextStyle(e.readBool());
         } else if (tag == "fretTextStyle") {
             t->setFretTextStyle(TextStyleType(TConv::fromXml(e.readAsciiText(), TextStyleType::TAB_FRET_NUMBER)));
+        } else if (tag == "jianpuTextStyle") {
+            t->setJianpuTextStyle(TextStyleType(TConv::fromXml(e.readAsciiText(), TextStyleType::JIANPU_NUMBER)));
         } else if (tag == "symbolRepeat") {
             t->setSymbolRepeat((TablatureSymbolRepeat)e.readInt());
         } else if (tag == "linesThrough") {
@@ -4267,7 +4261,7 @@ bool TRead::readProperties(InstrumentLabel& item, XmlReader& xml)
     } else if (tag == "showNumberLong") {
         item.setShowNumberLong(xml.readBool());
     } else if (tag == "showNumberShort") {
-        item.setShowNumberLong(xml.readBool());
+        item.setShowNumberShort(xml.readBool());
     } else if (tag == "useCustomName") {
         item.setUseCustomName(xml.readBool());
     } else if (tag == "customNameLong") {

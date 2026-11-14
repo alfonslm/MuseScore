@@ -7642,6 +7642,10 @@ void ExportMusicXml::exportDefaultClef(const Part* const part, const Measure* co
                         ct = ClefType::G;
                         stafftype = u"std";
                         break;
+                    case StaffGroup::JIANPU:
+                        ct = ClefType::G;
+                        stafftype = u"jianpu";
+                        break;
                     case StaffGroup::PERCUSSION:
                         ct = ClefType::PERC;
                         stafftype = u"perc";

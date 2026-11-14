@@ -32,20 +32,16 @@
 
 #include "modularity/ioc.h"
 #include "notationscene/iselectinstrumentscenario.h"
-#include "context/iglobalcontext.h"
+#include "project/iprojectsession.h"
 #include "rcommand/icommanddispatcher.h"
 #include "interactive/iinteractive.h"
 #include "shortcuts_v2/icommandshortcutsregister.h"
 
 #include "layoutpanelutils.h"
 
-Q_MOC_INCLUDE(< QItemSelectionModel >)
-
 namespace muse::uicomponents {
 class ItemMultiSelectionModel;
 }
-
-class QItemSelectionModel;
 
 namespace mu::instrumentsscene {
 class PartTreeItem;
@@ -63,11 +59,14 @@ class LayoutPanelTreeModel : public QAbstractItemModel, public QQmlParserStatus,
     Q_PROPERTY(QString addInstrumentsKeyboardShortcut READ addInstrumentsKeyboardShortcut NOTIFY addInstrumentsKeyboardShortcutChanged)
     Q_PROPERTY(int selectedItemsType READ selectedItemsType NOTIFY selectedItemsTypeChanged)
     Q_PROPERTY(bool isStaveSharingEnabled READ isStaveSharingEnabled NOTIFY isStaveSharingEnabledChanged FINAL)
+    Q_PROPERTY(bool isHideEmptyStavesEnabled READ isHideEmptyStavesEnabled NOTIFY isHideEmptyStavesEnabledChanged FINAL)
+    Q_PROPERTY(bool isMasterScore READ isMasterScore NOTIFY scoreChanged FINAL)
+    Q_PROPERTY(QString scoreName READ scoreName NOTIFY scoreChanged FINAL)
 
     QML_ELEMENT
 
     muse::GlobalInject<muse::shortcuts::ICommandShortcutsRegister> commandShortcutsRegister;
-    muse::ContextInject<context::IGlobalContext> context = { this };
+    muse::ContextInject<project::IProjectSession> context = { this };
     muse::ContextInject<notation::ISelectInstrumentsScenario> selectInstrumentsScenario = { this };
     muse::ContextInject<muse::rcommand::ICommandDispatcher> commandDispatcher = { this };
     muse::ContextInject<muse::IInteractive> interactive = { this };
@@ -95,9 +94,13 @@ public:
     int selectedItemsType() const;
 
     bool isStaveSharingEnabled() const;
+    bool isHideEmptyStavesEnabled() const;
+    bool isMasterScore() const;
+    QString scoreName() const;
 
     Q_INVOKABLE void load();
     Q_INVOKABLE void toggleStaveSharing(bool on);
+    Q_INVOKABLE void toggleHideEmptyStaves(bool on);
     Q_INVOKABLE void setLayoutPanelVisible(bool visible);
     Q_INVOKABLE void selectRow(const QModelIndex& rowIndex);
     Q_INVOKABLE void clearSelection();
@@ -117,8 +120,6 @@ public:
     Q_INVOKABLE bool moveRows(const QModelIndex& sourceParent, int sourceRow, int count, const QModelIndex& destinationParent,
                               int destinationChild) override;
 
-    Q_INVOKABLE QItemSelectionModel* selectionModel() const;
-
 signals:
     void isMovingUpAvailableChanged(bool isMovingUpAvailable);
     void isMovingDownAvailableChanged(bool isMovingDownAvailable);
@@ -129,6 +130,8 @@ signals:
     void addInstrumentsKeyboardShortcutChanged();
     void selectedItemsTypeChanged(int type);
     void isStaveSharingEnabledChanged(bool enabled);
+    void isHideEmptyStavesEnabledChanged(bool enabled);
+    void scoreChanged();
 
 private slots:
     void updateRearrangementAvailability();
@@ -138,6 +141,7 @@ private slots:
     void updateSelectedItemsType();
     void updateIsAddingSystemMarkingsAvailable();
     void updateIsStaveSharingEnabled();
+    void updateIsHideEmptyStavesEnabled();
 
 private:
     void classBegin() override;
@@ -153,8 +157,6 @@ private:
     void onMasterNotationChanged();
     void onNotationChanged();
 
-    bool isMasterScore() const;
-
     bool shouldShowSystemObjectLayers() const;
 
     void onBeforeChangeNotation();
@@ -166,6 +168,7 @@ private:
     void setupPartsConnections();
     void setupStavesConnections(const muse::ID& partId);
     void setupNotationConnections();
+    void setupExcerptNameConnection();
 
     void updateSelectedRows();
     void onScoreChanged(const mu::engraving::ScoreChanges& changes);
@@ -202,6 +205,7 @@ private:
     bool m_isAddingSystemMarkingsAvailable = false;
 
     bool m_isStaveSharingEnabled = false;
+    bool m_isHideEmptyStavesEnabled = false;
 
     LayoutPanelItemType::ItemType m_selectedItemsType = LayoutPanelItemType::ItemType::UNDEFINED;
 

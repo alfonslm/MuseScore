@@ -139,12 +139,14 @@ void StartupScenario::registerAudioPlugins()
     qApp->setQuitLockEnabled(true);
 }
 
-void StartupScenario::runAfterSplashScreen()
+muse::async::Promise<muse::Ret> StartupScenario::runAfterSplashScreen()
 {
     TRACEFUNC;
 
     if (m_startupCompleted) {
-        return;
+        return async::make_promise<Ret>([](auto resolve, auto) {
+            return resolve(muse::make_ok());
+        });
     }
 
     m_startupCompleted = true;
@@ -156,11 +158,14 @@ void StartupScenario::runAfterSplashScreen()
         modeType = resolveStartupModeType();
     }
 
-    const Uri& startupUri = startupPageUri(modeType);
-    auto promise = interactive()->open(startupUri);
-    promise.onResolve(this, [this, modeType](const Val&) {
-        onStartupPageOpened(modeType);
-    });
+    const Uri startupUri = startupPageUri(modeType);
+    return async::make_promise<Ret>([this, modeType, startupUri](auto resolve, auto) {
+        interactive()->open(startupUri).onResolve(this, [this, modeType, resolve](const Val&) mutable {
+            onStartupPageOpened(modeType);
+            (void)resolve(muse::make_ok());
+        });
+        return async::Promise<Ret>::dummy_result();
+    }, async::PromiseType::AsyncByBody);
 }
 
 bool StartupScenario::startupCompleted() const
@@ -251,11 +256,11 @@ void StartupScenario::showStartupDialogsIfNeed(StartupModeType modeType)
                 configuration()->setWelcomeDialogLastShownVersion(configuration()->museScoreVersion());
 
                 if (shouldCheckForMuseSamplerUpdate) {
-                    checkAndShowMuseSamplerUpdateIfNeed();
+                    checkAndShowMuseSamplerStatusIfNeed();
                 }
             });
         } else if (shouldCheckForMuseSamplerUpdate) {
-            checkAndShowMuseSamplerUpdateIfNeed();
+            checkAndShowMuseSamplerStatusIfNeed();
         }
     };
 
@@ -280,10 +285,10 @@ bool StartupScenario::shouldShowWelcomeDialog(StartupModeType modeType) const
     return interactive()->currentUri().val == startupUri;
 }
 
-void StartupScenario::checkAndShowMuseSamplerUpdateIfNeed()
+void StartupScenario::checkAndShowMuseSamplerStatusIfNeed()
 {
-    if (museSamplerCheckForUpdateScenario() && !museSamplerCheckForUpdateScenario()->alreadyChecked()) {
-        museSamplerCheckForUpdateScenario()->checkAndShowUpdateIfNeed();
+    if (museSamplerCheckStatusScenario() && !museSamplerCheckStatusScenario()->alreadyChecked()) {
+        museSamplerCheckStatusScenario()->checkAndShowStatusIfNeed();
     }
 }
 
@@ -305,7 +310,7 @@ void StartupScenario::restoreLastSession()
         } else {
             removeProjectsUnsavedChanges(configuration()->sessionProjectsPaths());
             sessionsManager()->reset();
-            checkAndShowMuseSamplerUpdateIfNeed();
+            checkAndShowMuseSamplerStatusIfNeed();
         }
     });
 }

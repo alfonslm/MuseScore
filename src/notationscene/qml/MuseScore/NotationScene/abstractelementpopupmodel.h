@@ -27,7 +27,7 @@
 #include "async/asyncable.h"
 
 #include "modularity/ioc.h"
-#include "context/iglobalcontext.h"
+#include "project/iprojectsession.h"
 
 #include "engraving/dom/engravingitem.h"
 
@@ -42,7 +42,7 @@ class AbstractElementPopupModel : public QObject, public muse::Contextable, publ
     Q_PROPERTY(QRect itemRect READ itemRect NOTIFY itemRectChanged)
 
 public:
-    muse::ContextInject<context::IGlobalContext> globalContext = { this };
+    muse::ContextInject<project::IProjectSession> projectSession = { this };
 
 public:
     enum class PopupModelType {
@@ -55,7 +55,8 @@ public:
         TYPE_DYNAMIC,
         TYPE_TEXT,
         TYPE_PARTIAL_TIE,
-        TYPE_SHADOW_NOTE
+        TYPE_SHADOW_NOTE,
+        TYPE_STAVE_SHARING_CHANGE
     };
     Q_ENUM(PopupModelType)
 

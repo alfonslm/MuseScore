@@ -78,6 +78,7 @@ qt_add_qml_module(project_qml
         AudioGenerationSettingsDialog.qml
         ConvertFileProcessingDialog.qml
         ConvertFileToScoreDialog.qml
+        DeleteCloudScoreDialog.qml
         internal/ConvertFileToScore/ConvertButtonBox.qml
         internal/ConvertFileToScore/ConvertFromLinkPanel.qml
         internal/ConvertFileToScore/FileItem.qml
@@ -92,6 +93,7 @@ qt_add_qml_module(project_qml
         internal/ConvertFileToScore/SelectFilePage.qml
         internal/ConvertFileToScore/SelectedFilesPage.qml
         internal/ConvertFileToScore/SingleFilePanel.qml
+        internal/ConvertFileToScore/TermsOfUseCheckBox.qml
         ExportDialog.qml
         internal/Export/AudioSettings.qml
         internal/Export/ExportOptionItem.qml
@@ -194,3 +196,7 @@ target_include_directories(project_qml PRIVATE
     internal/Properties
     internal/ScoresPage
 )
+
+if (MUE_BUILD_PROJECT_TESTS)
+    add_subdirectory(tests)
+endif()

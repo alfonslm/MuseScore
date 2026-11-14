@@ -1476,6 +1476,7 @@ enum class StaffGroup {
     STANDARD   = int(mu::engraving::StaffGroup::STANDARD),
     PERCUSSION = int(mu::engraving::StaffGroup::PERCUSSION),
     TAB        = int(mu::engraving::StaffGroup::TAB),
+    JIANPU     = int(mu::engraving::StaffGroup::JIANPU),
 };
 Q_ENUM_NS(StaffGroup);
 
@@ -1513,6 +1514,7 @@ enum class StaffTypes {
     TAB_8SIMPLE    = int(mu::engraving::StaffTypes::TAB_8SIMPLE),
     TAB_9SIMPLE    = int(mu::engraving::StaffTypes::TAB_9SIMPLE),
     TAB_10SIMPLE   = int(mu::engraving::StaffTypes::TAB_10SIMPLE),
+    JIANPU         = int(mu::engraving::StaffTypes::JIANPU),
     PERC_DEFAULT   = int(mu::engraving::StaffTypes::PERC_DEFAULT),
     TAB_DEFAULT    = int(mu::engraving::StaffTypes::TAB_DEFAULT),
 };
