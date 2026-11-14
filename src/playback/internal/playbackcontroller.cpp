@@ -1722,6 +1722,15 @@ void PlaybackController::setupPlayer()
         currentPlayer()->setDuration(totalPlaybackTime);
         m_totalPlayTimeChanged.notify();
     });
+
+    // Lets plugins that follow the transport know the tempo and which bar and beat they are at
+    currentPlayer()->setMusicalTimeMap(notationPlayback()->musicalTimeMap());
+
+    notationPlayback()->musicalTimeMapChanged().onNotify(this, [this]() {
+        if (currentPlayer() && notationPlayback()) {
+            currentPlayer()->setMusicalTimeMap(notationPlayback()->musicalTimeMap());
+        }
+    });
 }
 
 void PlaybackController::updateSoloMuteStates()

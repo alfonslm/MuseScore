@@ -38,6 +38,7 @@
 #include "engraving/dom/stafftext.h"
 #include "engraving/dom/tempotimeline.h"
 #include "engraving/dom/utils.h"
+#include "engraving/playback/musicaltimemapbuilder.h"
 
 #include "notationerrors.h"
 
@@ -81,8 +82,10 @@ void NotationPlayback::init()
     m_playbackModel.load(score());
 
     updateTotalPlayTime();
+    updateMusicalTimeMap();
     m_playbackModel.tracksDataChanged().onReceive(this, [this](const InstrumentTrackIdSet&) {
         updateTotalPlayTime();
+        updateMusicalTimeMap();
     });
 
     configuration()->isPlayRepeatsChanged().onNotify(this, [this]() {
@@ -260,6 +263,32 @@ muse::audio::secs_t NotationPlayback::totalPlayTime() const
 muse::async::Channel<muse::audio::secs_t> NotationPlayback::totalPlayTimeChanged() const
 {
     return m_totalPlayTimeChanged;
+}
+
+void NotationPlayback::updateMusicalTimeMap()
+{
+    const mu::engraving::Score* score = m_getScore->score();
+    if (!score) {
+        return;
+    }
+
+    muse::audio::MusicalTimeMap newMap = MusicalTimeMapBuilder::build(score, m_playbackModel.isPlayRepeatsEnabled());
+    if (m_musicalTimeMap == newMap) {
+        return;
+    }
+
+    m_musicalTimeMap = std::move(newMap);
+    m_musicalTimeMapChanged.notify();
+}
+
+const muse::audio::MusicalTimeMap& NotationPlayback::musicalTimeMap() const
+{
+    return m_musicalTimeMap;
+}
+
+muse::async::Notification NotationPlayback::musicalTimeMapChanged() const
+{
+    return m_musicalTimeMapChanged;
 }
 
 muse::audio::secs_t NotationPlayback::playedTickToSec(tick_t tick) const

@@ -116,6 +116,17 @@ muse::async::Channel<muse::audio::secs_t> NotationPlaybackStub::totalPlayTimeCha
     return muse::async::Channel<muse::audio::secs_t>();
 }
 
+const muse::audio::MusicalTimeMap& NotationPlaybackStub::musicalTimeMap() const
+{
+    static const muse::audio::MusicalTimeMap dummy;
+    return dummy;
+}
+
+muse::async::Notification NotationPlaybackStub::musicalTimeMapChanged() const
+{
+    return muse::async::Notification();
+}
+
 muse::audio::secs_t NotationPlaybackStub::playedTickToSec(tick_t) const
 {
     return muse::audio::secs_t();
