@@ -10,13 +10,14 @@ jobs:
     env:
       EXPECTED_URL: https://github.com/musescore/muse_framework.git
       EXPECTED_BRANCH: main
-      # NOTE Temporary exception for the "Presets and key triggers" keyswitch-map feature
-      # (alfonslm/MuseScore#7): its engine-side change lives in a fork PR
-      # (alfonslm/muse_framework#1) pending upstream review, since musescore/muse_framework
-      # isn't writable from this account. Remove once that PR merges upstream and this
-      # submodule is repointed at EXPECTED_URL/EXPECTED_BRANCH.
+      # NOTE Temporary exception for the features of this fork whose engine-side changes
+      # live in alfonslm/muse_framework (keyswitch maps, parallel audio export, playback
+      # markings), since musescore/muse_framework isn't writable from this account. They
+      # are integrated on that fork's beta branch, so the pinned commit must be on it.
+      # Remove once those changes are upstream and this submodule is repointed at
+      # EXPECTED_URL/EXPECTED_BRANCH.
       ALLOWED_FORK_URL: https://github.com/alfonslm/muse_framework.git
-      ALLOWED_FORK_BRANCH: keyswitch-maps
+      ALLOWED_FORK_BRANCH: beta
     steps:
     - name: Clone repository
       uses: actions/checkout@v7
