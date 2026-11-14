@@ -54,6 +54,20 @@ ExportSettingsPage {
         }
     }
 
+    CheckBox {
+        width: parent.width
+        text: qsTrc("project/export", "Keep measure numbers at caesuras and pauses")
+
+        navigation.name: "ExtendMeasuresForPausesCheckbox"
+        navigation.panel: root.navigationPanel
+        navigation.row: root.navigationOrder + 3
+
+        checked: root.model.midiExtendMeasuresForPauses
+        onClicked: {
+            root.model.midiExtendMeasuresForPauses = !checked
+        }
+    }
+
     StyledTextLabel {
         width: parent.width
         text: qsTrc("project/export", "Each selected part will be exported as a separate MIDI file.")

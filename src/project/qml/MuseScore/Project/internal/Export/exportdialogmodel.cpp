@@ -774,6 +774,21 @@ void ExportDialogModel::setMidiExportRpns(bool exportRpns)
     emit midiExportRpnsChanged(exportRpns);
 }
 
+bool ExportDialogModel::midiExtendMeasuresForPauses() const
+{
+    return midiImportExportConfiguration()->isMidiExportExtendMeasuresForPauses();
+}
+
+void ExportDialogModel::setMidiExtendMeasuresForPauses(bool extend)
+{
+    if (extend == midiExtendMeasuresForPauses()) {
+        return;
+    }
+
+    midiImportExportConfiguration()->setIsMidiExportExtendMeasuresForPauses(extend);
+    emit midiExtendMeasuresForPausesChanged(extend);
+}
+
 bool ExportDialogModel::meiExportLayout() const
 {
     return meiConfiguration()->meiExportLayout();

@@ -43,6 +43,10 @@ class ExportMidi
 {
 public:
     ExportMidi(engraving::Score* s) { m_score = s; }
+
+    //! How caesuras, breath pauses and section breaks are written, see engraving::PauseMapMode
+    void setPauseMode(engraving::PauseMapMode mode) { m_pauseMode = mode; }
+
     bool write(const QString& name, bool midiExpandRepeats, bool exportRPNs);
     bool write(QIODevice* device, bool midiExpandRepeats, bool exportRPNs);
     bool write(const QString& name, bool midiExpandRepeats, bool exportRPNs, const engraving::SynthesizerState& synthState);
@@ -54,6 +58,7 @@ private:
     QFile m_file;
     MidiFile m_midiFile;
     engraving::Score* m_score = nullptr;
+    engraving::PauseMapMode m_pauseMode = engraving::PauseMapMode::InsertMeasure;
 };
 }
 #endif // EXPORTMIDI_H

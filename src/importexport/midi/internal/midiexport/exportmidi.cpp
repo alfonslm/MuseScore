@@ -81,6 +81,8 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
     //    write time signature
     //--------------------------------------------
 
+    std::map<int, Fraction> timeSigs; // by tick with pauses
+
     TimeSigMap* sigmap = m_score->sigmap();
     for (const RepeatSegment* rs : m_score->repeatList()) {
         int startTick  = rs->tick;
@@ -91,39 +93,50 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
         auto es = sigmap->lower_bound(endTick);
 
         for (auto is = bs; is != es; ++is) {
-            SigEvent se = is->second;
-            Fraction ts(se.timesig());
-            int n;
-            switch (ts.denominator()) {
-            case 1:  n = 0;
-                break;
-            case 2:  n = 1;
-                break;
-            case 4:  n = 2;
-                break;
-            case 8:  n = 3;
-                break;
-            case 16: n = 4;
-                break;
-            case 32: n = 5;
-                break;
-            default:
-                n = 2;
-                LOGD("ExportMidi: unknown time signature %s",
-                     qPrintable(ts.toString()));
-                break;
-            }
-
-            MidiEvent ev;
-            ev.setType(ME_META);
-            ev.setMetaType(META_TIME_SIGNATURE);
-            ev.setLen(4);
-            ev.setEData({ static_cast<unsigned char>(ts.numerator()),
-                          static_cast<unsigned char>(n),
-                          24,
-                          8 });
-            track.insert(CompatMidiRender::tick(context, is->first + tickOffset), ev);
+            timeSigs[CompatMidiRender::tick(context, is->first + tickOffset)] = is->second.timesig();
         }
+    }
+
+    // measures lengthened by a pause
+    if (context.applyCaesuras) {
+        for (const auto& [tick, ts] : context.pauseMap->timeSigEvents()) {
+            timeSigs[tick] = ts;
+        }
+    }
+
+    for (const auto& [tick, ts] : timeSigs) {
+        int n;
+        switch (ts.denominator()) {
+        case 1:  n = 0;
+            break;
+        case 2:  n = 1;
+            break;
+        case 4:  n = 2;
+            break;
+        case 8:  n = 3;
+            break;
+        case 16: n = 4;
+            break;
+        case 32: n = 5;
+            break;
+        case 64: n = 6;
+            break;
+        default:
+            n = 2;
+            LOGD("ExportMidi: unknown time signature %s",
+                 qPrintable(ts.toString()));
+            break;
+        }
+
+        MidiEvent ev;
+        ev.setType(ME_META);
+        ev.setMetaType(META_TIME_SIGNATURE);
+        ev.setLen(4);
+        ev.setEData({ static_cast<unsigned char>(ts.numerator()),
+                      static_cast<unsigned char>(n),
+                      24,
+                      8 });
+        track.insert(tick, ev);
     }
 
     //---------------------------------------------------
@@ -231,6 +244,7 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
     context.sndController = CompatMidiRender::getControllerForSnd(m_score, synthState.ccToUse());
     context.useDefaultArticulations = false;
     context.applyCaesuras = true;
+    context.pauseMode = m_pauseMode;
 
     CompatMidiRender::renderScore(m_score, events, context, midiExpandRepeats);
 
