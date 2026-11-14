@@ -73,6 +73,13 @@ public:
 
     bool positionRelativeToNoteheadRest() const override { return true; }
 
+    const PlaybackStateParams& playbackState() const { return m_playbackState; }
+    void setPlaybackState(const PlaybackStateParams& params) { m_playbackState = params; }
+
+    PropertyValue getProperty(Pid propertyId) const override;
+    bool setProperty(Pid propertyId, const PropertyValue& v) override;
+    PropertyValue propertyDefault(Pid id) const override;
+
     void added() override;
     void removed() override;
 
@@ -84,5 +91,6 @@ private:
     int m_aeolusStops[4] { 0, 0, 0, 0 };
     bool m_swing = false;
     int m_capo = 0;
+    PlaybackStateParams m_playbackState;
 };
 }
