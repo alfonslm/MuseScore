@@ -56,6 +56,9 @@ public:
     muse::audio::secs_t totalPlayTime() const override;
     muse::async::Channel<muse::audio::secs_t> totalPlayTimeChanged() const override;
 
+    const muse::audio::MusicalTimeMap& musicalTimeMap() const override;
+    muse::async::Notification musicalTimeMapChanged() const override;
+
     muse::audio::secs_t playedTickToSec(muse::midi::tick_t tick) const override;
     muse::midi::tick_t secToPlayedTick(muse::audio::secs_t sec) const override;
     muse::midi::tick_t secToTick(muse::audio::secs_t sec) const override;

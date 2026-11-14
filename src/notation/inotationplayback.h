@@ -28,6 +28,7 @@
 #include "types/retval.h"
 #include "midi/miditypes.h"
 #include "audio/common/audiotypes.h"
+#include "audio/common/musicaltimemap.h"
 #include "async/channel.h"
 #include "mpe/events.h"
 #include "engraving/types/types.h"
@@ -75,6 +76,10 @@ public:
 
     virtual muse::audio::secs_t totalPlayTime() const = 0;
     virtual muse::async::Channel<muse::audio::secs_t> totalPlayTimeChanged() const = 0;
+
+    //! Tempo, pauses, bar lines and time signatures of the score as it is played back
+    virtual const muse::audio::MusicalTimeMap& musicalTimeMap() const = 0;
+    virtual muse::async::Notification musicalTimeMapChanged() const = 0;
 
     virtual muse::audio::secs_t playedTickToSec(muse::midi::tick_t tick) const = 0;
     virtual muse::midi::tick_t secToPlayedTick(muse::audio::secs_t sec) const = 0;

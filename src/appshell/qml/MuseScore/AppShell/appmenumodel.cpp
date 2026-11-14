@@ -526,6 +526,8 @@ MenuItem* AppMenuModel::makeDiagnosticsMenu()
         MenuItemList vstItems {
             makeMenuItem(VST_USE_OLDVIEW_COMMAND),
             makeMenuItem(VST_USE_NEWVIEW_COMMAND),
+            makeSeparator(),
+            makeMenuItem(VST_KEEP_INSTRUMENTS_RUNNING_COMMAND),
         };
 #endif
 

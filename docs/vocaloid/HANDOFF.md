@@ -1,8 +1,16 @@
 # VOCALOID7 ⇄ MuseScore: handoff
 
-Working notes for whoever continues this (human or agent). Written 2026-11-12.
-Branch: `claude/busy-cori-tiki06` in `alfonslm/MuseScore` (and the same branch name in
-`alfonslm/muse_framework`, untouched so far).
+Working notes for whoever continues this (human or agent). Written 2026-11-12, status updated 2026-11-14.
+
+**Where things are (2026-11-14):**
+
+- The fork's integration branch is `beta` in both repositories; see `CLAUDE.md` at the repository root for
+  the branch and submodule conventions.
+- Route A (MIDI export option) is in the integration branch of PR 13 and reaches `beta` with it. Its own
+  PR 12 (against `main`) was closed without merging; nothing is lost.
+- Route D and the "keep running when stopped" option: framework side merged into `alfonslm/muse_framework`
+  `beta` (PR 4); MuseScore side is PR 15 (`claude/vst-transport` → `beta`), all checks green.
+- Nothing has been tried with VOCALOID7 yet. That is the next step, and it needs the user.
 
 ## 1. Goal
 
@@ -14,9 +22,9 @@ Routes that were evaluated, in the user's order of interest:
 
 | | Route | Status |
 |---|---|---|
-| A | MIDI export where a pause lengthens its bar instead of inserting a bar | **in progress, this branch** |
+| A | MIDI export where a pause lengthens its bar instead of inserting a bar | written, on the `beta` line via PR 13; untested with Vocaloid |
 | C | Load VOCALOID7 as a VST3 in MuseScore as it is today | needs a 10-minute test **by the user** |
-| D | Send tempo / beat position to VST plugins | not started; only if C shows it is needed |
+| D | Send tempo / beat position to VST plugins | written; framework merged (alfonslm/muse_framework#4), MuseScore side in alfonslm/MuseScore#15; untested with a plugin |
 | E | ARA2 hosting in MuseScore | not started; large |
 | B | Direct `.vpr` (Vocaloid project) export with lyrics | not started; optional |
 
@@ -165,7 +173,55 @@ playback inside MuseScore. If it does not start or ignores position, go to D.
 
 ## 6. Routes D, E, B – outlines
 
-### D. Tempo and musical position in `ProcessContext` (est. 1–2 weeks, both repos)
+### D. Tempo and musical position in `ProcessContext`
+
+**Status (2026-11-14): first version written, not yet run with a plugin.**
+
+**Both PRs were moved onto the fork's `beta` line the same day** (user's decision): framework PR 4 merges
+framework `beta` and targets `beta`; MuseScore PR 15 merges the integration branch of PR 13
+(`claude/youthful-albattani-otzuhh`) and targets `beta`. `beta` is where the fork's newer engine lives
+(parallel export, On/Off and Live/Standby markings, keyswitch maps); `main` has none of it. Route A (PR 12)
+is still based on `main`.
+
+**Host gap 1 below now has an option** (same two PRs): Diagnostic > VST > "Keep instruments running when
+playback is stopped" (`command://vst/keep-instruments-running`, off by default, applies to all VST
+instruments). Setting `audio/plugins/keepInstrumentsActiveWhenIdle` → `AudioEngineConfig` →
+`VstSynthesiser::shouldProcessWhenIdle()`; `AudioContext::withSourcesToProcessWhenIdle()` keeps such tracks
+in the mixer's idle set. Independent of Live/Standby, which only govern playback. Untested with a real plugin.
+
+Framework `beta` itself has two audio test files that do not compile (`rpcpacker_tests.cpp` static
+assertion without `PlaybackStateEvent`; `AudioContextMock` without `saveSoundTracks`); a separate task was
+suggested for that.
+
+- Framework, branch `claude/busy-cori-tiki06` of alfonslm/muse_framework, draft PR alfonslm/muse_framework#4:
+  `audio/common/musicaltimemap.h` (`MusicalTimeMap`, `MusicalPosition`), `IPlayer::setMusicalTimeMap()` →
+  RPC `SetMusicalTimeMap` → `ContextPlayer`; `IPlayheadPosition::musicalPosition()`; optional
+  `setPlayheadPosition()` on `ISynthesizer` / `IFxProcessor`; `VstAudioClient::updateProcessContext()` fills
+  tempo, time signature, `projectTimeMusic`, `barPositionMusic` and their valid flags.
+- MuseScore, branch `claude/vst-transport` (from `main`, **not** stacked on route A), draft PR alfonslm/MuseScore#15:
+  `src/engraving/playback/musicaltimemapbuilder.*`, `INotationPlayback::musicalTimeMap()` +
+  `musicalTimeMapChanged()`, sent from `PlaybackController::setupPlayer()`.
+  On that branch `.gitmodules` points `muse` at the fork (user's decision), so the
+  `check_muse_framework` check fails there on purpose.
+- Verified: 7 framework + 8 builder unit tests pass locally; changed files pass syntax-only compiles
+  (VST host files against the pinned VST3 SDK headers). Not verified: full build, the real test
+  binaries, anything with a real plugin.
+- Left: get CI green on both PRs; run uncrustify; try a transport-following plugin and VOCALOID7;
+  fill `systemTime`, `continousTimeSamples` and the loop (cycle) fields; decide whether note events
+  should carry `ppqPosition`.
+
+**Other host gaps found while reading the VST code (not fixed, each matters for a plugin with its own editor):**
+
+1. An instrument plugin is deactivated when playback stops (`VstSynthesiser::setMode` →
+   `VstAudioClient::setIsActive(false)` → `setProcessing(false)` / `setActive(false)`), and
+   `VstAudioClient::process` returns early while inactive. Until playback restarts or a note is auditioned
+   from the score, the plugin produces no audio and sees no transport: auditioning inside Vocaloid's own
+   piano roll while MuseScore is stopped would be silent. Effects are not deactivated, only instruments.
+2. `VstComponentHandler::restartComponent()` returns OK for every flag and does nothing, and
+   `getLatencySamples()` is never called: no latency compensation, no reaction to bus changes.
+3. No ARA (see E).
+
+The original design notes follow.
 
 Goal: fill `tempo`, `timeSigNumerator/Denominator`, `projectTimeMusic`, `barPositionMusic` and
 set `kTempoValid | kTimeSigValid | kProjectTimeMusicValid | kBarPositionValid` in
