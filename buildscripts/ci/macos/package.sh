@@ -45,6 +45,10 @@ BUILD_MODE=$(cat $ARTIFACTS_DIR/env/build_mode.env)
 BUILD_VERSION=$(cat $ARTIFACTS_DIR/env/build_version.env)
 BUILD_REVISION=$(cat $ARTIFACTS_DIR/env/build_revision.env)
 BUILD_NUMBER=$(cat $ARTIFACTS_DIR/env/build_number.env)
+BUILD_BRANCH=""
+if [ -f "$ARTIFACTS_DIR/env/build_branch.env" ]; then
+    BUILD_BRANCH=$(cat $ARTIFACTS_DIR/env/build_branch.env)
+fi
 
 VERSION_MAJOR="$(cut -d'.' -f1 <<<"$BUILD_VERSION")"
 VERSION_MINOR="$(cut -d'.' -f2 <<<"$BUILD_VERSION")"
@@ -54,6 +58,11 @@ VERSION_PATCH="$(cut -d'.' -f3 <<<"$BUILD_VERSION")"
 APP_NAME="MuseScore $VERSION_MAJOR"
 if [ "$BUILD_MODE" == "devel" ]; then
     APP_NAME="MuseScore $BUILD_VERSION Development"
+    # Only when no --branch was passed; otherwise the branch prefix added below
+    # already labels the build and the name would carry the branch twice.
+    if [ -n "$BUILD_BRANCH" ] && [ -z "$BRANCH_NAME" ]; then
+        APP_NAME="MuseScore ($BUILD_BRANCH) $BUILD_VERSION Development"
+    fi
     VOL_NAME="MuseScore-Studio-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${BUILD_NUMBER}-${BUILD_REVISION}"
 fi
 if [ "$BUILD_MODE" == "nightly" ]; then

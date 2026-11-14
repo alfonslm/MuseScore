@@ -71,7 +71,7 @@ on:
 concurrency:
   # If run via workflow_call, ${{ github.workflow }} is the root workflow's name (e.g. 'Deploy'),
   # which is the same for all workflows called in that run, hence we must add a unique suffix here.
-  group: ${{ github.workflow }} ${{ github.event_name }} ${{ github.ref }} macos-arm64
+  group: ${{ github.workflow }} ${{ github.event_name }} ${{ github.ref }} ${{ github.event.issue.number }} macos-arm64
   cancel-in-progress: true
 
 env:
@@ -193,9 +193,15 @@ jobs:
         BRANCH_NAME="$(tr '/' '_' <<<"${{ github.head_ref || github.ref_name }}")"
         UPLOAD_ARTIFACT_NAME="$(tr '":<>|*?/\\’' '_' <<<"${BRANCH_NAME}_MU4_${BUILD_NUMBER}_Mac_arm64${ADD_INFO}")"
 
+        BUILD_BRANCH="${{ github.head_ref }}"
+        if [ -z "$BUILD_BRANCH" ]; then
+          BUILD_BRANCH="${GITHUB_REF#refs/heads/}"
+        fi
+
         echo "github.repository: ${{ github.repository }}"
         echo "BUILD_MODE=$BUILD_MODE" | tee -a $GITHUB_ENV
         echo "BUILD_NUMBER=$BUILD_NUMBER" | tee -a $GITHUB_ENV
+        echo "BUILD_BRANCH=$BUILD_BRANCH" | tee -a $GITHUB_ENV
         echo "DO_UPDATE_TS=$DO_UPDATE_TS" | tee -a $GITHUB_ENV
         echo "DO_PLACEHOLDER_TRANSLATIONS=$DO_PLACEHOLDER_TRANSLATIONS" | tee -a $GITHUB_ENV
         echo "DO_SIGN=$DO_SIGN" | tee -a $GITHUB_ENV
@@ -248,7 +254,7 @@ jobs:
       env:
         DOCKWIDGETS_V2: ${{ inputs.dockwidgets_v2 == 'ON' && 'ON' || 'OFF' }}
       run: |
-        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --archs "arm64"
+        bash ./buildscripts/ci/macos/build.sh -n "${BUILD_NUMBER}" --crash_log_url "${SENTRY_URL}" --dockwidgets_v2 "${DOCKWIDGETS_V2}" --archs "arm64" --branch "${BUILD_BRANCH}"
     - name: Show ccache stats
       run: |
         ccache -sv
