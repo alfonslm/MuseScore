@@ -243,15 +243,10 @@ jobs:
         ccache -sv
     - name: Package
       env:
-        MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET: ${{ secrets.MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET }}
-        MAC_SIGN_CERTIFICATE_PASSWORD: ${{ secrets.MAC_SIGN_CERTIFICATE_PASSWORD }}
         APPLE_USERNAME: ${{ secrets.APPLE_USERNAME }}
         APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
       run: |
-        PACKAGE_ARGS=(
-          --signsecret "${MAC_SIGN_CERTIFICATE_ENCRYPT_SECRET}"
-          --signpass "${MAC_SIGN_CERTIFICATE_PASSWORD}"
-        )
+        PACKAGE_ARGS=()
         if [ "$DO_NOTARIZE" = "true" ]; then
           PACKAGE_ARGS+=(
             --user "${APPLE_USERNAME}"

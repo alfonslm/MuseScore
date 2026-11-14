@@ -1,6 +1,7 @@
 [submodule "muse_framework"]
 	path = muse
-	url = https://github.com/musescore/muse_framework.git
+	url = https://github.com/alfonslm/muse_framework.git
+	branch = keyswitch-maps
 [submodule "muse_deps"]
 	path = muse_deps
 	url = https://github.com/musescore/muse_deps.git
