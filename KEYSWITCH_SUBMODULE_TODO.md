@@ -4,14 +4,15 @@
 
 [#7](https://github.com/alfonslm/MuseScore/pull/7) ("Presets and key triggers: keyswitch map
 support") needs engine-level changes in `muse_framework` (`VstSequencer`/`VstSynthesiser`/
-`KeyswitchMapRegistry`) that live in a fork PR, [alfonslm/muse_framework#1](https://github.com/alfonslm/muse_framework/pull/1),
-since `musescore/muse_framework` isn't writable from this account.
+`KeyswitchMapRegistry`) that live in a fork PR, [alfonslm/muse_framework#1](https://github.com/alfonslm/muse_framework/pull/1)
+(merged into the fork's own `main` on 2026-11-14), since `musescore/muse_framework` isn't
+writable from this account.
 
 To let #7 pass CI, `.github/workflows/check_submodules.yml`'s `check_muse_framework` job was
 temporarily widened, on this branch, to also accept `https://github.com/alfonslm/muse_framework.git`
-@ `keyswitch-maps` as a valid submodule pin, alongside the real upstream
-`musescore/muse_framework.git` @ `main`. The `muse` submodule itself is currently pinned to a
-commit on that fork branch, not upstream.
+@ `main` as a valid submodule pin, alongside the real upstream `musescore/muse_framework.git`
+@ `main`. The `muse` submodule itself is currently pinned to a commit on the fork's `main`, not
+the real upstream.
 
 ## Follow-up (push-2)
 
