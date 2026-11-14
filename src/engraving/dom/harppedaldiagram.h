@@ -49,10 +49,11 @@ class HarpPedalDiagram final : public TextBase
     DECLARE_CLASSOF(ElementType::HARP_DIAGRAM)
 
 public:
-    HarpPedalDiagram(Segment* parent);
+    HarpPedalDiagram(DummyParentOr<Segment> parent);
     HarpPedalDiagram(const HarpPedalDiagram& h);
 
     HarpPedalDiagram* clone() const override { return new HarpPedalDiagram(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
     bool isEditable() const override { return false; }
 
     Segment* segment() const { return (Segment*)ownershipParent(); }

@@ -22,11 +22,12 @@
 #include "projectmodule.h"
 
 #include "modularity/ioc.h"
+#include "global/api/ifilesystemapirestriction.h"
+
 #include "internal/projectcreator.h"
 #include "internal/projectautosaver.h"
 #include "internal/projectactionscontroller.h"
 #include "internal/engravingpluginapihelper.h"
-#include "internal/projectuiactions.h"
 #include "internal/projectconfiguration.h"
 #include "internal/openprojectscenario.h"
 #include "internal/saveprojectscenario.h"
@@ -38,7 +39,8 @@
 #include "internal/projectautosaver.h"
 #include "internal/convertfiletoscoreservice.h"
 #include "internal/convertfiletoscorescenario.h"
-
+#include "internal/deletecloudscorescenario.h"
+#include "internal/projectsession.h"
 #include "internal/notationreadersregister.h"
 #include "internal/notationwritersregister.h"
 #include "internal/projectcommandsregister.h"
@@ -53,7 +55,6 @@
 #endif
 
 #include "rcommand/icommandsstate.h"
-#include "ui/iuiactionsregister.h"
 #include "interactive/iinteractiveuriregister.h"
 
 using namespace mu::project;
@@ -91,15 +92,32 @@ void ProjectModule::resolveImports()
         ir->registerQmlUri(Uri("musescore://project/migration"), "MuseScore.Project", "MigrationDialog");
         ir->registerQmlUri(Uri("musescore://project/properties"), "MuseScore.Project", "ProjectPropertiesDialog");
         ir->registerQmlUri(Uri("musescore://project/upload/progress"), "MuseScore.Project", "UploadProgressDialog");
+        ir->registerQmlUri(Uri("musescore://project/export/audioprogress"), "MuseScore.Project", "AudioExportProgressDialog");
         ir->registerQmlUri(Uri("musescore://project/upload/success"), "MuseScore.Project", "ProjectUploadedDialog");
         ir->registerQmlUri(Uri("musescore://project/audiogenerationsettings"), "MuseScore.Project", "AudioGenerationSettingsDialog");
         ir->registerQmlUri(Uri("musescore://project/convert/selectfiles"), "MuseScore.Project", "ConvertFileToScoreDialog");
         ir->registerQmlUri(Uri("musescore://project/convert/processing"), "MuseScore.Project", "ConvertFileProcessingDialog");
+        ir->registerQmlUri(Uri("musescore://project/deletecloudscore"), "MuseScore.Project", "DeleteCloudScoreDialog");
     }
 
     auto cr = globalIoc()->resolve<muse::rcommand::ICommandsRegister>(mname);
     if (cr) {
         cr->reg(std::make_shared<ProjectCommandsRegister>());
+    }
+}
+
+void ProjectModule::registerApi()
+{
+    auto fsRestriction = globalIoc()->resolve<muse::api::IFileSystemApiRestriction>(moduleName());
+    if (fsRestriction) {
+        fsRestriction->addAllowedPathBase("userProjectsPath", m_configuration->userProjectsPath());
+        fsRestriction->addAllowedPathBase("userTemplatesPath", m_configuration->userTemplatesPath());
+        m_configuration->userProjectsPathChanged().onReceive(this, [fsRestriction](const muse::io::path_t& path) {
+            fsRestriction->addAllowedPathBase("userProjectsPath", path);
+        });
+        m_configuration->userTemplatesPathChanged().onReceive(this, [fsRestriction](const muse::io::path_t& path) {
+            fsRestriction->addAllowedPathBase("userTemplatesPath", path);
+        });
     }
 }
 
@@ -146,6 +164,8 @@ void ProjectContext::registerExports()
     ioc()->registerExport<mu::engraving::IEngravingPluginAPIHelper>(mname, m_engravingPluginAPIHelper);
     ioc()->registerExport<IConvertFileToScoreService>(mname, m_convertFileToScoreService);
     ioc()->registerExport<IConvertFileToScoreScenario>(mname, m_convertFileToScoreScenario);
+    ioc()->registerExport<IDeleteCloudScoreScenario>(mname, new DeleteCloudScoreScenario(iocContext()));
+    ioc()->registerExport<IProjectSession>(mname, new ProjectSession());
 }
 
 void ProjectContext::resolveImports()
@@ -153,11 +173,6 @@ void ProjectContext::resolveImports()
     auto cs = ioc()->resolve<muse::rcommand::ICommandsState>(mname);
     if (cs) {
         cs->reg(std::make_shared<ProjectCommandsState>(iocContext()));
-    }
-
-    auto ar = ioc()->resolve<muse::ui::IUiActionsRegister>(mname);
-    if (ar) {
-        ar->reg(std::make_shared<ProjectUiActions>(m_actionsController, iocContext()));
     }
 }
 

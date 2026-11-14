@@ -49,6 +49,7 @@ class Spacer final : public EngravingItem
 public:
 
     Spacer* clone() const override { return new Spacer(*this); }
+    void setOwnershipParent(DummyParentOr<Measure> parent) { EngravingItem::setOwnershipParent(parent); }
     Measure* measure() const { return toMeasure(ownershipParent()); }
 
     SpacerType spacerType() const { return m_spacerType; }
@@ -85,7 +86,7 @@ public:
 private:
 
     friend class Factory;
-    Spacer(Measure* parent);
+    Spacer(DummyParentOr<Measure> parent);
     Spacer(const Spacer&);
 
     SpacerType m_spacerType = SpacerType::UP;

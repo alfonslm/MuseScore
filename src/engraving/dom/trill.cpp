@@ -27,6 +27,7 @@
 #include "../editing/addremoveelement.h"
 #include "types/typesconv.h"
 
+#include "dummyparent.h"
 #include "iengravingfont.h"
 
 #include "accidental.h"
@@ -158,7 +159,7 @@ EngravingObject* TrillSegment::propertyDelegate(Pid pid) const
 //   Trill
 //---------------------------------------------------------
 
-Trill::Trill(EngravingItem* parent)
+Trill::Trill(DummyParent* parent)
     : SLine(ElementType::TRILL, parent)
 {
     m_trillType     = TrillType::TRILL_LINE;
@@ -225,7 +226,7 @@ void Trill::computeStartElement()
 {
     Spanner::computeStartElement();
     if (startElement() && startElement()->isChord() && m_ornament) {
-        m_ornament->setOwnershipParent(startElement());
+        m_ornament->setOwnershipParent(toChord(startElement()));
 
         Chord* cueChord = m_ornament->cueNoteChord();
         if (cueChord) {
@@ -311,7 +312,7 @@ void Trill::setTrillType(TrillType tt)
     m_trillType = tt;
     if (!m_ornament) {
         // ornament parent will be explicitely set at layout stage
-        m_ornament = Factory::createOrnament((ChordRest*)score()->dummy()->chord());
+        m_ornament = Factory::createOrnament(score()->dummy());
     }
     m_ornament->setTrack(track());
     m_ornament->setSymId(Ornament::fromTrillType(tt));

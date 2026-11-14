@@ -43,6 +43,7 @@ public:
     double mag() const override { return layoutParent()->mag(); }
 
     StemSlash* clone() const override { return new StemSlash(*this); }
+    void setOwnershipParent(DummyParentOr<Chord> parent) { EngravingItem::setOwnershipParent(parent); }
 
     Chord* chord() const { return (Chord*)ownershipParent(); }
 
@@ -55,7 +56,7 @@ public:
 private:
 
     friend class Factory;
-    StemSlash(Chord* parent = 0);
+    StemSlash(DummyParentOr<Chord> parent);
 };
 } // namespace mu::engraving
 #endif

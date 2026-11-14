@@ -198,7 +198,7 @@ private:
 
     friend class FiguredBass;
 
-    FiguredBassItem(FiguredBass* parent = 0, int line = 0);
+    FiguredBassItem(FiguredBass* parent, int line = 0);
     FiguredBassItem(const FiguredBassItem&);
 
     // part parsing
@@ -268,6 +268,7 @@ public:
 
     // standard re-implemented virtual functions
     FiguredBass* clone() const override { return new FiguredBass(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
 
     FiguredBassItem* createItem(int line) { return new FiguredBassItem(this, line); }
 
@@ -321,7 +322,7 @@ public:
 private:
 
     friend class Factory;
-    FiguredBass(Segment* parent = 0);
+    FiguredBass(DummyParentOr<Segment> parent);
     FiguredBass(const FiguredBass&);
 
     Sid getPropertyStyle(Pid) const override;

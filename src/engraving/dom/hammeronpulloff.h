@@ -119,7 +119,7 @@ public:
 
     friend class Factory;
 
-    HammerOnPullOff(EngravingItem* parent);
+    HammerOnPullOff(DummyParent* parent);
     HammerOnPullOff(const HammerOnPullOff&);
 };
 } // namespace mu::engraving

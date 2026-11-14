@@ -27,6 +27,7 @@
 
 #include "engraving/dom/arpeggio.h"
 #include "engraving/dom/box.h"
+#include "engraving/dom/capo.h"
 #include "engraving/dom/chord.h"
 #include "engraving/dom/excerpt.h"
 #include "engraving/dom/factory.h"
@@ -303,7 +304,7 @@ static void addGraceNotesToChord(mu::engraving::Chord* chord, int pitch, int fre
     mu::engraving::TDuration durationType(mu::engraving::DurationType::V_INVALID);
     const int ticks { 240 };
     durationType.setVal(ticks);
-    mu::engraving::Chord* cr = Factory::createChord(chord->score()->dummy()->segment());
+    mu::engraving::Chord* cr = Factory::createChord(chord->score()->dummy());
     cr->setTrack(chord->track());
     cr->setNoteType(mu::engraving::NoteType::APPOGGIATURA);
     cr->setDurationType(mu::engraving::DurationType::V_EIGHTH);
@@ -357,6 +358,47 @@ static void addVolta(Score* score, Measure* measure, const Ending& ending)
     text += String("%1").arg(ending.number);
     volta->setText(text);
     score->addElement(volta);
+}
+
+void TablEdit::createCapos()
+{
+    for (size_t part = 0; part < tefInstruments.size(); ++part) {
+        int capo { tefInstruments.at(part).nCapo };
+        if (capo > 0) {
+            Measure* measure = score->firstMeasure();
+            Segment* s = measure->getSegment(SegmentType::ChordRest, measure->tick());
+            const size_t track = part * VOICES;
+
+            CapoParams params;
+            params.active = true;
+            params.transposeMode = CapoParams::TransposeMode::TAB_ONLY;
+            params.fretPosition = capo;
+
+            Capo* capoEl = Factory::createCapo(score->dummy());
+            capoEl->setTrack(track);
+            capoEl->setParams(params);
+            s->add(capoEl);
+
+            Staff* staff = score->staff(part);
+            staff->insertCapoParams({ 0, 1 }, params, true);
+        }
+    }
+}
+
+// string tuning contains higher values for lower sounding strings
+// for guitar:
+// E4 = 32 (MIDI 64)
+// B3 = 37
+// G3 = 41
+// D3 = 46
+// A2 = 51
+// E2 = 56 (MIDI 40)
+// thus to go from tuning value to MIDI pitch: pitch = 96 - tuning
+// todo: check interaction with fMiddleC
+
+static int stringTuningToMidi(int tuning)
+{
+    return 96 - tuning;
 }
 
 void TablEdit::createContents(const MeasureHandler& measureHandler)
@@ -451,15 +493,19 @@ void TablEdit::createContents(const MeasureHandler& measureHandler)
 
                         for (const auto note : tefNotes) {
                             const auto stringOffset = stringNumberPreviousParts(part);
-                            // todo fix magical constant 96 and code duplication
-                            int pitch = 96 - instrument.tuning.at(note->string - stringOffset - 1) + note->fret;
-                            LOGN("      -> string %d fret %d pitch %d", note->string, note->fret, pitch);
+                            const auto string { note->string - stringOffset - 1 }; // instrument-relative zero-based string number
+                            int unFrettedPitch = stringTuningToMidi(instrument.tuning.at(string)); // + note->fret;
+                            const int capo { instrument.nCapo };
+                            if (capo > 0) {
+                                unFrettedPitch += capo;
+                            }
+                            const int frettedPitch { unFrettedPitch + note->fret };
+                            LOGN("      -> string %d fret %d pitch %d", note->string, note->fret, frettedPitch);
                             // note TableEdit's strings start at 1, MuseScore's at 0
-                            mu::engraving::Note* mn { addNoteToChord(chord, note, stringOffset, pitch, toColor(voice), tiedNotes) };
+                            mu::engraving::Note* mn { addNoteToChord(chord, note, stringOffset, frettedPitch, toColor(voice), tiedNotes) };
                             if (note->hasGrace) {
-                                // todo fix magical constant 96 and code duplication
-                                int gracePitch = 96 - instrument.tuning.at(note->string - stringOffset - 1) + note->graceFret;
-                                addGraceNotesToChord(chord, gracePitch, note->graceFret, note->string - stringOffset - 1, toColor(voice));
+                                int gracePitch = unFrettedPitch + note->graceFret;
+                                addGraceNotesToChord(chord, gracePitch, note->graceFret, string, toColor(voice));
                             }
                             if (mn && (note->effect() != EffectType::NONE || note->combinationEffect() != EffectType::NONE)) {
                                 effectMap.insert({ note, mn });
@@ -563,13 +609,12 @@ static void addContinuousSlideHammerOn(Score* _score, const std::map<const TefNo
 
         /// Layout info
         if (tefNote->effect() == EffectType::SLIDE) {
-            Glissando* gl = mu::engraving::Factory::createGlissando(_score->dummy());
+            Glissando* gl = mu::engraving::Factory::createGlissando(startNote);
             gl->setStartElement(startNote);
             gl->setTrack(track);
             gl->setTick(startTick);
             gl->setTick2(endNote->chord()->tick());
             gl->setEndElement(endNote);
-            gl->setOwnershipParent(startNote);
             gl->setText(u"Sl");
             gl->setGlissandoType(GlissandoType::STRAIGHT);
             gl->setGlissandoStyle(startNote->part()->instrument(startTick)->glissandoStyle());
@@ -715,7 +760,7 @@ static void addSingleNoteEffects(Score* score, const std::map<const TefNote* con
         }
         if (primary == EffectType::RINGING_NOTE
             || combination == EffectType::RINGING_NOTE) {
-            LetRing* lr = Factory::createLetRing(score->dummy()->segment());
+            LetRing* lr = Factory::createLetRing(score->dummy());
             lr->setTrack(msNote->track());
             lr->setTick(msNote->tick());
             lr->setTick2(msNote->tick() + 2 * msNote->chord()->ticks());
@@ -873,7 +918,7 @@ void TablEdit::createParts()
         StringData stringData;
         stringData.setFrets(25); // reasonable default (?)
         for (int i = 0; i < instrument.stringNumber; ++i) {
-            int pitch = 96 - instrument.tuning.at(instrument.stringNumber - i - 1);
+            int pitch = stringTuningToMidi(instrument.tuning.at(instrument.stringNumber - i - 1));
             LOGN("pitch %d", pitch);
             instrString str { pitch };
             stringData.stringList().push_back(str);
@@ -1022,6 +1067,7 @@ void TablEdit::createScore()
     createParts();
     createTitleFrame();
     createMeasures(measureHandler);
+    createCapos();
     createNotesFrame();
     createContents(measureHandler);
     createEffects();
@@ -1285,10 +1331,6 @@ void TablEdit::readTefContents()
     }
 }
 
-// tuning to MIDI: 96 - tuning[string] with string 0 is highest
-// MIDI E2 = 40 E4 = 64
-// todo: check interaction with fMiddleC
-
 void TablEdit::readTefInstruments()
 {
     _file->seek(OFFSET_INSTRUMENTS);
@@ -1314,7 +1356,8 @@ void TablEdit::readTefInstruments()
         instrument.output = readUInt16();
         instrument.options = readUInt16();
         for (uint16_t j = 0; j < 12; ++j) {
-            auto n = readUInt8();
+            int n = readUInt8();
+            n += instrument.nCapo;
             instrument.tuning[j] = n;
         }
         // name is a zero-terminated utf8 string

@@ -38,6 +38,7 @@ class Accidental;
 class AccidentalState;
 class Chord;
 class Factory;
+class JianpuOctaveDot;
 class NoteDot;
 class NoteEditData;
 class Score;
@@ -49,8 +50,6 @@ class Transaction;
 enum class AccidentalType : unsigned char;
 enum class NoteType : unsigned char;
 struct NoteParenthesisInfo;
-
-static constexpr int MAX_DOTS = 4;
 
 //--------------------------------------------------------------------------------
 // LINE ATTACHMENT POINT
@@ -84,10 +83,11 @@ class NoteHead final : public Symbol
     DECLARE_CLASSOF(ElementType::NOTEHEAD)
 
 public:
-    NoteHead(Note* parent = 0);
+    NoteHead(DummyParentOr<Note> parent);
     NoteHead(const NoteHead&) = default;
     NoteHead& operator=(const NoteHead&) = delete;
     NoteHead* clone() const override { return new NoteHead(*this); }
+    void setOwnershipParent(DummyParentOr<Note> parent) { EngravingItem::setOwnershipParent(parent); }
 
     NoteHeadGroup headGroup() const;
 };
@@ -158,7 +158,7 @@ public:
     virtual Note* clone() const override { return new Note(*this, false); }
 
     Chord* chord() const { return (Chord*)ownershipParent(); }
-    void setOwnershipParent(Chord* ch);
+    void setOwnershipParent(DummyParentOr<Chord> ch);
 
     void undoUnlink() override;
 
@@ -266,6 +266,11 @@ public:
 
     bool fretConflict() const { return m_fretConflict; }
     void setFretConflict(bool val) { m_fretConflict = val; }
+
+    String jianpuDigit() const { return m_jianpuDigit; }
+    void setJianpuDigit(const String& s) { m_jianpuDigit = s; }
+    String jianpuAccidental() const { return m_jianpuAccidental; }
+    void setJianpuAccidental(const String& s) { m_jianpuAccidental = s; }
 
     void add(EngravingItem*) override;
     void remove(EngravingItem*) override;
@@ -454,6 +459,10 @@ public:
 
     bool isExactUnison(Note* other);
 
+    const std::vector<JianpuOctaveDot*>& jianpuOctaveDots() const { return m_jianpuOctaveDots; }
+    std::vector<JianpuOctaveDot*>& jianpuOctaveDots() { return m_jianpuOctaveDots; }
+    void setJianpuOctaveDotCount(size_t count);
+
     struct LayoutData : public EngravingItem::LayoutData {
         ld_field<bool> useTablature = { "[Note] useTablature", false };
         ld_field<SymId> cachedNoteheadSym = { "[Note] cachedNoteheadSym", SymId::noSym };    // use in draw to avoid recomputing at every update
@@ -466,7 +475,7 @@ public:
 private:
 
     friend class Factory;
-    Note(Chord* ch = 0);
+    Note(DummyParentOr<Chord> ch);
     Note(const Note&, bool link = false);
 
     void startDrag(EditData&) override;
@@ -558,6 +567,9 @@ private:
     std::vector<Spanner*> m_spannerBack;
 
     String m_fretString;
+    String m_jianpuDigit;
+    String m_jianpuAccidental;
+    std::vector<JianpuOctaveDot*> m_jianpuOctaveDots;
 
     std::vector<LineAttachPoint> m_lineAttachPoints;
     TieJumpPointList m_jumpPoints { this };

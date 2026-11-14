@@ -28,6 +28,8 @@ qt_add_qml_module(playback_qml
         abstractaudioresourceitem.h
         auxsenditem.cpp
         auxsenditem.h
+        expressionmappingmodel.cpp
+        expressionmappingmodel.h
         inputresourceitem.cpp
         inputresourceitem.h
         mixerchannelitem.cpp
@@ -55,10 +57,12 @@ qt_add_qml_module(playback_qml
         internal/AudioProcessingProgressBar.qml
         internal/AudioResourceControl.qml
         internal/AuxSendControl.qml
+        internal/ExpressionMappingPopup.qml
         internal/KnobControl.qml
         internal/MeasureAndBeatFields.qml
         internal/MixerAuxSendsSection.qml
         internal/MixerBalanceSection.qml
+        internal/MixerExpressionMappingSection.qml
         internal/MixerFaderSection.qml
         internal/MixerFxSection.qml
         internal/MixerMuteAndSoloSection.qml
@@ -88,3 +92,8 @@ qt_add_qml_module(playback_qml
 )
 
 fixup_qml_module_dependencies(playback_qml)
+
+target_link_libraries(playback_qml PRIVATE
+    muse::uicomponents_qml
+    notationscene_qml
+)

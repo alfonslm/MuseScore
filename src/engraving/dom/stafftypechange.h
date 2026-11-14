@@ -41,6 +41,7 @@ public:
     ~StaffTypeChange() override;
 
     StaffTypeChange* clone() const override { return new StaffTypeChange(*this); }
+    void setOwnershipParent(DummyParentOr<MeasureBase> parent) { EngravingItem::setOwnershipParent(parent); }
 
     const StaffType* staffType() const { return m_staffType; }
     void setStaffType(StaffType* st, bool owned);
@@ -56,7 +57,7 @@ public:
 private:
 
     friend class Factory;
-    StaffTypeChange(MeasureBase* parent = 0);
+    StaffTypeChange(DummyParentOr<MeasureBase> parent);
     StaffTypeChange(const StaffTypeChange&);
 
     void spatiumChanged(double oldValue, double newValue) override;

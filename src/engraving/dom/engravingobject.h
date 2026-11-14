@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <type_traits>
 #include <vector>
 
 #include "global/allocator.h"
@@ -59,6 +60,7 @@ class ChordRest;
 class Clef;
 class Capo;
 class DeadSlapped;
+class DummyParent;
 class DurationElement;
 class Dynamic;
 class Expression;
@@ -161,6 +163,7 @@ class Staff;
 class StaffLines;
 class StaffState;
 class StaffText;
+class StaveSharingChange;
 class StaveSharingLabel;
 class StaffTextBase;
 class StaffTypeChange;
@@ -172,6 +175,7 @@ class StringTunings;
 class Symbol;
 class System;
 class SystemDivider;
+class SystemIndicatorIcon;
 class SystemLockIndicator;
 class SystemText;
 class SoundFlag;
@@ -210,6 +214,49 @@ enum class Pid : short;
 enum class PropertyFlags : char;
 
 using EngravingObjectList = std::vector<EngravingObject*>;
+using EngravingItemList = std::vector<EngravingItem*>;
+
+//! Parameter type for a parent that is either a real parent of one of the given types,
+//! or the dummy, i.e. no parent at all. It holds nothing but the pointer and makes no
+//! difference at runtime; the point is that "not attached to anything" has to be said
+//! rather than slipped in as a pointer of the wrong kind.
+//!
+//! Best-effort only: it narrows what a call site can pass, it does not prove anything.
+template<typename ... ParentTypes>
+class DummyParentOr
+{
+    template<typename T>
+    static constexpr bool accepts = std::is_same_v<T, DummyParent> || (std::is_base_of_v<ParentTypes, T> || ...);
+
+public:
+    template<typename T, std::enable_if_t<accepts<T>, int> = 0>
+    DummyParentOr(T* parent)
+        : m_parent(parent) {}
+
+    //! From a DummyParentOr that accepts no more than this one does.
+    template<typename ... OtherParentTypes, std::enable_if_t<(accepts<OtherParentTypes> && ...), int> = 0>
+    DummyParentOr(DummyParentOr<OtherParentTypes...> other)
+        : m_parent(other) {}
+
+    operator EngravingObject*() const {
+        return m_parent;
+    }
+
+    //! The parent as the given type, or null when it is not of that type - which
+    //! includes the dummy, i.e. when there is no parent to speak to yet.
+    template<typename T>
+    T* as() const;
+
+private:
+    EngravingObject* m_parent = nullptr;
+};
+
+//! The given parent if there is one, the dummy otherwise.
+template<typename T>
+DummyParentOr<T> parentOrDummy(T* parent, DummyParent* dummy)
+{
+    return parent ? DummyParentOr<T>(parent) : DummyParentOr<T>(dummy);
+}
 
 class EngravingObject
 {
@@ -234,14 +281,18 @@ public:
     //! ownershipParent(), which reports "not attached to anything" as null.
     EngravingObject* parent() const;
 
+    //! A class whose constructor names the parent types it accepts hides this with an
+    //! overload that takes the same, so that no other parent can be set by accident.
+    //! One that never has a parent deletes it.
     void setOwnershipParent(EngravingObject* p);
-    //! The parent this object has explicitly been attached to via setOwnershipParent().
-    //! Null while the object is merely constructed with a context parent, or parked on the dummy.
+    //! The parent this object is attached to. Null while it is parked on the dummy,
+    //! i.e. not attached to anything.
     EngravingObject* ownershipParent() const;
     void moveToDummy();
 
     const EngravingObjectList& children() const { return m_children; }
 
+    EngravingItemList childrenItems(bool all = false) const;
     std::vector<EngravingItem*> getChildren(bool includeInvisible = true) const;
     virtual void scanElements(std::function<void(EngravingItem*)>) {}
 
@@ -250,6 +301,7 @@ public:
     Score* score() const;
     MasterScore* masterScore() const;
     bool onSameScore(const EngravingObject* other) const;
+    bool isInScoreTree() const;
     const MStyle& style() const;
 
     virtual EngravingObject* propertyDelegate(Pid) const { return nullptr; }
@@ -278,7 +330,7 @@ public:
 
     virtual void undoChangeProperty(Pid id, const PropertyValue&, PropertyFlags ps);
     void undoChangeProperty(Pid id, const PropertyValue&);
-    virtual void undoResetProperty(Pid id);
+    void undoResetProperty(Pid id);
 
     void undoPushProperty(Pid);
 
@@ -315,7 +367,6 @@ private:
     ElementType m_type = ElementType::INVALID;
 
     EngravingObject* m_parent = nullptr;
-    bool m_isParentExplicitlySet = false;
     EngravingObjectList m_children;
 
 public:
@@ -448,6 +499,7 @@ public:
     CONVERT(MeasureNumber, MEASURE_NUMBER)
     CONVERT(MMRestRange,   MMREST_RANGE)
     CONVERT(StaffText,     STAFF_TEXT)
+    CONVERT(StaveSharingChange, STAVE_SHARING_CHANGE)
     CONVERT(StaveSharingLabel, STAVE_SHARING_LABEL)
     CONVERT(SystemText,    SYSTEM_TEXT)
     CONVERT(SoundFlag,     SOUND_FLAG)
@@ -473,6 +525,7 @@ public:
     CONVERT(Tapping, TAPPING)
     CONVERT(TappingHalfSlur, TAPPING_HALF_SLUR)
     CONVERT(TappingHalfSlurSegment, TAPPING_HALF_SLUR_SEGMENT)
+    CONVERT(JianpuOctaveDot, JIANPU_OCTAVE_DOT)
 #undef CONVERT
 
     virtual bool isEngravingItem() const { return false; }   // overridden in element.h
@@ -593,8 +646,21 @@ public:
         return isArticulationFamily() || isFermata();
     }
 
-    bool isIndicatorIcon() const { return isSystemLockIndicator() || isPageLockIndicator() || isStaffVisibilityIndicator(); }
+    bool isSystemIndicatorIcon() const { return isSystemLockIndicator() || isPageLockIndicator() || isStaffVisibilityIndicator(); }
+    bool isIndicatorIcon() const { return isSystemIndicatorIcon() || isStaveSharingChange(); }
 };
+
+template<typename ... ParentTypes>
+template<typename T>
+T* DummyParentOr<ParentTypes...>::as() const
+{
+    if constexpr (std::is_same_v<std::remove_const_t<T>, EngravingObject>) {
+        if (!m_parent || m_parent->isType(ElementType::DUMMY)) {
+            return nullptr;
+        }
+    }
+    return dynamic_cast<T*>(m_parent);
+}
 
 //---------------------------------------------------
 // safe casting of EngravingObject
@@ -681,6 +747,7 @@ CONVERT(TripletFeel)
 CONVERT(Harmony)
 CONVERT(Jump)
 CONVERT(StaffText)
+CONVERT(StaveSharingChange)
 CONVERT(StaveSharingLabel);
 CONVERT(StaffTextBase)
 CONVERT(TextBase)
@@ -692,6 +759,7 @@ CONVERT(Capo)
 CONVERT(Ottava)
 CONVERT(LayoutBreak)
 CONVERT(IndicatorIcon)
+CONVERT(SystemIndicatorIcon)
 CONVERT(StaffVisibilityIndicator)
 CONVERT(SystemLockIndicator)
 CONVERT(Segment)

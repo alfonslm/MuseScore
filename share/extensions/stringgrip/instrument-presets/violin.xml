@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  String Grip: adds <StringData> (24 frets, written pitch) to the built-in
+  "violin" instrument so MuseScore offers a Tablature staff type for it.
+  Drop this file (and the other instrument-presets/*.xml files) into a
+  folder, then point Edit > Preferences > Folders > "Instruments and score
+  orders" at that folder. MuseScore merges each file's <Instrument> onto
+  the built-in one by id: only the tags present here (StringData) are
+  set, every other field the instrument already has is left untouched.
+-->
+<museScore>
+      <instrument-group id="strings">
+            <Instrument id="violin">
+                  <StringData>
+                        <frets>24</frets>
+                        <string>55</string>
+                        <string>62</string>
+                        <string>69</string>
+                        <string>76</string>
+                  </StringData>
+            </Instrument>
+      </instrument-group>
+</museScore>

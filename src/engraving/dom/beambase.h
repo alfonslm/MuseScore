@@ -42,8 +42,8 @@ enum class BeamType : unsigned char {
 //---------------------------------------------------------
 
 struct BeamFragment {
-    double py1[2];
-    double py2[2];
+    double py1[2] = { 0.0, 0.0 };
+    double py2[2] = { 0.0, 0.0 };
 };
 
 enum class ChordBeamAnchorType : unsigned char {
@@ -187,7 +187,7 @@ public:
     DECLARE_LAYOUTDATA_METHODS(BeamBase)
 
 protected:
-    BeamBase(const ElementType& type, EngravingItem* parent, ElementFlags flags = ElementFlag::ON_STAFF);
+    BeamBase(const ElementType& type, EngravingObject* parent, ElementFlags flags = ElementFlag::ON_STAFF);
     BeamBase(const BeamBase&);
     std::vector<BeamSegment*> m_beamSegments;
     PointF m_startAnchor;

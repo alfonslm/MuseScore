@@ -34,6 +34,7 @@ using namespace mu::iex::midi;
 static const Settings::Key SHORTEST_NOTE_KEY("iex_midi", "io/midi/shortestNote");
 static const Settings::Key EXPORTRPNS_KEY("iex_midi", "io/midi/exportRPNs");
 static const Settings::Key EXPAND_REPEATS_KEY("iex_midi", "io/midi/expandRepeats");
+static const Settings::Key EXTEND_MEASURES_FOR_PAUSES_KEY("iex_midi", "io/midi/exportExtendMeasuresForPauses");
 static const Settings::Key ROUND_TEMPO_KEY("iex_midi", "io/midi/roundTempo");
 
 void MidiConfiguration::init()
@@ -50,6 +51,7 @@ void MidiConfiguration::init()
 
     settings()->setDefaultValue(EXPAND_REPEATS_KEY, Val(true));
     settings()->setDefaultValue(EXPORTRPNS_KEY, Val(true));
+    settings()->setDefaultValue(EXTEND_MEASURES_FOR_PAUSES_KEY, Val(false));
 }
 
 int MidiConfiguration::midiShortestNote() const
@@ -107,4 +109,14 @@ bool MidiConfiguration::isMidiExportRpns() const
 void MidiConfiguration::setIsMidiExportRpns(bool exportRpns)
 {
     settings()->setSharedValue(EXPORTRPNS_KEY, Val(exportRpns));
+}
+
+bool MidiConfiguration::isMidiExportExtendMeasuresForPauses() const
+{
+    return settings()->value(EXTEND_MEASURES_FOR_PAUSES_KEY).toBool();
+}
+
+void MidiConfiguration::setIsMidiExportExtendMeasuresForPauses(bool extend)
+{
+    settings()->setSharedValue(EXTEND_MEASURES_FOR_PAUSES_KEY, Val(extend));
 }

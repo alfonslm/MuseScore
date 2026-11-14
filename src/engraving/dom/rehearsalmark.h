@@ -41,13 +41,14 @@ public:
         Additional
     };
 
-    RehearsalMark(Segment* parent);
+    RehearsalMark(DummyParentOr<Segment> parent);
 
     bool isEditAllowed(EditData&) const override;
     bool allowTimeAnchor() const override { return false; }
     RectF drag(EditData& ed) override;
 
     RehearsalMark* clone() const override { return new RehearsalMark(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
 
     Segment* segment() const { return (Segment*)ownershipParent(); }
 

@@ -218,6 +218,10 @@ enum class ElementType : unsigned char {
     TAPPING_HALF_SLUR,
     TAPPING_HALF_SLUR_SEGMENT,
     TAPPING_TEXT,
+    JIANPU_OCTAVE_DOT,
+    JIANPU_DURATION_LINE,
+
+    STAVE_SHARING_CHANGE,
 
     ROOT_ITEM,
     DUMMY,
@@ -226,6 +230,107 @@ enum class ElementType : unsigned char {
 };
 
 constexpr size_t TOT_ELEMENT_TYPES = static_cast<size_t>(ElementType::MAXTYPE);
+
+// Items must be added here to enable autoplace
+// Add new types to the appropriate group below as needed
+constexpr bool autoplaceAppliesToType(ElementType type)
+{
+    switch (type) {
+    // Ties, slurs and lines with their segments
+    case ElementType::SLUR:
+    case ElementType::SLUR_SEGMENT:
+    case ElementType::TIE:
+    case ElementType::TIE_SEGMENT:
+    case ElementType::LAISSEZ_VIB:
+    case ElementType::LAISSEZ_VIB_SEGMENT:
+    case ElementType::PARTIAL_TIE:
+    case ElementType::PARTIAL_TIE_SEGMENT:
+    case ElementType::VOLTA:
+    case ElementType::VOLTA_SEGMENT:
+    case ElementType::HAIRPIN:
+    case ElementType::HAIRPIN_SEGMENT:
+    case ElementType::OTTAVA:
+    case ElementType::OTTAVA_SEGMENT:
+    case ElementType::TRILL:
+    case ElementType::TRILL_SEGMENT:
+    case ElementType::LET_RING:
+    case ElementType::LET_RING_SEGMENT:
+    case ElementType::GRADUAL_TEMPO_CHANGE:
+    case ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT:
+    case ElementType::VIBRATO:
+    case ElementType::VIBRATO_SEGMENT:
+    case ElementType::PALM_MUTE:
+    case ElementType::PALM_MUTE_SEGMENT:
+    case ElementType::WHAMMY_BAR:
+    case ElementType::WHAMMY_BAR_SEGMENT:
+    case ElementType::RASGUEADO:
+    case ElementType::RASGUEADO_SEGMENT:
+    case ElementType::HARMONIC_MARK:
+    case ElementType::HARMONIC_MARK_SEGMENT:
+    case ElementType::PICK_SCRAPE:
+    case ElementType::PICK_SCRAPE_SEGMENT:
+    case ElementType::TEXTLINE:
+    case ElementType::TEXTLINE_SEGMENT:
+    case ElementType::PEDAL:
+    case ElementType::PEDAL_SEGMENT:
+    case ElementType::LYRICSLINE:
+    case ElementType::LYRICSLINE_SEGMENT:
+    case ElementType::PARTIAL_LYRICSLINE:
+    case ElementType::PARTIAL_LYRICSLINE_SEGMENT:
+    case ElementType::GLISSANDO:
+    case ElementType::GLISSANDO_SEGMENT:
+    case ElementType::NOTELINE:
+    case ElementType::NOTELINE_SEGMENT:
+    case ElementType::GUITAR_BEND:
+    case ElementType::GUITAR_BEND_SEGMENT:
+    case ElementType::GUITAR_BEND_HOLD:
+    case ElementType::GUITAR_BEND_HOLD_SEGMENT:
+    case ElementType::HAMMER_ON_PULL_OFF:
+    case ElementType::HAMMER_ON_PULL_OFF_SEGMENT:
+    case ElementType::TAPPING:
+    case ElementType::TAPPING_HALF_SLUR:
+    case ElementType::TAPPING_HALF_SLUR_SEGMENT:
+
+    // Measure/system attachments
+    case ElementType::MEASURE_NUMBER:
+    case ElementType::MMREST_RANGE:
+
+    // Note/measure/segment-attached texts and symbols
+    case ElementType::TIMESIG:
+    case ElementType::REST:
+    case ElementType::MMREST:
+    case ElementType::ARTICULATION:
+    case ElementType::ORNAMENT:
+    case ElementType::FERMATA:
+    case ElementType::DYNAMIC:
+    case ElementType::EXPRESSION:
+    case ElementType::LYRICS:
+    case ElementType::FIGURED_BASS:
+    case ElementType::MARKER:
+    case ElementType::JUMP:
+    case ElementType::FINGERING:
+    case ElementType::TUPLET:
+    case ElementType::TEMPO_TEXT:
+    case ElementType::STAFF_TEXT:
+    case ElementType::SYSTEM_TEXT:
+    case ElementType::STAVE_SHARING_LABEL:
+    case ElementType::PLAY_COUNT_TEXT:
+    case ElementType::PLAYTECH_ANNOTATION:
+    case ElementType::CAPO:
+    case ElementType::STRING_TUNINGS:
+    case ElementType::TRIPLET_FEEL:
+    case ElementType::REHEARSAL_MARK:
+    case ElementType::INSTRUMENT_CHANGE:
+    case ElementType::FRET_DIAGRAM:
+    case ElementType::HARMONY:
+    case ElementType::HARP_DIAGRAM:
+    case ElementType::STICKING:
+    case ElementType::STAVE_SHARING_CHANGE:
+        return true;
+    default:
+        return false;
+    }
+}
 
 const static std::unordered_set<ElementType> TEXTBASE_TYPES {
     ElementType::TEXT,
@@ -652,6 +757,7 @@ enum class ClefType : signed char {
     TAB_SERIF,
     TAB4_SERIF,
     // new clefs to be added between here
+    TAB_STRING_NAMES,
     C4_8VB,
     G8_VB_C,
     // and here in oder to not break TAB clef style
@@ -760,7 +866,8 @@ enum class IntervalType : unsigned char {
 enum class InstrumentLabelVisibility : unsigned char {
     LONG,
     SHORT,
-    HIDE
+    HIDE,
+    AUTO
 };
 
 struct OrnamentInterval
@@ -926,6 +1033,7 @@ enum class TextStyleType : unsigned char {
     FRET_DIAGRAM_FRET_NUMBER,
     HARP_PEDAL_DIAGRAM,
     HARP_PEDAL_TEXT_DIAGRAM,
+    JIANPU_NUMBER,
 
     // Line-oriented styles
     TEXTLINE,
@@ -1081,6 +1189,12 @@ enum class CourtesyBarlineMode : char {
     DOUBLE_BEFORE_COURTESY = 2,
 };
 
+// How the tonic ("1") of a Jianpu staff is determined
+enum class JianpuNumbering : char {
+    FOLLOW_SCORE_KEY = 0,     // tonic follows the actual key signature
+    CUSTOM           = 1      // tonic and mode are selected independently
+};
+
 enum class FermataType : signed char {
     Undefined = -1,
     VeryShort,
@@ -1219,9 +1333,9 @@ enum class MarkerType : unsigned char {
 };
 
 enum class StaffGroup : unsigned char {
-    STANDARD, PERCUSSION, TAB
+    STANDARD, PERCUSSION, TAB, JIANPU
 };
-constexpr int STAFF_GROUP_MAX = int(StaffGroup::TAB) + 1; // out of enum to avoid compiler complains about not handled switch cases
+constexpr int STAFF_GROUP_MAX = int(StaffGroup::JIANPU) + 1; // out of enum to avoid compiler complains about not handled switch cases
 
 // keep in sync with the _presets initialization in StaffType::initStaffTypes() and _defaultPreset for legacy scores
 enum class StaffTypes : signed char {
@@ -1234,6 +1348,7 @@ enum class StaffTypes : signed char {
     TAB_ITALIAN, TAB_FRENCH,
     TAB_7COMMON, TAB_8COMMON, TAB_9COMMON, TAB_10COMMON,
     TAB_7SIMPLE, TAB_8SIMPLE, TAB_9SIMPLE, TAB_10SIMPLE,
+    JIANPU,
     STAFF_TYPES,
     PERC_DEFAULT = StaffTypes::PERC_5LINE,
     TAB_DEFAULT = StaffTypes::TAB_6COMMON,
@@ -1273,6 +1388,11 @@ enum class LyricsDashSystemStart : unsigned char {
     STANDARD,
     UNDER_HEADER,
     UNDER_FIRST_NOTE
+};
+
+enum class LyricsStackingOrder : unsigned char {
+    LYRICS_AFTER_PEDALS,    // < v5.0
+    LYRICS_BEFORE_DYNAMICS  // >= v5.0
 };
 
 enum class NoteLineEndPlacement : unsigned char {
@@ -1358,6 +1478,42 @@ enum class PreferSharpFlat : char {
     NONE, SHARPS, FLATS, AUTO
 };
 
+//! NOTE Playback marking on a staff text: switches the instrument On/Off (hard) or Live/Standby (soft)
+//! from there on. See muse::mpe::PlaybackStateEvent for the playback behaviour
+enum class PlaybackStateType : unsigned char {
+    NONE = 0,
+    ON,
+    OFF,
+    LIVE,
+    STANDBY, // also called idle
+};
+
+enum class PlaybackStateTimeUnit : unsigned char {
+    MILLISECONDS = 0,
+    SECONDS,
+};
+
+enum class PlaybackStateTransition : unsigned char {
+    FADE = 0,
+    CUT,
+};
+
+enum class PlaybackStateCurve : unsigned char {
+    SMOOTH = 0, // S-curve
+    LINEAR,
+    AUDIO,      // linear in dB
+};
+
+struct PlaybackStateParams {
+    PlaybackStateType type = PlaybackStateType::NONE;
+    int timeMs = 90; // wake-up lead for On/Live, fade or delay for Off/Standby
+    PlaybackStateTimeUnit timeUnit = PlaybackStateTimeUnit::MILLISECONDS; // how the time is shown
+    PlaybackStateTransition transition = PlaybackStateTransition::FADE;
+    PlaybackStateCurve curve = PlaybackStateCurve::SMOOTH; // shape of the fade
+
+    bool isOn() const { return type != PlaybackStateType::NONE; }
+};
+
 struct SwingParameters {
     int swingUnit = 0;
     int swingRatio = 0;
@@ -1425,6 +1581,70 @@ enum class LoopBoundaryType : signed char {
     Unknown = -1,
     LoopIn = 0,
     LoopOut = 1
+};
+
+enum class ActionIconType : signed char {
+    UNDEFINED = -1,
+
+    ACCIACCATURA,
+    APPOGGIATURA,
+    GRACE4,
+    GRACE16,
+    GRACE32,
+    GRACE8_AFTER,
+    GRACE16_AFTER,
+    GRACE32_AFTER,
+
+    BEAM_AUTO,
+    BEAM_NONE,
+    BEAM_BREAK_LEFT,
+    BEAM_BREAK_INNER_8TH,
+    BEAM_BREAK_INNER_16TH,
+    BEAM_JOIN,
+
+    BEAM_FEATHERED_DECELERATE,
+    BEAM_FEATHERED_ACCELERATE,
+
+    VFRAME,
+    HFRAME,
+    TFRAME,
+    FFRAME,
+    STAFF_TYPE_CHANGE,
+    MEASURE,
+
+    PARENTHESES,
+    BRACKETS,
+
+    STANDARD_BEND,
+    PRE_BEND,
+    GRACE_NOTE_BEND,
+    SLIGHT_BEND,
+
+    DIVE,
+    PRE_DIVE,
+    DIP,
+    SCOOP,
+
+    NOTE_ANCHORED_LINE,
+
+    SYSTEM_LOCK,
+    PAGE_LOCK,
+
+    STAVE_SHARING_CHANGE,
+    RESET_STAVE_SHARING_CHANGE
+};
+
+enum class TupletNumberType : unsigned char {
+    SHOW_NUMBER, SHOW_RELATION, NO_TEXT, DEFAULT /*from style*/
+};
+
+enum class TupletBracketType : unsigned char {
+    AUTO_BRACKET, SHOW_BRACKET, SHOW_NO_BRACKET, DEFAULT /*from style*/
+};
+
+// what a tuplet command uses the selected duration as
+enum class TupletSelectedDuration : unsigned char {
+    SUBDIVISION, TUPLET_LENGTH, DEFAULT /*from configuration*/
 };
 } // mu::engraving
 

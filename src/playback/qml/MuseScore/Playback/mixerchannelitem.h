@@ -28,18 +28,20 @@
 #include "async/asyncable.h"
 
 #include "modularity/ioc.h"
-#include "actions/iactionsdispatcher.h"
-#include "context/iglobalcontext.h"
+#include "rcommand/icommanddispatcher.h"
+#include "project/iprojectsession.h"
 #include "interactive/iinteractive.h"
 #include "iplaybackconfiguration.h"
 
 #include "ui/qml/Muse/Ui/navigationpanel.h"
 
 #include "audio/common/audiotypes.h"
+#include "notation/inotationautomation.h"
 #include "project/iprojectaudiosettings.h"
 #include "inputresourceitem.h"
 #include "outputresourceitem.h"
 #include "auxsenditem.h"
+#include "expressionmappingmodel.h"
 
 namespace mu::playback {
 class MixerChannelItem : public QObject, public muse::async::Asyncable, public muse::Contextable
@@ -55,6 +57,9 @@ class MixerChannelItem : public QObject, public muse::async::Asyncable, public m
     Q_PROPERTY(
         QList<mu::playback::OutputResourceItem*> outputResourceItemList READ outputResourceItemList NOTIFY outputResourceItemListChanged)
     Q_PROPERTY(QList<mu::playback::AuxSendItem*> auxSendItemList READ auxSendItemList NOTIFY auxSendItemListChanged)
+
+    Q_PROPERTY(mu::playback::ExpressionMappingModel * expressionMappingModel READ expressionMappingModel CONSTANT)
+    Q_PROPERTY(QString keyswitchMapId READ keyswitchMapId WRITE setKeyswitchMapId NOTIFY keyswitchMapIdChanged)
 
     Q_PROPERTY(float leftChannelPressure READ leftChannelPressure NOTIFY leftChannelPressureChanged)
     Q_PROPERTY(float rightChannelPressure READ rightChannelPressure NOTIFY rightChannelPressureChanged)
@@ -78,8 +83,8 @@ class MixerChannelItem : public QObject, public muse::async::Asyncable, public m
 
     muse::GlobalInject<IPlaybackConfiguration> configuration;
     muse::ContextInject<muse::IInteractive> interactive = { this };
-    muse::ContextInject<muse::actions::IActionsDispatcher> dispatcher = { this };
-    muse::ContextInject<context::IGlobalContext> context = { this };
+    muse::ContextInject<muse::rcommand::ICommandDispatcher> commandDispatcher = { this };
+    muse::ContextInject<project::IProjectSession> context = { this };
 
 public:
     enum class Type {
@@ -148,6 +153,11 @@ public:
 
     const QMap<muse::audio::aux_channel_idx_t, AuxSendItem*>& auxSendItems() const;
 
+    ExpressionMappingModel* expressionMappingModel() const;
+
+    QString keyswitchMapId() const;
+    void setKeyswitchMapId(const QString& mapId);
+
 public slots:
     void setTitle(QString title);
 
@@ -184,6 +194,7 @@ signals:
     void inputResourceItemChanged();
     void outputResourceItemListChanged();
     void auxSendItemListChanged();
+    void keyswitchMapIdChanged();
 
 protected:
     notation::INotationPlaybackPtr notationPlayback() const;
@@ -205,10 +216,13 @@ protected:
 
     muse::audio::AudioFxChainOrder resolveNewBlankOutputResourceItemOrder() const;
 
-    void openEditor(AbstractAudioResourceItem* item, const muse::actions::ActionQuery& action);
+    void openEditor(AbstractAudioResourceItem* item, const muse::rcommand::CommandQuery& command);
     void closeEditor(AbstractAudioResourceItem* item);
 
     bool askAboutChangingSound();
+
+    std::optional<notation::AutomationCurveKey> automationCurveKey(notation::AutomationType type) const;
+    bool hasAutomationCurve(notation::AutomationType type) const;
 
     void setDisplayedVolumeLevel(float volumeLevel);
     void setDisplayedBalance(int balance);
@@ -228,6 +242,7 @@ protected:
     bool m_hasBalanceAutomation = false;
 
     InputResourceItem* m_inputResourceItem = nullptr;
+    ExpressionMappingModel* m_expressionMappingModel = nullptr;
     QMap<muse::audio::AudioFxChainOrder, OutputResourceItem*> m_outputResourceItems;
     QMap<muse::audio::aux_channel_idx_t, AuxSendItem*> m_auxSendItems;
 

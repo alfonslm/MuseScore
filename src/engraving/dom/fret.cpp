@@ -165,7 +165,7 @@ static DiagramInfo resolveDiagram(const std::vector<DiagramInfo>& diagrams)
     return result;
 }
 
-FretDiagram::FretDiagram(Segment* parent)
+FretDiagram::FretDiagram(DummyParentOr<Segment, FBox> parent)
     : EngravingItem(ElementType::FRET_DIAGRAM, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initDefaultValues();
@@ -258,7 +258,7 @@ void FretDiagram::updateDiagram(const String& harmonyName)
 
     clear();
 
-    read460::ReadContext ctx;
+    read460::ReadContext ctx(score());
     XmlReader reader(diagramXml.toUtf8());
 
     read460::TRead::read(this, reader, ctx);
@@ -969,7 +969,7 @@ String FretDiagram::harmonyDisplayText() const
 void FretDiagram::setHarmony(String harmonyText)
 {
     if (!m_harmony) {
-        Harmony* h = new Harmony(this->score()->dummy()->segment());
+        Harmony* h = new Harmony(this);
         add(h);
     }
 
@@ -1003,10 +1003,6 @@ void FretDiagram::add(EngravingItem* e)
                 }
             }
         }
-
-        m_harmony->resetProperty(Pid::OFFSET);
-        m_harmony->setProperty(Pid::ALIGN, Align(AlignH::HCENTER, AlignV::BASELINE));
-        m_harmony->setPropertyFlags(Pid::ALIGN, PropertyFlags::UNSTYLED);
 
         e->added();
     } else {
@@ -1043,7 +1039,7 @@ RectF FretDiagram::drag(EditData& ed)
 
 bool FretDiagram::acceptDrop(EditData& data) const
 {
-    return data.dropElement->isHarmony();
+    return data.dropElement->isHarmony() && segment();
 }
 
 //---------------------------------------------------------
@@ -1053,9 +1049,10 @@ bool FretDiagram::acceptDrop(EditData& data) const
 EngravingItem* FretDiagram::drop(Transaction&, EditData& data)
 {
     EngravingItem* e = data.dropElement;
-    if (e->isHarmony()) {
+    Segment* seg = segment();
+    if (e->isHarmony() && seg) {
         Harmony* h = toHarmony(e);
-        h->setOwnershipParent(ownershipParent());
+        h->setOwnershipParent(seg);
         h->setTrack(track());
         score()->undoAddElement(h);
     } else {
@@ -1350,9 +1347,13 @@ FretDiagram* FretDiagram::makeFromHarmonyOrFretDiagram(const EngravingItem* harm
     if (harmonyOrFretDiagram->isHarmony() && !harmonyOrFretDiagram->ownershipParent()->isFretDiagram()) {
         Harmony* harmony = toHarmony(harmonyOrFretDiagram)->clone();
 
-        fretDiagram = Factory::createFretDiagram(harmonyOrFretDiagram->score()->dummy()->segment());
+        fretDiagram = Factory::createFretDiagram(harmonyOrFretDiagram->score()->dummy());
 
         fretDiagram->updateDiagram(harmony->plainText());
+
+        harmony->resetProperty(Pid::OFFSET);
+        harmony->setProperty(Pid::ALIGN, Align(AlignH::HCENTER, AlignV::BASELINE));
+        harmony->setPropertyFlags(Pid::ALIGN, PropertyFlags::UNSTYLED);
 
         fretDiagram->add(harmony);
     } else if (harmonyOrFretDiagram->isHarmony() && harmonyOrFretDiagram->ownershipParent()->isFretDiagram()) {
@@ -1362,7 +1363,7 @@ FretDiagram* FretDiagram::makeFromHarmonyOrFretDiagram(const EngravingItem* harm
         fretDiagram->setOffset(PointF());
         if (!fretDiagram->harmony()) {
             //! generate from diagram and add harmony
-            fretDiagram->add(Factory::createHarmony(harmonyOrFretDiagram->score()->dummy()->segment()));
+            fretDiagram->add(Factory::createHarmony(fretDiagram));
         }
     }
 

@@ -64,6 +64,9 @@ Ret NotationMidiWriter::write(INotationPtr notation, io::IODevice& destinationDe
     }
 
     ExportMidi exportMidi(score);
+    if (midiImportExportConfiguration()->isMidiExportExtendMeasuresForPauses()) {
+        exportMidi.setPauseMode(PauseMapMode::ExtendMeasure);
+    }
 
     bool isPlayRepeatsEnabled = midiImportExportConfiguration()->isExpandRepeats();
     bool isMidiExportRpns = midiImportExportConfiguration()->isMidiExportRpns();

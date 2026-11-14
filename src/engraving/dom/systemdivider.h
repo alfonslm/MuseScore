@@ -39,10 +39,11 @@ class SystemDivider final : public Symbol
     DECLARE_CLASSOF(ElementType::SYSTEM_DIVIDER)
 
 public:
-    SystemDivider(System* parent = 0);
+    SystemDivider(DummyParentOr<System> parent);
     SystemDivider(const SystemDivider&);
 
     SystemDivider* clone() const override { return new SystemDivider(*this); }
+    void setOwnershipParent(DummyParentOr<System> parent) { EngravingItem::setOwnershipParent(parent); }
 
     SystemDividerType dividerType() const { return m_dividerType; }
     void setDividerType(SystemDividerType v);

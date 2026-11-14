@@ -401,7 +401,7 @@ void PageLayout::collectPage(LayoutContext& ctx)
         }
 
         if (StaffVisibilityIndicator* visibilityIndicator = s->staffVisibilityIndicator()) {
-            TLayout::layoutIndicatorIcon(visibilityIndicator, visibilityIndicator->mutldata());
+            TLayout::layoutSystemIndicatorIcon(visibilityIndicator, visibilityIndicator->mutldata());
         }
     }
 
@@ -430,8 +430,9 @@ void PageLayout::collectPage(LayoutContext& ctx)
 
     layoutCrossStaffElements(ctx, page);
 
-    for (const System* system : page->systems()) {
+    for (System* system : page->systems()) {
         SystemLayout::centerElementsBetweenStaves(system);
+        ctx.mutState().removeSystemNeedingCentering(system);
     }
 
     if (ctx.conf().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() == TimeSigPlacement::ACROSS_STAVES

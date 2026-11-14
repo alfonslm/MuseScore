@@ -31,7 +31,7 @@ using namespace mu::engraving::rendering::score;
 void PassLayoutIndependentItems::doRun(Score* score, LayoutContext& ctx)
 {
     for (EngravingObject* child : score->children()) {
-        if (child->isEngravingItem() && !child->isType(ElementType::DUMMY)) {
+        if (child->isEngravingItem()) {
             scan(toEngravingItem(child), ctx);
         }
     }
@@ -56,6 +56,7 @@ void PassLayoutIndependentItems::scan(EngravingItem* item, LayoutContext& ctx)
     case ElementType::NOTEDOT:
     case ElementType::STAFF_STATE:
     case ElementType::STAFFTYPE_CHANGE:
+    case ElementType::STAVE_SHARING_CHANGE:
     case ElementType::STEM:
     case ElementType::SYMBOL:
     case ElementType::FSYMBOL:
@@ -68,9 +69,6 @@ void PassLayoutIndependentItems::scan(EngravingItem* item, LayoutContext& ctx)
     }
 
     for (EngravingItem* ch : item->childrenItems()) {
-        if (ch->isType(ElementType::DUMMY)) {
-            continue;
-        }
         scan(ch, ctx);
     }
 }

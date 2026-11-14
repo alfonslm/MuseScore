@@ -25,6 +25,7 @@
 #include "dom/articulation.h"
 #include "dom/capo.h"
 #include "dom/chord.h"
+#include "dom/chordline.h"
 #include "dom/dynamic.h"
 #include "dom/excerpt.h"
 #include "dom/expression.h"
@@ -61,6 +62,8 @@
 #include "style/defaultstyle.h"
 #include "style/styledef.h"
 #include "style/textstyle.h"
+
+#include "../xmlreader.h"
 
 #include "types/string.h"
 
@@ -357,8 +360,7 @@ void CompatUtils::replaceOldWithNewOrnaments(MasterScore* score)
     for (Articulation* oldOrnament : oldOrnaments) {
         Chord* parentChord = toChord(oldOrnament->chordRest());
 
-        Ornament* newOrnament = Factory::createOrnament(score->dummy()->chord());
-        newOrnament->setOwnershipParent(parentChord);
+        Ornament* newOrnament = Factory::createOrnament(parentChord);
         newOrnament->setTrack(oldOrnament->track());
         newOrnament->setSymId(oldOrnament->symId());
         newOrnament->setPos(oldOrnament->pos());
@@ -404,8 +406,7 @@ void CompatUtils::replaceOldWithNewExpressions(MasterScore* score)
     for (StaffText* oldExpression : oldExpressions) {
         Segment* parentSegment = oldExpression->segment();
 
-        Expression* newExpression = Factory::createExpression(score->dummy()->segment());
-        newExpression->setOwnershipParent(parentSegment);
+        Expression* newExpression = Factory::createExpression(parentSegment);
         newExpression->setTrack(oldExpression->track());
         newExpression->setXmlText(oldExpression->xmlText());
         newExpression->mapPropertiesFromOldExpressions(oldExpression);
@@ -484,13 +485,12 @@ void CompatUtils::splitArticulations(MasterScore* masterScore)
         auto components = mu::engraving::splitArticulations({ combinedArtic->symId() });
         Chord* parentChord = toChord(combinedArtic->chordRest());
         for (SymId id : components) {
-            Articulation* newArtic = Factory::createArticulation(masterScore->dummy()->chord());
+            Articulation* newArtic = Factory::createArticulation(parentChord);
             newArtic->setSymId(id);
             if (parentChord->hasArticulation(newArtic)) {
                 delete newArtic;
                 continue;
             }
-            newArtic->setOwnershipParent(parentChord);
             newArtic->setTrack(combinedArtic->track());
             newArtic->setPos(combinedArtic->pos());
             newArtic->setDirection(combinedArtic->direction());
@@ -601,9 +601,7 @@ double CompatUtils::convertChordExtModUnits(double val)
     // The best we can do for conversion of old files is to assume a default spatium of 1.75mm and a default font size of 10pt
     // The height value is calculated from Edwin at 10pt using FontMetrics::capHeight
     const double DEFAULT_SPATIUM = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
-    muse::draw::Font f(u"Edwin", muse::draw::Font::Type::Text);
-    f.setPointSizeF(10);
-    const double DEFAULT_FONT_CAP_HEIGHT = muse::draw::FontMetrics::capHeight(f);   // 121
+    const double DEFAULT_FONT_CAP_HEIGHT = 121; // Edwin at 10pt
 
     return ((val / 5) * DEFAULT_SPATIUM) / DEFAULT_FONT_CAP_HEIGHT;
 }
@@ -838,7 +836,6 @@ NoteLine* CompatUtils::createNoteLineFromTextLine(TextLine* textLine)
     Note* endNote = toNote(textLine->endElement());
 
     NoteLine* noteLine = Factory::createNoteLine(startNote);
-    noteLine->setOwnershipParent(startNote);
     noteLine->setStartElement(startNote);
     noteLine->setTrack(textLine->track());
     noteLine->setTick(textLine->tick());
@@ -967,7 +964,6 @@ void CompatUtils::convertLaissezVibArticToTie(MasterScore* masterScore)
         parentChord->remove(oldArtic);
 
         LaissezVib* lv = Factory::createLaissezVib(parentNote);
-        lv->setOwnershipParent(parentNote);
         parentNote->add(lv);
 
         delete oldArtic;
@@ -1223,5 +1219,52 @@ void CompatUtils::removeMMRestElements(MasterScore* masterScore)
         if (removedInstrumentChange) {
             reregisterInstrumentChanges(score);
         }
+    }
+}
+
+void CompatUtils::readChordLinePath(ChordLine* chordLine, XmlReader& e)
+{
+    /* Before 5.0, a manually edited chord line stored its whole path.
+     * Now only the offsets of its points from the default shape are stored. */
+
+    std::vector<PointF> points;
+    while (e.readNextStartElement()) {
+        if (e.name() == "Element") {
+            points.emplace_back(e.doubleAttribute("x"), e.doubleAttribute("y"));
+            e.skipCurrentElement();
+        } else {
+            e.unknown();
+        }
+    }
+
+    std::vector<ChordLine::Point> pointTypes;
+    if (points.size() == 2) {
+        pointTypes = { ChordLine::Point::START, ChordLine::Point::END };
+    } else if (points.size() == size_t(ChordLine::Point::POINTS_COUNT)) {
+        pointTypes = { ChordLine::Point::START, ChordLine::Point::BEZIER1, ChordLine::Point::BEZIER2, ChordLine::Point::END };
+    } else {
+        LOGW() << "Unexpected number of chord line path elements: " << points.size();
+        return;
+    }
+
+    // The saved path was in spatium units of the chord's staff
+    const EngravingObject* parent = chordLine->ownershipParent();
+    const Chord* chord = parent && parent->isChord() ? toChord(parent) : nullptr;
+    const double spatium = chord ? chord->spatium() : chordLine->spatium();
+    const double mag = chord ? chord->intrinsicMag() : 1.0;
+    const ChordLine::Points defaultPoints = chordLine->defaultPoints();
+
+    for (size_t i = 0; i < points.size(); ++i) {
+        // the old line was drawn at the saved point * spatium; layout will draw (default * spatium + offset) * mag
+        const ChordLine::Point point = pointTypes.at(i);
+        PointF offset = points.at(i) * spatium / mag - defaultPoints[size_t(point)] * spatium;
+        // ignore rounding errors, so unedited points remain unedited:
+        if (std::abs(offset.x()) < 0.001 * spatium) {
+            offset.setX(0.0);
+        }
+        if (std::abs(offset.y()) < 0.001 * spatium) {
+            offset.setY(0.0);
+        }
+        chordLine->setBezierOffset(point, offset);
     }
 }

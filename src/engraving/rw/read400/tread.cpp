@@ -703,7 +703,7 @@ void TRead::read(FretDiagram* d, XmlReader& e, ReadContext& ctx)
         } else if (tag == "mag") {
             TRead::readProperty(d, e, ctx, Pid::MAG);
         } else if (tag == "Harmony") {
-            Harmony* h = new Harmony(d->score()->dummy()->segment());
+            Harmony* h = new Harmony(d->score()->dummy());
             read(h, e, ctx);
             if (h->chords().empty()) {
                 // Invalid harmony
@@ -1500,7 +1500,6 @@ void TRead::read(Tuplet* t, XmlReader& e, ReadContext& ctx)
         } else if (tag == "Number") {
             number = Factory::createText(t, TextStyleType::TUPLET);
             number->setComposition(true);
-            number->setOwnershipParent(t);
             Tuplet::resetNumberProperty(number);
             TRead::read(number, e, ctx);
             number->setVisible(t->visible());         //?? override saved property
@@ -1731,7 +1730,7 @@ void TRead::read(ActionIcon* i, XmlReader& e, ReadContext&)
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
         if (tag == "action") {
-            i->setAction(e.readText().toStdString(), 0);
+            i->setActionType(TConv::fromXml(e.readAsciiText(), ActionIconType::UNDEFINED));
         } else if (tag == "subtype") {
             i->setActionType(static_cast<ActionIconType>(e.readInt()));
         } else {
@@ -1783,10 +1782,9 @@ bool TRead::readProperties(Ornament* o, XmlReader& xml, ReadContext& ctx)
     } else if (tag == "Accidental") {
         Accidental* accidental = Factory::createAccidental(o);
         TRead::read(accidental, xml, ctx);
-        accidental->setOwnershipParent(o);
         accidental->placement() == PlacementV::ABOVE ? o->setAccidentalAbove(accidental) : o->setAccidentalBelow(accidental);
     } else if (tag == "Chord") {
-        Chord* chord = Factory::createChord(ctx.score()->dummy()->segment());
+        Chord* chord = Factory::createChord(ctx.score()->dummy());
         TRead::read(chord, xml, ctx);
         chord->setTrack(ctx.track());
         o->setCueNoteChord(chord);
@@ -1900,7 +1898,7 @@ void TRead::read(BarLine* b, XmlReader& e, ReadContext& ctx)
         } else if (tag == "spanToOffset") {
             b->setSpanTo(e.readInt());
         } else if (tag == "Articulation") {
-            Articulation* a = Factory::createArticulation(b->score()->dummy()->chord());
+            Articulation* a = Factory::createArticulation(b->score()->dummy());
             TRead::read(a, e, ctx);
             b->add(a);
         } else if (tag == "Symbol") {
@@ -2070,7 +2068,7 @@ bool TRead::readProperties(Box* b, XmlReader& e, ReadContext& ctx)
             b->add(image);
         }
     } else if (tag == "FretDiagram") {
-        FretDiagram* f = Factory::createFretDiagram(b->score()->dummy()->segment());
+        FretDiagram* f = Factory::createFretDiagram(b->score()->dummy());
         TRead::read(f, e, ctx);
         //! TODO Looks like a bug.
         //! The FretDiagram parent must be Segment
@@ -2145,7 +2143,6 @@ bool TRead::readProperties(MeasureBase* b, XmlReader& e, ReadContext& ctx)
     } else if (tag == "StaffTypeChange") {
         StaffTypeChange* stc = Factory::createStaffTypeChange(b);
         stc->setTrack(ctx.track());
-        stc->setOwnershipParent(b);
         TRead::read(stc, e, ctx);
         b->add(stc);
     } else if (readItemProperties(b, e, ctx)) {
@@ -2331,7 +2328,6 @@ bool TRead::readProperties(Chord* ch, XmlReader& e, ReadContext& ctx)
         Note* note = Factory::createNote(ch);
         // the note needs to know the properties of the track it belongs to
         note->setTrack(ch->track());
-        note->setOwnershipParent(ch);
         TRead::read(note, e, ctx);
         ch->add(note);
     } else if (TRead::readProperties(toChordRest(ch), e, ctx)) {
@@ -2379,7 +2375,6 @@ bool TRead::readProperties(Chord* ch, XmlReader& e, ReadContext& ctx)
         Arpeggio* arpeggio = Factory::createArpeggio(ch);
         arpeggio->setTrack(ch->track());
         TRead::read(arpeggio, e, ctx);
-        arpeggio->setOwnershipParent(ch);
         ch->setArpeggio(arpeggio);
     } else if (tag == "Tremolo") {
         TremoloCompat tcompat;
@@ -2509,65 +2504,18 @@ bool TRead::readProperties(ChordRest* ch, XmlReader& e, ReadContext& ctx)
 
 void TRead::read(ChordLine* l, XmlReader& e, ReadContext& ctx)
 {
-    //! NOTE Need separated "given" data and layout data
-    ChordLine::LayoutData* ldata = l->mutldata();
-    ldata->path = PainterPath();
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
         if (tag == "Path") {
-            PainterPath path;
-            PointF curveTo;
-            PointF p1;
-            int state = 0;
-            while (e.readNextStartElement()) {
-                const AsciiStringView nextTag(e.name());
-                if (nextTag == "Element") {
-                    int type = e.intAttribute("type");
-                    double x  = e.doubleAttribute("x");
-                    double y  = e.doubleAttribute("y");
-                    double spatium = ctx.spatium();
-                    x *= spatium;
-                    y *= spatium;
-                    switch (PainterPath::ElementType(type)) {
-                    case PainterPath::ElementType::MoveToElement:
-                        path.moveTo(x, y);
-                        break;
-                    case PainterPath::ElementType::LineToElement:
-                        path.lineTo(x, y);
-                        break;
-                    case PainterPath::ElementType::CurveToElement:
-                        curveTo.rx() = x;
-                        curveTo.ry() = y;
-                        state = 1;
-                        break;
-                    case PainterPath::ElementType::CurveToDataElement:
-                        if (state == 1) {
-                            p1.rx() = x;
-                            p1.ry() = y;
-                            state = 2;
-                        } else if (state == 2) {
-                            path.cubicTo(curveTo, p1, PointF(x, y));
-                            state = 0;
-                        }
-                        break;
-                    }
-                    e.skipCurrentElement();           //needed to go to next EngravingItem in Path
-                } else {
-                    e.unknown();
-                }
-            }
-            ldata->path = path;
-            l->setModified(true);
+            compat::CompatUtils::readChordLinePath(l, e);
         } else if (tag == "subtype") {
             l->setChordLineType(TConv::fromXml(e.readAsciiText(), ChordLineType::NOTYPE));
         } else if (tag == "straight") {
             l->setStraight(e.readInt());
         } else if (tag == "wavy") {
             l->setWavy(e.readInt());
-        } else if (tag == "lengthX") {
-            l->setLengthX(e.readInt());
-        } else if (tag == "lengthY") {
-            l->setLengthY(e.readInt());
+        } else if (tag == "lengthX" || tag == "lengthY") { // obsolete
+            e.skipCurrentElement();
         } else if (tag == "offset" && l->score()->mscVersion() < 400) { // default positions has changed in 4.0 so ignore previous offset
             e.skipCurrentElement();
         } else if (!readItemProperties(l, e, ctx)) {
@@ -2576,7 +2524,7 @@ void TRead::read(ChordLine* l, XmlReader& e, ReadContext& ctx)
     }
 }
 
-void TRead::read(Clef* c, XmlReader& e, ReadContext& ctx)
+void TRead::read(Clef* c, XmlReader& e, ReadContext& ctx, bool* isHeader)
 {
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
@@ -2591,7 +2539,10 @@ void TRead::read(Clef* c, XmlReader& e, ReadContext& ctx)
         } else if (tag == "clefToBarlinePos") {
             c->setClefToBarlinePosition(ClefToBarlinePosition(e.readInt()));
         } else if (tag == "isHeader") {
-            c->setIsHeader(e.readBool());
+            const bool header = e.readBool();
+            if (isHeader) {
+                *isHeader = header;
+            }
         } else if (!readItemProperties(c, e, ctx)) {
             e.unknown();
         }
@@ -3420,7 +3371,7 @@ bool TRead::readProperties(Part* p, XmlReader& e, ReadContext& ctx, StaffHideMod
     } else if (tag == "name") {
         p->instrument()->setLongName(e.readText());
     } else if (tag == "color") {
-        p->setColor(e.readInt());
+        e.skipCurrentElement(); // Unused
     } else if (tag == "shortName") {
         p->instrument()->setShortName(e.readText());
     } else if (tag == "show") {
@@ -3637,19 +3588,14 @@ bool TRead::readProperties(SlurTie* s, XmlReader& e, ReadContext& ctx)
 
 void TRead::read(SlurTieSegment* s, XmlReader& e, ReadContext& ctx)
 {
-    double _spatium = s->style().spatium();
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
         if (s->score()->mscVersion() < 400 && (tag == "o1" || tag == "o2" || tag == "o3" || tag == "o4")) {
             e.skipCurrentElement(); // Ignore slur user offsets from pre-4.0
-        } else if (tag == "o1") {
-            s->ups(Grip::START).off = e.readPoint() * _spatium;
-        } else if (tag == "o2") {
-            s->ups(Grip::BEZIER1).off = e.readPoint() * _spatium;
-        } else if (tag == "o3") {
-            s->ups(Grip::BEZIER2).off = e.readPoint() * _spatium;
-        } else if (tag == "o4") {
-            s->ups(Grip::END).off = e.readPoint() * _spatium;
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET1)) {
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET2)) {
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET3)) {
+        } else if (readProperty(s, tag, e, ctx, Pid::BEZIER_OFFSET4)) {
         } else if (!readItemProperties(s, e, ctx)) {
             e.unknown();
         }
@@ -4336,7 +4282,6 @@ void TRead::read(Trill* t, XmlReader& e, ReadContext& ctx)
         } else if (tag == "Accidental") {
             Accidental* accidental = Factory::createAccidental(t);
             TRead::read(accidental, e, ctx);
-            accidental->setOwnershipParent(t);
             t->setAccidental(accidental);
             if (t->ornament()) {
                 t->ornament()->setTrillOldCompatAccidental(accidental);

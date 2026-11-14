@@ -51,6 +51,7 @@ class Breath final : public EngravingItem
 public:
 
     Breath* clone() const override { return new Breath(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
 
     double mag() const override;
 
@@ -79,7 +80,7 @@ public:
 private:
 
     friend class Factory;
-    Breath(Segment* parent);
+    Breath(DummyParentOr<Segment> parent);
 
     double m_pause = 0.0;
     SymId m_symId = SymId::breathMarkComma;

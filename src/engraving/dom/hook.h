@@ -36,9 +36,10 @@ class Hook final : public Symbol
     DECLARE_CLASSOF(ElementType::HOOK)
 
 public:
-    Hook(Chord* parent = 0);
+    Hook(DummyParentOr<Chord> parent);
 
     Hook* clone() const override { return new Hook(*this); }
+    void setOwnershipParent(DummyParentOr<Chord> parent) { EngravingItem::setOwnershipParent(parent); }
     double mag() const override { return layoutParent()->mag(); }
     EngravingItem* elementBase() const override;
 

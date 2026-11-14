@@ -42,7 +42,7 @@ void PaletteCommandsState::init()
         return;
     }
 
-    globalContext()->currentProjectChanged().onNotify(this, [this]() {
+    projectSession()->projectChanged().onNotify(this, [this]() {
         updateCommandStates();
     });
 
@@ -63,7 +63,7 @@ void PaletteCommandsState::init()
 
 void PaletteCommandsState::deinit()
 {
-    globalContext()->currentProjectChanged().disconnect(this);
+    projectSession()->projectChanged().disconnect(this);
 }
 
 void PaletteCommandsState::updateCommandStates(const std::vector<Command>& commands)
@@ -76,7 +76,6 @@ void PaletteCommandsState::updateCommandStates(const std::vector<Command>& comma
 
     for (const auto& command : commandList) {
         CommandState newState = commandState(command);
-        LOGDA() << "command: " << command << " newState: " << newState.enabled << " " << newState.checked;
         if (m_commandStates[command] != newState) {
             m_commandStates[command] = newState;
             m_commandStateChanged.send(command, newState);
@@ -109,7 +108,7 @@ async::Channel<Command, CommandState> PaletteCommandsState::commandStateChanged(
 
 bool PaletteCommandsState::isProjectOpened() const
 {
-    if (globalContext()->currentProject()) {
+    if (projectSession()->project()) {
         return true;
     }
 

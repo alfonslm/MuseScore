@@ -46,13 +46,14 @@ class Jump final : public TextBase
 
 public:
 
-    Jump(Measure* parent);
+    Jump(DummyParentOr<Measure> parent);
 
     void setJumpType(JumpType t);
     JumpType jumpType() const;
     String jumpTypeUserName() const;
 
     Jump* clone() const override { return new Jump(*this); }
+    void setOwnershipParent(DummyParentOr<Measure> parent) { EngravingItem::setOwnershipParent(parent); }
 
     int subtype() const override { return int(jumpType()); }
     TranslatableString subtypeUserName() const override;
