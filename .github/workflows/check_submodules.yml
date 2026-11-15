@@ -10,12 +10,11 @@ jobs:
     env:
       EXPECTED_URL: https://github.com/musescore/muse_framework.git
       EXPECTED_BRANCH: main
-      # NOTE Temporary exception for the features of this fork whose engine-side changes
-      # live in alfonslm/muse_framework (keyswitch maps, parallel audio export, playback
-      # markings), since musescore/muse_framework isn't writable from this account. They
-      # are integrated on that fork's beta branch, so the pinned commit must be on it.
-      # Remove once those changes are upstream and this submodule is repointed at
-      # EXPECTED_URL/EXPECTED_BRANCH.
+      # NOTE This repo intentionally and permanently pins the alfonslm/muse_framework fork,
+      # which carries the engine-side changes of this fork's features (keyswitch maps,
+      # parallel audio export, playback markings) and other fork-only changes. They are
+      # integrated on that fork's beta branch, so the pinned commit must be on it.
+      # See MUSE_FRAMEWORK_FORK.md.
       ALLOWED_FORK_URL: https://github.com/alfonslm/muse_framework.git
       ALLOWED_FORK_BRANCH: beta
     steps:

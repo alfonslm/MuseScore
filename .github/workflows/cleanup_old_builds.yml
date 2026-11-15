@@ -1,0 +1,94 @@
+name: 'Cleanup: Old builds'
+
+# Deletes old build output from GitHub Actions so it stops counting against
+# the repository's storage quota:
+#   - workflow artifacts older than `artifact_days`
+#   - completed runs of the 'Build: *' workflows older than `run_days`
+#     (this also removes their logs and any artifacts they still hold)
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_days:
+        description: 'Delete artifacts older than this many days (0 = skip)'
+        default: '7'
+        required: true
+      run_days:
+        description: 'Delete completed Build runs older than this many days (0 = skip)'
+        default: '30'
+        required: true
+      dry_run:
+        description: 'Only list what would be deleted'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '17 3 * * 0' # weekly, Sundays at 03:17 UTC
+
+concurrency:
+  group: cleanup-old-builds
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete old artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          DAYS: ${{ inputs.artifact_days || '7' }}
+          DRY_RUN: ${{ inputs.dry_run || false }}
+        run: |
+          set -euo pipefail
+          if [[ "${DAYS}" == "0" ]]; then echo "Skipping artifacts"; exit 0; fi
+          cutoff=$(date -u -d "${DAYS} days ago" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Deleting artifacts created before ${cutoff}"
+
+          # Collect first, then delete, so deletions don't shift pagination.
+          gh api --paginate "repos/${REPO}/actions/artifacts?per_page=100" \
+            --jq ".artifacts[] | select(.expired == false and .created_at < \"${cutoff}\")
+                  | [.id, .size_in_bytes, .created_at, .name] | @tsv" > artifacts.tsv
+
+          count=0; bytes=0
+          while IFS=$'\t' read -r id size created name; do
+            echo "${created}  $(numfmt --to=iec "${size}")  ${name} (${id})"
+            if [[ "${DRY_RUN}" != "true" ]]; then
+              gh api -X DELETE "repos/${REPO}/actions/artifacts/${id}" || echo "  failed to delete ${id}"
+            fi
+            count=$((count + 1)); bytes=$((bytes + size))
+          done < artifacts.tsv
+
+          summary="Artifacts: ${count} ($(numfmt --to=iec "${bytes}")) older than ${DAYS} days"
+          [[ "${DRY_RUN}" == "true" ]] && summary="${summary} — dry run, nothing deleted"
+          echo "${summary}" | tee -a "${GITHUB_STEP_SUMMARY}"
+
+      - name: Delete old Build runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          DAYS: ${{ inputs.run_days || '30' }}
+          DRY_RUN: ${{ inputs.dry_run || false }}
+        run: |
+          set -euo pipefail
+          if [[ "${DAYS}" == "0" ]]; then echo "Skipping runs"; exit 0; fi
+          cutoff=$(date -u -d "${DAYS} days ago" +%Y-%m-%d)
+          echo "Deleting completed 'Build: *' runs created before ${cutoff}"
+
+          gh api --paginate "repos/${REPO}/actions/runs?per_page=100&status=completed&created=%3C${cutoff}" \
+            --jq '.workflow_runs[] | select(.name | startswith("Build:"))
+                  | [.id, .created_at, .name, .head_branch] | @tsv' > runs.tsv
+
+          count=0
+          while IFS=$'\t' read -r id created name branch; do
+            echo "${created}  ${name}  ${branch} (${id})"
+            if [[ "${DRY_RUN}" != "true" ]]; then
+              gh api -X DELETE "repos/${REPO}/actions/runs/${id}" || echo "  failed to delete ${id}"
+            fi
+            count=$((count + 1))
+          done < runs.tsv
+
+          summary="Build runs: ${count} older than ${DAYS} days"
+          [[ "${DRY_RUN}" == "true" ]] && summary="${summary} — dry run, nothing deleted"
+          echo "${summary}" | tee -a "${GITHUB_STEP_SUMMARY}"

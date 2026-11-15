@@ -50,7 +50,10 @@ Each module's tests live in `<module>/tests/` and are listed explicitly in that 
 (`MODULE_TEST_SRC`); a new test file must be added there. If you add tests to a module that had none, also
 enable the module for the `UTEST` configuration in `SetupConfigure.cmake`.
 
-Code style is enforced by CI with uncrustify (config lives in the submodule):
+Code style is not enforced in this fork. Upstream checks it with uncrustify, but "Check: Codestyle" is
+switched off here on purpose (in both repositories): fork code doesn't follow upstream's style rules, so the
+check kept failing. Don't re-enable it or reformat fork code to satisfy it. The tools are still there if you
+want to format a file you are editing (config lives in the submodule):
 
 ```bash
 cmake -P ./muse/buildscripts/ci/checkcodestyle/checkcodestyle.cmake ./src/
@@ -113,12 +116,16 @@ writer and handles files, progress and retries.
 ## Fork-specific setup
 
 - **Branches.** `beta` is the fork's integration branch (features + upstream) and the base for pull
-  requests. `main` is the fork's default branch. `upstream-main` is a mirror of upstream that is no longer
-  synced automatically; fetch `https://github.com/musescore/MuseScore.git` directly to get current upstream.
+  requests. `main` is the fork's default branch (scheduled workflows such as `cleanup_old_builds.yml` run
+  from it). Base new work on `beta`; anything that does get merged straight into `main` must also be
+  merged into `beta`, or the two drift apart. There is no mirror of upstream in the fork
+  (the stale `upstream-main` branches were deleted); fetch `https://github.com/musescore/MuseScore.git` and
+  `https://github.com/musescore/muse_framework.git` directly to get current upstream.
 - **Paired framework changes.** Several fork features need engine-side code in `alfonslm/muse_framework`
   (parallel audio export, playback markings, keyswitch maps). Such a change is two branches with the same
   name, one per repository; the MuseScore branch pins the framework branch's commit in `muse`. The framework
-  pull request must be merged with a merge commit so the pinned commit stays reachable.
+  pull request must be merged with a merge commit so the pinned commit stays reachable. `MUSE_FRAMEWORK_FORK.md`
+  lists what the framework fork carries and how to resolve submodule conflicts when syncing upstream.
 - **`Check: Submodules`** (`.github/workflows/check_submodules.yml`) is modified here: it accepts the fork's
   framework URL and requires the pinned commit to be on the framework's `beta`, or, for a pull request, on
   the framework branch named like the pull request's own branch.
@@ -155,3 +162,8 @@ writer and handles files, progress and retries.
   kept here; the pull request template is the fork's own. Keeping the fork's own changes small and separate
   still matters, for a different reason: it keeps merging upstream into the fork easy. When an upstream
   merge reports a modify/delete conflict on one of those removed files, keep the deletion (`git rm`).
+
+## Pull requests
+
+- Open PRs as drafts. Once there are no more tests you want to run on a PR (CI is green and
+  nothing else needs verifying), mark it ready for review without waiting to be asked.
