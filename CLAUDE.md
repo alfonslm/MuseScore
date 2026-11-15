@@ -136,7 +136,12 @@ writer and handles files, progress and retries.
   `audio/engine/internal/nodes/playbackstatetimeline.*`. Keyswitch maps: `muse/framework/vst/internal/synth`,
   mixer UI in `src/playback/qml`. String-name tablature clef: `ClefType::TAB_STRING_NAMES`
   (`docs/dev-notes/tab-string-names-clef.md` has the design notes). MIDI export
-  option to lengthen a measure at a pause: `compat/midi/pausemap.*`. String Grip extension:
+  option to lengthen a measure at a pause: `compat/midi/pausemap.*`. Tempo, time signature and bar
+  position for VST plugins: `MusicalTimeMapBuilder` (`src/engraving/playback`),
+  `muse/framework/audio/common/musicaltimemap.h`, `VstAudioClient::updateProcessContext`. Per-instrument
+  "Keep running when playback is stopped" (mixer sound menu of a VST instrument):
+  `KEEP_RUNNING_WHEN_STOPPED_CONFIG_KEY`, `VstSynthesiser`, `InputResourceItem`. Notes on all of these, and on
+  using VOCALOID7 with the fork: `docs/vocaloid/HANDOFF.md`. String Grip extension:
   `share/extensions/stringgrip`; the string tuning it needs for violin, viola, violoncello and contrabass
   is in their instrument files under `share/instruments/source/strings/`.
 - **Instruments.** `share/instruments/instruments.xml` is not in this repository: the build assembles it

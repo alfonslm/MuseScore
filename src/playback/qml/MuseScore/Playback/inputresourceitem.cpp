@@ -45,6 +45,7 @@ static const QString VST_MENU_ITEM_ID("VST3");
 static const QString SOUNDFONTS_MENU_ITEM_ID("SoundFonts");
 static const QString MUSE_MENU_ITEM_ID("MuseSounds");
 static const QString GET_MORE_SOUNDS_ID("getMoreSounds");
+static const QString KEEP_RUNNING_WHEN_STOPPED_ID("keepRunningWhenStopped");
 
 static const muse::String MS_BASIC_SOUNDFONT_NAME(u"MS Basic");
 
@@ -93,6 +94,14 @@ void InputResourceItem::requestAvailableResources()
                               title(),
                               /*checked*/ true, /*subItems*/ QVariantList(), /*includeInFilteredLists*/ false);
 
+            //! NOTE Plugin instruments are switched off while playback is stopped. One with its own editor and
+            //! transport (e.g. a singing synthesizer) then can't be played or edited in its own window
+            if (m_currentInputParams.type() == AudioSourceType::Vsti) {
+                result << buildMenuItem(KEEP_RUNNING_WHEN_STOPPED_ID,
+                                        muse::qtrc("playback", "Keep running when playback is stopped"),
+                                        keepRunningWhenStopped(), /*subItems*/ QVariantList(), /*includeInFilteredLists*/ false);
+            }
+
             result << buildSeparator();
         }
 
@@ -131,6 +140,17 @@ void InputResourceItem::requestAvailableResources()
 
 void InputResourceItem::handleMenuItem(const QString& menuItemId)
 {
+    if (menuItemId == KEEP_RUNNING_WHEN_STOPPED_ID) {
+        if (keepRunningWhenStopped()) {
+            m_currentInputParams.configuration.erase(KEEP_RUNNING_WHEN_STOPPED_CONFIG_KEY);
+        } else {
+            m_currentInputParams.configuration[KEEP_RUNNING_WHEN_STOPPED_CONFIG_KEY] = "1";
+        }
+
+        emit inputParamsChanged();
+        return;
+    }
+
     if (menuItemId == GET_MORE_SOUNDS_ID) {
         const QString url = QString::fromStdString(globalConfiguration()->museHubWebUrl());
         const QString urlParams("muse-sounds?utm_source=mss-mixer&utm_medium=mh&utm_campaign=mss-mixer-ms-mainpage");
@@ -167,6 +187,12 @@ void InputResourceItem::handleMenuItem(const QString& menuItemId)
 const AudioInputParams& InputResourceItem::params() const
 {
     return m_currentInputParams;
+}
+
+bool InputResourceItem::keepRunningWhenStopped() const
+{
+    const auto it = m_currentInputParams.configuration.find(KEEP_RUNNING_WHEN_STOPPED_CONFIG_KEY);
+    return it != m_currentInputParams.configuration.cend() && it->second == "1";
 }
 
 void InputResourceItem::setParams(const audio::AudioInputParams& newParams)
