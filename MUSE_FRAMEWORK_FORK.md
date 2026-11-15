@@ -21,6 +21,12 @@ In `alfonslm/muse_framework`, for keyswitch maps (CLAUDE.md lists where the othe
   `framework/vst/vstmodule.cpp`, `framework/vst/CMakeLists.txt` (small edits)
 - `framework/uicomponents/qml/Muse/UiComponents/LegacyTreeView/BasicTableView.qml`
   (Layout Panel crash fix)
+- `framework/vst/ivstplugininstance.h`, `framework/vst/internal/vstplugininstance.{h,cpp}`,
+  `vstinstancesregister.{h,cpp}`, `vstaudioclient.{h,cpp}`, the `onDeinit()` in
+  `framework/vst/vstmodule.cpp`, and the editors (`qml/Muse/Vst/vstview.cpp`,
+  `widgets/vstviewdialog_qwidget.{h,cpp}`): VST3 plugins are stopped, deactivated and their
+  modules released at shutdown, before `main` returns (crash on quit with Kontakt 8 / VOCALOID7 on
+  macOS)
 
 In this repo, besides the feature code itself: `.gitmodules`, `check_submodules.yml`, and
 `src/instrumentsscene/.../layoutpaneltreemodel.cpp` / `abstractlayoutpaneltreeitem.cpp`
