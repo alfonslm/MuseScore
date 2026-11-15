@@ -50,7 +50,10 @@ Each module's tests live in `<module>/tests/` and are listed explicitly in that 
 (`MODULE_TEST_SRC`); a new test file must be added there. If you add tests to a module that had none, also
 enable the module for the `UTEST` configuration in `SetupConfigure.cmake`.
 
-Code style is enforced by CI with uncrustify (config lives in the submodule):
+Code style is not enforced in this fork. Upstream checks it with uncrustify, but "Check: Codestyle" is
+switched off here on purpose (in both repositories): fork code doesn't follow upstream's style rules, so the
+check kept failing. Don't re-enable it or reformat fork code to satisfy it. The tools are still there if you
+want to format a file you are editing (config lives in the submodule):
 
 ```bash
 cmake -P ./muse/buildscripts/ci/checkcodestyle/checkcodestyle.cmake ./src/
