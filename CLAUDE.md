@@ -115,8 +115,9 @@ writer and handles files, progress and retries.
 - **Branches.** `beta` is the fork's integration branch (features + upstream) and the base for pull
   requests. `main` is the fork's default branch (scheduled workflows such as `cleanup_old_builds.yml` run
   from it). Base new work on `beta`; anything that does get merged straight into `main` must also be
-  merged into `beta`, or the two drift apart. `upstream-main` is a mirror of upstream that is no longer
-  synced automatically; fetch `https://github.com/musescore/MuseScore.git` directly to get current upstream.
+  merged into `beta`, or the two drift apart. There is no mirror of upstream in the fork
+  (the stale `upstream-main` branches were deleted); fetch `https://github.com/musescore/MuseScore.git` and
+  `https://github.com/musescore/muse_framework.git` directly to get current upstream.
 - **Paired framework changes.** Several fork features need engine-side code in `alfonslm/muse_framework`
   (parallel audio export, playback markings, keyswitch maps). Such a change is two branches with the same
   name, one per repository; the MuseScore branch pins the framework branch's commit in `muse`. The framework
