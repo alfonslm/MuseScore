@@ -136,12 +136,18 @@ writer and handles files, progress and retries.
   `audio/engine/internal/nodes/playbackstatetimeline.*`. Keyswitch maps: `muse/framework/vst/internal/synth`,
   mixer UI in `src/playback/qml`. String-name tablature clef: `ClefType::TAB_STRING_NAMES`. MIDI export
   option to lengthen a measure at a pause: `compat/midi/pausemap.*`. String Grip extension:
-  `share/extensions/stringgrip`.
+  `share/extensions/stringgrip`; the string tuning it needs for violin, viola, violoncello and contrabass
+  is in their instrument files under `share/instruments/source/strings/`.
 - **Instruments.** `share/instruments/instruments.xml` is not in this repository: the build assembles it
   from `share/instruments/source/` (one file per instrument, ordered by `source/manifest.txt`). Edit
   those files, never an `instruments.xml`. When an upstream merge changes upstream's `instruments.xml`
   (a modify/delete conflict), resolve it with `share/instruments/instruments_source.py merge-git` as
   described in `share/instruments/README.md`.
+- **Finishing a branch.** When a branch has served its purpose (its work is merged, superseded or
+  abandoned), close it out with one final pull request for the documentation: bring this file, the
+  feature's README and any notes that describe the work up to date with what was actually merged. Then
+  delete the branch and close its remaining pull requests, so that open branches and pull requests always
+  mean unfinished work.
 - **No upstream pull requests.** Pull requests go to this fork's `beta` (or `main`), never to the upstream
   repositories, so fork code doesn't have to meet upstream's contribution rules or stay mergeable upstream.
   Upstream's contribution files (AI policy, contributing guide, issue templates, triage workflows) are not
