@@ -79,7 +79,12 @@ env:
   APPLE_TEAM_ID: 6EPAF2X3PR
 
 jobs:
+  changes:
+    uses: ./.github/workflows/check_needs_build.yml
+
   macos_arm64:
+    needs: changes
+    if: needs.changes.outputs.needs_build == 'true'
     runs-on: xcode-27
     steps:
     - name: Clone repository
