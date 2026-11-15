@@ -246,3 +246,82 @@ TEST_F(PauseMap_Tests, noPauses)
     };
     EXPECT_EQ(map.tempoEvents(), expectedTempos);
 }
+
+TEST_F(PauseMap_Tests, pickupMeasure)
+{
+    // A pickup of one quarter note in 4/4: the MIDI file starts with a 1/4 bar, then 4/4,
+    // so its bar lines are where the score has them
+    const std::vector<PauseMap::MeasureSpan> spans {
+        { 0, QUARTER, Fraction(4, 4) },
+        { QUARTER, MEASURE_4_4, Fraction(4, 4) },
+        { QUARTER + MEASURE_4_4, MEASURE_4_4, Fraction(4, 4) },
+    };
+
+    PauseMap map;
+    map.calculate({ tempo(0, 2.0) }, spans);
+
+    EXPECT_EQ(map.tickWithPauses(QUARTER + MEASURE_4_4), QUARTER + MEASURE_4_4);
+
+    const std::map<int, Fraction> expectedTimeSigs {
+        { 0, Fraction(1, 4) },
+        { QUARTER, Fraction(4, 4) },
+    };
+    EXPECT_EQ(map.timeSigEvents(), expectedTimeSigs);
+}
+
+TEST_F(PauseMap_Tests, pickupOfAnEighth)
+{
+    // An eighth-note pickup in 3/4 needs a smaller denominator: 1/8
+    const int eighth = QUARTER / 2;
+    const Fraction timeSig(3, 4);
+    const std::vector<PauseMap::MeasureSpan> spans {
+        { 0, eighth, timeSig },
+        { eighth, timeSig.ticks(), timeSig },
+    };
+
+    PauseMap map;
+    map.calculate({ tempo(0, 2.0) }, spans);
+
+    const std::map<int, Fraction> expectedTimeSigs {
+        { 0, Fraction(1, 8) },
+        { eighth, Fraction(3, 4) },
+    };
+    EXPECT_EQ(map.timeSigEvents(), expectedTimeSigs);
+}
+
+TEST_F(PauseMap_Tests, irregularMeasureWithPause)
+{
+    // A shortened 3-beat measure in 4/4 with a one-beat caesura in it: together they are a full 4/4 measure
+    const std::vector<PauseMap::MeasureSpan> spans {
+        { 0, MEASURE_4_4, Fraction(4, 4) },
+        { MEASURE_4_4, 3 * QUARTER, Fraction(4, 4) },
+        { MEASURE_4_4 + 3 * QUARTER, MEASURE_4_4, Fraction(4, 4) },
+    };
+
+    PauseMap map;
+    map.calculate({ tempo(0, 2.0), pause(MEASURE_4_4 + QUARTER, 2.0, 0.5) }, spans);
+
+    // 3 beats + 1 beat of pause = a full 4/4 measure: nothing to write
+    EXPECT_EQ(map.tickWithPauses(MEASURE_4_4 + 3 * QUARTER), 2 * MEASURE_4_4);
+    EXPECT_TRUE(map.timeSigEvents().empty());
+}
+
+TEST_F(PauseMap_Tests, irregularMeasuresInARow)
+{
+    // Two irregular measures in a row: the time signature is only restored after the second one
+    const std::vector<PauseMap::MeasureSpan> spans {
+        { 0, 2 * QUARTER, Fraction(4, 4) },
+        { 2 * QUARTER, 3 * QUARTER, Fraction(4, 4) },
+        { 5 * QUARTER, MEASURE_4_4, Fraction(4, 4) },
+    };
+
+    PauseMap map;
+    map.calculate({ tempo(0, 2.0) }, spans);
+
+    const std::map<int, Fraction> expectedTimeSigs {
+        { 0, Fraction(2, 4) },
+        { 2 * QUARTER, Fraction(3, 4) },
+        { 5 * QUARTER, Fraction(4, 4) },
+    };
+    EXPECT_EQ(map.timeSigEvents(), expectedTimeSigs);
+}

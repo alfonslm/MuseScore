@@ -22,6 +22,9 @@
 
 #include "exportmidi.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "engraving/dom/chordrest.h"
 #include "engraving/dom/key.h"
 #include "engraving/dom/lyrics.h"
@@ -43,6 +46,24 @@
 using namespace mu::engraving;
 
 namespace mu::iex::midi {
+//---------------------------------------------------------
+//   midiTempo
+//    MIDI tempo (microseconds per quarter note) of a tempo in quarter notes per second,
+//    played at the playback speed `tempoMultiplier` (0.5 = half speed)
+//---------------------------------------------------------
+
+int ExportMidi::midiTempo(double bps, double tempoMultiplier)
+{
+    static constexpr int MAX_MIDI_TEMPO = 0xFFFFFF; // stored in 3 bytes
+
+    const double actualBps = bps * (tempoMultiplier > 0.0 ? tempoMultiplier : 1.0);
+    if (!(actualBps > 0.0)) {
+        return MAX_MIDI_TEMPO;
+    }
+
+    return static_cast<int>(std::clamp<long>(std::lround(1000000.0 / actualBps), 1L, static_cast<long>(MAX_MIDI_TEMPO)));
+}
+
 //---------------------------------------------------------
 //   writeHeader
 //---------------------------------------------------------
@@ -196,14 +217,11 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
     }
 
     const std::map<int, double>& tempoEvents = context.pauseMap->tempoEvents();
-    BeatsPerSecond tempoMultiplier = m_score->tempoTimeline().tempoMultiplier();
+    const double tempoMultiplier = m_score->tempoTimeline().tempoMultiplier().val;
     for (const auto& [tick, bps] : tempoEvents) {
         MidiEvent ev;
         ev.setType(ME_META);
-        //
-        // compute midi tempo: microseconds / quarter note
-        //
-        int tempo = lrint((1.0 / bps * tempoMultiplier.val) * 1000000.0);
+        const int tempo = midiTempo(bps, tempoMultiplier);
 
         ev.setMetaType(META_TEMPO);
         ev.setLen(3);

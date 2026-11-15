@@ -44,7 +44,8 @@ struct TempoTimePoint;
 //---------------------------------------------------
 enum class PauseMapMode {
     InsertMeasure,   // insert a whole measure of ticks per pause: every later measure number moves up by one
-    ExtendMeasure,   // lengthen the measure the pause belongs to: measure numbers stay the same as in the score
+    ExtendMeasure,   // lengthen the measure the pause belongs to: measure numbers stay the same as in the score,
+                     // and irregular measures (pickups) get their actual length as time signature
 };
 
 //---------------------------------------------------
@@ -70,7 +71,8 @@ public:
     inline int tickWithPauses(int utick) const { return utick + offsetAtUTick(utick); }
     const std::map<int, double>& tempoEvents() const { return m_tempoEvents; }
 
-    //! Time signatures of the lengthened measures and of the measures that follow them.
+    //! Time signatures of the measures that are not as long as their time signature (lengthened by a pause,
+    //! or irregular in the score, e.g. a pickup) and of the regular measures that follow them.
     //! Keyed by tick with pauses; they take precedence over the score's own time signatures. Empty in InsertMeasure mode.
     const std::map<int, Fraction>& timeSigEvents() const { return m_timeSigEvents; }
 
