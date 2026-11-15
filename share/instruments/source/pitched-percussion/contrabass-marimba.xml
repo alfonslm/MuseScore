@@ -1,0 +1,19 @@
+            <Instrument id="contrabass-marimba">
+                  <family>keyboard-percussion</family>
+                  <trackName>Contrabass Marimba</trackName>
+                  <longName>Contrabass Marimba</longName>
+                  <shortName>Cb. Mrm.</shortName>
+                  <description>Contrabass marimba.</description>
+                  <musicXMLid>pitched-percussion.marimba.bass</musicXMLid>
+                  <staves>1</staves>
+                  <clef>F8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>21-60</aPitchRange>
+                  <pPitchRange>21-60</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 12; MS General: Marimba-->
+                        <program value="12"/> <!--Marimba-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

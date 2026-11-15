@@ -1,0 +1,18 @@
+            <Instrument id="c-tin-whistle">
+                  <family>whistles</family>
+                  <trackName>Tin Whistle</trackName>
+                  <longName>C Tin Whistle</longName>
+                  <shortName>C Tin Wh.</shortName>
+                  <traitName type="tuning">C</traitName>
+                  <description>Whistle pitched in C.</description>
+                  <musicXMLid>wind.flutes.whistle.tin</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-96</aPitchRange>
+                  <pPitchRange>72-102</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 78; MS General: Whistle-->
+                        <program value="78"/> <!--Whistle-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>

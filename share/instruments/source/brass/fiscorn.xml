@@ -1,0 +1,22 @@
+            <Instrument id="fiscorn">
+                  <family>flugelhorns</family>
+                  <trackName>Fiscorn</trackName>
+                  <longName>Fiscorn</longName>
+                  <shortName>Fsc.</shortName>
+                  <description>Bass flugelhorn, originally played in polka bands in central Europe.</description>
+                  <musicXMLid>brass.fiscorn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-79</aPitchRange>
+                  <pPitchRange>52-82</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

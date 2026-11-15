@@ -1,0 +1,19 @@
+            <Instrument id="melody-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Melody Saxophone</trackName>
+                  <longName>Melody Saxophone</longName>
+                  <shortName>Mel. Sax.</shortName>
+                  <description>Saxophone in C (a tone above the tenor).</description>
+                  <musicXMLid>wind.reed.saxophone.melody</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>46-77</aPitchRange>
+                  <pPitchRange>46-77</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 66; MS General: Tenor Sax-->
+                        <program value="66"/> <!--Tenor Sax-->
+                  </Channel>
+            </Instrument>

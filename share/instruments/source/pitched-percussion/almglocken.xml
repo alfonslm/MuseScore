@@ -1,0 +1,21 @@
+            <Instrument id="almglocken">
+                  <family>pitched-metal-percussion</family>
+                  <trackName>Almglocken</trackName>
+                  <longName>Almglocken</longName>
+                  <shortName>Almg.</shortName>
+                  <description>Almglocken, or cow bells.</description>
+                  <musicXMLid>metal.bells.almglocken</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G15ma</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F15ma</clef>
+                  <aPitchRange>60-105</aPitchRange>
+                  <pPitchRange>60-105</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 108; MS General: Kalimba-->
+                        <program value="108"/> <!--Kalimba-->
+                  </Channel>
+            </Instrument>

@@ -1,0 +1,24 @@
+            <Instrument id="rain-synth">
+                  <family>synths</family>
+                  <trackName>Rain Synthesizer</trackName>
+                  <longName>Rain Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Rain synth effect (General MIDI program 97).</description>
+                  <musicXMLid>synth.effects.rain</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 96; MS General: Ice Rain-->
+                        <program value="96"/> <!--FX 1 (rain)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

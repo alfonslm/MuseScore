@@ -1,0 +1,29 @@
+            <Instrument id="laud">
+                  <family>lauds</family>
+                  <trackName>Laúd</trackName>
+                  <longName>Laúd</longName>
+                  <shortName>Laúd</shortName>
+                  <description>Spanish lute similar to the bandurria. (Staff notation).</description>
+                  <musicXMLid>pluck.laud</musicXMLid>
+                  <StringData>
+                        <frets>22</frets>
+                        <string>44</string>
+                        <string>49</string>
+                        <string>54</string>
+                        <string>59</string>
+                        <string>64</string>
+                        <string>69</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>44-91</aPitchRange>
+                  <pPitchRange>44-91</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 8, Prog 25; MS General: 12-String Guitar-->
+                        <controller ctrl="32" value="8"/> <!--Bank LSB-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <genre>popular</genre>
+            </Instrument>

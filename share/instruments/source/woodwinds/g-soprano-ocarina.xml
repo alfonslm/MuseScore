@@ -1,0 +1,20 @@
+            <Instrument id="g-soprano-ocarina">
+                  <family>ocarinas</family>
+                  <trackName>Soprano Ocarina</trackName>
+                  <longName>Soprano Ocarina</longName>
+                  <shortName>S. Oc.</shortName>
+                  <traitName type="transposition">G</traitName>
+                  <description>Soprano ocarina in G.</description>
+                  <musicXMLid>wind.flutes.ocarina</musicXMLid>
+                  <clef>G15ma</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>79-96</aPitchRange>
+                  <pPitchRange>76-96</pPitchRange>
+                  <transposeDiatonic>-3</transposeDiatonic>
+                  <transposeChromatic>-5</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

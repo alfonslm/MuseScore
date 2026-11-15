@@ -1,0 +1,17 @@
+            <Instrument id="tenor-c-clef">
+                  <family>voices</family>
+                  <trackName>Tenor (C clef)</trackName>
+                  <longName>Tenor</longName>
+                  <shortName>T.</shortName>
+                  <description>Tenor voice (notated in C clef).</description>
+                  <musicXMLid>voice.tenor</musicXMLid>
+                  <clef>C4</clef>
+                  <aPitchRange>48-69</aPitchRange>
+                  <pPitchRange>48-72</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

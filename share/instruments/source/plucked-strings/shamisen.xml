@@ -1,0 +1,19 @@
+            <Instrument id="shamisen">
+                  <family>shamisens</family>
+                  <trackName>Shamisen</trackName>
+                  <longName>Shamisen</longName>
+                  <shortName>Sh.</shortName>
+                  <description>Traditional Japanese three-stringed instrument played with a plectrum.</description>
+                  <musicXMLid>pluck.shamisen</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-79</aPitchRange>
+                  <pPitchRange>48-84</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 106; MS General: Shamisen-->
+                        <program value="106"/> <!--Shamisen-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

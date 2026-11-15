@@ -1,0 +1,17 @@
+            <Instrument id="bass-recorder">
+                  <family>recorders</family>
+                  <trackName>Bass Recorder</trackName>
+                  <longName>Bass Recorder</longName>
+                  <shortName>B. Rec.</shortName>
+                  <description>Recorder pitched in F (an octave below the alto).</description>
+                  <musicXMLid>wind.flutes.recorder.bass</musicXMLid>
+                  <clef>F8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-74</aPitchRange>
+                  <pPitchRange>53-77</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

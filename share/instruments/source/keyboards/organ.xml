@@ -1,0 +1,24 @@
+            <Instrument id="organ">
+                  <family>organs</family>
+                  <trackName>Organ</trackName>
+                  <longName>Organ</longName>
+                  <shortName>Org.</shortName>
+                  <description>Organ (generic).</description>
+                  <musicXMLid>keyboard.organ</musicXMLid>
+                  <staves>3</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <clef staff="3">F</clef>
+                  <barlineSpan staff="3">1</barlineSpan>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 19; MS General: Church Organ-->
+                        <program value="19"/> <!--Church Organ-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

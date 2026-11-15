@@ -1,0 +1,24 @@
+            <Instrument id="balalaika-contrabass">
+                  <family>balalaikas</family>
+                  <trackName>Contrabass Balalaika</trackName>
+                  <longName>Contrabass Balalaika</longName>
+                  <shortName>Cb. Bal.</shortName>
+                  <description>Contrabass balalaika, tuned an octave below the bass.</description>
+                  <musicXMLid>pluck.balalaika.contrabass</musicXMLid>
+                  <StringData>
+                        <frets>17</frets>
+                        <string>28</string>
+                        <string>33</string>
+                        <string>38</string>
+                  </StringData>
+                  <clef>F8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-55</aPitchRange>
+                  <pPitchRange>28-55</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+            </Instrument>

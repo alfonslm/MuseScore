@@ -1,0 +1,10 @@
+            <Instrument id="lute-tablature">
+                  <init>lute</init>
+                  <family>lutes</family>
+                  <trackName>Lute (tablature)</trackName>
+                  <longName>Lute</longName>
+                  <description>6-course lute (tablature).</description>
+                  <musicXMLid>pluck.lute</musicXMLid>
+                  <stafftype staffTypePreset="tab6StrFrench">tablature</stafftype>
+                  <genre>earlymusic</genre>
+            </Instrument>

@@ -1,0 +1,18 @@
+            <Instrument id="orff-alto-glockenspiel">
+                  <family>orff-percussion</family>
+                  <trackName>Orff Alto Glockenspiel</trackName>
+                  <longName>Orff Alto Glockenspiel</longName>
+                  <shortName>O. A. Glk.</shortName>
+                  <description>Alto glockenspiel for the Orff Schulwerk.</description>
+                  <musicXMLid>pitched-percussion.glockenspiel.alto</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-93</aPitchRange>
+                  <pPitchRange>72-93</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 9; MS General: Glockenspiel-->
+                        <program value="9"/> <!--Glockenspiel-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>

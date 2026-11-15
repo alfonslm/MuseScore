@@ -1,0 +1,22 @@
+            <Instrument id="hammond-organ">
+                  <family>organs</family>
+                  <trackName>Hammond Organ</trackName>
+                  <longName>Hammond Organ</longName>
+                  <shortName>Hm. Org.</shortName>
+                  <description>Hammond electronic organ.</description>
+                  <musicXMLid>keyboard.organ.drawbar</musicXMLid>
+                  <staves>3</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <clef staff="3">F</clef>
+                  <barlineSpan staff="3">1</barlineSpan>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 16; MS General: Drawbar Organ-->
+                        <program value="16"/> <!--Drawbar Organ-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+            </Instrument>

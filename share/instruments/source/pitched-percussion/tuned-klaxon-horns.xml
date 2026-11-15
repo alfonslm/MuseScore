@@ -1,0 +1,19 @@
+            <Instrument id="tuned-klaxon-horns">
+                  <family>klaxon-horns</family>
+                  <trackName>Tuned Klaxon Horns</trackName>
+                  <longName>Tuned Klaxon Horns</longName>
+                  <shortName>Tn. Klx. Hns.</shortName>
+                  <description>Tuned klaxon horns or car horns.</description>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>48-72</aPitchRange>
+                  <pPitchRange>48-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 84; MS General: Charang-->
+                        <program value="84"/> <!--Lead 5 (charang)-->
+                  </Channel>
+            </Instrument>

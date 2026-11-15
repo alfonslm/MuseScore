@@ -1,0 +1,19 @@
+            <Instrument id="baritone-bugle">
+                  <family>bugles</family>
+                  <trackName>Baritone Bugle</trackName>
+                  <longName>Baritone Bugle</longName>
+                  <shortName>Bar. Bu.</shortName>
+                  <description>Baritone bugle.</description>
+                  <musicXMLid>brass.bugle.baritone</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>50-62</aPitchRange>
+                  <pPitchRange>43-67</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>marching</genre>
+            </Instrument>

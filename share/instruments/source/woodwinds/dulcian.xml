@@ -1,0 +1,17 @@
+            <Instrument id="dulcian">
+                  <family>dulcians</family>
+                  <trackName>Dulcian</trackName>
+                  <longName>Dulcian</longName>
+                  <shortName>Du.</shortName>
+                  <description>Renaissance double-reed instrument with a folded conical bore.</description>
+                  <musicXMLid>wind.reed.dulcian</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-62</aPitchRange>
+                  <pPitchRange>40-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

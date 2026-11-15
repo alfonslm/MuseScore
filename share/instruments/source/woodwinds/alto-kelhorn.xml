@@ -1,0 +1,16 @@
+            <Instrument id="alto-kelhorn">
+                  <family>kelhorns</family>
+                  <trackName>Alto Kelhorn</trackName>
+                  <longName>Alto Kelhorn</longName>
+                  <shortName>A. Kh.</shortName>
+                  <description>20th-century instrument similar to the crumhorn and cornamuse, pitched in F (a fifth below the soprano kelhorn).</description>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-67</aPitchRange>
+                  <pPitchRange>53-69</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

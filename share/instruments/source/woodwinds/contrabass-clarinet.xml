@@ -1,0 +1,22 @@
+            <Instrument id="contrabass-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Contrabass Clarinet</trackName>
+                  <longName>Contrabass Clarinet</longName>
+                  <shortName>Cb. Cl.</shortName>
+                  <description>Contrabass clarinet in B♭. An octave lower than the B♭ bass clarinet.</description>
+                  <musicXMLid>wind.reed.clarinet.contrabass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>25-65</aPitchRange>
+                  <pPitchRange>22-70</pPitchRange>
+                  <transposeDiatonic>-15</transposeDiatonic>
+                  <transposeChromatic>-26</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+            </Instrument>

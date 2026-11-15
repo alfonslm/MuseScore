@@ -1,0 +1,18 @@
+            <Instrument id="mezzo-soprano-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Mezzo-Soprano Saxophone</trackName>
+                  <longName>Mezzo-Soprano Saxophone</longName>
+                  <shortName>M.S. Sax.</shortName>
+                  <description>Saxophone in F (a tone above the alto).</description>
+                  <musicXMLid>wind.reed.saxophone.mezzo-soprano</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>51-82</aPitchRange>
+                  <pPitchRange>51-82</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 65; MS General: Alto Sax-->
+                        <program value="65"/> <!--Alto Sax-->
+                  </Channel>
+            </Instrument>

@@ -1,0 +1,17 @@
+            <Instrument id="sopranino-recorder">
+                  <family>recorders</family>
+                  <trackName>Sopranino Recorder</trackName>
+                  <longName>Sopranino Recorder</longName>
+                  <shortName>Si. Rec.</shortName>
+                  <description>The second smallest recorder, pitched in F (an octave above the alto).</description>
+                  <musicXMLid>wind.flutes.recorder.sopranino</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>77-100</aPitchRange>
+                  <pPitchRange>77-103</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

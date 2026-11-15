@@ -1,0 +1,17 @@
+            <Instrument id="danso">
+                  <family>flutes</family>
+                  <trackName>Danso</trackName>
+                  <longName>Danso</longName>
+                  <shortName>Da.</shortName>
+                  <description>Notched, end-blown vertical bamboo flute used in Korean folk music.</description>
+                  <musicXMLid>wind.flutes.danso</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>67-91</aPitchRange>
+                  <pPitchRange>67-91</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 76; MS General: Bottle Chiff-->
+                        <program value="76"/> <!--Blown Bottle-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

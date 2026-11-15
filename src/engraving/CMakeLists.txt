@@ -20,12 +20,28 @@
 
 muse_create_module(engraving)
 
+# instruments.xml is assembled from one file per instrument, see share/instruments/README.md
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../share/instruments/AssembleInstruments.cmake)
+assemble_instruments_xml(${CMAKE_CURRENT_SOURCE_DIR}/../../share/instruments/source
+    ${CMAKE_CURRENT_BINARY_DIR}/instruments/instruments.xml)
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc.tmp
+"<RCC>
+    <qresource prefix=\"/\">
+        <file alias=\"engraving/instruments/instruments.xml\">instruments/instruments.xml</file>
+    </qresource>
+</RCC>
+")
+file(COPY_FILE ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc.tmp
+    ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc ONLY_IF_DIFFERENT)
+file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc.tmp)
+
 # TODO: convert to target-based variant of qt_add_resources
 # (Not easy because of heavy use of aliases, which is much more cumbersome
 # in CMake than in .qrc files)
 muse_module_add_qrc(engraving
     engraving.qrc
     data/fonts/fonts_Smufl.qrc
+    ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc
 )
 
 # TODO: convert to target-based variant of qt_add_resources

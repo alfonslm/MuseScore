@@ -1,0 +1,22 @@
+            <Instrument id="mallet-synthesizer">
+                  <family>synths</family>
+                  <trackName>Mallet Synthesizer</trackName>
+                  <longName>Mallet Synthesizer</longName>
+                  <shortName>Mal. Syn.</shortName>
+                  <description>Mallet synthesizer.</description>
+                  <musicXMLid>synth.group</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 80; MS General: Square Lead-->
+                        <program value="80"/> <!--Lead 1 (square)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

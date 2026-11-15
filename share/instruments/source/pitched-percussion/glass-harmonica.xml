@@ -1,0 +1,16 @@
+            <Instrument id="glass-harmonica">
+                  <family>glass-percussion</family>
+                  <trackName>Glass Harmonica</trackName>
+                  <longName>Glass Harmonica</longName>
+                  <shortName>Gla. Har.</shortName>
+                  <description>Instrument made of spinning glass disks or bowls played by touching with the fingers.</description>
+                  <musicXMLid>pitched-percussion.glass-harmonica</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-89</aPitchRange>
+                  <pPitchRange>53-89</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 92; MS General: Bowed Glass-->
+                        <program value="92"/> <!--Pad 5 (bowed)-->
+                  </Channel>
+            </Instrument>

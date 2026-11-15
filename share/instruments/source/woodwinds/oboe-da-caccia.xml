@@ -1,0 +1,19 @@
+            <Instrument id="oboe-da-caccia">
+                  <family>oboes</family>
+                  <trackName>Oboe da caccia</trackName>
+                  <longName>Oboe da caccia</longName>
+                  <shortName>Ob. d. ca.</shortName>
+                  <description>Oboe in F, sounding a perfect fifth below the standard oboe.</description>
+                  <musicXMLid>wind.reed.oboe-da-caccia</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-79</aPitchRange>
+                  <pPitchRange>53-81</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

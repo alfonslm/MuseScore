@@ -1,0 +1,17 @@
+            <Instrument id="soprano-bugle">
+                  <family>bugles</family>
+                  <trackName>Soprano Bugle</trackName>
+                  <longName>Soprano Bugle</longName>
+                  <shortName>S. Bu.</shortName>
+                  <description>Soprano bugle.</description>
+                  <musicXMLid>brass.bugle.soprano</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>67-79</aPitchRange>
+                  <pPitchRange>60-84</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>marching</genre>
+            </Instrument>

@@ -1,0 +1,17 @@
+            <Instrument id="mellophon-bugle">
+                  <family>bugles</family>
+                  <trackName>Mellophone Bugle</trackName>
+                  <longName>Mellophone Bugle</longName>
+                  <shortName>Mello. Bu.</shortName>
+                  <description>Mellophone bugle in C.</description>
+                  <musicXMLid>brass.bugle.mellophone-bugle</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-77</aPitchRange>
+                  <pPitchRange>36-81</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>marching</genre>
+            </Instrument>

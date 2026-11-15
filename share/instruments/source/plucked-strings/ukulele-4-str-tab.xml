@@ -1,0 +1,12 @@
+            <Instrument id="ukulele-4-str-tab">
+                  <init>ukulele</init>
+                  <family>ukuleles</family>
+                  <trackName>Ukulele (tablature)</trackName>
+                  <longName>Ukulele</longName>
+                  <description>Standard ukulele (tablature).</description>
+                  <musicXMLid>pluck.ukulele</musicXMLid>
+                  <stafftype staffTypePreset="tabUkulele">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>classroom</genre>
+            </Instrument>

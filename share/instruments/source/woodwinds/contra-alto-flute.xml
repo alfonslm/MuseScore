@@ -1,0 +1,19 @@
+            <Instrument id="contra-alto-flute">
+                  <family>flutes</family>
+                  <trackName>Contra-alto Flute</trackName>
+                  <longName>Contra-alto Flute</longName>
+                  <shortName>C-a. Fl.</shortName>
+                  <description>Flute in G, sounding an octave below the alto flute.</description>
+                  <musicXMLid>wind.flutes.flute.contra-alto</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>43-76</aPitchRange>
+                  <pPitchRange>43-79</pPitchRange>
+                  <transposeDiatonic>-10</transposeDiatonic>
+                  <transposeChromatic>-17</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+            </Instrument>

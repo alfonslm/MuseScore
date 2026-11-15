@@ -1,0 +1,24 @@
+            <Instrument id="c-bass-trumpet">
+                  <family>trumpets</family>
+                  <trackName>Bass Trumpet</trackName>
+                  <longName>Bass Trumpet</longName>
+                  <shortName>B. Tpt.</shortName>
+                  <traitName type="transposition">*C</traitName>
+                  <description>Bass trumpet in C. The most common bass trumpet in use today.</description>
+                  <musicXMLid>brass.trumpet.bass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>42-69</aPitchRange>
+                  <pPitchRange>42-72</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

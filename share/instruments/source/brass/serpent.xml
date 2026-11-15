@@ -1,0 +1,17 @@
+            <Instrument id="serpent">
+                  <family>serpents</family>
+                  <trackName>Serpent</trackName>
+                  <longName>Serpent</longName>
+                  <shortName>Spt.</shortName>
+                  <description>Descendant of the cornett, and distant ancestor of the tuba.</description>
+                  <musicXMLid>brass.serpent</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-65</aPitchRange>
+                  <pPitchRange>36-69</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

@@ -1,0 +1,17 @@
+            <Instrument id="soprano-cornett">
+                  <family>cornetts</family>
+                  <trackName>Soprano Cornett</trackName>
+                  <longName>Soprano Cornett</longName>
+                  <shortName>S. Co.</shortName>
+                  <description>Medieval wind instrument, consisting of a conical wooden pipe covered in leather. The soprano is the most common cornett.</description>
+                  <musicXMLid>brass.cornett</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-83</aPitchRange>
+                  <pPitchRange>60-86</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

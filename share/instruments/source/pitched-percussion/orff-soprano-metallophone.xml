@@ -1,0 +1,18 @@
+            <Instrument id="orff-soprano-metallophone">
+                  <family>orff-percussion</family>
+                  <trackName>Orff Soprano Metallophone</trackName>
+                  <longName>Orff Soprano Metallophone</longName>
+                  <shortName>O. S. Met.</shortName>
+                  <description>Soprano metallophone for the Orff Schulwerk.</description>
+                  <musicXMLid>pitched-percussion.metallophone.soprano</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-93</aPitchRange>
+                  <pPitchRange>72-93</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 11; MS General: Vibraphone-->
+                        <program value="11"/> <!--Vibraphone-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>

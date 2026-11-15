@@ -1,0 +1,10 @@
+            <Instrument id="guitar-nylon-tablature">
+                  <init>guitar-nylon</init>
+                  <family>guitars</family>
+                  <trackName>Classical Guitar (tablature)</trackName>
+                  <longName>Classical Guitar</longName>
+                  <description>Acoustic nylon-string guitar (tablature).</description>
+                  <musicXMLid>pluck.guitar.nylon-string</musicXMLid>
+                  <stafftype staffTypePreset="tab6StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+            </Instrument>

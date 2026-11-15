@@ -1,0 +1,18 @@
+            <Instrument id="orff-soprano-glockenspiel">
+                  <family>orff-percussion</family>
+                  <trackName>Orff Soprano Glockenspiel</trackName>
+                  <longName>Orff Soprano Glockenspiel</longName>
+                  <shortName>O. S. Glk.</shortName>
+                  <description>Soprano glockenspiel for the Orff Schulwerk.</description>
+                  <musicXMLid>pitched-percussion.glockenspiel.soprano</musicXMLid>
+                  <clef>G15ma</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>84-105</aPitchRange>
+                  <pPitchRange>84-105</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 9; MS General: Glockenspiel-->
+                        <program value="9"/> <!--Glockenspiel-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>

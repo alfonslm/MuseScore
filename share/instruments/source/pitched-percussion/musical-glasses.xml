@@ -1,0 +1,16 @@
+            <Instrument id="musical-glasses">
+                  <family>glass-percussion</family>
+                  <trackName>Musical Glasses</trackName>
+                  <longName>Musical Glasses</longName>
+                  <shortName>Mu. Gla.</shortName>
+                  <description>Wine glasses played by running moistened fingers around the rim. Sometimes called a glass harp.</description>
+                  <musicXMLid>pitched-percussion.crystal-glasses</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-91</aPitchRange>
+                  <pPitchRange>72-91</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 93; MS General: Metal Pad-->
+                        <program value="93"/> <!--Pad 6 (metallic)-->
+                  </Channel>
+            </Instrument>

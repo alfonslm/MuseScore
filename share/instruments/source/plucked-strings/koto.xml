@@ -1,0 +1,19 @@
+            <Instrument id="koto">
+                  <family>kotos</family>
+                  <trackName>Koto</trackName>
+                  <longName>Koto</longName>
+                  <shortName>Ko.</shortName>
+                  <description>Japanese plucked half-tube zither.</description>
+                  <musicXMLid>pluck.koto</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>57-83</aPitchRange>
+                  <pPitchRange>36-83</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

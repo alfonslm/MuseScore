@@ -1,0 +1,18 @@
+            <Instrument id="reed-contrabass">
+                  <family>reed-contrabasses</family>
+                  <trackName>Reed Contrabass</trackName>
+                  <longName>Reed Contrabass</longName>
+                  <shortName>Rd. Cbs.</shortName>
+                  <description>Double-reed instrument with an unusually wide conical bore, normally made of metal.</description>
+                  <musicXMLid>wind.reed.contrabass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>22-57</aPitchRange>
+                  <pPitchRange>22-60</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 70; MS General: Bassoon-->
+                        <program value="70"/> <!--Bassoon-->
+                  </Channel>
+            </Instrument>

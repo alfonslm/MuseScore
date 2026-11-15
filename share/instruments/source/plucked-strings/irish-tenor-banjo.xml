@@ -1,0 +1,26 @@
+            <Instrument id="irish-tenor-banjo">
+                  <family>banjos</family>
+                  <trackName>Irish Tenor Banjo</trackName>
+                  <longName>Irish Tenor Banjo</longName>
+                  <shortName>ITB</shortName>
+                  <description>4-string Irish tenor banjo (staff notation).</description>
+                  <musicXMLid>pluck.banjo.tenor</musicXMLid>
+                  <StringData>
+                        <frets>19</frets>
+                        <string>43</string>
+                        <string>50</string>
+                        <string>57</string>
+                        <string>64</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>43-69</aPitchRange>
+                  <pPitchRange>43-76</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 105; MS General: Banjo-->
+                        <program value="105"/> <!--Banjo-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

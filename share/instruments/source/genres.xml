@@ -1,0 +1,33 @@
+      <Genre id="common">
+            <name>Common</name>
+      </Genre>
+      <Genre id="popular">
+            <name>Pop/Rock</name>
+      </Genre>
+      <Genre id="jazz">
+            <name>Jazz</name>
+      </Genre>
+      <Genre id="choral">
+            <name>Choral</name>
+      </Genre>
+      <Genre id="orchestra">
+            <name>Orchestra</name>
+      </Genre>
+      <Genre id="concertband">
+            <name>Concert Band</name>
+      </Genre>
+      <Genre id="marching">
+            <name>Marching Band</name>
+      </Genre>
+      <Genre id="electronic">
+            <name>Electronic Music</name>
+      </Genre>
+      <Genre id="world">
+            <name>World Music</name>
+      </Genre>
+      <Genre id="earlymusic">
+            <name>Early Music</name>
+      </Genre>
+      <Genre id="classroom">
+            <name>Classroom</name>
+      </Genre>

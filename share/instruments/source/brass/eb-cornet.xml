@@ -1,0 +1,24 @@
+            <Instrument id="eb-cornet">
+                  <family>cornets</family>
+                  <trackName>Cornet</trackName>
+                  <longName>Cornet</longName>
+                  <shortName>Cnt.</shortName>
+                  <traitName type="transposition">E♭</traitName>
+                  <description>Soprano cornet in E♭.</description>
+                  <musicXMLid>brass.cornet.soprano</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>57-84</aPitchRange>
+                  <pPitchRange>57-87</pPitchRange>
+                  <transposeDiatonic>2</transposeDiatonic>
+                  <transposeChromatic>3</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>concertband</genre>
+            </Instrument>

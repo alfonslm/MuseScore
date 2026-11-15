@@ -1,0 +1,26 @@
+            <Instrument id="strings">
+                  <family>strings</family>
+                  <trackName>Strings</trackName>
+                  <longName>Strings</longName>
+                  <shortName>St.</shortName>
+                  <description>String section notated on a grand staff.</description>
+                  <musicXMLid>strings.group</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>24-108</aPitchRange>
+                  <pPitchRange>24-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 0, Prog 48; MS General: Strings Fast-->
+                        <program value="48"/> <!--String Ensemble 1-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 0, Prog 45; MS General: Strings Pizzicato-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 0, Prog 44; MS General: Strings Tremolo-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+            </Instrument>

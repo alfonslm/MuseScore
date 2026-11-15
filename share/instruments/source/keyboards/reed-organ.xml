@@ -1,0 +1,20 @@
+            <Instrument id="reed-organ">
+                  <family>organs</family>
+                  <trackName>Reed Organ</trackName>
+                  <longName>Reed Organ</longName>
+                  <shortName>Rd. Org.</shortName>
+                  <description>Reed organ.</description>
+                  <musicXMLid>keyboard.organ.reed</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>29-89</aPitchRange>
+                  <pPitchRange>29-89</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 20; MS General: Reed Organ-->
+                        <program value="20"/> <!--Reed Organ-->
+                  </Channel>
+            </Instrument>

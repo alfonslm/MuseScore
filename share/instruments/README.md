@@ -1,5 +1,60 @@
 # Instruments
 
+## This fork: one file per instrument
+
+In this fork `instruments.xml` is not kept in the repository. The instrument
+definitions live in [`source/`](source), one file per instrument, so that
+changes to different instruments (ours and upstream's) merge without conflicts:
+
+- `source/<group>/<instrument-id>.xml` - one `<Instrument>` each, e.g.
+  `source/strings/violin.xml`.
+- `source/<group>/_begin.xml`, `_end.xml` - the group's opening (with its name)
+  and closing tags.
+- `source/genres.xml`, `families.xml`, `articulations.xml`, `_head.xml`,
+  `_tail.xml` - the parts of the file outside the instrument groups.
+- `source/manifest.txt` - every file above, in the order they are joined. A new
+  instrument must be listed here; moving a line moves the instrument in the
+  instrument picker.
+
+The build joins them into `instruments.xml` (see
+[`AssembleInstruments.cmake`](AssembleInstruments.cmake)); nothing else changes
+for MuseScore, which still loads one `instruments.xml` from its resources.
+[`instruments_source.py`](instruments_source.py) does the same from the command
+line and converts in the other direction:
+
+```Bash
+python3 instruments_source.py assemble -o instruments.xml  # join source/ (e.g. for generate_tsv.py)
+python3 instruments_source.py check instruments.xml        # does source/ join to exactly this file?
+python3 instruments_source.py split instruments.xml        # replace source/ with this file's content
+```
+
+### Taking upstream's changes
+
+Upstream still keeps `instruments.xml` and regenerates it from its spreadsheet
+(see below). When a merge of upstream `main` changes it, git reports a
+modify/delete conflict for `share/instruments/instruments.xml`. Resolve it by
+merging upstream's change into `source/` file by file, then keep the deletion:
+
+```Bash
+python3 share/instruments/instruments_source.py merge-git $(git merge-base HEAD MERGE_HEAD) MERGE_HEAD
+git rm share/instruments/instruments.xml
+git add share/instruments/source
+```
+
+Our own edits to an instrument are kept; if both sides changed the same lines
+of one instrument, that file gets conflict markers, like any git conflict, and
+the build refuses to assemble until they are resolved.
+
+### What is not covered
+
+`instrumentsxml.h` (translatable instrument names) and the standard drumset in
+`src/engraving/dom/drumset.cpp` are still generated from upstream's spreadsheet
+by `update_instruments_xml.py`. If you add an instrument or change a name in
+`source/`, add the strings to `instrumentsxml.h` by hand, following the
+existing entries.
+
+The rest of this file describes upstream's process.
+
 ## About the online spreadsheet
 
 Instrument data is stored in this [Google spreadsheet][Instruments], which

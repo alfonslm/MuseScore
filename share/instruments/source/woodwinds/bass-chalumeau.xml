@@ -1,0 +1,17 @@
+            <Instrument id="bass-chalumeau">
+                  <family>chalumeaus</family>
+                  <trackName>Bass Chalumeau</trackName>
+                  <longName>Bass Chalumeau</longName>
+                  <shortName>B. Cha.</shortName>
+                  <description>Predecessor of the modern-day clarinet, pitched in F (an fifth below the tenor chalumeau).</description>
+                  <musicXMLid>wind.reed.chalumeau</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-55</aPitchRange>
+                  <pPitchRange>41-58</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

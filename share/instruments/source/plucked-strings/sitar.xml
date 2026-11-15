@@ -1,0 +1,19 @@
+            <Instrument id="sitar">
+                  <family>sitars</family>
+                  <trackName>Sitar</trackName>
+                  <longName>Sitar</longName>
+                  <shortName>Si.</shortName>
+                  <description>Plucked string instrument used in Indian classical music.</description>
+                  <musicXMLid>pluck.sitar</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-84</aPitchRange>
+                  <pPitchRange>36-84</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 104; MS General: Sitar-->
+                        <program value="104"/> <!--Sitar-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

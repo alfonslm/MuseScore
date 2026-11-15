@@ -1,0 +1,31 @@
+            <Instrument id="piano">
+                  <family>keyboards</family>
+                  <trackName>Piano</trackName>
+                  <longName>Piano</longName>
+                  <shortName>Pno.</shortName>
+                  <description>Upright or grand pianoforte. Strikes strings with a hammer, enabling a large dynamic range. Notes can be sustained via a pedal.</description>
+                  <musicXMLid>keyboard.piano</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>21-108</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 0; MS General: Grand Piano-->
+                        <program value="0"/> <!--Acoustic Grand Piano-->
+                  </Channel>
+                  <Articulation>
+                        <velocity>100</velocity>
+                        <gateTime>95</gateTime>
+                  </Articulation>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+                  <genre>classroom</genre>
+            </Instrument>

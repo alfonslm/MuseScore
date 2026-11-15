@@ -1,0 +1,16 @@
+            <Instrument id="bass-oboe">
+                  <family>oboes</family>
+                  <trackName>Bass Oboe</trackName>
+                  <longName>Bass Oboe</longName>
+                  <shortName>B. Ob.</shortName>
+                  <description>Oboe in C, sounding an octave lower than the standard oboe. Similar, but not identical to, the heckelphone.</description>
+                  <musicXMLid>wind.reed.oboe.bass</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>47-76</aPitchRange>
+                  <pPitchRange>47-78</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+            </Instrument>

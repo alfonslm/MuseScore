@@ -1,0 +1,10 @@
+            <Instrument id="mandolin-tablature">
+                  <init>mandolin</init>
+                  <family>mandolins</family>
+                  <trackName>Mandolin (tablature)</trackName>
+                  <longName>Mandolin</longName>
+                  <description>Mandolin (tablature).</description>
+                  <musicXMLid>pluck.mandolin</musicXMLid>
+                  <stafftype staffTypePreset="tab4StrCommon">tablature</stafftype>
+                  <genre>popular</genre>
+            </Instrument>

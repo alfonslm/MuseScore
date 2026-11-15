@@ -1,0 +1,14 @@
+            <Instrument id="chalumeau">
+                  <family>chalumeaus</family>
+                  <description>Predecessor of the modern-day clarinet, pitched in C.</description>
+                  <musicXMLid>wind.reed.chalumeau</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-62</aPitchRange>
+                  <pPitchRange>48-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

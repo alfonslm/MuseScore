@@ -1,0 +1,16 @@
+            <Instrument id="kalimba">
+                  <family>kalimbas</family>
+                  <trackName>Kalimba</trackName>
+                  <longName>Kalimba</longName>
+                  <shortName>Kal.</shortName>
+                  <description>Kalimba (generic). A modern interpretation of the traditional Shona mbira.</description>
+                  <musicXMLid>pitched-percussion.kalimba</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 108; MS General: Kalimba-->
+                        <program value="108"/> <!--Kalimba-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

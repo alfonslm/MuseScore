@@ -1,0 +1,9 @@
+            <Instrument id="mtn-dulcimer-bartn-chrom-tab">
+                  <init>mtn-dulcimer-baritone</init>
+                  <family>mtn-dulcimers</family>
+                  <trackName>Mtn. Dulcimer - Baritone (tablature)</trackName>
+                  <longName>Mtn. Dulcimer - Baritone</longName>
+                  <description>Larger version of the mountain or Appalachian dulcimer. (Tablature).</description>
+                  <stafftype staffTypePreset="tabDulcimer">tablature</stafftype>
+                  <genre>world</genre>
+            </Instrument>

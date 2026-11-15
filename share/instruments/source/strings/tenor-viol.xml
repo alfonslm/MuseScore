@@ -1,0 +1,35 @@
+            <Instrument id="tenor-viol">
+                  <family>viols</family>
+                  <trackName>Tenor Viol</trackName>
+                  <longName>Tenor Viol</longName>
+                  <shortName>T. Vl.</shortName>
+                  <description>Tenor viola da gamba. Middle member of the viol family.</description>
+                  <musicXMLid>strings.viol.tenor</musicXMLid>
+                  <StringData>
+                        <frets>13</frets>
+                        <string>43</string>
+                        <string>48</string>
+                        <string>53</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                  </StringData>
+                  <clef>C3</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>43-79</aPitchRange>
+                  <pPitchRange>43-84</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 0, Prog 41; MS General: Viola-->
+                        <program value="41"/> <!--Viola-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 0, Prog 45; MS General: Strings Pizzicato-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 0, Prog 44; MS General: Strings Tremolo-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

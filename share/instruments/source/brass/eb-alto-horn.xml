@@ -1,0 +1,23 @@
+            <Instrument id="eb-alto-horn">
+                  <family>alto-horns</family>
+                  <trackName>Alto Horn</trackName>
+                  <longName>Alto Horn</longName>
+                  <shortName>A. Hn.</shortName>
+                  <traitName type="transposition">*E♭</traitName>
+                  <description>Alto horn in E♭. (Known as ‘tenor horn’ in British English.)</description>
+                  <musicXMLid>brass.alto-horn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-72</aPitchRange>
+                  <pPitchRange>45-75</pPitchRange>
+                  <transposeDiatonic>-5</transposeDiatonic>
+                  <transposeChromatic>-9</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

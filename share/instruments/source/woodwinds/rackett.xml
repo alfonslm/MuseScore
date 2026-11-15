@@ -1,0 +1,17 @@
+            <Instrument id="rackett">
+                  <family>racketts</family>
+                  <trackName>Rackett</trackName>
+                  <longName>Rackett</longName>
+                  <shortName>Ra.</shortName>
+                  <description>Renaissance double-reed instrument; a predecessor of the bassoon.</description>
+                  <musicXMLid>wind.reed.rackett</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>34-62</aPitchRange>
+                  <pPitchRange>34-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

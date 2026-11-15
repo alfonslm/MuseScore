@@ -1,0 +1,17 @@
+            <Instrument id="harmonica-c12tenor-c">
+                  <family>harmonicas</family>
+                  <trackName>12-Hole Chromatic Harmonica</trackName>
+                  <longName>12-Hole Tenor C Chromatic Harmonica</longName>
+                  <shortName>Harm.</shortName>
+                  <traitName type="tuning">Tenor C</traitName>
+                  <description>12-hole chromatic tenor harmonica pitched in C.</description>
+                  <musicXMLid>wind.reed.harmonica</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-86</aPitchRange>
+                  <pPitchRange>48-86</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

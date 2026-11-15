@@ -1,0 +1,25 @@
+            <Instrument id="mtn-dulcimer-baritone">
+                  <family>mtn-dulcimers</family>
+                  <trackName>Mtn. Dulcimer - Baritone</trackName>
+                  <longName>Mtn. Dulcimer - Baritone</longName>
+                  <shortName>Bar. M.D.</shortName>
+                  <description>Larger version of the mountain or Appalachian dulcimer. (Staff notation).</description>
+                  <musicXMLid>pluck.dulcimer</musicXMLid>
+                  <StringData>
+                        <frets>23</frets>
+                        <string>45</string>
+                        <string>52</string>
+                        <string>57</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-80</aPitchRange>
+                  <pPitchRange>45-80</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 25; MS General: Steel String Guitar-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

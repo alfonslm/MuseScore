@@ -1,0 +1,25 @@
+            <Instrument id="mtn-dulcimer-bass">
+                  <family>mtn-dulcimers</family>
+                  <trackName>Mtn. Dulcimer - Bass</trackName>
+                  <longName>Mtn. Dulcimer - Bass</longName>
+                  <shortName>Bs. M.D.</shortName>
+                  <description>Very large mountain or Appalachian dulcimer, an octave lower than the regular dulcimer. (Staff notation).</description>
+                  <musicXMLid>pluck.dulcimer</musicXMLid>
+                  <StringData>
+                        <frets>28</frets>
+                        <string>38</string>
+                        <string>45</string>
+                        <string>50</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>38-78</aPitchRange>
+                  <pPitchRange>38-78</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 25; MS General: Steel String Guitar-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

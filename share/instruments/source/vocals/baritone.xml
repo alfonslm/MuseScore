@@ -1,0 +1,20 @@
+            <Instrument id="baritone">
+                  <family>voices</family>
+                  <trackName>Baritone</trackName>
+                  <longName>Baritone</longName>
+                  <shortName>Bar.</shortName>
+                  <description>Baritone voice.</description>
+                  <musicXMLid>voice.baritone</musicXMLid>
+                  <clef>F</clef>
+                  <aPitchRange>43-64</aPitchRange>
+                  <pPitchRange>41-65</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

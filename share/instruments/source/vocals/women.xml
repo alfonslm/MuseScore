@@ -1,0 +1,24 @@
+            <Instrument id="women">
+                  <family>voice-groups</family>
+                  <trackName>Women</trackName>
+                  <longName>Women</longName>
+                  <shortName>W.</shortName>
+                  <description>Women’s voices.</description>
+                  <musicXMLid>voice.female</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>55-81</aPitchRange>
+                  <pPitchRange>55-84</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="Soprano">
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <Channel name="Alto">
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

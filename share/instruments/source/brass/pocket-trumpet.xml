@@ -1,0 +1,22 @@
+            <Instrument id="pocket-trumpet">
+                  <family>trumpets</family>
+                  <trackName>Pocket Trumpet</trackName>
+                  <longName>Pocket Trumpet</longName>
+                  <shortName>Pkt. Tpt.</shortName>
+                  <description>Trumpet in B♭, with the tubing wound into a smaller coil than the standard trumpet.</description>
+                  <musicXMLid>brass.trumpet.pocket</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-80</aPitchRange>
+                  <pPitchRange>52-85</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

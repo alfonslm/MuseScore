@@ -1,0 +1,16 @@
+            <Instrument id="tubaphone">
+                  <family>tubaphones</family>
+                  <trackName>Tubaphone</trackName>
+                  <longName>Tubaphone</longName>
+                  <shortName>Tph.</shortName>
+                  <description>Constructed from a series of metal tubes arranged in a keyboard configuration.</description>
+                  <clef>G15ma</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>84-108</aPitchRange>
+                  <pPitchRange>84-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 47; MS General: Timpani-->
+                        <program value="47"/> <!--Timpani-->
+                  </Channel>
+            </Instrument>

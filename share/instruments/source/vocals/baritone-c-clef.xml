@@ -1,0 +1,17 @@
+            <Instrument id="baritone-c-clef">
+                  <family>voices</family>
+                  <trackName>Baritone (C clef)</trackName>
+                  <longName>Baritone</longName>
+                  <shortName>Bar.</shortName>
+                  <description>Baritone voice (notated in C clef).</description>
+                  <musicXMLid>voice.baritone</musicXMLid>
+                  <clef>C5</clef>
+                  <aPitchRange>43-64</aPitchRange>
+                  <pPitchRange>41-65</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

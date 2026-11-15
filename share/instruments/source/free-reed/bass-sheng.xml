@@ -1,0 +1,17 @@
+            <Instrument id="bass-sheng">
+                  <family>shengs</family>
+                  <trackName>Bass Sheng</trackName>
+                  <longName>Bass Sheng</longName>
+                  <shortName>B. She.</shortName>
+                  <description>Chinese mouth-blown free reed instrument.</description>
+                  <musicXMLid>wind.reed.sheng</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-67</aPitchRange>
+                  <pPitchRange>36-67</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 20; MS General: Reed Organ-->
+                        <program value="20"/> <!--Reed Organ-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

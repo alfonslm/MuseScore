@@ -1,0 +1,25 @@
+            <Instrument id="upright-piano">
+                  <family>keyboards</family>
+                  <trackName>Upright Piano</trackName>
+                  <longName>Upright Piano</longName>
+                  <shortName>Pno.</shortName>
+                  <description>Has a smaller vertical frame, making it more compact than a grand piano. Typically used for rehearsal, or performance in a casual setting.</description>
+                  <musicXMLid>keyboard.piano.upright</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>21-108</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 0; MS General: Grand Piano-->
+                        <program value="0"/> <!--Acoustic Grand Piano-->
+                  </Channel>
+                  <Articulation>
+                        <velocity>100</velocity>
+                        <gateTime>95</gateTime>
+                  </Articulation>
+            </Instrument>

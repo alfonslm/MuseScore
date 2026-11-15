@@ -1,0 +1,17 @@
+            <Instrument id="soprano-crumhorn">
+                  <family>crumhorns</family>
+                  <trackName>Soprano Crumhorn</trackName>
+                  <longName>Soprano Crumhorn</longName>
+                  <shortName>S. Crh.</shortName>
+                  <description>Renaissance double-reed instrument with curved end, pitched in C.</description>
+                  <musicXMLid>wind.reed.crumhorn.soprano</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-74</aPitchRange>
+                  <pPitchRange>60-77</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

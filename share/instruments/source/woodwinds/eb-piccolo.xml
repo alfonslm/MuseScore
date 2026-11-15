@@ -1,0 +1,20 @@
+            <Instrument id="eb-piccolo">
+                  <family>flutes</family>
+                  <trackName>Piccolo</trackName>
+                  <longName>Piccolo</longName>
+                  <shortName>Picc.</shortName>
+                  <traitName type="transposition">E♭</traitName>
+                  <description>Piccolo in E♭, sounding a minor third above the standard piccolo.</description>
+                  <musicXMLid>wind.flutes.flute.piccolo</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8va</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>77-108</aPitchRange>
+                  <pPitchRange>77-111</pPitchRange>
+                  <transposeDiatonic>9</transposeDiatonic>
+                  <transposeChromatic>15</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+            </Instrument>

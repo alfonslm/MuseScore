@@ -1,0 +1,17 @@
+            <Instrument id="bass-shawm">
+                  <family>shawms</family>
+                  <trackName>Bass Shawm</trackName>
+                  <longName>Bass Shawm</longName>
+                  <shortName>B. Sh.</shortName>
+                  <description>12th-century conical bore, double-reed instrument, pitched in F (an octave below the alto shawm).</description>
+                  <musicXMLid>wind.reed.shawm</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-57</aPitchRange>
+                  <pPitchRange>41-60</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

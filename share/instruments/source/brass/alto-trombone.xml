@@ -1,0 +1,22 @@
+            <Instrument id="alto-trombone">
+                  <family>trombones</family>
+                  <trackName>Alto Trombone</trackName>
+                  <longName>Alto Trombone</longName>
+                  <shortName>A. Tbn.</shortName>
+                  <description>Alto trombone (pitched in E♭ or F).</description>
+                  <musicXMLid>brass.trombone.alto</musicXMLid>
+                  <clef>C3</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-74</aPitchRange>
+                  <pPitchRange>45-77</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

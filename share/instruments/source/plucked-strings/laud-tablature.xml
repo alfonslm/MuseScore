@@ -1,0 +1,10 @@
+            <Instrument id="laud-tablature">
+                  <init>laud</init>
+                  <family>lauds</family>
+                  <trackName>Laúd (tablature)</trackName>
+                  <longName>Laúd</longName>
+                  <description>Spanish lute similar to the bandurria. (Tablature).</description>
+                  <musicXMLid>pluck.laud</musicXMLid>
+                  <stafftype staffTypePreset="tab6StrCommon">tablature</stafftype>
+                  <genre>popular</genre>
+            </Instrument>

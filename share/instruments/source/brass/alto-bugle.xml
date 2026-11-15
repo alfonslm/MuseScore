@@ -1,0 +1,17 @@
+            <Instrument id="alto-bugle">
+                  <family>bugles</family>
+                  <trackName>Alto Bugle</trackName>
+                  <longName>Alto Bugle</longName>
+                  <shortName>A. Bu.</shortName>
+                  <description>Alto bugle.</description>
+                  <musicXMLid>brass.bugle.alto</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>62-74</aPitchRange>
+                  <pPitchRange>55-79</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>marching</genre>
+            </Instrument>
