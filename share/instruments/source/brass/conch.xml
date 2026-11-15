@@ -1,0 +1,17 @@
+            <Instrument id="conch">
+                  <family>conches</family>
+                  <trackName>Conch</trackName>
+                  <longName>Conch</longName>
+                  <shortName>Cnch.</shortName>
+                  <description>Conch shell, sometimes fitted with a mouthpiece.</description>
+                  <musicXMLid>brass.conch-shell</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>24-60</aPitchRange>
+                  <pPitchRange>24-60</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

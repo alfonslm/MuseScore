@@ -69,6 +69,11 @@ bool NotationPlaybackStub::isChordSymbolsTrack(const engraving::InstrumentTrackI
     return false;
 }
 
+std::optional<std::string> NotationPlaybackStub::trackName(const engraving::InstrumentTrackId&) const
+{
+    return std::nullopt;
+}
+
 const muse::mpe::PlaybackData& NotationPlaybackStub::trackPlaybackData(const engraving::InstrumentTrackId&) const
 {
     static const muse::mpe::PlaybackData dummy;
@@ -114,6 +119,17 @@ muse::audio::secs_t NotationPlaybackStub::totalPlayTime() const
 muse::async::Channel<muse::audio::secs_t> NotationPlaybackStub::totalPlayTimeChanged() const
 {
     return muse::async::Channel<muse::audio::secs_t>();
+}
+
+const muse::audio::MusicalTimeMap& NotationPlaybackStub::musicalTimeMap() const
+{
+    static const muse::audio::MusicalTimeMap dummy;
+    return dummy;
+}
+
+muse::async::Notification NotationPlaybackStub::musicalTimeMapChanged() const
+{
+    return muse::async::Notification();
 }
 
 muse::audio::secs_t NotationPlaybackStub::playedTickToSec(tick_t) const

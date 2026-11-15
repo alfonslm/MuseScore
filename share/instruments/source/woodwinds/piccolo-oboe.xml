@@ -1,0 +1,18 @@
+            <Instrument id="piccolo-oboe">
+                  <family>oboes</family>
+                  <trackName>Piccolo Oboe</trackName>
+                  <longName>Piccolo Oboe</longName>
+                  <shortName>P. Ob.</shortName>
+                  <description>Oboe in E♭, sounding a minor third above the standard oboe. Historically called the oboe musette.</description>
+                  <musicXMLid>wind.reed.oboe.piccolo</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>61-90</aPitchRange>
+                  <pPitchRange>61-94</pPitchRange>
+                  <transposeDiatonic>2</transposeDiatonic>
+                  <transposeChromatic>3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+            </Instrument>

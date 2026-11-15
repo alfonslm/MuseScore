@@ -1,0 +1,27 @@
+            <Instrument id="pedal-steel-guitar">
+                  <family>guitars</family>
+                  <trackName>Pedal Steel Guitar</trackName>
+                  <longName>Pedal Steel Guitar</longName>
+                  <shortName>Ped. St. Guit.</shortName>
+                  <description>Pedal steel guitar.</description>
+                  <musicXMLid>pluck.guitar.pedal-steel</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>35-84</aPitchRange>
+                  <pPitchRange>35-84</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 25; MS General: Steel String Guitar-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 28; MS General: Palm Muted Guitar-->
+                        <program value="28"/> <!--Electric Guitar (muted)-->
+                  </Channel>
+                  <Channel name="jazz">
+                        <!--MIDI: Bank 0, Prog 26; MS General: Jazz Guitar-->
+                        <program value="26"/> <!--Electric Guitar (jazz)-->
+                  </Channel>
+                  <genre>popular</genre>
+            </Instrument>

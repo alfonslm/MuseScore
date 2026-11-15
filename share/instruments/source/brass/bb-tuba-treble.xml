@@ -1,0 +1,20 @@
+            <Instrument id="bb-tuba-treble">
+                  <family>tubas</family>
+                  <trackName>Contrabass Tuba (treble clef)</trackName>
+                  <longName>Contrabass Tuba</longName>
+                  <shortName>Cb. Tb.</shortName>
+                  <traitName type="transposition">B♭</traitName>
+                  <description>Contrabass tuba in B♭ (notated in treble clef as a transposing instrument).</description>
+                  <musicXMLid>brass.tuba</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-58</aPitchRange>
+                  <pPitchRange>22-72</pPitchRange>
+                  <transposeDiatonic>-15</transposeDiatonic>
+                  <transposeChromatic>-26</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+            </Instrument>

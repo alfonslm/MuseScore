@@ -1,0 +1,16 @@
+            <Instrument id="musical-saw">
+                  <family>musical-saws</family>
+                  <trackName>Musical Saw</trackName>
+                  <longName>Musical Saw</longName>
+                  <shortName>Mu. Sw.</shortName>
+                  <description>Musical saw, played with a violin or cello bow.</description>
+                  <musicXMLid>metal.musical-saw</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>64-100</aPitchRange>
+                  <pPitchRange>64-100</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 92; MS General: Bowed Glass-->
+                        <program value="92"/> <!--Pad 5 (bowed)-->
+                  </Channel>
+            </Instrument>

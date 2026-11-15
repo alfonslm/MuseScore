@@ -1,0 +1,17 @@
+            <Instrument id="tenor-cornett">
+                  <family>cornetts</family>
+                  <trackName>Tenor Cornett</trackName>
+                  <longName>Tenor Cornett</longName>
+                  <shortName>T. Co.</shortName>
+                  <description>Medieval wind instrument, consisting of a conical wooden pipe covered in leather.</description>
+                  <musicXMLid>brass.cornett.tenor</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-71</aPitchRange>
+                  <pPitchRange>48-75</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

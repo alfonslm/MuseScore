@@ -1,0 +1,18 @@
+            <Instrument id="lupophone">
+                  <family>oboes</family>
+                  <trackName>Lupophone</trackName>
+                  <longName>Lupophone</longName>
+                  <shortName>Lph.</shortName>
+                  <description>Very rare instrument similar to the heckelphone, with slightly smaller bore and lower range.</description>
+                  <musicXMLid>wind.reed.heckelphone</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-75</aPitchRange>
+                  <pPitchRange>41-78</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+            </Instrument>

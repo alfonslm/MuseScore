@@ -1,0 +1,16 @@
+            <Instrument id="harmonica-chordet">
+                  <family>harmonicas</family>
+                  <trackName>20-Hole Chordet Harmonica</trackName>
+                  <longName>20-Hole Chordet Harmonica</longName>
+                  <shortName>Harm.</shortName>
+                  <description>Huang Chordet 20-hole double harmonica.</description>
+                  <musicXMLid>wind.reed.harmonica</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>58-66</aPitchRange>
+                  <pPitchRange>58-66</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

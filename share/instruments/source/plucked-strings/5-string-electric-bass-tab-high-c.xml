@@ -1,0 +1,9 @@
+            <Instrument id="5-string-electric-bass-tab-high-c">
+                  <init>5-string-electric-bass-high-c</init>
+                  <family>bass-guitars</family>
+                  <trackName>5-str. Electric Bass (high C/tenor) (tablature)</trackName>
+                  <longName>5-str. Electric Bass</longName>
+                  <description>5-string electric bass guitar, high C tuning (tablature).</description>
+                  <stafftype staffTypePreset="tab5StrCommon">tablature</stafftype>
+                  <genre>jazz</genre>
+            </Instrument>

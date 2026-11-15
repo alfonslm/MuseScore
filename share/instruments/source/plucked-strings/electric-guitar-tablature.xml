@@ -1,0 +1,10 @@
+            <Instrument id="electric-guitar-tablature">
+                  <init>electric-guitar</init>
+                  <family>guitars</family>
+                  <trackName>Electric Guitar (tablature)</trackName>
+                  <longName>Electric Guitar</longName>
+                  <description>Solid-body guitar with electrically amplified strings (tablature).</description>
+                  <stafftype staffTypePreset="tab6StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+            </Instrument>

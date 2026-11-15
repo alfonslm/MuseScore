@@ -1,0 +1,11 @@
+            <Instrument id="electric-bass-4-str-tab">
+                  <init>electric-bass</init>
+                  <family>bass-guitars</family>
+                  <trackName>Electric Bass (tablature)</trackName>
+                  <longName>Electric Bass</longName>
+                  <description>Electric bass guitar (tablature).</description>
+                  <musicXMLid>pluck.bass.electric</musicXMLid>
+                  <stafftype staffTypePreset="tab4StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+            </Instrument>

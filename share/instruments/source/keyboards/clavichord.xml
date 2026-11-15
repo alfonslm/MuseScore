@@ -1,0 +1,22 @@
+            <Instrument id="clavichord">
+                  <family>keyboards</family>
+                  <trackName>Clavichord</trackName>
+                  <longName>Clavichord</longName>
+                  <shortName>Cch.</shortName>
+                  <description>Uses tangents (small blades) to strike, and also set the length (i.e. pitch) of, metal strings. Expressive, but very quiet.</description>
+                  <musicXMLid>keyboard.clavichord</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>29-89</aPitchRange>
+                  <pPitchRange>29-89</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 7; MS General: Clavinet-->
+                        <program value="7"/> <!--Clavi-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

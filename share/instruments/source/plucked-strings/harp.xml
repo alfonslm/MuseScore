@@ -1,0 +1,32 @@
+            <Instrument id="harp">
+                  <family>harps</family>
+                  <trackName>Harp</trackName>
+                  <longName>Harp</longName>
+                  <shortName>Hrp.</shortName>
+                  <description>Harp.</description>
+                  <musicXMLid>pluck.harp</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>23-104</aPitchRange>
+                  <pPitchRange>23-104</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>diatonic</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 46; MS General: Harp-->
+                        <program value="46"/> <!--Orchestral Harp-->
+                  </Channel>
+                  <Channel name="staccato">
+                        <!--MIDI: Bank 0, Prog 45; MS General: Strings Pizzicato-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="flageoletti">
+                        <!--MIDI: Bank 0, Prog 11; MS General: Vibraphone-->
+                        <program value="11"/> <!--Vibraphone-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

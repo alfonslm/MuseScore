@@ -49,6 +49,7 @@ class Chord;
 class ChordLine;
 class Clef;
 
+class DummyParent;
 class Dynamic;
 
 class Expression;
@@ -105,6 +106,7 @@ class Slur;
 class SoundFlag;
 class Spacer;
 class StaffText;
+class StaveSharingChange;
 class StaveSharingLabel;
 class StaffTypeChange;
 class Sticking;
@@ -130,10 +132,6 @@ class Volta;
 class VoltaSegment;
 }
 
-namespace mu::engraving::compat {
-class DummyElement;
-}
-
 namespace mu::engraving::rendering::single {
 class SingleLayout
 {
@@ -148,7 +146,7 @@ public:
 
         const engraving::MStyle& style() const;
         std::shared_ptr<engraving::IEngravingFont> engravingFont() const;
-        engraving::compat::DummyElement* dummyParent() const;
+        engraving::DummyParent* dummyParent() const;
 
         //! NOTE Temporarily, do not use
         engraving::Score* dontUseScore() const { return m_score; }
@@ -225,6 +223,7 @@ public:
     static void layout(SoundFlag* item, const Context& ctx);
     static void layout(Spacer* item, const Context&);
     static void layout(StaffText* item, const Context& ctx);
+    static void layout(StaveSharingChange* item, const Context& ctx);
     static void layout(StaveSharingLabel* item, const Context& ctx);
     static void layout(StaffTypeChange* item, const Context& ctx);
     static void layout(Stem* item, const Context& ctx);

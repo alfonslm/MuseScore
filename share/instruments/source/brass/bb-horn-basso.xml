@@ -1,0 +1,23 @@
+            <Instrument id="bb-horn-basso">
+                  <family>horns</family>
+                  <trackName>Horn</trackName>
+                  <longName>Horn</longName>
+                  <shortName>Hn.</shortName>
+                  <traitName type="transposition">B♭ basso</traitName>
+                  <description>Horn in low B♭.</description>
+                  <musicXMLid>brass.natural-horn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>32-65</aPitchRange>
+                  <pPitchRange>28-70</pPitchRange>
+                  <transposeDiatonic>-8</transposeDiatonic>
+                  <transposeChromatic>-14</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

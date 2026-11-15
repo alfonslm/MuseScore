@@ -1,0 +1,18 @@
+            <Instrument id="alto-steel-drums">
+                  <family>steel-drums</family>
+                  <trackName>Double Tenor Steel Pans</trackName>
+                  <longName>Double Tenor Steel Pans</longName>
+                  <shortName>Dbl. T. Pans</shortName>
+                  <description>Double tenor steel pans.</description>
+                  <musicXMLid>metal.steel-drums</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-83</aPitchRange>
+                  <pPitchRange>53-85</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 114; MS General: Steel Drums-->
+                        <program value="114"/> <!--Steel Drums-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

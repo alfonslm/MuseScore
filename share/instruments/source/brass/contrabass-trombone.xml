@@ -1,0 +1,22 @@
+            <Instrument id="contrabass-trombone">
+                  <family>trombones</family>
+                  <trackName>Contrabass Trombone</trackName>
+                  <longName>Contrabass Trombone</longName>
+                  <shortName>Cb. Tbn.</shortName>
+                  <description>Contrabass Trombone (usually pitched in F).</description>
+                  <musicXMLid>brass.trombone.contrabass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-62</aPitchRange>
+                  <pPitchRange>18-72</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

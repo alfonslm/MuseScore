@@ -1,0 +1,18 @@
+            <Instrument id="euphonium">
+                  <family>euphoniums</family>
+                  <trackName>Euphonium</trackName>
+                  <longName>Euphonium</longName>
+                  <shortName>Euph.</shortName>
+                  <description>Euphonium (notated in bass clef at concert pitch).</description>
+                  <musicXMLid>brass.euphonium</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-70</aPitchRange>
+                  <pPitchRange>34-74</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

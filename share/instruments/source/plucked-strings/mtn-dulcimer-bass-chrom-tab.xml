@@ -1,0 +1,9 @@
+            <Instrument id="mtn-dulcimer-bass-chrom-tab">
+                  <init>mtn-dulcimer-bass</init>
+                  <family>mtn-dulcimers</family>
+                  <trackName>Mtn. Dulcimer - Bass (tablature)</trackName>
+                  <longName>Mtn. Dulcimer - Bass</longName>
+                  <description>Very large mountain or Appalachian dulcimer, an octave lower than the regular dulcimer. (Tablature).</description>
+                  <stafftype staffTypePreset="tabDulcimer">tablature</stafftype>
+                  <genre>world</genre>
+            </Instrument>

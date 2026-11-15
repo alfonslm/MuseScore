@@ -1,0 +1,17 @@
+            <Instrument id="bflat-tin-whistle">
+                  <family>whistles</family>
+                  <trackName>Tin Whistle</trackName>
+                  <longName>B♭ Tin Whistle</longName>
+                  <shortName>B♭ Tin Wh.</shortName>
+                  <traitName type="tuning">B♭</traitName>
+                  <description>Whistle pitched in B♭ (notated at concert pitch).</description>
+                  <musicXMLid>wind.flutes.whistle.tin.bflat</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>70-94</aPitchRange>
+                  <pPitchRange>70-100</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 78; MS General: Whistle-->
+                        <program value="78"/> <!--Whistle-->
+                  </Channel>
+            </Instrument>

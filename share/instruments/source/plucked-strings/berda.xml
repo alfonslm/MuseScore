@@ -1,0 +1,28 @@
+            <Instrument id="berda">
+                  <family>tamburicas</family>
+                  <trackName>Berda</trackName>
+                  <longName>Berda</longName>
+                  <shortName>Be.</shortName>
+                  <description>The largest tamburica, used for playing bass lines.</description>
+                  <musicXMLid>pluck.tambura</musicXMLid>
+                  <StringData>
+                        <frets>15</frets>
+                        <string>28</string>
+                        <string>33</string>
+                        <string>38</string>
+                        <string>43</string>
+                  </StringData>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-66</aPitchRange>
+                  <pPitchRange>28-66</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 32; MS General: Acoustic Bass-->
+                        <program value="32"/> <!--Acoustic Bass-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

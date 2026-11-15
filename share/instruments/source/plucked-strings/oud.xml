@@ -1,0 +1,33 @@
+            <Instrument id="oud">
+                  <family>ouds</family>
+                  <trackName>Oud</trackName>
+                  <longName>Oud</longName>
+                  <shortName>O.</shortName>
+                  <description>Short-neck lute-type fretless stringed instrument, common in the Middle East and North Africa.</description>
+                  <musicXMLid>pluck.oud</musicXMLid>
+                  <StringData>
+                        <frets>15</frets>
+                        <string>48</string>
+                        <string>53</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                        <string>72</string>
+                  </StringData>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-75</aPitchRange>
+                  <pPitchRange>36-75</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 8, Prog 25; MS General: 12-String Guitar-->
+                        <controller ctrl="32" value="8"/> <!--Bank LSB-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <genre>world</genre>
+                  <genre>earlymusic</genre>
+            </Instrument>

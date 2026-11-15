@@ -57,6 +57,7 @@ class Bend final : public EngravingItem
 
 public:
     Bend* clone() const override { return new Bend(*this); }
+    void setOwnershipParent(DummyParentOr<Note> parent) { EngravingItem::setOwnershipParent(parent); }
 
     Note* note() const { return toNote(ownershipParent()); }
 
@@ -96,7 +97,7 @@ public:
 private:
     friend class Factory;
 
-    Bend(Note* parent);
+    Bend(DummyParentOr<Note> parent);
 
     BendType parseBendTypeFromCurve() const;
     void updatePointsByBendType(const BendType bendType);

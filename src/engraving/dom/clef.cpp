@@ -88,6 +88,9 @@ const ClefInfo ClefInfo::clefTable[] = {
     { ClefType::TAB_SERIF, 5, 45,  { 0, 3, -1, 2, 5, 1, 4, 4, 1, 5, 2, 6, 3, 7 }, SymId::sixStringTabClefSerif,  StaffGroup::TAB },
     { ClefType::TAB4_SERIF, 5, 45,  { 0, 3, -1, 2, 5, 1, 4, 4, 1, 5, 2, 6, 3, 7 }, SymId::fourStringTabClefSerif, StaffGroup::TAB },
 
+    // drawn dynamically from the staff's string data instead of a fixed symbol; see TLayout::layoutClef/TDraw::draw(Clef*)
+    { ClefType::TAB_STRING_NAMES, 5, 45,  { 0, 3, -1, 2, 5, 1, 4, 4, 1, 5, 2, 6, 3, 7 }, SymId::noSym, StaffGroup::TAB },
+
     { ClefType::C4_8VB,  4, 30, { 6, 2, 5, 1, 4, 0, 3, 3, 0, 4, 1, 5, 2, 6 },  SymId::cClef8vb,         StaffGroup::STANDARD },
     { ClefType::G8_VB_C, 2, 38, { 0, 3, -1, 2, 5, 1, 4, 4, 1, 5, 2, 6, 3, 7 }, SymId::gClef8vbCClef,    StaffGroup::STANDARD },
 };
@@ -96,11 +99,10 @@ const ClefInfo ClefInfo::clefTable[] = {
 //   Clef
 //---------------------------------------------------------
 
-Clef::Clef(Segment* parent)
+Clef::Clef(DummyParentOr<Segment> parent)
     : EngravingItem(ElementType::CLEF, parent, ElementFlag::ON_STAFF)
 {
     m_clefToBarlinePosition = ClefToBarlinePosition::AUTO;
-    m_isHeader = parent->isHeaderClefType();
 }
 
 //---------------------------------------------------------
@@ -149,7 +151,6 @@ EngravingItem* Clef::drop(Transaction& tx, EditData& data)
                 score()->undoRemoveElement(segm->element(track()));
             }
             Ambitus* r = Factory::createAmbitus(segm);
-            r->setOwnershipParent(segm);
             r->setTrack(track());
             score()->undoAddElement(r);
         }
@@ -285,7 +286,6 @@ PropertyValue Clef::getProperty(Pid propertyId) const
     case Pid::SHOW_COURTESY: return showCourtesy();
     case Pid::SMALL:         return isSmall();
     case Pid::CLEF_TO_BARLINE_POS: return m_clefToBarlinePosition;
-    case Pid::IS_HEADER: return m_isHeader;
     case Pid::IS_COURTESY: return m_isCourtesy;
     default:
         return EngravingItem::getProperty(propertyId);
@@ -307,7 +307,7 @@ bool Clef::setProperty(Pid propertyId, const PropertyValue& v)
         break;
     case Pid::SHOW_COURTESY:
         m_showCourtesy = v.toBool();
-        if (m_showCourtesy && m_isHeader && selected()) {
+        if (m_showCourtesy && isHeader() && selected()) {
             Clef* courtesyClef = otherClef();
             if (courtesyClef) {
                 score()->deselect(this);
@@ -321,14 +321,11 @@ bool Clef::setProperty(Pid propertyId, const PropertyValue& v)
     case Pid::CLEF_TO_BARLINE_POS: {
         const auto newClefToBlPos = v.value<ClefToBarlinePosition>();
 
-        if (newClefToBlPos != m_clefToBarlinePosition && !m_isHeader) {
+        if (newClefToBlPos != m_clefToBarlinePosition && !isHeader()) {
             changeClefToBarlinePos(newClefToBlPos);
         }
         break;
     }
-    case Pid::IS_HEADER:
-        m_isHeader = v.toBool();
-        break;
     case Pid::IS_COURTESY:
         m_isCourtesy = v.toBool();
         break;
@@ -376,6 +373,12 @@ void Clef::undoChangeProperty(Pid id, const PropertyValue& v, PropertyFlags ps)
     }
 }
 
+bool Clef::isHeader() const
+{
+    const Segment* seg = segment();
+    return seg && seg->isHeaderClefType();
+}
+
 bool Clef::isMidMeasureClef() const
 {
     return segment() && segment()->rtick().isNotZero();
@@ -408,7 +411,6 @@ PropertyValue Clef::propertyDefault(Pid id) const
     case Pid::SHOW_COURTESY: return true;
     case Pid::SMALL:         return false;
     case Pid::CLEF_TO_BARLINE_POS: return ClefToBarlinePosition::AUTO;
-    case Pid::IS_HEADER: return false;
     case Pid::IS_COURTESY: return false;
     default:              return EngravingItem::propertyDefault(id);
     }
@@ -464,7 +466,7 @@ void Clef::clear()
     ldata->clearBbox();
     ldata->symId = SymId::noSym;
     Clef* pairedClef = otherClef();
-    if (selected() && score()->selection().isList() && !m_isHeader && pairedClef) {
+    if (selected() && score()->selection().isList() && !isHeader() && pairedClef) {
         score()->deselect(this);
         score()->select(pairedClef, SelectType::ADD, staffIdx());
     }

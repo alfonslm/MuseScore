@@ -1,0 +1,20 @@
+            <Instrument id="tenor">
+                  <family>voices</family>
+                  <trackName>Tenor</trackName>
+                  <longName>Tenor</longName>
+                  <shortName>T.</shortName>
+                  <description>Tenor voice.</description>
+                  <musicXMLid>voice.tenor</musicXMLid>
+                  <clef>G8vb</clef>
+                  <aPitchRange>48-69</aPitchRange>
+                  <pPitchRange>48-72</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

@@ -1,0 +1,21 @@
+            <Instrument id="bandoneon">
+                  <family>accordions</family>
+                  <trackName>Bandoneon</trackName>
+                  <longName>Bandoneon</longName>
+                  <shortName>Ban.</shortName>
+                  <description>Type of concertina particularly popular in Argentina and Uruguay.</description>
+                  <musicXMLid>keyboard.bandoneon</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-93</aPitchRange>
+                  <pPitchRange>36-93</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 23; MS General: Bandoneon-->
+                        <program value="23"/> <!--Tango Accordion-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

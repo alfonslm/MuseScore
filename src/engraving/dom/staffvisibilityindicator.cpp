@@ -24,7 +24,7 @@
 
 using namespace mu::engraving;
 
-StaffVisibilityIndicator::StaffVisibilityIndicator(System* parent)
-    : IndicatorIcon(ElementType::STAFF_VISIBILITY_INDICATOR, parent, ElementFlag::SYSTEM | ElementFlag::GENERATED)
+StaffVisibilityIndicator::StaffVisibilityIndicator(DummyParentOr<System> parent)
+    : SystemIndicatorIcon(ElementType::STAFF_VISIBILITY_INDICATOR, parent, ElementFlag::SYSTEM | ElementFlag::GENERATED)
 {
 }

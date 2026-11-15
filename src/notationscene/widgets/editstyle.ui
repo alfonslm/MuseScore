@@ -254,6 +254,11 @@
       </item>
       <item>
        <property name="text">
+        <string>Jianpu</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>Text styles</string>
        </property>
       </item>
@@ -7595,6 +7600,13 @@
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QCheckBox" name="dynamicsAndHairpinsCenterOnVocalStaves">
+                 <property name="text">
+                  <string>Center between adjacent vocal staves automatically</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -10790,7 +10802,7 @@
                </item>
                <item>
                 <layout class="QGridLayout" name="gridLayout_673">
-                 <item row="0" column="5">
+                 <item row="3" column="5">
                   <widget class="QDoubleSpinBox" name="lyricsMinTopDistance">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -10815,7 +10827,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="5">
+                 <item row="4" column="5">
                   <widget class="QDoubleSpinBox" name="lyricsMinBottomDistance">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -10840,7 +10852,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="6">
+                 <item row="4" column="2">
                   <widget class="QToolButton" name="resetLyricsAlignVerseNumber">
                    <property name="maximumSize">
                     <size>
@@ -10859,7 +10871,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="6">
+                 <item row="5" column="6">
                   <widget class="QToolButton" name="resetLyricsMinDistance">
                    <property name="toolTip">
                     <string>Reset to default</string>
@@ -10872,7 +10884,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="2">
+                 <item row="0" column="6">
                   <widget class="QToolButton" name="resetLyricsPosAbove">
                    <property name="toolTip">
                     <string>Reset to default</string>
@@ -10885,7 +10897,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="4">
+                 <item row="5" column="4">
                   <widget class="QLabel" name="label_minDistance">
                    <property name="text">
                     <string>Min. space between lyrics:</string>
@@ -10895,7 +10907,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="0">
+                 <item row="1" column="4">
                   <widget class="QLabel" name="label_134">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -10908,7 +10920,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="6">
+                 <item row="3" column="6">
                   <widget class="QToolButton" name="resetLyricsMinTopDistance">
                    <property name="toolTip">
                     <string>Reset to default</string>
@@ -10934,7 +10946,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="4">
+                 <item row="4" column="4">
                   <widget class="QLabel" name="label_137">
                    <property name="text">
                     <string>Min. margin to other staves:</string>
@@ -10944,7 +10956,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="2">
+                 <item row="1" column="6">
                   <widget class="QToolButton" name="resetLyricsPosBelow">
                    <property name="toolTip">
                     <string>Reset to default</string>
@@ -10957,7 +10969,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="2">
+                 <item row="2" column="6">
                   <widget class="QToolButton" name="resetLyricsLineHeight">
                    <property name="toolTip">
                     <string>Reset to default</string>
@@ -10970,7 +10982,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="4">
+                 <item row="3" column="4">
                   <widget class="QLabel" name="label_131">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -10992,7 +11004,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="1">
+                 <item row="2" column="5">
                   <widget class="QDoubleSpinBox" name="lyricsLineHeight">
                    <property name="keyboardTracking">
                     <bool>false</bool>
@@ -11008,7 +11020,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="4">
+                 <item row="4" column="0" colspan="2">
                   <widget class="QCheckBox" name="lyricsAlignVerseNumber">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -11027,7 +11039,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="1">
+                 <item row="0" column="5">
                   <widget class="QDoubleSpinBox" name="yLyricsPosAbove">
                    <property name="minimumSize">
                     <size>
@@ -11046,7 +11058,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="5">
+                 <item row="5" column="5">
                   <widget class="QDoubleSpinBox" name="lyricsMinDistance">
                    <property name="keyboardTracking">
                     <bool>false</bool>
@@ -11065,7 +11077,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="3">
+                 <item row="0" column="3">
                   <spacer name="horizontalSpacer_672">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
@@ -11081,7 +11093,7 @@
                    </property>
                   </spacer>
                  </item>
-                 <item row="4" column="0">
+                 <item row="2" column="4">
                   <widget class="QLabel" name="label_133">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -11135,7 +11147,7 @@
                    </item>
                   </widget>
                  </item>
-                 <item row="3" column="1">
+                 <item row="1" column="5">
                   <widget class="QDoubleSpinBox" name="yLyricsPosBelow">
                    <property name="suffix">
                     <string>sp</string>
@@ -11148,7 +11160,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
+                 <item row="0" column="4">
                   <widget class="QLabel" name="label_132">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -11161,7 +11173,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="6">
+                 <item row="4" column="6">
                   <widget class="QToolButton" name="resetLyricsMinBottomDistance">
                    <property name="toolTip">
                     <string>Reset to default</string>
@@ -11190,7 +11202,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="5" column="0" colspan="2">
+                 <item row="3" column="0" colspan="2">
                   <widget class="QCheckBox" name="lyricsAvoidBarlines">
                    <property name="accessibleName">
                     <string>Avoid barlines</string>
@@ -11200,13 +11212,82 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="5" column="2">
+                 <item row="3" column="2">
                   <widget class="QToolButton" name="resetLyricsAvoidBarlines">
                    <property name="toolTip">
                     <string>Reset to default</string>
                    </property>
                    <property name="accessibleName">
                     <string>Reset 'Avoid barlines'</string>
+                   </property>
+                   <property name="text">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QCheckBox" name="lyricsAutoCenterOnGrandStaff">
+                   <property name="accessibleName">
+                    <string>Center on grand staff instruments automatically</string>
+                   </property>
+                   <property name="text">
+                    <string>Center on grand staff instruments automatically</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QToolButton" name="resetLyricsAutoCenterOnGrandStaff">
+                   <property name="toolTip">
+                    <string>Reset to default</string>
+                   </property>
+                   <property name="accessibleName">
+                    <string>Reset 'Center on grand staff instruments automatically'</string>
+                   </property>
+                   <property name="text">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0" colspan="2">
+                  <widget class="QCheckBox" name="lyricsAutoCenterOnVocalStaves">
+                   <property name="accessibleName">
+                    <string>Center between adjacent vocal staves automatically</string>
+                   </property>
+                   <property name="text">
+                    <string>Center between adjacent vocal staves automatically</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="2">
+                  <widget class="QToolButton" name="resetLyricsAutoCenterOnVocalStaves">
+                   <property name="toolTip">
+                    <string>Reset to default</string>
+                   </property>
+                   <property name="accessibleName">
+                    <string>Reset 'Center between adjacent vocal staves automatically'</string>
+                   </property>
+                   <property name="text">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0" colspan="2">
+                  <widget class="QCheckBox" name="lyricsUseLegacyStackingOrder">
+                   <property name="accessibleName">
+                    <string>Use legacy stacking order</string>
+                   </property>
+                   <property name="text">
+                    <string>Use legacy stacking order</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="2">
+                  <widget class="QToolButton" name="resetLyricsStackingOrder">
+                   <property name="toolTip">
+                    <string>Reset to default</string>
+                   </property>
+                   <property name="accessibleName">
+                    <string>Reset 'Use legacy stacking order'</string>
                    </property>
                    <property name="text">
                     <string notr="true"/>
@@ -12888,6 +12969,358 @@ followed by dashes</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="PageJianpu">
+       <layout class="QVBoxLayout" name="verticalLayout_jianpu">
+        <item>
+         <widget class="QGroupBox" name="groupBox_jianpu">
+          <property name="title">
+           <string>Jianpu</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_jianpu">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_jianpu_NumberVerticalDistance">
+             <property name="text">
+              <string>Number vertical distance:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuNumberVerticalDistance</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuNumberVerticalDistance">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QToolButton" name="jianpuNumberVerticalDistanceReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Vertical distance' value</string>
+             </property>            
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_jianpu_VoiceVerticalDistance">
+             <property name="text">
+              <string>Voice vertical distance:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuVoiceVerticalDistance</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuVoiceVerticalDistance">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QToolButton" name="jianpuVoiceVerticalDistanceReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Voice vertical distance' value</string>
+             </property>            
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_jianpu_OctaveDotRadius">
+             <property name="text">
+              <string>Octave dot radius:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuOctaveDotRadius</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuOctaveDotRadius">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QToolButton" name="jianpuOctaveDotRadiusReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Octave dot radius' value</string>
+             </property>            
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_jianpu_OctaveDotDistance">
+             <property name="text">
+              <string>Octave dot distance:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuOctaveDotDistance</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuOctaveDotDistance">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QToolButton" name="jianpuOctaveDotDistanceReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Octave dot distance' value</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_jianpu_DiminutionBeamThickness">
+             <property name="text">
+              <string>Diminution beam thickness:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuDiminutionBeamThickness</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuDiminutionBeamThickness">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QToolButton" name="jianpuDiminutionBeamThicknessReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Diminution beam thickness' value</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_jianpu_DiminutionBeamDistance">
+             <property name="text">
+              <string>Diminution beam distance:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuDiminutionBeamDistance</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuDiminutionBeamDistance">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="2">
+            <widget class="QToolButton" name="jianpuDiminutionBeamDistanceReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Diminution beam distance' value</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_jianpu_DiminutionBeamPlacement">
+             <property name="text">
+              <string>Diminution beam placement:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuDiminutionBeamPlacement</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QComboBox" name="jianpuDiminutionBeamPlacement">
+             <item>
+              <property name="text">
+               <string>Above</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Below</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QToolButton" name="jianpuDiminutionBeamPlacementReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Diminution beam placement' value</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="label_jianpu_DurationLineThickness">
+             <property name="text">
+              <string>Duration line thickness:</string>
+             </property>
+             <property name="buddy">
+              <cstring>jianpuDurationLineThickness</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QDoubleSpinBox" name="jianpuDurationLineThickness">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
+             <property name="suffix">
+              <string>sp</string>
+             </property>
+             <property name="maximum">
+              <double>9.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.010000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2">
+            <widget class="QToolButton" name="jianpuDurationLineThicknessReset">
+             <property name="toolTip">
+              <string>Reset to default</string>
+             </property>
+             <property name="accessibleName">
+              <string>Reset 'Duration line thickness' value</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <spacer name="horizontalSpacer_jianpu">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_jianpu">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="PageTextStyles">
        <layout class="QGridLayout" name="gridLayout_41">
         <item row="0" column="0">
@@ -13916,6 +14349,7 @@ followed by dashes</string>
   <tabstop>resetDynamicsAndHairpinPos</tabstop>
   <tabstop>dynamicsAndHairpinsAboveOnVocalStaves</tabstop>
   <tabstop>dynamicsAndHairpinsCenterOnGrandStaff</tabstop>
+  <tabstop>dynamicsAndHairpinsCenterOnVocalStaves</tabstop>
   <tabstop>dynamicsOverrideFont</tabstop>
   <tabstop>dynamicsFont</tabstop>
   <tabstop>avoidBarLines</tabstop>
@@ -14053,22 +14487,28 @@ followed by dashes</string>
   <tabstop>editLyricsTextStyleButton</tabstop>
   <tabstop>lyricsPlacement</tabstop>
   <tabstop>resetLyricsPlacement</tabstop>
+  <tabstop>lyricsAutoCenterOnGrandStaff</tabstop>
+  <tabstop>resetLyricsAutoCenterOnGrandStaff</tabstop>
+  <tabstop>lyricsAutoCenterOnVocalStaves</tabstop>
+  <tabstop>resetLyricsAutoCenterOnVocalStaves</tabstop>
+  <tabstop>lyricsAvoidBarlines</tabstop>
+  <tabstop>resetLyricsAvoidBarlines</tabstop>
+  <tabstop>lyricsAlignVerseNumber</tabstop>
+  <tabstop>resetLyricsAlignVerseNumber</tabstop>
+  <tabstop>lyricsUseLegacyStackingOrder</tabstop>
+  <tabstop>resetLyricsStackingOrder</tabstop>
   <tabstop>yLyricsPosAbove</tabstop>
   <tabstop>resetLyricsPosAbove</tabstop>
   <tabstop>yLyricsPosBelow</tabstop>
   <tabstop>resetLyricsPosBelow</tabstop>
   <tabstop>lyricsLineHeight</tabstop>
   <tabstop>resetLyricsLineHeight</tabstop>
-  <tabstop>lyricsAvoidBarlines</tabstop>
-  <tabstop>resetLyricsAvoidBarlines</tabstop>
   <tabstop>lyricsMinTopDistance</tabstop>
   <tabstop>resetLyricsMinTopDistance</tabstop>
   <tabstop>lyricsMinBottomDistance</tabstop>
   <tabstop>resetLyricsMinBottomDistance</tabstop>
   <tabstop>lyricsMinDistance</tabstop>
   <tabstop>resetLyricsMinDistance</tabstop>
-  <tabstop>lyricsAlignVerseNumber</tabstop>
-  <tabstop>resetLyricsAlignVerseNumber</tabstop>
   <tabstop>lyricsDashMinLength</tabstop>
   <tabstop>resetLyricsDashMinLength</tabstop>
   <tabstop>lyricsDashMaxLength</tabstop>
@@ -14192,6 +14632,13 @@ followed by dashes</string>
   <tabstop>resetTextStyleFrameBorderRadius</tabstop>
   <tabstop>buttonTogglePagelist</tabstop>
   <tabstop>resetStylesButton</tabstop>
+  <tabstop>jianpuNumberVerticalDistance</tabstop>
+  <tabstop>jianpuOctaveDotRadius</tabstop>
+  <tabstop>jianpuOctaveDotDistance</tabstop>
+  <tabstop>jianpuDiminutionBeamThickness</tabstop>
+  <tabstop>jianpuDiminutionBeamDistance</tabstop>
+  <tabstop>jianpuDiminutionBeamPlacement</tabstop>
+  <tabstop>jianpuDurationLineThickness</tabstop>
  </tabstops>
  <resources/>
  <connections/>

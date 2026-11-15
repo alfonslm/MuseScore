@@ -1,0 +1,21 @@
+            <Instrument id="rag-dung">
+                  <family>rag-dungs</family>
+                  <trackName>Rag Dung</trackName>
+                  <longName>Rag Dung</longName>
+                  <shortName>Rg. Dng.</shortName>
+                  <description>Long Tibetan trumpet used for Buddhist religious purposes.</description>
+                  <musicXMLid>brass.rag-dung</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>34-67</aPitchRange>
+                  <pPitchRange>30-72</pPitchRange>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

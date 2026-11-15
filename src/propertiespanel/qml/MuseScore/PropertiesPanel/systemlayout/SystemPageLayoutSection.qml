@@ -37,7 +37,9 @@ PropertiesPanelSection {
 
     required property SystemPageLayoutSettingsModel model
 
-    implicitHeight: contentColumn.implicitHeight
+    readonly property bool isSystemTabAvailable: root.model ? root.model.isSystemTabAvailable : false
+
+    implicitHeight: contentColumn.visible ? contentColumn.implicitHeight : 0
 
     Column {
         id: contentColumn
@@ -45,8 +47,12 @@ PropertiesPanelSection {
         width: parent.width
         spacing: 12
 
+        visible: root.model ? root.model.scoreIsInPageView : false
+
         PropertiesPanelTabBar {
             id: tabBar
+
+            visible: root.isSystemTabAvailable
 
             PropertiesPanelTabButton {
                 text: qsTrc("propertiespanel", "System")
@@ -72,13 +78,14 @@ PropertiesPanelSection {
         StackLayout {
             id: lockMenu
             width: parent.width
-            currentIndex: tabBar.currentIndex
 
-            height: itemAt(currentIndex).implicitHeight
+            // Without the System tab (and the tab bar), only the Page section is available
+            currentIndex: root.isSystemTabAvailable ? tabBar.currentIndex : pageSection.StackLayout.index
+
+            height: itemAt(currentIndex)?.implicitHeight ?? 0
 
             MeasuresFlowSection {
                 id: systemSection
-                visible: root.model ? root.model.scoreIsInPageView : false
                 navigationPanel: root.navigationPanel
                 navigationRowStart: root.navigationRowStart
                 isLocked: root.model ? root.model.allSystemsAreLocked : false
@@ -90,11 +97,17 @@ PropertiesPanelSection {
                 lockToolTipShortcut: root.model ? root.model.shortcutToggleSystemLock : ""
                 lockNavigationName: "SystemLock"
 
-                moveSectionTitle: qsTrc("propertiespanel", "Move measures across systems")
-                movePrevText: qsTrc("propertiespanel", "Previous")
-                moveNextText: qsTrc("propertiespanel", "Next")
-                movePreviousToolTipTitle: qsTrc("propertiespanel", "Move measure(s) to previous system")
-                moveNextToolTipTitle: qsTrc("propertiespanel", "Move measure(s) to next system")
+                moveSectionTitle: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Move to")
+                                                                 : qsTrc("propertiespanel", "Move measures across systems")
+                movePrevText: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Previous system")
+                                                             : qsTrc("propertiespanel", "Previous")
+                moveNextText: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Next system")
+                                                             : qsTrc("propertiespanel", "Next")
+                movePreviousToolTipTitle: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Move to previous system")
+                                                                         : qsTrc("propertiespanel", "Move measure(s) to previous system")
+                moveNextToolTipTitle: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Move to next system")
+                                                                     : qsTrc("propertiespanel", "Move measure(s) to next system")
+
                 movePreviousShortcut: root.model?.shortcutMoveMeasureUpSystem ?? ""
                 moveNextShortcut: root.model ? root.model.shortcutMoveMeasureDownSystem : ""
                 previousNavigationName: "SystemUp"
@@ -117,7 +130,6 @@ PropertiesPanelSection {
 
             MeasuresFlowSection {
                 id: pageSection
-                visible: root.model ? root.model.scoreIsInPageView : false
                 navigationPanel: root.navigationPanel
                 navigationRowStart: root.navigationRowStart
                 isLocked: root.model ? root.model.allPagesAreLocked : false
@@ -129,11 +141,17 @@ PropertiesPanelSection {
                 lockToolTipShortcut: root.model ? root.model.shortcutTogglePageLock : ""
                 lockNavigationName: "PageLock"
 
-                moveSectionTitle: qsTrc("propertiespanel", "Move systems across pages")
-                movePrevText: qsTrc("propertiespanel", "Previous")
-                moveNextText: qsTrc("propertiespanel", "Next")
-                movePreviousToolTipTitle: qsTrc("propertiespanel", "Move system(s) to previous page")
-                moveNextToolTipTitle: qsTrc("propertiespanel", "Move system(s) to next page")
+                moveSectionTitle: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Move to")
+                                                                 : qsTrc("propertiespanel", "Move systems across pages")
+                movePrevText: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Previous page")
+                                                             : qsTrc("propertiespanel", "Previous")
+                moveNextText: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Next page")
+                                                             : qsTrc("propertiespanel", "Next")
+                movePreviousToolTipTitle: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Move to previous page")
+                                                                         : qsTrc("propertiespanel", "Move system(s) to previous page")
+                moveNextToolTipTitle: root.model?.isBoxOnlySelection ? qsTrc("propertiespanel", "Move to next page")
+                                                                     : qsTrc("propertiespanel", "Move system(s) to next page")
+
                 movePreviousShortcut: root.model?.shortcutMoveSystemUpPage ?? ""
                 moveNextShortcut: root.model ? root.model.shortcutMoveSystemDownPage : ""
                 previousNavigationName: "PageUp"

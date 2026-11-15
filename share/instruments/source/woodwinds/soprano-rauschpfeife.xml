@@ -1,0 +1,17 @@
+            <Instrument id="soprano-rauschpfeife">
+                  <family>rauschpfeifes</family>
+                  <trackName>Soprano Rauschpfeife</trackName>
+                  <longName>Soprano Rauschpfeife</longName>
+                  <shortName>S. Rpf.</shortName>
+                  <description>16th-century double-reed instrument with a conical bore, pitched in C.</description>
+                  <musicXMLid>wind.reed.rauschpfeife</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-76</aPitchRange>
+                  <pPitchRange>60-79</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

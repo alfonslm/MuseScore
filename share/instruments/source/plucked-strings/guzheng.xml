@@ -1,0 +1,22 @@
+            <Instrument id="guzheng">
+                  <family>guzhengs</family>
+                  <trackName>Guzheng</trackName>
+                  <longName>Guzheng</longName>
+                  <shortName>Gz.</shortName>
+                  <description>Chinese plucked half-tube zither.</description>
+                  <musicXMLid>pluck.guzheng</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>38-86</aPitchRange>
+                  <pPitchRange>38-86</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

@@ -1,0 +1,18 @@
+            <Instrument id="piccolo-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Piccolo Clarinet</trackName>
+                  <longName>Piccolo Clarinet</longName>
+                  <shortName>P. Cl.</shortName>
+                  <description>Sopranino clarinet in A♭.</description>
+                  <musicXMLid>wind.reed.clarinet.piccolo.aflat</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-99</aPitchRange>
+                  <pPitchRange>60-104</pPitchRange>
+                  <transposeDiatonic>5</transposeDiatonic>
+                  <transposeChromatic>8</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+            </Instrument>

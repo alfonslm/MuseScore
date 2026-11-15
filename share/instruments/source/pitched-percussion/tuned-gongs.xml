@@ -1,0 +1,17 @@
+            <Instrument id="tuned-gongs">
+                  <family>pitched-metal-percussion</family>
+                  <trackName>Tuned Gongs</trackName>
+                  <longName>Tuned Gongs</longName>
+                  <shortName>Td. Gon.</shortName>
+                  <description>Tuned gongs.</description>
+                  <musicXMLid>metal.gong</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-57</aPitchRange>
+                  <pPitchRange>45-57</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 14; MS General: Tubular Bells-->
+                        <program value="14"/> <!--Tubular Bells-->
+                  </Channel>
+            </Instrument>

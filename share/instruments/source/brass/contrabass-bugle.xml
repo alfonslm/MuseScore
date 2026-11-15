@@ -1,0 +1,19 @@
+            <Instrument id="contrabass-bugle">
+                  <family>bugles</family>
+                  <trackName>Contrabass Bugle</trackName>
+                  <longName>Contrabass Bugle</longName>
+                  <shortName>Cb. Bu.</shortName>
+                  <description>Contrabass bugle.</description>
+                  <musicXMLid>brass.bugle.contrabass</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>43-55</aPitchRange>
+                  <pPitchRange>36-60</pPitchRange>
+                  <transposeDiatonic>-14</transposeDiatonic>
+                  <transposeChromatic>-24</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>marching</genre>
+            </Instrument>

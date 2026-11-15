@@ -1,0 +1,18 @@
+            <Instrument id="c-bass-ocarina">
+                  <family>ocarinas</family>
+                  <trackName>Bass Ocarina</trackName>
+                  <longName>Bass Ocarina</longName>
+                  <shortName>B. Oc.</shortName>
+                  <traitName type="transposition">*C</traitName>
+                  <description>Bass ocarina in C.</description>
+                  <musicXMLid>wind.flutes.ocarina</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-77</aPitchRange>
+                  <pPitchRange>57-77</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

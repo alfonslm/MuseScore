@@ -117,6 +117,7 @@ private:
         std::map<muse::mpe::timestamp_t, muse::mpe::SoundPresetChangeEventList> soundPresets;
         std::map<muse::mpe::timestamp_t, muse::mpe::TextArticulationEventList> textArticulations;
         std::map<muse::mpe::timestamp_t, muse::mpe::SyllableEventList> syllables;
+        std::map<muse::mpe::timestamp_t, muse::mpe::PlaybackStateEventList> playbackStates;
     };
 
     InstrumentTrackId idKey(const EngravingItem* item) const;

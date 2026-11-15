@@ -1,0 +1,17 @@
+            <Instrument id="soprano-sheng">
+                  <family>shengs</family>
+                  <trackName>Soprano Sheng</trackName>
+                  <longName>Soprano Sheng</longName>
+                  <shortName>S. She.</shortName>
+                  <description>Chinese mouth-blown free reed instrument.</description>
+                  <musicXMLid>wind.reed.sheng</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>55-90</aPitchRange>
+                  <pPitchRange>55-90</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 20; MS General: Reed Organ-->
+                        <program value="20"/> <!--Reed Organ-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

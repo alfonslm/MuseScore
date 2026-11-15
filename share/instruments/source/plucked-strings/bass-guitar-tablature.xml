@@ -1,0 +1,11 @@
+            <Instrument id="bass-guitar-tablature">
+                  <init>bass-guitar</init>
+                  <family>bass-guitars</family>
+                  <trackName>Bass Guitar (tablature)</trackName>
+                  <longName>Bass Guitar</longName>
+                  <description>Bass guitar (tablature).</description>
+                  <musicXMLid>pluck.bass</musicXMLid>
+                  <stafftype staffTypePreset="tab4StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+            </Instrument>

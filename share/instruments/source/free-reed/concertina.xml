@@ -1,0 +1,20 @@
+            <Instrument id="concertina">
+                  <family>accordions</family>
+                  <trackName>Concertina</trackName>
+                  <longName>Concertina</longName>
+                  <shortName>Conc.</shortName>
+                  <description>Bellows-driven free-reed instrument with buttons usually on both ends.</description>
+                  <musicXMLid>keyboard.concertina</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-93</aPitchRange>
+                  <pPitchRange>36-93</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 21; MS General: Accordion-->
+                        <program value="21"/> <!--Accordion-->
+                  </Channel>
+            </Instrument>

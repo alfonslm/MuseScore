@@ -1,0 +1,20 @@
+            <Instrument id="tubular-bells">
+                  <family>pitched-metal-percussion</family>
+                  <trackName>Chimes</trackName>
+                  <longName>Chimes</longName>
+                  <shortName>Cme.</shortName>
+                  <description>Tubular bells (British English), or chimes (American English).</description>
+                  <musicXMLid>pitched-percussion.tubular-bells</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-79</aPitchRange>
+                  <pPitchRange>53-79</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 14; MS General: Tubular Bells-->
+                        <program value="14"/> <!--Tubular Bells-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+            </Instrument>

@@ -99,6 +99,8 @@ enum class Sid : short {
     sharedOnStaffNumeralsHyphenThreshold,
     staveSharingInstrChangePlayerNum,
 
+    staveSharingChangeMinDistance,
+
     windsNameByGroup,
     vocalsNameByGroup,
     stringsNameByGroup,
@@ -140,6 +142,9 @@ enum class Sid : short {
     lyricsMelismaMinLength,
     lyricsDashPosAtStartOfSystem,
     lyricsAvoidBarlines,
+    lyricsAutoCenterOnGrandStaff,
+    lyricsAutoCenterOnVocalStaves,
+    lyricsStackingOrder,
     lyricsLimitDashCount,
     lyricsMaxDashCount,
     lyricsCenterDashedSyllables,
@@ -814,6 +819,7 @@ enum class Sid : short {
 
     dynamicsHairpinVoiceBasedPlacement,
     dynamicsHairpinsAutoCenterOnGrandStaff,
+    dynamicsHairpinsAutoCenterOnVocalStaves,
     dynamicsHairpinsAboveForVocalStaves,
 
     dynamicsOverrideFont,
@@ -1119,6 +1125,21 @@ enum class Sid : short {
     articulationFrameBgColor,
     articulationOffset,
     articulationPosition,
+
+    jianpuNumberFontFace,
+    jianpuNumberFontSize,
+    jianpuNumberLineSpacing,
+    jianpuNumberFontSpatiumDependent,
+    jianpuNumberFontStyle,
+    jianpuNumberColor,
+    jianpuNumberAlign,
+    jianpuNumberOffset,
+    jianpuNumberFrameType,
+    jianpuNumberFramePadding,
+    jianpuNumberFrameWidth,
+    jianpuNumberFrameRound,
+    jianpuNumberFrameFgColor,
+    jianpuNumberFrameBgColor,
 
     longInstrumentFontFace,
     longInstrumentFontSize,
@@ -2273,6 +2294,14 @@ enum class Sid : short {
     palmMuteEndFilledArrowHeight,
     palmMuteEndFilledArrowWidth,
 
+    jianpuNumberVerticalDistance,
+    jianpuVoiceVerticalDistance,
+    jianpuOctaveDotRadius,
+    jianpuOctaveDotDistance,
+    jianpuDiminutionBeamThickness,
+    jianpuDiminutionBeamDistance,
+    jianpuDiminutionBeamPlacement,
+    jianpuDurationLineThickness,
     STYLES
 };
 

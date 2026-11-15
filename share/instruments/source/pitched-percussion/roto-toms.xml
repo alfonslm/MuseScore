@@ -1,0 +1,17 @@
+            <Instrument id="roto-toms">
+                  <family>roto-toms</family>
+                  <trackName>Roto-Toms</trackName>
+                  <longName>Roto-Toms</longName>
+                  <shortName>Roto</shortName>
+                  <description>Pitched drums that can be tuned quickly by rotating the drumhead.</description>
+                  <musicXMLid>drum.rototom</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-76</aPitchRange>
+                  <pPitchRange>40-76</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 117; MS General: Melodic Tom-->
+                        <program value="117"/> <!--Melodic Tom-->
+                  </Channel>
+            </Instrument>

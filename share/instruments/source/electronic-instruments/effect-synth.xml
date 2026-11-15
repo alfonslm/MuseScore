@@ -1,0 +1,52 @@
+            <Instrument id="effect-synth">
+                  <family>synths</family>
+                  <trackName>Effect Synthesizer</trackName>
+                  <longName>Effect Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>General MIDI effect synthesizer (generic).</description>
+                  <musicXMLid>synth.effects</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="rain">
+                        <!--MIDI: Bank 0, Prog 96; MS General: Ice Rain-->
+                        <program value="96"/> <!--FX 1 (rain)-->
+                  </Channel>
+                  <Channel name="soundtrack">
+                        <!--MIDI: Bank 0, Prog 97; MS General: SoundTrack-->
+                        <program value="97"/> <!--FX 2 (soundtrack)-->
+                  </Channel>
+                  <Channel name="crystal">
+                        <!--MIDI: Bank 0, Prog 98; MS General: Crystal-->
+                        <program value="98"/> <!--FX 3 (crystal)-->
+                  </Channel>
+                  <Channel name="atmosphere">
+                        <!--MIDI: Bank 0, Prog 99; MS General: Atmosphere-->
+                        <program value="99"/> <!--FX 4 (atmosphere)-->
+                  </Channel>
+                  <Channel name="brightness">
+                        <!--MIDI: Bank 0, Prog 100; MS General: Brightness-->
+                        <program value="100"/> <!--FX 5 (brightness)-->
+                  </Channel>
+                  <Channel name="goblins">
+                        <!--MIDI: Bank 0, Prog 101; MS General: Goblin-->
+                        <program value="101"/> <!--FX 6 (goblins)-->
+                  </Channel>
+                  <Channel name="echoes">
+                        <!--MIDI: Bank 0, Prog 102; MS General: Echo Drops-->
+                        <program value="102"/> <!--FX 7 (echoes)-->
+                  </Channel>
+                  <Channel name="scifi">
+                        <!--MIDI: Bank 0, Prog 103; MS General: Star Theme-->
+                        <program value="103"/> <!--FX 8 (sci-fi)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

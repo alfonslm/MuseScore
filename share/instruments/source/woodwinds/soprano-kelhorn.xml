@@ -1,0 +1,16 @@
+            <Instrument id="soprano-kelhorn">
+                  <family>kelhorns</family>
+                  <trackName>Soprano Kelhorn</trackName>
+                  <longName>Soprano Kelhorn</longName>
+                  <shortName>S. Kh.</shortName>
+                  <description>20th-century instrument similar to the crumhorn and cornamuse, pitched in C.</description>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-74</aPitchRange>
+                  <pPitchRange>60-77</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

@@ -20,12 +20,28 @@
 
 muse_create_module(engraving)
 
+# instruments.xml is assembled from one file per instrument, see share/instruments/README.md
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../share/instruments/AssembleInstruments.cmake)
+assemble_instruments_xml(${CMAKE_CURRENT_SOURCE_DIR}/../../share/instruments/source
+    ${CMAKE_CURRENT_BINARY_DIR}/instruments/instruments.xml)
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc.tmp
+"<RCC>
+    <qresource prefix=\"/\">
+        <file alias=\"engraving/instruments/instruments.xml\">instruments/instruments.xml</file>
+    </qresource>
+</RCC>
+")
+file(COPY_FILE ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc.tmp
+    ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc ONLY_IF_DIFFERENT)
+file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc.tmp)
+
 # TODO: convert to target-based variant of qt_add_resources
 # (Not easy because of heavy use of aliases, which is much more cumbersome
 # in CMake than in .qrc files)
 muse_module_add_qrc(engraving
     engraving.qrc
     data/fonts/fonts_Smufl.qrc
+    ${CMAKE_CURRENT_BINARY_DIR}/engraving_instruments.qrc
 )
 
 # TODO: convert to target-based variant of qt_add_resources
@@ -103,6 +119,8 @@ target_sources(engraving PRIVATE
 
     editing/addremoveelement.cpp
     editing/addremoveelement.h
+    editing/autospatium.cpp
+    editing/autospatium.h
     editing/clonevoice.cpp
     editing/clonevoice.h
     editing/cmd.cpp
@@ -154,6 +172,8 @@ target_sources(engraving PRIVATE
     editing/editparentheses.h
     editing/editpart.cpp
     editing/editpart.h
+    editing/editposition.cpp
+    editing/editposition.h
     editing/editproperty.cpp
     editing/editproperty.h
     editing/editrehearsalmark.cpp
@@ -162,6 +182,8 @@ target_sources(engraving PRIVATE
     editing/editscoreproperties.h
     editing/editslashnotation.cpp
     editing/editslashnotation.h
+    editing/editslur.cpp
+    editing/editslur.h
     editing/editsoundflag.cpp
     editing/editsoundflag.h
     editing/editspanner.cpp
@@ -182,6 +204,8 @@ target_sources(engraving PRIVATE
     editing/edittimesig.h
     editing/edittremolo.cpp
     editing/edittremolo.h
+    editing/edittuplet.cpp
+    editing/edittuplet.h
     editing/editvisibility.cpp
     editing/editvisibility.h
     editing/editvoice.cpp
@@ -328,8 +352,6 @@ target_sources(engraving PRIVATE
     compat/pageformat.h
     compat/writescorehook.cpp
     compat/writescorehook.h
-    compat/dummyelement.cpp
-    compat/dummyelement.h
     compat/engravingcompat.cpp
     compat/engravingcompat.h
 

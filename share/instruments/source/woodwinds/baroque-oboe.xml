@@ -1,0 +1,17 @@
+            <Instrument id="baroque-oboe">
+                  <family>oboes</family>
+                  <trackName>Baroque Oboe</trackName>
+                  <longName>Baroque Oboe</longName>
+                  <shortName>Bq. Ob.</shortName>
+                  <description>Baroque oboe with three keys, generally made of boxwood.</description>
+                  <musicXMLid>wind.reed.oboe</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-83</aPitchRange>
+                  <pPitchRange>60-86</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 69; MS General: English Horn-->
+                        <program value="69"/> <!--English Horn-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

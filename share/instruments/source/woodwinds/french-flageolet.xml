@@ -1,0 +1,16 @@
+            <Instrument id="french-flageolet">
+                  <family>flageolets</family>
+                  <trackName>French Flageolet</trackName>
+                  <longName>French Flageolet</longName>
+                  <shortName>Fr. Fla.</shortName>
+                  <description>Flageolet with four holes.</description>
+                  <musicXMLid>wind.flutes.flageolet</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>80-105</aPitchRange>
+                  <pPitchRange>80-105</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 78; MS General: Whistle-->
+                        <program value="78"/> <!--Whistle-->
+                  </Channel>
+            </Instrument>

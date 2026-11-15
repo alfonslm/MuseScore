@@ -1,0 +1,18 @@
+            <Instrument id="oboe-d'amore">
+                  <family>oboes</family>
+                  <trackName>Oboe d’amore</trackName>
+                  <longName>Oboe d’amore</longName>
+                  <shortName>Ob. d’a.</shortName>
+                  <description>Oboe in A, sounding a minor third below the standard oboe.</description>
+                  <musicXMLid>wind.reed.oboe-damore</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>56-84</aPitchRange>
+                  <pPitchRange>56-87</pPitchRange>
+                  <transposeDiatonic>-2</transposeDiatonic>
+                  <transposeChromatic>-3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+            </Instrument>

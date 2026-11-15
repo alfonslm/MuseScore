@@ -61,6 +61,29 @@ static const Harmony* findChordSymbol(const EngravingItem* item)
     return nullptr;
 }
 
+static bool isScopedAutomationChange(const ScoreChanges& changes)
+{
+    if (!changes.isValidBoundary()) {
+        return false;
+    }
+
+    bool hasAutomationChange = false;
+
+    for (const auto& pair : changes.changedObjects) {
+        if (pair.first->type() != ElementType::SCORE) {
+            continue;
+        }
+
+        if (pair.second.size() != 1 || !muse::contains(pair.second, CommandType::EditAutomationPoints)) {
+            return false;
+        }
+
+        hasAutomationChange = true;
+    }
+
+    return hasAutomationChange;
+}
+
 void PlaybackModel::load(Score* score)
 {
     TRACEFUNC;
@@ -460,7 +483,8 @@ void PlaybackModel::updateContext(const track_idx_t trackFrom, const track_idx_t
             m_playbackCtx->dynamicLevelLayers(trackRange.startTrack, trackRange.endTrack),
             m_playbackCtx->soundPresets(trackRange.startTrack, trackRange.endTrack),
             m_playbackCtx->textArticulations(trackRange.startTrack, trackRange.endTrack),
-            m_playbackCtx->syllables(trackRange.startTrack, trackRange.endTrack)
+            m_playbackCtx->syllables(trackRange.startTrack, trackRange.endTrack),
+            m_playbackCtx->playbackStates(trackRange.startTrack, trackRange.endTrack)
         };
 
         for (const InstrumentTrackId& trackId : trackIds) {
@@ -492,6 +516,7 @@ void PlaybackModel::applyContextToTrackData(const InstrumentTrackId& trackId, co
     appendEvents(data.soundPresets);
     appendEvents(data.textArticulations);
     appendEvents(data.syllables);
+    appendEvents(data.playbackStates);
 }
 
 void PlaybackModel::processSegment(const int tickPositionOffset, const Segment* segment, const std::set<staff_idx_t>& staffIdxSet,
@@ -772,9 +797,8 @@ bool PlaybackModel::hasToReloadScore(const ScoreChanges& changes) const
     };
 
     for (const ElementType type : changes.changedTypes) {
-        //! NOTE: a SCORE-level change with a valid tick/staff range means whoever made the
-        //! change already scoped it, so it doesn't need a full reload
-        if (type == ElementType::SCORE && changes.isValidBoundary()) {
+        // Automation edits on one staff shouldn't reload all tracks
+        if (type == ElementType::SCORE && isScopedAutomationChange(changes)) {
             continue;
         }
 

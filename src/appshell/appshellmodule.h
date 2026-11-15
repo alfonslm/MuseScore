@@ -48,8 +48,9 @@ private:
 
 class AppShellState;
 class AppshellCommandsController;
-class ApplicationUiActions;
 class SessionsManager;
+class ExtensionContextResolver;
+class AppShortcutsScopes;
 class AppShellContext : public muse::modularity::IContextSetup
 {
 public:
@@ -65,7 +66,8 @@ public:
 private:
     std::shared_ptr<AppShellState> m_appshellState;
     std::shared_ptr<AppshellCommandsController> m_commandsController;
-    std::shared_ptr<ApplicationUiActions> m_applicationUiActions;
     std::shared_ptr<SessionsManager> m_sessionsManager;
+    std::shared_ptr<ExtensionContextResolver> m_extensionContextResolver;
+    std::shared_ptr<AppShortcutsScopes> m_shortcutsScopes;
 };
 }

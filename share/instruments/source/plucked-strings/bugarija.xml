@@ -1,0 +1,28 @@
+            <Instrument id="bugarija">
+                  <family>tamburicas</family>
+                  <trackName>Bugarija</trackName>
+                  <longName>Bugarija</longName>
+                  <shortName>Bu.</shortName>
+                  <description>A tamburica mostly used as a harmony/rhythm instrument.</description>
+                  <musicXMLid>pluck.tambura</musicXMLid>
+                  <StringData>
+                        <frets>15</frets>
+                        <string>38</string>
+                        <string>42</string>
+                        <string>45</string>
+                        <string>50</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>43-66</aPitchRange>
+                  <pPitchRange>43-66</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 24; MS General: Nylon String Guitar-->
+                        <program value="24"/> <!--Acoustic Guitar (nylon)-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

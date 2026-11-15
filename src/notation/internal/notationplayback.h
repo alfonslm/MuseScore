@@ -53,6 +53,7 @@ public:
     const engraving::InstrumentTrackId& metronomeTrackId() const override;
     engraving::InstrumentTrackId chordSymbolsTrackId(const muse::ID& partId) const override;
     bool isChordSymbolsTrack(const engraving::InstrumentTrackId& trackId) const override;
+    std::optional<std::string> trackName(const engraving::InstrumentTrackId& trackId) const override;
 
     const muse::mpe::PlaybackData& trackPlaybackData(const engraving::InstrumentTrackId& trackId) const override;
 
@@ -68,6 +69,9 @@ public:
 
     muse::audio::secs_t totalPlayTime() const override;
     muse::async::Channel<muse::audio::secs_t> totalPlayTimeChanged() const override;
+
+    const muse::audio::MusicalTimeMap& musicalTimeMap() const override;
+    muse::async::Notification musicalTimeMapChanged() const override;
 
     muse::audio::secs_t playedTickToSec(muse::midi::tick_t tick) const override;
     muse::midi::tick_t secToPlayedTick(muse::audio::secs_t sec) const override;
@@ -101,6 +105,7 @@ private:
     void addLoopOut(int tick);
     void updateLoopBoundaries();
     void updateTotalPlayTime();
+    void updateMusicalTimeMap();
 
     bool doAddSoundFlag(mu::engraving::StaffText* staffText);
 
@@ -117,6 +122,9 @@ private:
 
     muse::audio::secs_t m_totalPlayTime = 0;
     muse::async::Channel<muse::audio::secs_t> m_totalPlayTimeChanged;
+
+    muse::audio::MusicalTimeMap m_musicalTimeMap;
+    muse::async::Notification m_musicalTimeMapChanged;
 
     mutable Tempo m_currentTempo;
 

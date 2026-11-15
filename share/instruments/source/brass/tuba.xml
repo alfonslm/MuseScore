@@ -1,0 +1,21 @@
+            <Instrument id="tuba">
+                  <family>tubas</family>
+                  <trackName>Tuba (unspecified)</trackName>
+                  <longName>Tuba</longName>
+                  <shortName>Tba.</shortName>
+                  <description>Orchestral tuba (where the exact type is not specified).</description>
+                  <musicXMLid>brass.tuba</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-58</aPitchRange>
+                  <pPitchRange>22-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

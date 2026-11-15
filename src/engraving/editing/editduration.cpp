@@ -23,6 +23,7 @@
 #include "editduration.h"
 
 #include <algorithm>
+#include <unordered_set>
 
 #include "rw/xmlreader.h"
 
@@ -113,7 +114,14 @@ void EditDuration::incDecDuration(Transaction& tx, Score* score, int nSteps, boo
         std::vector<ChordRest*> crs(crsSet.begin(), crsSet.end());
         std::sort(crs.begin(), crs.end(), [](const ChordRest* a, const ChordRest* b) { return a->tick() > b->tick(); });
 
+        // Make sure each linked group is handled only once
+        std::unordered_set<const LinkedObjects*> handledLinks;
+
         for (ChordRest* cr : crs) {
+            if (cr->links() && !handledLinks.insert(cr->links()).second) {
+                continue;
+            }
+
             // if measure rest is selected as input, then the correct initialDuration will be the
             // duration of the measure's time signature, else is just the ChordRest's duration
             TDuration initialDuration = cr->durationType();
@@ -168,6 +176,8 @@ void EditDuration::extendToNextNote(Transaction& tx, Score* score)
     Fraction endTick = selection.tickEnd();
     const staff_idx_t startStaff = selection.staffStart();
     const staff_idx_t endStaff = selection.staffEnd();
+    Box* startBox = selection.startBox();
+    Box* endBox = selection.endBox();
 
     std::vector<EngravingItem*> toSelect;
     const bool wasRangeSelection = selection.isRange();
@@ -239,7 +249,7 @@ void EditDuration::extendToNextNote(Transaction& tx, Score* score)
     }
 
     if (wasRangeSelection) {
-        selection.setRangeTicks(startTick, endTick, startStaff, endStaff);
+        selection.setRangeTicks(startTick, endTick, startStaff, endStaff, startBox, endBox);
         selection.updateSelectedElements();
     } else {
         for (EngravingItem* ei : toSelect) {

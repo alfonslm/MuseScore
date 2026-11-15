@@ -40,10 +40,11 @@ class Fingering final : public TextBase
     DECLARE_CLASSOF(ElementType::FINGERING)
 
 public:
-    Fingering(Note* parent, TextStyleType tid, ElementFlags ef = ElementFlag::ON_STAFF);
-    Fingering(Note* parent, ElementFlags ef = ElementFlag::ON_STAFF);
+    Fingering(DummyParentOr<Note> parent, TextStyleType tid, ElementFlags ef = ElementFlag::ON_STAFF);
+    Fingering(DummyParentOr<Note> parent, ElementFlags ef = ElementFlag::ON_STAFF);
 
     Fingering* clone() const override { return new Fingering(*this); }
+    void setOwnershipParent(DummyParentOr<Note> parent) { EngravingItem::setOwnershipParent(parent); }
 
     Note* note() const { return toNote(ownershipParent()); }
     ElementType layoutType() const;

@@ -1,0 +1,19 @@
+            <Instrument id="baritone-sarrusophone">
+                  <family>sarrusophones</family>
+                  <trackName>Baritone Sarrusophone</trackName>
+                  <longName>Baritone Sarrusophone</longName>
+                  <shortName>Bar. Sar.</shortName>
+                  <description>Single- or double-reed metal instrument with a conical bore, in E♭ (an octave below the alto).</description>
+                  <musicXMLid>wind.reed.sarrusaphone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>37-68</aPitchRange>
+                  <pPitchRange>36-73</pPitchRange>
+                  <transposeDiatonic>-12</transposeDiatonic>
+                  <transposeChromatic>-21</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

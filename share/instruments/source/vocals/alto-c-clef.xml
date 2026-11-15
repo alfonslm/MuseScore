@@ -1,0 +1,17 @@
+            <Instrument id="alto-c-clef">
+                  <family>voices</family>
+                  <trackName>Alto (C clef)</trackName>
+                  <longName>Alto</longName>
+                  <shortName>A.</shortName>
+                  <description>Alto voice (notated in C clef).</description>
+                  <musicXMLid>voice.alto</musicXMLid>
+                  <clef>C3</clef>
+                  <aPitchRange>55-74</aPitchRange>
+                  <pPitchRange>52-77</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

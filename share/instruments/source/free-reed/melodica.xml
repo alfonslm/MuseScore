@@ -1,0 +1,16 @@
+            <Instrument id="melodica">
+                  <family>melodicas</family>
+                  <trackName>Melodica</trackName>
+                  <longName>Melodica</longName>
+                  <shortName>Mel.</shortName>
+                  <description>Mouth-blown free reed instrument with a keyboard.</description>
+                  <musicXMLid>wind.reed.melodica</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-84</aPitchRange>
+                  <pPitchRange>53-84</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

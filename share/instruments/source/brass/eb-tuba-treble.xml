@@ -1,0 +1,20 @@
+            <Instrument id="eb-tuba-treble">
+                  <family>tubas</family>
+                  <trackName>Bass Tuba (treble clef)</trackName>
+                  <longName>Bass Tuba</longName>
+                  <shortName>Ba. Tb.</shortName>
+                  <traitName type="transposition">E♭</traitName>
+                  <description>Bass tuba in E♭ (notated in treble clef as a transposing instrument).</description>
+                  <musicXMLid>brass.tuba</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>26-64</aPitchRange>
+                  <pPitchRange>24-72</pPitchRange>
+                  <transposeDiatonic>-12</transposeDiatonic>
+                  <transposeChromatic>-21</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+            </Instrument>

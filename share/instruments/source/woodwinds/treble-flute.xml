@@ -1,0 +1,18 @@
+            <Instrument id="treble-flute">
+                  <family>flutes</family>
+                  <trackName>Treble Flute</trackName>
+                  <longName>Treble Flute</longName>
+                  <shortName>Tr. Fl.</shortName>
+                  <description>Flute in G, sounding a fifth higher than the standard flute.</description>
+                  <musicXMLid>wind.flutes.flute</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>67-100</aPitchRange>
+                  <pPitchRange>67-103</pPitchRange>
+                  <transposeDiatonic>4</transposeDiatonic>
+                  <transposeChromatic>7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+            </Instrument>

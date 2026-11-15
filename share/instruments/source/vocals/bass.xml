@@ -1,0 +1,20 @@
+            <Instrument id="bass">
+                  <family>voices</family>
+                  <trackName>Bass</trackName>
+                  <longName>Bass</longName>
+                  <shortName>B.</shortName>
+                  <description>Bass voice.</description>
+                  <musicXMLid>voice.bass</musicXMLid>
+                  <clef>F</clef>
+                  <aPitchRange>41-60</aPitchRange>
+                  <pPitchRange>38-62</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

@@ -1,0 +1,24 @@
+            <Instrument id="balalaika-bass">
+                  <family>balalaikas</family>
+                  <trackName>Bass Balalaika</trackName>
+                  <longName>Bass Balalaika</longName>
+                  <shortName>B. Bal.</shortName>
+                  <description>Bass balalaika, tuned an octave below the alto.</description>
+                  <musicXMLid>pluck.balalaika.bass</musicXMLid>
+                  <StringData>
+                        <frets>17</frets>
+                        <string>40</string>
+                        <string>45</string>
+                        <string>50</string>
+                  </StringData>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-67</aPitchRange>
+                  <pPitchRange>40-67</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+            </Instrument>

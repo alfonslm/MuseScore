@@ -1,0 +1,17 @@
+            <Instrument id="shenai">
+                  <family>shenais</family>
+                  <trackName>Shenai</trackName>
+                  <longName>Shenai</longName>
+                  <shortName>She.</shortName>
+                  <description>Indian double-reed instrument with a flared bell.</description>
+                  <musicXMLid>wind.reed.shenai</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>62-84</aPitchRange>
+                  <pPitchRange>62-84</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 111; MS General: Shenai-->
+                        <program value="111"/> <!--Shanai-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

@@ -281,7 +281,7 @@ std::vector<int> Chord::noteDistances() const
 //   Chord
 //---------------------------------------------------------
 
-Chord::Chord(Segment* parent)
+Chord::Chord(DummyParentOr<Segment, Chord> parent)
     : ChordRest(ElementType::CHORD, parent)
 {
     m_stem             = 0;
@@ -671,9 +671,6 @@ void Chord::add(EngravingItem* e)
     case ElementType::TREMOLO_SINGLECHORD:
         setTremoloSingleChord(item_cast<TremoloSingleChord*>(e));
         break;
-    case ElementType::GLISSANDO:
-        m_endsNoteAnchoredLine = true;
-        break;
     case ElementType::STEM:
         assert(!m_stem);
         m_stem = toStem(e);
@@ -777,9 +774,6 @@ void Chord::remove(EngravingItem* e)
         break;
     case ElementType::TREMOLO_SINGLECHORD:
         setTremoloSingleChord(nullptr);
-        break;
-    case ElementType::GLISSANDO:
-        m_endsNoteAnchoredLine = false;
         break;
     case ElementType::STEM:
         m_stem = 0;
@@ -1042,7 +1036,7 @@ void Chord::resizeLedgerLinesTo(size_t newSize)
     int ledgerLineCountDiff = static_cast<int>(newSize - m_ledgerLines.size());
     if (ledgerLineCountDiff > 0) {
         for (int i = 0; i < ledgerLineCountDiff; ++i) {
-            m_ledgerLines.push_back(new LedgerLine(score()->dummy()));
+            m_ledgerLines.push_back(new LedgerLine(this));
         }
     } else {
         for (int i = 0; i < std::abs(ledgerLineCountDiff); ++i) {
@@ -1073,7 +1067,8 @@ bool Chord::shouldHaveStem() const
            && !(durationType().type() == DurationType::V_HALF && staffType && staffType->isTabStaff()
                 && staffType->minimStyle() == TablatureMinimStyle::NONE)
            && !(measure() && measure()->stemless(staffIdx()))
-           && !(staffType && staffType->isTabStaff() && staffType->stemless());
+           && !(staffType && staffType->isTabStaff() && staffType->stemless())
+           && !(staff && staff->isJianpuStaff(tick()));
 }
 
 bool Chord::shouldHaveHook() const
@@ -1087,7 +1082,6 @@ bool Chord::shouldHaveHook() const
 void Chord::createStem()
 {
     Stem* stem = Factory::createStem(this);
-    stem->setOwnershipParent(this);
     stem->setGenerated(true);
     //! score()->undoAddElement calls add(), which assigns this created stem to _stem
     score()->doUndoAddElement(stem);
@@ -1109,7 +1103,6 @@ void Chord::removeStem()
 void Chord::createHook()
 {
     Hook* hook = new Hook(this);
-    hook->setOwnershipParent(this);
     hook->setGenerated(true);
     score()->doUndoAddElement(hook);
 }
@@ -1155,7 +1148,7 @@ void Chord::cmdUpdateNotes(AccidentalState* as, staff_idx_t staffIdx)
     StaffGroup staffGroup = st->staffTypeForElement(this)->group();
     if (staffGroup == StaffGroup::TAB) {
         Fraction tick = this->tick();
-        const StringData* stringData = part()->stringData(tick, st->idx());
+        const StringData* stringData = originPart()->stringData(tick, st->idx());
         for (Chord* ch : graceNotes()) {
             stringData->fretChords(ch);
         }
@@ -1163,7 +1156,7 @@ void Chord::cmdUpdateNotes(AccidentalState* as, staff_idx_t staffIdx)
         return;
     } else {
         // if not tablature, use instrument->useDrumset to set staffGroup (to allow pitched to unpitched in same staff)
-        staffGroup = st->part()->instrument(this->tick())->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::STANDARD;
+        staffGroup = originPart()->instrument(this->tick())->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::STANDARD;
     }
 
     // PITCHED_ and PERCUSSION_STAFF can go note by note
@@ -1224,7 +1217,7 @@ void Chord::cmdUpdateNotes(AccidentalState* as, staff_idx_t staffIdx)
             ch->sortNotes();
         }
     } else if (staffGroup == StaffGroup::PERCUSSION) {
-        const Instrument* instrument = part()->instrument(this->tick());
+        const Instrument* instrument = originPart()->instrument(this->tick());
         const Drumset* drumset = instrument->drumset();
         if (!drumset) {
             LOGW("no drumset");
@@ -1784,7 +1777,7 @@ void Chord::updateArticulations(const std::set<SymId>& newArticulationIds, Artic
             }
             auto splitSyms = splitArticulations({ artic->symId() });
             for (const SymId& id : splitSyms) {
-                Articulation* newArticulation = Factory::createArticulation(score()->dummy()->chord());
+                Articulation* newArticulation = Factory::createArticulation(this);
                 newArticulation->setSymId(id);
                 newArticulation->setAnchor(artic->anchor());
                 newArticulation->setPropertyFlags(Pid::ARTICULATION_ANCHOR, artic->propertyFlags(Pid::ARTICULATION_ANCHOR));
@@ -1871,7 +1864,7 @@ void Chord::updateArticulations(const std::set<SymId>& newArticulationIds, Artic
     } else {
         // add articulations from newArtics that are not found in m_articulations
         for (const SymId& id : newArtics) {
-            Articulation* newArticulation = Factory::createArticulation(score()->dummy()->chord());
+            Articulation* newArticulation = Factory::createArticulation(this);
             newArticulation->setSymId(id);
             if (overallAnchor != ArticulationAnchor::AUTO) {
                 newArticulation->setAnchor(overallAnchor);
@@ -1930,7 +1923,7 @@ void Chord::setSlash(bool flag, bool stemless)
                 dot->undoChangeProperty(Pid::VISIBLE, true);
             }
             if (staff()->isDrumStaff(tick())) {
-                const Drumset* ds = part()->instrument(tick())->drumset();
+                const Drumset* ds = originPart()->instrument(tick())->drumset();
                 int pitch = n->pitch();
                 if (ds && ds->isValid(pitch)) {
                     undoChangeProperty(Pid::STEM_DIRECTION, ds->stemDirection(pitch));
@@ -2797,8 +2790,8 @@ Note* Chord::firstGraceOrNote()
 // GRACE NOTES
 //---------------------------------
 
-GraceNotesGroup::GraceNotesGroup(Chord* c)
-    : EngravingItem(ElementType::GRACE_NOTES_GROUP, c), _parent(c) {}
+GraceNotesGroup::GraceNotesGroup(DummyParentOr<Chord> c)
+    : EngravingItem(ElementType::GRACE_NOTES_GROUP, c), _parent(c.as<Chord>()) {}
 
 void GraceNotesGroup::setPos(double x, double y)
 {

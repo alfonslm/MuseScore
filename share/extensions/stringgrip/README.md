@@ -206,8 +206,13 @@ that grade, amber what's above it, red what's not reasonably playable.
 
 ## Setting up tab staves for violin, viola, cello, double bass
 
-MuseScore's built-in bowed strings have no string tuning, so no tablature staff
-type is offered for them. Add the tuning to a *copy* of the score first:
+In this fork, MuseScore's own violin, viola, violoncello and contrabass
+definitions carry string tuning (24 frets, written pitch, contrabass tuned like
+electric bass), so a Tablature staff type is offered for them. The data lives
+in the fork's instrument files, e.g. `share/instruments/source/strings/violin.xml`.
+
+If a part in an existing score doesn't offer Tablature (its instrument was added
+without the tuning), add the tuning to a *copy* of the score:
 
     uv run python tools/add_string_data.py "My Score.mscz" --dry-run
     uv run python tools/add_string_data.py "My Score.mscz" --five "Violin"
@@ -216,7 +221,7 @@ type is offered for them. Add the tuning to a *copy* of the score first:
 - `--five PART` (exact part name) gives a violin or viola five strings,
   C3 G3 D4 A4 E5.
 
-Then in MuseScore:
+Then, in MuseScore:
 1. Instruments panel → the staff's ⚙ → **Create a linked staff**.
 2. Set the new staff's type to **Tablature** (4 or 5 strings).
 3. Run String Grip.

@@ -1,0 +1,18 @@
+            <Instrument id="sopranissimo-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Sopranissimo Saxophone</trackName>
+                  <longName>Sopranissimo Saxophone</longName>
+                  <shortName>Sio. Sax.</shortName>
+                  <description>Saxophone in B♭ (an octave above the soprano).</description>
+                  <musicXMLid>wind.reed.saxophone.sopraninissimo</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>68-92</aPitchRange>
+                  <pPitchRange>68-97</pPitchRange>
+                  <transposeDiatonic>6</transposeDiatonic>
+                  <transposeChromatic>10</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 64; MS General: Soprano Sax-->
+                        <program value="64"/> <!--Soprano Sax-->
+                  </Channel>
+            </Instrument>

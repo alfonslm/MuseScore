@@ -1,0 +1,18 @@
+            <Instrument id="boy-soprano">
+                  <family>voices</family>
+                  <trackName>Boy Soprano</trackName>
+                  <longName>Boy Soprano</longName>
+                  <shortName>B. S.</shortName>
+                  <description>Boy soprano voice.</description>
+                  <musicXMLid>voice.child</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>60-81</aPitchRange>
+                  <pPitchRange>60-84</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

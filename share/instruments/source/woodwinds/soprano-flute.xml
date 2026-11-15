@@ -1,0 +1,18 @@
+            <Instrument id="soprano-flute">
+                  <family>flutes</family>
+                  <trackName>Soprano Flute</trackName>
+                  <longName>Soprano Flute</longName>
+                  <shortName>Sop. Fl.</shortName>
+                  <description>Flute in E♭, sounding a minor third above the standard flute.</description>
+                  <musicXMLid>wind.flutes.flute</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>63-96</aPitchRange>
+                  <pPitchRange>63-101</pPitchRange>
+                  <transposeDiatonic>2</transposeDiatonic>
+                  <transposeChromatic>3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+            </Instrument>

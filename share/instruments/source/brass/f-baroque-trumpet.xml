@@ -1,0 +1,24 @@
+            <Instrument id="f-baroque-trumpet">
+                  <family>baroque-trumpets</family>
+                  <trackName>Baroque Trumpet</trackName>
+                  <longName>Baroque Trumpet</longName>
+                  <shortName>Bq. Tpt.</shortName>
+                  <traitName type="transposition">F</traitName>
+                  <description>Baroque trumpet in F.</description>
+                  <musicXMLid>brass.trumpet.baroque</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>65-86</aPitchRange>
+                  <pPitchRange>65-90</pPitchRange>
+                  <transposeDiatonic>3</transposeDiatonic>
+                  <transposeChromatic>5</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

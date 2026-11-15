@@ -1,0 +1,19 @@
+            <Instrument id="f-wagner-tuba">
+                  <family>wagner-tubas</family>
+                  <trackName>Wagner Tuba</trackName>
+                  <longName>Wagner Tuba</longName>
+                  <shortName>Wag. Tb.</shortName>
+                  <traitName type="transposition">*F</traitName>
+                  <description>Wagner tuba in F.</description>
+                  <musicXMLid>brass.wagner-tuba</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>35-74</aPitchRange>
+                  <pPitchRange>35-77</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+            </Instrument>

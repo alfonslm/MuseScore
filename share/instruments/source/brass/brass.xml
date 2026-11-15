@@ -1,0 +1,20 @@
+            <Instrument id="brass">
+                  <family>brass</family>
+                  <trackName>Brass</trackName>
+                  <longName>Brass</longName>
+                  <shortName>Br.</shortName>
+                  <description>Brass section notated on a grand staff.</description>
+                  <musicXMLid>brass.group</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>24-108</aPitchRange>
+                  <pPitchRange>24-108</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 61; MS General: Brass Section-->
+                        <program value="61"/> <!--Brass Section-->
+                  </Channel>
+            </Instrument>

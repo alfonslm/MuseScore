@@ -1,0 +1,17 @@
+            <Instrument id="garklein-recorder">
+                  <family>recorders</family>
+                  <trackName>Garklein Recorder</trackName>
+                  <longName>Garklein Recorder</longName>
+                  <shortName>Gk. Rec.</shortName>
+                  <description>The smallest modern recorder, pitched in C (an octave above the soprano).</description>
+                  <musicXMLid>wind.flutes.recorder.garklein</musicXMLid>
+                  <clef>G15ma</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>84-105</aPitchRange>
+                  <pPitchRange>84-108</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

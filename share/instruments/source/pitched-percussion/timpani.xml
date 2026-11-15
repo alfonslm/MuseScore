@@ -1,0 +1,22 @@
+            <Instrument id="timpani">
+                  <family>timpani</family>
+                  <trackName>Timpani</trackName>
+                  <longName>Timpani</longName>
+                  <shortName>Timp.</shortName>
+                  <description>Large pitched orchestral drums, also known as kettle drums. Sometimes fitted with a pedal to allow quick changes of tuning.</description>
+                  <musicXMLid>drum.timpani</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>38-60</aPitchRange>
+                  <pPitchRange>36-62</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 47; MS General: Timpani-->
+                        <program value="47"/> <!--Timpani-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

@@ -1,0 +1,26 @@
+            <Instrument id="mandocello">
+                  <family>mandolins</family>
+                  <trackName>Mandocello</trackName>
+                  <longName>Mandocello</longName>
+                  <shortName>Mncl.</shortName>
+                  <description>Larger ancestor of the mandolin. Tuned an octave lower than the standard mandola.</description>
+                  <musicXMLid>pluck.mandocello</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>36</string>
+                        <string>43</string>
+                        <string>50</string>
+                        <string>57</string>
+                  </StringData>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-75</aPitchRange>
+                  <pPitchRange>36-81</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 16, Prog 25; MS General: Mandolin-->
+                        <controller ctrl="32" value="16"/> <!--Bank LSB-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+            </Instrument>

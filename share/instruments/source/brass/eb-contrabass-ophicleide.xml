@@ -1,0 +1,17 @@
+            <Instrument id="eb-contrabass-ophicleide">
+                  <family>ophicleides</family>
+                  <trackName>Contrabass Ophicleide</trackName>
+                  <longName>Contrabass Ophicleide</longName>
+                  <shortName>Cb. Oph.</shortName>
+                  <traitName type="transposition">*E♭</traitName>
+                  <description>Contrabass ophicleide in E♭.</description>
+                  <musicXMLid>brass.ophicleide</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>26-55</aPitchRange>
+                  <pPitchRange>26-58</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+            </Instrument>

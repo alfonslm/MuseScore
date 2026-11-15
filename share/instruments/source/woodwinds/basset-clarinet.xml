@@ -1,0 +1,18 @@
+            <Instrument id="basset-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Basset Clarinet</trackName>
+                  <longName>Basset Clarinet</longName>
+                  <shortName>Ba. Cl.</shortName>
+                  <description>Similar to the standard soprano clarinet, but with an extension to the lower range.</description>
+                  <musicXMLid>wind.reed.clarinet.basset</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-88</aPitchRange>
+                  <pPitchRange>45-93</pPitchRange>
+                  <transposeDiatonic>-2</transposeDiatonic>
+                  <transposeChromatic>-3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+            </Instrument>

@@ -1,0 +1,33 @@
+            <Instrument id="contrabasses">
+                  <family>orchestral-strings</family>
+                  <trackName>Contrabasses (section)</trackName>
+                  <longName>Contrabasses</longName>
+                  <shortName>Cbs.</shortName>
+                  <description>Contrabass (double bass) section.</description>
+                  <musicXMLid>strings.group</musicXMLid>
+                  <transposingClef>F</transposingClef>
+                  <concertClef>F8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-62</aPitchRange>
+                  <pPitchRange>24-67</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 51, Prog 48; MS General: Basses Fast Expr.-->
+                        <controller ctrl="32" value="51"/> <!--Bank LSB-->
+                        <program value="48"/> <!--String Ensemble 1-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 50, Prog 45; MS General: Basses Pizzicato-->
+                        <controller ctrl="32" value="50"/> <!--Bank LSB-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 51, Prog 44; MS General: Basses Tremolo Expr.-->
+                        <controller ctrl="32" value="51"/> <!--Bank LSB-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

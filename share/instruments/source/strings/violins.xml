@@ -1,0 +1,30 @@
+            <Instrument id="violins">
+                  <family>orchestral-strings</family>
+                  <trackName>Violins (section)</trackName>
+                  <longName>Violins</longName>
+                  <shortName>Vlns.</shortName>
+                  <description>Violin section.</description>
+                  <musicXMLid>strings.group</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>55-88</aPitchRange>
+                  <pPitchRange>55-103</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 21, Prog 48; MS General: Violins Fast Expr.-->
+                        <controller ctrl="32" value="21"/> <!--Bank LSB-->
+                        <program value="48"/> <!--String Ensemble 1-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 20, Prog 45; MS General: Violins Pizzicato-->
+                        <controller ctrl="32" value="20"/> <!--Bank LSB-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 21, Prog 44; MS General: Violins Tremolo Expr.-->
+                        <controller ctrl="32" value="21"/> <!--Bank LSB-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

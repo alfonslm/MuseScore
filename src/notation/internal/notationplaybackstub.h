@@ -40,6 +40,7 @@ public:
     const engraving::InstrumentTrackId& metronomeTrackId() const override;
     engraving::InstrumentTrackId chordSymbolsTrackId(const muse::ID& partId) const override;
     bool isChordSymbolsTrack(const engraving::InstrumentTrackId& trackId) const override;
+    std::optional<std::string> trackName(const engraving::InstrumentTrackId& trackId) const override;
 
     const muse::mpe::PlaybackData& trackPlaybackData(const engraving::InstrumentTrackId& trackId) const override;
 
@@ -54,6 +55,9 @@ public:
 
     muse::audio::secs_t totalPlayTime() const override;
     muse::async::Channel<muse::audio::secs_t> totalPlayTimeChanged() const override;
+
+    const muse::audio::MusicalTimeMap& musicalTimeMap() const override;
+    muse::async::Notification musicalTimeMapChanged() const override;
 
     muse::audio::secs_t playedTickToSec(muse::midi::tick_t tick) const override;
     muse::midi::tick_t secToPlayedTick(muse::audio::secs_t sec) const override;

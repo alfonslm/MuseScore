@@ -11,6 +11,7 @@
 build
 /build_overrides.cmake
 build.release
+build.web
 build.debug
 build.install
 build.tooldata
@@ -35,6 +36,8 @@ MuseScorePortable
 /share/locale/*placeholder.ts
 /share/locale/*.qm
 /share/instruments/tsv
+# Assembled from share/instruments/source, see share/instruments/README.md
+/share/instruments/instruments.xml
 Doc
 DocLib
 *.sfd~

@@ -1,0 +1,24 @@
+            <Instrument id="square-synth">
+                  <family>synths</family>
+                  <trackName>Square Synthesizer</trackName>
+                  <longName>Square Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Square wave synthesizer.</description>
+                  <musicXMLid>synth.tone.sine</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 80; MS General: Square Lead-->
+                        <program value="80"/> <!--Lead 1 (square)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

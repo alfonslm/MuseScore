@@ -1,0 +1,19 @@
+            <Instrument id="basset-horn">
+                  <family>clarinets</family>
+                  <trackName>Basset Horn</trackName>
+                  <longName>Basset Horn</longName>
+                  <shortName>Ba. Hn.</shortName>
+                  <description>Member of the clarinet family with a larger bore and extended lower range.</description>
+                  <musicXMLid>wind.reed.basset-horn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-84</aPitchRange>
+                  <pPitchRange>41-86</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

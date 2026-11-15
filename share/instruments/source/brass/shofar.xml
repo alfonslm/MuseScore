@@ -1,0 +1,17 @@
+            <Instrument id="shofar">
+                  <family>shofars</family>
+                  <trackName>Shofar</trackName>
+                  <longName>Shofar</longName>
+                  <shortName>Sho.</shortName>
+                  <description>Typically made from a ram’s horn and used for Jewish religious purposes.</description>
+                  <musicXMLid>brass.shofar</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-72</aPitchRange>
+                  <pPitchRange>48-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

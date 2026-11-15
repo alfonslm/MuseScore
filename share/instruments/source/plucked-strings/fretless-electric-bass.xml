@@ -1,0 +1,38 @@
+            <Instrument id="fretless-electric-bass">
+                  <family>bass-guitars</family>
+                  <trackName>Fretless Electric Bass</trackName>
+                  <longName>Fretless Electric Bass</longName>
+                  <shortName>Frtl. El. B.</shortName>
+                  <description>Fretless electric bass guitar.</description>
+                  <musicXMLid>pluck.bass.fretless</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>28</string>
+                        <string>33</string>
+                        <string>38</string>
+                        <string>43</string>
+                  </StringData>
+                  <transposingClef>F</transposingClef>
+                  <concertClef>F8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-65</aPitchRange>
+                  <pPitchRange>28-67</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 35; MS General: Fretless Bass-->
+                        <program value="35"/> <!--Fretless Bass-->
+                  </Channel>
+                  <Channel name="slap">
+                        <!--MIDI: Bank 0, Prog 36; MS General: Slap Bass-->
+                        <program value="36"/> <!--Slap Bass 1-->
+                  </Channel>
+                  <Channel name="pop">
+                        <!--MIDI: Bank 0, Prog 37; MS General: Pop Bass-->
+                        <program value="37"/> <!--Slap Bass 2-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+            </Instrument>

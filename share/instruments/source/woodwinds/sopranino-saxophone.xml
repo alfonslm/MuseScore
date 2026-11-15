@@ -1,0 +1,19 @@
+            <Instrument id="sopranino-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Sopranino Saxophone</trackName>
+                  <longName>Sopranino Saxophone</longName>
+                  <shortName>Si. Sax.</shortName>
+                  <description>Saxophone in E♭ (an octave above the alto).</description>
+                  <musicXMLid>wind.reed.saxophone.sopranino</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>61-87</aPitchRange>
+                  <pPitchRange>61-90</pPitchRange>
+                  <transposeDiatonic>2</transposeDiatonic>
+                  <transposeChromatic>3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 64; MS General: Soprano Sax-->
+                        <program value="64"/> <!--Soprano Sax-->
+                  </Channel>
+                  <genre>jazz</genre>
+            </Instrument>

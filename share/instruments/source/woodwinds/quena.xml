@@ -1,0 +1,14 @@
+            <Instrument id="quena">
+                  <family>quenas</family>
+                  <description>South American traditional flute pitched in C.</description>
+                  <musicXMLid>wind.flutes.quena</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-92</aPitchRange>
+                  <pPitchRange>72-96</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

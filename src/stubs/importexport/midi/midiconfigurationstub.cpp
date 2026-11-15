@@ -81,3 +81,13 @@ void MidiConfigurationStub::setIsMidiExportRpns(bool)
 {
     NOT_IMPLEMENTED;
 }
+
+bool MidiConfigurationStub::isMidiExportExtendMeasuresForPauses() const
+{
+    return false;
+}
+
+void MidiConfigurationStub::setIsMidiExportExtendMeasuresForPauses(bool)
+{
+    NOT_IMPLEMENTED;
+}

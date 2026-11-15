@@ -53,6 +53,7 @@ public:
     ~Lyrics();
 
     Lyrics* clone() const override { return new Lyrics(*this); }
+    void setOwnershipParent(DummyParentOr<ChordRest> parent) { EngravingItem::setOwnershipParent(parent); }
     bool acceptDrop(EditData&) const override;
     EngravingItem* drop(Transaction& tx, EditData&) override;
 
@@ -99,6 +100,7 @@ public:
     bool setProperty(Pid propertyId, const PropertyValue&) override;
     PropertyValue propertyDefault(Pid id) const override;
     void undoChangeProperty(Pid id, const PropertyValue&, PropertyFlags ps) override;
+    void reset() override;
     void triggerLayout() const override;
 
     double yRelativeToStaff() const;
@@ -110,7 +112,7 @@ public:
 private:
 
     friend class Factory;
-    Lyrics(ChordRest* parent);
+    Lyrics(DummyParentOr<ChordRest> parent);
     Lyrics(const Lyrics&);
 
     int m_verse = 0;              // row index
@@ -132,10 +134,11 @@ class LyricsLine : public SLine
     DECLARE_CLASSOF(ElementType::LYRICSLINE)
 
 public:
-    LyricsLine(EngravingItem* parent);
+    LyricsLine(DummyParentOr<Lyrics> parent);
     LyricsLine(const LyricsLine&);
 
     LyricsLine* clone() const override { return new LyricsLine(*this); }
+    void setOwnershipParent(DummyParentOr<Lyrics> parent) { EngravingItem::setOwnershipParent(parent); }
 
     Anchor anchor() const override { return Anchor::SEGMENT; }
 
@@ -147,12 +150,13 @@ public:
     void setNextLyrics(Lyrics* l) { m_nextLyrics = l; }
     virtual bool isEndMelisma() const { return lyrics() && lyrics()->ticks().isNotZero(); }
     bool isDash() const { return !isEndMelisma(); }
+
     bool setProperty(Pid propertyId, const PropertyValue& v) override;
     PropertyValue propertyDefault(Pid id) const override;
     Sid getPropertyStyle(Pid) const override;
 
 protected:
-    LyricsLine(const ElementType& type, EngravingItem* parent, ElementFlags = ElementFlag::NOTHING);
+    LyricsLine(const ElementType& type, DummyParentOr<Lyrics> parent, ElementFlags = ElementFlag::NOTHING);
 
     bool isInSpannerMap() const override { return false; }
 
@@ -217,9 +221,10 @@ class PartialLyricsLine final : public LyricsLine
     DECLARE_CLASSOF(ElementType::PARTIAL_LYRICSLINE)
 
 public:
-    PartialLyricsLine(EngravingItem* parent);
+    PartialLyricsLine(DummyParent* parent);
     PartialLyricsLine(const PartialLyricsLine&);
     PartialLyricsLine* clone() const override { return new PartialLyricsLine(*this); }
+    void setOwnershipParent(EngravingObject*) = delete;
     LineSegment* createLineSegment() override;
 
     Lyrics* lyrics() const override { return nullptr; }
@@ -230,11 +235,15 @@ public:
     void setVerse(int val) { m_verse = val; }
     int verse() const { return m_verse; }
 
+    void setCenterBetweenStaves(AutoOnOff v) { m_centerBetweenStaves = v; }
+    AutoOnOff centerBetweenStaves() const { return m_centerBetweenStaves; }
+
     PropertyValue getProperty(Pid propertyId) const override;
     bool setProperty(Pid propertyId, const PropertyValue&) override;
     PropertyValue propertyDefault(Pid propertyId) const override;
     Sid getPropertyStyle(Pid propertyId) const override;
     void undoChangeProperty(Pid id, const PropertyValue&, PropertyFlags ps) override;
+    void reset() override;
 
     Lyrics* findLyricsInPreviousRepeatSeg() const;
     Lyrics* findAdjacentLyricsOrDefault() const;
@@ -246,6 +255,7 @@ protected:
 private:
     bool m_isEndMelisma = false;
     int m_verse = 0;
+    AutoOnOff m_centerBetweenStaves = AutoOnOff::AUTO;
 };
 
 class PartialLyricsLineSegment final : public LyricsLineSegment

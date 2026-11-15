@@ -1,0 +1,24 @@
+            <Instrument id="balalaika-piccolo">
+                  <family>balalaikas</family>
+                  <trackName>Piccolo Balalaika</trackName>
+                  <longName>Piccolo Balalaika</longName>
+                  <shortName>Pic. Bal.</shortName>
+                  <description>Piccolo balalaika, tuned a fifth above the prima.</description>
+                  <musicXMLid>pluck.balalaika.piccolo</musicXMLid>
+                  <StringData>
+                        <frets>17</frets>
+                        <string>71</string>
+                        <string>76</string>
+                        <string>81</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>71-98</aPitchRange>
+                  <pPitchRange>71-98</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+            </Instrument>

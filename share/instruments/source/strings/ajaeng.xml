@@ -1,0 +1,22 @@
+            <Instrument id="ajaeng">
+                  <family>ajaengs</family>
+                  <trackName>Ajaeng</trackName>
+                  <longName>Ajaeng</longName>
+                  <shortName>Aj.</shortName>
+                  <description>Korean bowed zither with thick silk strings.</description>
+                  <musicXMLid>strings.ajaeng</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-75</aPitchRange>
+                  <pPitchRange>43-79</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 0, Prog 110; MS General: Fiddle-->
+                        <program value="110"/> <!--Fiddle-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 0, Prog 45; MS General: Strings Pizzicato-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

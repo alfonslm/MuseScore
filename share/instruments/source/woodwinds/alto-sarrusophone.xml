@@ -1,0 +1,18 @@
+            <Instrument id="alto-sarrusophone">
+                  <family>sarrusophones</family>
+                  <trackName>Alto Sarrusophone</trackName>
+                  <longName>Alto Sarrusophone</longName>
+                  <shortName>A. Sar.</shortName>
+                  <description>Single- or double-reed metal instrument with a conical bore, in E♭.</description>
+                  <musicXMLid>wind.reed.sarrusaphone</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>49-80</aPitchRange>
+                  <pPitchRange>49-85</pPitchRange>
+                  <transposeDiatonic>-5</transposeDiatonic>
+                  <transposeChromatic>-9</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

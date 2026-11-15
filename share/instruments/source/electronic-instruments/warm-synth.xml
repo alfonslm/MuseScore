@@ -1,0 +1,24 @@
+            <Instrument id="warm-synth">
+                  <family>synths</family>
+                  <trackName>Warm Synthesizer</trackName>
+                  <longName>Warm Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Warm synth pad (General MIDI program 90).</description>
+                  <musicXMLid>synth.pad.warm</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 89; MS General: Warm Pad-->
+                        <program value="89"/> <!--Pad 2 (warm)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

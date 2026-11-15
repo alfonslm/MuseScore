@@ -1,0 +1,17 @@
+            <Instrument id="harmonica-d10c">
+                  <family>harmonicas</family>
+                  <trackName>10-Hole Diatonic Harmonica</trackName>
+                  <longName>10-Hole C Diatonic Harmonica</longName>
+                  <shortName>Harm.</shortName>
+                  <traitName type="tuning">*C</traitName>
+                  <description>10-hole diatonic harmonica pitched in C.</description>
+                  <musicXMLid>wind.reed.harmonica</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-96</aPitchRange>
+                  <pPitchRange>60-96</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

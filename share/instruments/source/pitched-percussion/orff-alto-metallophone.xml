@@ -1,0 +1,18 @@
+            <Instrument id="orff-alto-metallophone">
+                  <family>orff-percussion</family>
+                  <trackName>Orff Alto Metallophone</trackName>
+                  <longName>Orff Alto Metallophone</longName>
+                  <shortName>O. A. Met.</shortName>
+                  <description>Alto metallophone for the Orff Schulwerk.</description>
+                  <musicXMLid>pitched-percussion.metallophone.alto</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-81</aPitchRange>
+                  <pPitchRange>60-81</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 11; MS General: Vibraphone-->
+                        <program value="11"/> <!--Vibraphone-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>
