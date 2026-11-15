@@ -5,7 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this repository is
 
 A fork (`alfonslm/MuseScore`) of MuseScore Studio (`musescore/MuseScore`), a C++/Qt 6/QML music notation
-application. The fork carries features that are not upstream (see "Fork-specific setup" below). The `muse/`
+application. The fork carries features that are not upstream (see "Fork-specific setup" below), and it is not
+meant to send them back: nothing here is prepared for or submitted as a pull request to `musescore/MuseScore`
+or `musescore/muse_framework`. Changes flow one way, from upstream into the fork. The `muse/`
 directory is a git submodule holding the Muse framework, which here points at the fork
 `alfonslm/muse_framework`, not at `musescore/muse_framework`.
 
@@ -140,6 +142,9 @@ writer and handles files, progress and retries.
   those files, never an `instruments.xml`. When an upstream merge changes upstream's `instruments.xml`
   (a modify/delete conflict), resolve it with `share/instruments/instruments_source.py merge-git` as
   described in `share/instruments/README.md`.
-- **Contributions meant for upstream.** `AI_POLICY.md` applies: disclose AI assistance in the pull request
-  template and with an `Assisted-by:` commit trailer (not `Co-authored-by:`), and the contributor must have
-  read and understood everything submitted. `.github/pull_request_template.md` is upstream's checklist.
+- **No upstream pull requests.** Pull requests go to this fork's `beta` (or `main`), never to the upstream
+  repositories, so fork code doesn't have to meet upstream's contribution rules or stay mergeable upstream.
+  `AI_POLICY.md` and `.github/pull_request_template.md` are upstream's contribution process; the template
+  still pre-fills this fork's pull requests, but its checklist (CLA, `Assisted-by:` trailer) is upstream's.
+  Keeping the fork's own changes small and separate still matters, for a different reason: it keeps merging
+  upstream into the fork easy.
