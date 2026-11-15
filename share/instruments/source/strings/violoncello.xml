@@ -5,6 +5,13 @@
                   <shortName>Vc.</shortName>
                   <description>Violoncello.</description>
                   <musicXMLid>strings.cello</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>36</string>
+                        <string>43</string>
+                        <string>50</string>
+                        <string>57</string>
+                  </StringData>
                   <clef>F</clef>
                   <barlineSpan>1</barlineSpan>
                   <aPitchRange>36-67</aPitchRange>
