@@ -1,0 +1,24 @@
+            <Instrument id="harpsichord">
+                  <family>keyboards</family>
+                  <trackName>Harpsichord</trackName>
+                  <longName>Harpsichord</longName>
+                  <shortName>Hch.</shortName>
+                  <description>Plucks strings, producing a harsher sound with smaller dynamic range compared to the piano.</description>
+                  <musicXMLid>keyboard.harpsichord</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>29-89</aPitchRange>
+                  <pPitchRange>29-89</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 6; MS General: Harpsichord-->
+                        <program value="6"/> <!--Harpsichord-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+                  <genre>earlymusic</genre>
+            </Instrument>

@@ -1,0 +1,22 @@
+            <Instrument id="yangqin">
+                  <family>yangqins</family>
+                  <trackName>Yangqin</trackName>
+                  <longName>Yangqin</longName>
+                  <shortName>Yq.</shortName>
+                  <description>Chinese hammered dulcimer.</description>
+                  <musicXMLid>pitched-percussion.yangqin</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>48-89</aPitchRange>
+                  <pPitchRange>41-93</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

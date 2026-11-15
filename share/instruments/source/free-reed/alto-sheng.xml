@@ -1,0 +1,17 @@
+            <Instrument id="alto-sheng">
+                  <family>shengs</family>
+                  <trackName>Alto Sheng</trackName>
+                  <longName>Alto Sheng</longName>
+                  <shortName>A. She.</shortName>
+                  <description>Chinese mouth-blown free reed instrument.</description>
+                  <musicXMLid>wind.reed.sheng</musicXMLid>
+                  <clef>C3</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-83</aPitchRange>
+                  <pPitchRange>48-83</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 20; MS General: Reed Organ-->
+                        <program value="20"/> <!--Reed Organ-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

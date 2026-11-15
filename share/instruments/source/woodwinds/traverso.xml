@@ -1,0 +1,21 @@
+            <Instrument id="traverso">
+                  <family>flutes</family>
+                  <trackName>Traverso</trackName>
+                  <longName>Traverso</longName>
+                  <shortName>Trv.</shortName>
+                  <description>Baroque wooden transverse flute.</description>
+                  <musicXMLid>wind.flutes.flute</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>62-88</aPitchRange>
+                  <pPitchRange>62-93</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+                  <Articulation>
+                        <velocity>100</velocity>
+                        <gateTime>95</gateTime>
+                  </Articulation>
+                  <genre>earlymusic</genre>
+            </Instrument>

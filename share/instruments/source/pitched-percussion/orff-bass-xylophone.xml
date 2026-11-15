@@ -1,0 +1,18 @@
+            <Instrument id="orff-bass-xylophone">
+                  <family>orff-percussion</family>
+                  <trackName>Orff Bass Xylophone</trackName>
+                  <longName>Orff Bass Xylophone</longName>
+                  <shortName>O. B. Xyl.</shortName>
+                  <description>Bass xylophone for the Orff Schulwerk.</description>
+                  <musicXMLid>pitched-percussion.xylophone.soprano</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-69</aPitchRange>
+                  <pPitchRange>48-69</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 12; MS General: Marimba-->
+                        <program value="12"/> <!--Marimba-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>

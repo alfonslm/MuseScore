@@ -1,0 +1,26 @@
+            <Instrument id="xylophone">
+                  <family>keyboard-percussion</family>
+                  <trackName>Xylophone</trackName>
+                  <longName>Xylophone</longName>
+                  <shortName>Xyl.</shortName>
+                  <description>Tuned wooden bars arranged like piano keys, sometimes with resonator tubes below. Played with mallets. Sounds an octave higher than written.</description>
+                  <musicXMLid>pitched-percussion.xylophone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8va</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>65-96</aPitchRange>
+                  <pPitchRange>60-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>7</transposeDiatonic>
+                  <transposeChromatic>12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 13; MS General: Xylophone-->
+                        <program value="13"/> <!--Xylophone-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+                  <genre>classroom</genre>
+            </Instrument>

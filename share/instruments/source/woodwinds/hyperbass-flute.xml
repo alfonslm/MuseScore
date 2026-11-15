@@ -1,0 +1,19 @@
+            <Instrument id="hyperbass-flute">
+                  <family>flutes</family>
+                  <trackName>Hyperbass Flute</trackName>
+                  <longName>Hyperbass Flute</longName>
+                  <shortName>Hb. Fl.</shortName>
+                  <description>Flute in C, sounding four octaves below the standard flute.</description>
+                  <musicXMLid>wind.flutes.flute.double-contrabass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F15mb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>12-42</aPitchRange>
+                  <pPitchRange>12-45</pPitchRange>
+                  <transposeDiatonic>-28</transposeDiatonic>
+                  <transposeChromatic>-48</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+            </Instrument>

@@ -1,0 +1,17 @@
+            <Instrument id="countertenor">
+                  <family>voices</family>
+                  <trackName>Countertenor</trackName>
+                  <longName>Countertenor</longName>
+                  <shortName>Ct.</shortName>
+                  <description>Counter tenor or male alto voice.</description>
+                  <musicXMLid>voice.countertenor</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>55-76</aPitchRange>
+                  <pPitchRange>55-79</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>choral</genre>
+            </Instrument>

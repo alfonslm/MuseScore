@@ -1,0 +1,23 @@
+            <Instrument id="marimba-single">
+                  <family>keyboard-percussion</family>
+                  <trackName>Marimba (single staff)</trackName>
+                  <longName>Marimba</longName>
+                  <shortName>Mrm.</shortName>
+                  <description>Tuned wooden bars arranged like piano keys, with resonator tubes below. Played with mallets. Deeper and mellower than the xylophone, and sounds as written.</description>
+                  <musicXMLid>pitched-percussion.marimba</musicXMLid>
+                  <staves>1</staves>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-96</aPitchRange>
+                  <pPitchRange>36-96</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 12; MS General: Marimba-->
+                        <program value="12"/> <!--Marimba-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

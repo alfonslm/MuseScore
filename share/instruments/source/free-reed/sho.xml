@@ -1,0 +1,17 @@
+            <Instrument id="sho">
+                  <family>shengs</family>
+                  <trackName>Shō</trackName>
+                  <longName>Shō</longName>
+                  <shortName>Shō</shortName>
+                  <description>Japanese mouth organ. A free-reed instrument used in gagaku court music.</description>
+                  <musicXMLid>wind.reed.sheng</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>69-90</aPitchRange>
+                  <pPitchRange>69-90</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 20; MS General: Reed Organ-->
+                        <program value="20"/> <!--Reed Organ-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

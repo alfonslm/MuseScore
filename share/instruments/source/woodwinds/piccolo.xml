@@ -1,0 +1,25 @@
+            <Instrument id="piccolo">
+                  <family>flutes</family>
+                  <trackName>Piccolo</trackName>
+                  <longName>Piccolo</longName>
+                  <shortName>Picc.</shortName>
+                  <traitName type="transposition">*(C)</traitName>
+                  <description>Standard concert piccolo in C.</description>
+                  <musicXMLid>wind.flutes.flute.piccolo</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8va</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>74-105</aPitchRange>
+                  <pPitchRange>74-108</pPitchRange>
+                  <transposeDiatonic>7</transposeDiatonic>
+                  <transposeChromatic>12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

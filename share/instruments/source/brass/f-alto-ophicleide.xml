@@ -1,0 +1,17 @@
+            <Instrument id="f-alto-ophicleide">
+                  <family>ophicleides</family>
+                  <trackName>Alto Ophicleide</trackName>
+                  <longName>Alto Ophicleide</longName>
+                  <shortName>A. Oph.</shortName>
+                  <traitName type="transposition">F</traitName>
+                  <description>Alto ophicleide in F.</description>
+                  <musicXMLid>brass.ophicleide</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-81</aPitchRange>
+                  <pPitchRange>52-84</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+            </Instrument>

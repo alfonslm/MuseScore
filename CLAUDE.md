@@ -135,6 +135,11 @@ writer and handles files, progress and retries.
   mixer UI in `src/playback/qml`. String-name tablature clef: `ClefType::TAB_STRING_NAMES`. MIDI export
   option to lengthen a measure at a pause: `compat/midi/pausemap.*`. String Grip extension:
   `share/extensions/stringgrip`.
+- **Instruments.** `share/instruments/instruments.xml` is not in this repository: the build assembles it
+  from `share/instruments/source/` (one file per instrument, ordered by `source/manifest.txt`). Edit
+  those files, never an `instruments.xml`. When an upstream merge changes upstream's `instruments.xml`
+  (a modify/delete conflict), resolve it with `share/instruments/instruments_source.py merge-git` as
+  described in `share/instruments/README.md`.
 - **Contributions meant for upstream.** `AI_POLICY.md` applies: disclose AI assistance in the pull request
   template and with an `Assisted-by:` commit trailer (not `Co-authored-by:`), and the contributor must have
   read and understood everything submitted. `.github/pull_request_template.md` is upstream's checklist.

@@ -1,0 +1,24 @@
+            <Instrument id="balalaika-secunda">
+                  <family>balalaikas</family>
+                  <trackName>Secunda Balalaika</trackName>
+                  <longName>Secunda Balalaika</longName>
+                  <shortName>Sec. Bal.</shortName>
+                  <description>Secunda balalaika, tuned a fifth below the prima.</description>
+                  <musicXMLid>pluck.balalaika.secunda</musicXMLid>
+                  <StringData>
+                        <frets>17</frets>
+                        <string>57</string>
+                        <string>57</string>
+                        <string>62</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>57-79</aPitchRange>
+                  <pPitchRange>57-79</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+            </Instrument>

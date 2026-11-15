@@ -1,0 +1,18 @@
+            <Instrument id="aulochrome">
+                  <family>saxophones</family>
+                  <trackName>Aulochrome</trackName>
+                  <longName>Aulochrome</longName>
+                  <shortName>Aul.</shortName>
+                  <description>Consists of two soprano saxophones joined together, played either separately or simultaneously.</description>
+                  <musicXMLid>wind.reed.saxophone.aulochrome</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>56-89</aPitchRange>
+                  <pPitchRange>56-94</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 64; MS General: Soprano Sax-->
+                        <program value="64"/> <!--Soprano Sax-->
+                  </Channel>
+            </Instrument>

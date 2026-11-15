@@ -1,0 +1,22 @@
+            <Instrument id="kuhlohorn">
+                  <family>flugelhorns</family>
+                  <trackName>Kuhlohorn</trackName>
+                  <longName>Kuhlohorn</longName>
+                  <shortName>Klhn.</shortName>
+                  <description>Small flugelhorn in B♭, played using a deep bowled mouthpiece.</description>
+                  <musicXMLid>brass.kuhlohorn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-79</aPitchRange>
+                  <pPitchRange>52-82</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

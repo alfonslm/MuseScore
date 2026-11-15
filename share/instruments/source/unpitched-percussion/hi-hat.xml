@@ -1,0 +1,48 @@
+            <Instrument id="hi-hat">
+                  <family>unpitched-metal-percussion</family>
+                  <trackName>Hi-hat</trackName>
+                  <longName>Hi-hat</longName>
+                  <shortName>Hi-hat</shortName>
+                  <description>Hi-hat. Combination of two cymbals and a pedal.</description>
+                  <musicXMLid>metal.hi-hat</musicXMLid>
+                  <clef>PERC</clef>
+                  <stafftype staffTypePreset="perc1Line">percussion</stafftype>
+                  <barlineSpan>1</barlineSpan>
+                  <drumset>1</drumset>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Drum pitch="42"> <!--Closed Hi-hat-->
+                        <head>cross</head>
+                        <line>0</line>
+                        <voice>0</voice>
+                        <name>Closed Hi-Hat</name>
+                        <stem>1</stem>
+                        <shortcut>A</shortcut>
+                        <panelRow>0</panelRow>
+                        <panelColumn>0</panelColumn>
+                  </Drum>
+                  <Drum pitch="44"> <!--Pedal Hi-hat-->
+                        <head>cross</head>
+                        <line>9</line>
+                        <voice>1</voice>
+                        <name>Pedal Hi-Hat</name>
+                        <stem>2</stem>
+                        <shortcut>C</shortcut>
+                        <panelRow>0</panelRow>
+                        <panelColumn>2</panelColumn>
+                  </Drum>
+                  <Drum pitch="46"> <!--Open Hi-hat-->
+                        <head>cross</head>
+                        <line>0</line>
+                        <voice>0</voice>
+                        <name>Open Hi-Hat</name>
+                        <stem>1</stem>
+                        <shortcut>B</shortcut>
+                        <panelRow>0</panelRow>
+                        <panelColumn>1</panelColumn>
+                  </Drum>
+                  <Channel>
+                        <!--MIDI: Bank 128, Prog 0; MS General: Standard-->
+                        <controller ctrl="0" value="1"/> <!--Bank MSB-->
+                        <program value="0"/> <!--Standard Kit-->
+                  </Channel>
+            </Instrument>

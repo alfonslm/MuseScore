@@ -1,0 +1,35 @@
+            <Instrument id="viola-da-gamba">
+                  <family>viols</family>
+                  <trackName>Bass Viol</trackName>
+                  <longName>Bass Viol</longName>
+                  <shortName>B. Vl.</shortName>
+                  <description>Bass viola da gamba (staff notation). Third lowest member of the viol family.</description>
+                  <StringData>
+                        <frets>13</frets>
+                        <string>33</string>
+                        <string>38</string>
+                        <string>43</string>
+                        <string>48</string>
+                        <string>52</string>
+                        <string>57</string>
+                        <string>62</string>
+                  </StringData>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>33-74</aPitchRange>
+                  <pPitchRange>33-79</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 0, Prog 42; MS General: Cello-->
+                        <program value="42"/> <!--Cello-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 0, Prog 45; MS General: Strings Pizzicato-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 0, Prog 44; MS General: Strings Tremolo-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

@@ -1,0 +1,20 @@
+            <Instrument id="winds">
+                  <family>winds</family>
+                  <trackName>Winds</trackName>
+                  <longName>Winds</longName>
+                  <shortName>Wi.</shortName>
+                  <description>Wind section notated on a grand staff.</description>
+                  <musicXMLid>wind.group</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>24-108</aPitchRange>
+                  <pPitchRange>24-108</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+            </Instrument>

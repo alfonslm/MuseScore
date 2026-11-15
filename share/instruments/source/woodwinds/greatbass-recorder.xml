@@ -1,0 +1,17 @@
+            <Instrument id="greatbass-recorder">
+                  <family>recorders</family>
+                  <trackName>Greatbass Recorder</trackName>
+                  <longName>Greatbass Recorder</longName>
+                  <shortName>Gb. Rec.</shortName>
+                  <description>Recorder pitched in C (an octave below the tenor).</description>
+                  <musicXMLid>wind.flutes.recorder.great-bass</musicXMLid>
+                  <clef>F8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-69</aPitchRange>
+                  <pPitchRange>48-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

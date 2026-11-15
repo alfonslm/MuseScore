@@ -1,0 +1,25 @@
+            <Instrument id="tenor-banjo">
+                  <family>banjos</family>
+                  <trackName>Tenor Banjo</trackName>
+                  <longName>Tenor Banjo</longName>
+                  <shortName>T. Bj.</shortName>
+                  <description>4-string tenor banjo.</description>
+                  <musicXMLid>pluck.banjo.tenor</musicXMLid>
+                  <StringData>
+                        <frets>19</frets>
+                        <string>48</string>
+                        <string>55</string>
+                        <string>62</string>
+                        <string>69</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-83</aPitchRange>
+                  <pPitchRange>48-83</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 105; MS General: Banjo-->
+                        <program value="105"/> <!--Banjo-->
+                  </Channel>
+            </Instrument>

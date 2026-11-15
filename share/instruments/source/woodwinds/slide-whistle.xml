@@ -1,0 +1,17 @@
+            <Instrument id="slide-whistle">
+                  <family>whistles</family>
+                  <trackName>Slide Whistle</trackName>
+                  <longName>Slide Whistle</longName>
+                  <shortName>Sl. Wh.</shortName>
+                  <description>Slide or swanee whistle.</description>
+                  <musicXMLid>wind.flutes.slide</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>69-96</aPitchRange>
+                  <pPitchRange>69-96</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+            </Instrument>

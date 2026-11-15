@@ -1,0 +1,17 @@
+            <Instrument id="hichiriki">
+                  <family>hichikiris</family>
+                  <trackName>Hichiriki</trackName>
+                  <longName>Hichiriki</longName>
+                  <shortName>Hch.</shortName>
+                  <description>Japanese double-reed instrument used in gagaku court music.</description>
+                  <musicXMLid>wind.reed.hichiriki</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>67-81</aPitchRange>
+                  <pPitchRange>65-81</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

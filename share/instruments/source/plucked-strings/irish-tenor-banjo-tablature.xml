@@ -1,0 +1,10 @@
+            <Instrument id="irish-tenor-banjo-tablature">
+                  <init>irish-tenor-banjo</init>
+                  <family>banjos</family>
+                  <trackName>Irish Tenor Banjo (tablature)</trackName>
+                  <longName>Irish Tenor Banjo</longName>
+                  <description>4-string Irish tenor banjo (tablature).</description>
+                  <musicXMLid>pluck.banjo.tenor</musicXMLid>
+                  <stafftype staffTypePreset="tab4StrCommon">tablature</stafftype>
+                  <genre>world</genre>
+            </Instrument>

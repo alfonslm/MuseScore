@@ -1,0 +1,52 @@
+            <Instrument id="pad-synth">
+                  <family>synths</family>
+                  <trackName>Pad Synthesizer</trackName>
+                  <longName>Pad Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>General MIDI synth pad (generic).</description>
+                  <musicXMLid>synth.pad</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="new age">
+                        <!--MIDI: Bank 0, Prog 88; MS General: Fantasia-->
+                        <program value="88"/> <!--Pad 1 (new age)-->
+                  </Channel>
+                  <Channel name="warm">
+                        <!--MIDI: Bank 0, Prog 89; MS General: Warm Pad-->
+                        <program value="89"/> <!--Pad 2 (warm)-->
+                  </Channel>
+                  <Channel name="polysynth">
+                        <!--MIDI: Bank 0, Prog 90; MS General: Polysynth-->
+                        <program value="90"/> <!--Pad 3 (polysynth)-->
+                  </Channel>
+                  <Channel name="choir">
+                        <!--MIDI: Bank 0, Prog 91; MS General: Space Voice-->
+                        <program value="91"/> <!--Pad 4 (choir)-->
+                  </Channel>
+                  <Channel name="bowed">
+                        <!--MIDI: Bank 0, Prog 92; MS General: Bowed Glass-->
+                        <program value="92"/> <!--Pad 5 (bowed)-->
+                  </Channel>
+                  <Channel name="metallic">
+                        <!--MIDI: Bank 0, Prog 93; MS General: Metal Pad-->
+                        <program value="93"/> <!--Pad 6 (metallic)-->
+                  </Channel>
+                  <Channel name="halo">
+                        <!--MIDI: Bank 0, Prog 94; MS General: Halo Pad-->
+                        <program value="94"/> <!--Pad 7 (halo)-->
+                  </Channel>
+                  <Channel name="sweep">
+                        <!--MIDI: Bank 0, Prog 95; MS General: Sweep Pad-->
+                        <program value="95"/> <!--Pad 8 (sweep)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

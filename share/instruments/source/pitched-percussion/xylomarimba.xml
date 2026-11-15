@@ -1,0 +1,23 @@
+            <Instrument id="xylomarimba">
+                  <family>keyboard-percussion</family>
+                  <trackName>Xylomarimba</trackName>
+                  <longName>Xylomarimba</longName>
+                  <shortName>XMrm.</shortName>
+                  <description>Xylophone with an extended range, matching a 5-octave marimba but sounding an octave higher.</description>
+                  <musicXMLid>pitched-percussion.xylomarimba</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>48-108</aPitchRange>
+                  <pPitchRange>48-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 12; MS General: Marimba-->
+                        <program value="12"/> <!--Marimba-->
+                  </Channel>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

@@ -1,0 +1,23 @@
+            <Instrument id="a-cornet">
+                  <family>cornets</family>
+                  <trackName>Cornet</trackName>
+                  <longName>Cornet</longName>
+                  <shortName>Cnt.</shortName>
+                  <traitName type="transposition">A</traitName>
+                  <description>Cornet in A.</description>
+                  <musicXMLid>brass.cornet</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>51-79</aPitchRange>
+                  <pPitchRange>51-84</pPitchRange>
+                  <transposeDiatonic>-2</transposeDiatonic>
+                  <transposeChromatic>-3</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

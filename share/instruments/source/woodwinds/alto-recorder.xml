@@ -1,0 +1,17 @@
+            <Instrument id="alto-recorder">
+                  <family>recorders</family>
+                  <trackName>Alto Recorder</trackName>
+                  <longName>Alto Recorder</longName>
+                  <shortName>A. Rec.</shortName>
+                  <description>Also known as the treble recorder. Pitched in F. Sometimes with an extra key for low E.</description>
+                  <musicXMLid>wind.flutes.recorder.alto</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>65-88</aPitchRange>
+                  <pPitchRange>64-96</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

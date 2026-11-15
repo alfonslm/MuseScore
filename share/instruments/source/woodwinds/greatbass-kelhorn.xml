@@ -1,0 +1,16 @@
+            <Instrument id="greatbass-kelhorn">
+                  <family>kelhorns</family>
+                  <trackName>Greatbass Kelhorn</trackName>
+                  <longName>Greatbass Kelhorn</longName>
+                  <shortName>Gb. Kh.</shortName>
+                  <description>20th-century instrument similar to the crumhorn and cornamuse, pitched in C (an octave below the tenor kelhorn).</description>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-50</aPitchRange>
+                  <pPitchRange>36-53</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

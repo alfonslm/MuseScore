@@ -1,0 +1,22 @@
+            <Instrument id="virginal">
+                  <family>keyboards</family>
+                  <trackName>Virginal</trackName>
+                  <longName>Virginal</longName>
+                  <shortName>Vir.</shortName>
+                  <description>Small harpsichord with only one string per key, which limits the dynamic range and timbre.</description>
+                  <musicXMLid>keyboard.virginal</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>29-89</aPitchRange>
+                  <pPitchRange>29-89</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 6; MS General: Harpsichord-->
+                        <program value="6"/> <!--Harpsichord-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

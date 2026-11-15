@@ -1,0 +1,25 @@
+            <Instrument id="tenor-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Tenor Saxophone</trackName>
+                  <longName>Tenor Saxophone</longName>
+                  <shortName>T. Sax.</shortName>
+                  <description>Saxophone in B♭ (an octave below the soprano).</description>
+                  <musicXMLid>wind.reed.saxophone.tenor</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>44-75</aPitchRange>
+                  <pPitchRange>44-87</pPitchRange>
+                  <transposeDiatonic>-8</transposeDiatonic>
+                  <transposeChromatic>-14</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 66; MS General: Tenor Sax-->
+                        <program value="66"/> <!--Tenor Sax-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

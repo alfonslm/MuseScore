@@ -1,0 +1,25 @@
+            <Instrument id="mtn-dulcimer-std">
+                  <family>mtn-dulcimers</family>
+                  <trackName>Mtn. Dulcimer</trackName>
+                  <longName>Mtn. Dulcimer</longName>
+                  <shortName>Mtn. Dc.</shortName>
+                  <description>Also known as the Appalachian dulcimer, among other names. A fretted string instrument of the zither family. (Staff notation).</description>
+                  <musicXMLid>pluck.dulcimer</musicXMLid>
+                  <StringData>
+                        <frets>28</frets>
+                        <string>50</string>
+                        <string>57</string>
+                        <string>62</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>50-90</aPitchRange>
+                  <pPitchRange>50-90</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 25; MS General: Steel String Guitar-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

@@ -1,0 +1,22 @@
+            <Instrument id="g-xaphoon">
+                  <family>xaphoons</family>
+                  <trackName>Pocket Sax</trackName>
+                  <longName>Pocket Sax</longName>
+                  <shortName>Pkt. Sax</shortName>
+                  <traitName type="transposition">G</traitName>
+                  <description>Keyless single-reed instrument with a cylindrical bore and slightly flared bell, in G.</description>
+                  <musicXMLid>wind.reed.xaphoon</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>55-72</aPitchRange>
+                  <pPitchRange>54-79</pPitchRange>
+                  <transposeDiatonic>-3</transposeDiatonic>
+                  <transposeChromatic>-5</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>jazz</genre>
+                  <genre>world</genre>
+            </Instrument>

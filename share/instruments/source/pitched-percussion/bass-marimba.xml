@@ -1,0 +1,19 @@
+            <Instrument id="bass-marimba">
+                  <family>keyboard-percussion</family>
+                  <trackName>Bass Marimba</trackName>
+                  <longName>Bass Marimba</longName>
+                  <shortName>B. Mrm.</shortName>
+                  <description>Bass marimba.</description>
+                  <musicXMLid>pitched-percussion.marimba.bass</musicXMLid>
+                  <staves>1</staves>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-65</aPitchRange>
+                  <pPitchRange>33-72</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 12; MS General: Marimba-->
+                        <program value="12"/> <!--Marimba-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

@@ -1,0 +1,31 @@
+            <Instrument id="soprano-guitar">
+                  <family>guitars</family>
+                  <trackName>Soprano Guitar</trackName>
+                  <longName>Soprano Guitar</longName>
+                  <shortName>S. Guit.</shortName>
+                  <description>Soprano guitar.</description>
+                  <musicXMLid>pluck.guitar</musicXMLid>
+                  <StringData>
+                        <frets>19</frets>
+                        <string>52</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                        <string>71</string>
+                        <string>76</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-93</aPitchRange>
+                  <pPitchRange>52-93</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 24; MS General: Nylon String Guitar-->
+                        <program value="24"/> <!--Acoustic Guitar (nylon)-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 28; MS General: Palm Muted Guitar-->
+                        <program value="28"/> <!--Electric Guitar (muted)-->
+                  </Channel>
+            </Instrument>

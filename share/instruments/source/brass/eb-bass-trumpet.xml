@@ -1,0 +1,24 @@
+            <Instrument id="eb-bass-trumpet">
+                  <family>trumpets</family>
+                  <trackName>Bass Trumpet</trackName>
+                  <longName>Bass Trumpet</longName>
+                  <shortName>B. Tpt.</shortName>
+                  <traitName type="transposition">E♭</traitName>
+                  <description>Bass trumpet in E♭.</description>
+                  <musicXMLid>brass.trumpet.bass</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>44-72</aPitchRange>
+                  <pPitchRange>44-75</pPitchRange>
+                  <transposeDiatonic>-5</transposeDiatonic>
+                  <transposeChromatic>-9</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

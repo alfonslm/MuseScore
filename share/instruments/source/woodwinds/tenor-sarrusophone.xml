@@ -1,0 +1,19 @@
+            <Instrument id="tenor-sarrusophone">
+                  <family>sarrusophones</family>
+                  <trackName>Tenor Sarrusophone</trackName>
+                  <longName>Tenor Sarrusophone</longName>
+                  <shortName>T. Sar.</shortName>
+                  <description>Single- or double-reed metal instrument with a conical bore, in B♭ (an octave below the soprano).</description>
+                  <musicXMLid>wind.reed.sarrusaphone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>44-75</aPitchRange>
+                  <pPitchRange>44-80</pPitchRange>
+                  <transposeDiatonic>-8</transposeDiatonic>
+                  <transposeChromatic>-14</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

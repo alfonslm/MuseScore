@@ -1,0 +1,20 @@
+            <Instrument id="soprano">
+                  <family>voices</family>
+                  <trackName>Soprano</trackName>
+                  <longName>Soprano</longName>
+                  <shortName>S.</shortName>
+                  <description>Soprano voice.</description>
+                  <musicXMLid>voice.soprano</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>60-79</aPitchRange>
+                  <pPitchRange>60-84</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

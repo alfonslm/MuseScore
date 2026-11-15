@@ -1,0 +1,17 @@
+            <Instrument id="sopranino-shawm">
+                  <family>shawms</family>
+                  <trackName>Sopranino Shawm</trackName>
+                  <longName>Sopranino Shawm</longName>
+                  <shortName>Si. Sh.</shortName>
+                  <description>12th-century conical bore, double-reed instrument, pitched in F (an octave above the alto shawm).</description>
+                  <musicXMLid>wind.reed.shawm</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>65-81</aPitchRange>
+                  <pPitchRange>65-86</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

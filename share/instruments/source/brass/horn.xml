@@ -1,0 +1,27 @@
+            <Instrument id="horn">
+                  <family>horns</family>
+                  <trackName>Horn</trackName>
+                  <longName>Horn</longName>
+                  <shortName>Hn.</shortName>
+                  <traitName type="transposition">*F</traitName>
+                  <description>Horn in F. The most common modern orchestral horn.</description>
+                  <musicXMLid>brass.french-horn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-69</aPitchRange>
+                  <pPitchRange>31-77</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

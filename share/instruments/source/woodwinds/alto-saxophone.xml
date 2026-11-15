@@ -1,0 +1,24 @@
+            <Instrument id="alto-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Alto Saxophone</trackName>
+                  <longName>Alto Saxophone</longName>
+                  <shortName>A. Sax.</shortName>
+                  <description>Saxophone in E♭ (an octave above the baritone).</description>
+                  <musicXMLid>wind.reed.saxophone.alto</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>49-80</aPitchRange>
+                  <pPitchRange>49-92</pPitchRange>
+                  <transposeDiatonic>-5</transposeDiatonic>
+                  <transposeChromatic>-9</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 65; MS General: Alto Sax-->
+                        <program value="65"/> <!--Alto Sax-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

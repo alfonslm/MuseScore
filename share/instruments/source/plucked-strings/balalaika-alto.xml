@@ -1,0 +1,24 @@
+            <Instrument id="balalaika-alto">
+                  <family>balalaikas</family>
+                  <trackName>Alto Balalaika</trackName>
+                  <longName>Alto Balalaika</longName>
+                  <shortName>Al. Bal.</shortName>
+                  <description>Alto balalaika, tuned an octave below the prima.</description>
+                  <musicXMLid>pluck.balalaika.alto</musicXMLid>
+                  <StringData>
+                        <frets>17</frets>
+                        <string>52</string>
+                        <string>52</string>
+                        <string>57</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-74</aPitchRange>
+                  <pPitchRange>52-74</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+            </Instrument>

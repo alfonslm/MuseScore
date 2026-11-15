@@ -1,0 +1,15 @@
+            <Instrument id="clarinet">
+                  <family>clarinets</family>
+                  <description>Soprano clarinet in B♭. One of the standard orchestral clarinets.</description>
+                  <musicXMLid>wind.reed.clarinet</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>50-89</aPitchRange>
+                  <pPitchRange>50-94</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+            </Instrument>

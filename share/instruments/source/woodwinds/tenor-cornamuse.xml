@@ -1,0 +1,16 @@
+            <Instrument id="tenor-cornamuse">
+                  <family>cornamuses</family>
+                  <trackName>Tenor Cornamuse</trackName>
+                  <longName>Tenor Cornamuse</longName>
+                  <shortName>T. Cm.</shortName>
+                  <description>Renaissance double-reed instrument with straight end and single bore, pitched in C (an octave below the soprano cornamuse).</description>
+                  <musicXMLid>wind.reed.cornamuse</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-62</aPitchRange>
+                  <pPitchRange>48-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

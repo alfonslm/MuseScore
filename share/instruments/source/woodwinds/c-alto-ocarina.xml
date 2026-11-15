@@ -1,0 +1,18 @@
+            <Instrument id="c-alto-ocarina">
+                  <family>ocarinas</family>
+                  <trackName>Alto Ocarina</trackName>
+                  <longName>Alto Ocarina</longName>
+                  <shortName>A. Oc.</shortName>
+                  <traitName type="transposition">*C</traitName>
+                  <description>Alto (sometimes called tenor) ocarina in C.</description>
+                  <musicXMLid>wind.flutes.ocarina</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-89</aPitchRange>
+                  <pPitchRange>69-89</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

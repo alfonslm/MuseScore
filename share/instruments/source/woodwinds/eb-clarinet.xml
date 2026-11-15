@@ -1,0 +1,22 @@
+            <Instrument id="eb-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Clarinet</trackName>
+                  <longName>Clarinet</longName>
+                  <shortName>Cl.</shortName>
+                  <traitName type="transposition">E♭</traitName>
+                  <description>Sopranino clarinet in E♭.</description>
+                  <musicXMLid>wind.reed.clarinet.eflat</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>55-94</aPitchRange>
+                  <pPitchRange>55-99</pPitchRange>
+                  <transposeDiatonic>2</transposeDiatonic>
+                  <transposeChromatic>3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+            </Instrument>

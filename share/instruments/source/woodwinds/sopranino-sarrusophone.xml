@@ -1,0 +1,18 @@
+            <Instrument id="sopranino-sarrusophone">
+                  <family>sarrusophones</family>
+                  <trackName>Sopranino Sarrusophone</trackName>
+                  <longName>Sopranino Sarrusophone</longName>
+                  <shortName>Si. Sar.</shortName>
+                  <description>Single- or double-reed metal instrument with a conical bore, in B♭ (an octave above the soprano).</description>
+                  <musicXMLid>wind.reed.sarrusaphone</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>61-87</aPitchRange>
+                  <pPitchRange>61-90</pPitchRange>
+                  <transposeDiatonic>2</transposeDiatonic>
+                  <transposeChromatic>3</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

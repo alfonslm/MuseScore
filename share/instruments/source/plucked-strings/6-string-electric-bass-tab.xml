@@ -1,0 +1,10 @@
+            <Instrument id="6-string-electric-bass-tab">
+                  <init>6-string-electric-bass</init>
+                  <family>bass-guitars</family>
+                  <trackName>6-str. Electric Bass (tablature)</trackName>
+                  <longName>6-str. Electric Bass</longName>
+                  <description>6-string electric bass guitar (tablature).</description>
+                  <stafftype staffTypePreset="tab6StrCommon">tablature</stafftype>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <genre>jazz</genre>
+            </Instrument>

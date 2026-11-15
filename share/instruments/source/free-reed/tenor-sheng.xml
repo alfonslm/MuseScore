@@ -1,0 +1,17 @@
+            <Instrument id="tenor-sheng">
+                  <family>shengs</family>
+                  <trackName>Tenor Sheng</trackName>
+                  <longName>Tenor Sheng</longName>
+                  <shortName>T. She.</shortName>
+                  <description>Chinese mouth-blown free reed instrument.</description>
+                  <musicXMLid>wind.reed.sheng</musicXMLid>
+                  <clef>C4</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>44-78</aPitchRange>
+                  <pPitchRange>44-78</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 20; MS General: Reed Organ-->
+                        <program value="20"/> <!--Reed Organ-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

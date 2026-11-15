@@ -1,0 +1,23 @@
+            <Instrument id="crotales">
+                  <family>pitched-metal-percussion</family>
+                  <trackName>Crotales</trackName>
+                  <longName>Crotales</longName>
+                  <shortName>Crot.</shortName>
+                  <description>Crotales, sometimes called antique cymbals.</description>
+                  <musicXMLid>metal.crotales</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G15ma</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>84-108</aPitchRange>
+                  <pPitchRange>84-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>14</transposeDiatonic>
+                  <transposeChromatic>24</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 10; MS General: Music Box-->
+                        <program value="10"/> <!--Music Box-->
+                  </Channel>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

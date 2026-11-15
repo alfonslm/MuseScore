@@ -1,0 +1,19 @@
+            <Instrument id="d-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Clarinet</trackName>
+                  <longName>Clarinet</longName>
+                  <shortName>Cl.</shortName>
+                  <traitName type="transposition">D</traitName>
+                  <description>Sopranino clarinet in D.</description>
+                  <musicXMLid>wind.reed.clarinet</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>54-93</aPitchRange>
+                  <pPitchRange>54-98</pPitchRange>
+                  <transposeDiatonic>1</transposeDiatonic>
+                  <transposeChromatic>2</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+            </Instrument>

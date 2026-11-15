@@ -1,0 +1,30 @@
+            <Instrument id="violoncellos">
+                  <family>orchestral-strings</family>
+                  <trackName>Violoncellos (section)</trackName>
+                  <longName>Violoncellos</longName>
+                  <shortName>Vcs.</shortName>
+                  <description>Violoncello section.</description>
+                  <musicXMLid>strings.group</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-67</aPitchRange>
+                  <pPitchRange>36-90</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 41, Prog 48; MS General: Celli Fast Expr.-->
+                        <controller ctrl="32" value="41"/> <!--Bank LSB-->
+                        <program value="48"/> <!--String Ensemble 1-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 40, Prog 45; MS General: Celli Pizzicato-->
+                        <controller ctrl="32" value="40"/> <!--Bank LSB-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 41, Prog 44; MS General: Celli Tremolo Expr.-->
+                        <controller ctrl="32" value="41"/> <!--Bank LSB-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

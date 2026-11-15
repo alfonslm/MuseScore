@@ -1,0 +1,16 @@
+            <Instrument id="bass-harmonica">
+                  <family>harmonicas</family>
+                  <trackName>Bass Harmonica</trackName>
+                  <longName>Bass Harmonica</longName>
+                  <shortName>Bs. Harm.</shortName>
+                  <description>Bass harmonica (non-specific model).</description>
+                  <musicXMLid>wind.reed.harmonica.bass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-64</aPitchRange>
+                  <pPitchRange>40-64</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

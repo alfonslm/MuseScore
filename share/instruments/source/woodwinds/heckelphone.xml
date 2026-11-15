@@ -1,0 +1,19 @@
+            <Instrument id="heckelphone">
+                  <family>oboes</family>
+                  <trackName>Heckelphone</trackName>
+                  <longName>Heckelphone</longName>
+                  <shortName>Hph.</shortName>
+                  <description>Oboe in C, sounding an octave lower than the standard oboe. Similar, but not identical to, the bass oboe.</description>
+                  <musicXMLid>wind.reed.heckelphone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-75</aPitchRange>
+                  <pPitchRange>45-78</pPitchRange>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+            </Instrument>

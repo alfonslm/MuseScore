@@ -1,0 +1,18 @@
+            <Instrument id="cello-steel-drums">
+                  <family>steel-drums</family>
+                  <trackName>Triple Cello Steel Pans</trackName>
+                  <longName>Triple Cello Steel Pans</longName>
+                  <shortName>3 Cello Pans</shortName>
+                  <description>Three cello steel pans.</description>
+                  <musicXMLid>metal.steel-drums</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-71</aPitchRange>
+                  <pPitchRange>46-74</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 114; MS General: Steel Drums-->
+                        <program value="114"/> <!--Steel Drums-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

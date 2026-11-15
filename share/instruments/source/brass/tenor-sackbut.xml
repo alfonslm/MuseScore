@@ -1,0 +1,18 @@
+            <Instrument id="tenor-sackbut">
+                  <family>sackbuts</family>
+                  <trackName>Tenor Sackbut</trackName>
+                  <longName>Tenor Sackbut</longName>
+                  <shortName>T. Sack.</shortName>
+                  <description>Renaissance and Baroque trombone. A descendant of the slide trumpet.</description>
+                  <musicXMLid>brass.sackbutt.tenor</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-70</aPitchRange>
+                  <pPitchRange>40-74</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

@@ -1,0 +1,21 @@
+            <Instrument id="soprano-trombone">
+                  <family>trombones</family>
+                  <trackName>Soprano Trombone</trackName>
+                  <longName>Soprano Trombone</longName>
+                  <shortName>S. Tbn.</shortName>
+                  <description>Soprano trombone (usually pitched in B♭, an octave above the tenor).</description>
+                  <musicXMLid>brass.trombone</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-77</aPitchRange>
+                  <pPitchRange>52-81</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

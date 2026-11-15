@@ -1,0 +1,17 @@
+            <Instrument id="irish-flute">
+                  <family>flutes</family>
+                  <trackName>Irish Flute</trackName>
+                  <longName>Irish Flute</longName>
+                  <shortName>Ir. Fl.</shortName>
+                  <description>6-hole simple-system wooden transverse flute.</description>
+                  <musicXMLid>wind.flutes.flute.irish</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>62-86</aPitchRange>
+                  <pPitchRange>62-98</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

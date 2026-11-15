@@ -1,0 +1,17 @@
+            <Instrument id="sopranino-chalumeau">
+                  <family>chalumeaus</family>
+                  <trackName>Sopranino Chalumeau</trackName>
+                  <longName>Sopranino Chalumeau</longName>
+                  <shortName>Si. Cha.</shortName>
+                  <description>Predecessor of the modern-day clarinet, pitched in F (an octave above the alto chalumeau).</description>
+                  <musicXMLid>wind.reed.chalumeau</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>65-79</aPitchRange>
+                  <pPitchRange>65-82</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

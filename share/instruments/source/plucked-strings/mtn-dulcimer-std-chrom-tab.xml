@@ -1,0 +1,9 @@
+            <Instrument id="mtn-dulcimer-std-chrom-tab">
+                  <init>mtn-dulcimer-std</init>
+                  <family>mtn-dulcimers</family>
+                  <trackName>Mtn. Dulcimer (tablature)</trackName>
+                  <longName>Mtn. Dulcimer</longName>
+                  <description>Also known as the Appalachian dulcimer, among other names. A fretted string instrument of the zither family. (Tablature).</description>
+                  <stafftype staffTypePreset="tabDulcimer">tablature</stafftype>
+                  <genre>world</genre>
+            </Instrument>

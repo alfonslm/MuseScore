@@ -1,0 +1,29 @@
+            <Instrument id="banjo">
+                  <family>banjos</family>
+                  <trackName>Banjo</trackName>
+                  <longName>Banjo</longName>
+                  <shortName>Bj.</shortName>
+                  <description>5-string banjo (staff notation).</description>
+                  <musicXMLid>pluck.banjo</musicXMLid>
+                  <StringData>
+                        <frets>19</frets>
+                        <string>67</string>
+                        <string>50</string>
+                        <string>55</string>
+                        <string>59</string>
+                        <string>62</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-87</aPitchRange>
+                  <pPitchRange>48-87</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 105; MS General: Banjo-->
+                        <program value="105"/> <!--Banjo-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+            </Instrument>

@@ -1,0 +1,27 @@
+            <Instrument id="grand-piano">
+                  <family>keyboards</family>
+                  <trackName>Grand Piano</trackName>
+                  <longName>Grand Piano</longName>
+                  <shortName>Pno.</shortName>
+                  <description>Has a larger horizontal frame, which can provide richer sound and more precise key control compared to an upright piano.</description>
+                  <musicXMLid>keyboard.piano.grand</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>21-108</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 0; MS General: Grand Piano-->
+                        <program value="0"/> <!--Acoustic Grand Piano-->
+                  </Channel>
+                  <Articulation>
+                        <velocity>100</velocity>
+                        <gateTime>95</gateTime>
+                  </Articulation>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+            </Instrument>

@@ -1,0 +1,18 @@
+            <Instrument id="kazoo">
+                  <family>kazoos</family>
+                  <trackName>Kazoo</trackName>
+                  <longName>Kazoo</longName>
+                  <shortName>Kaz.</shortName>
+                  <description>Kazoo.</description>
+                  <musicXMLid>voice.kazoo</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>41-81</aPitchRange>
+                  <pPitchRange>41-84</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 85; MS General: Solo Vox-->
+                        <program value="85"/> <!--Lead 6 (voice)-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>choral</genre>
+            </Instrument>

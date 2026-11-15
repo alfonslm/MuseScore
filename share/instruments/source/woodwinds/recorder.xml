@@ -1,0 +1,15 @@
+            <Instrument id="recorder">
+                  <family>recorders</family>
+                  <description>Soprano or descant recorder, pitched in C.</description>
+                  <musicXMLid>wind.flutes.recorder</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-93</aPitchRange>
+                  <pPitchRange>72-98</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>classroom</genre>
+            </Instrument>

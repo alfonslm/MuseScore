@@ -1,0 +1,26 @@
+            <Instrument id="brac">
+                  <family>tamburicas</family>
+                  <trackName>Brač</trackName>
+                  <longName>Brač</longName>
+                  <shortName>Br.</shortName>
+                  <description>A larger tamburica than the prim, played in a similar way.</description>
+                  <musicXMLid>pluck.tambura</musicXMLid>
+                  <StringData>
+                        <frets>15</frets>
+                        <string>40</string>
+                        <string>45</string>
+                        <string>50</string>
+                        <string>55</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-79</aPitchRange>
+                  <pPitchRange>52-79</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 24; MS General: Nylon String Guitar-->
+                        <program value="24"/> <!--Acoustic Guitar (nylon)-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

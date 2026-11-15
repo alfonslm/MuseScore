@@ -1,0 +1,18 @@
+            <Instrument id="guitar-steel-drums">
+                  <family>steel-drums</family>
+                  <trackName>Guitar Steel Pans</trackName>
+                  <longName>Guitar Steel Pans</longName>
+                  <shortName>Gtr. Pans</shortName>
+                  <description>Guitar steel pans.</description>
+                  <musicXMLid>metal.steel-drums</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>50-65</aPitchRange>
+                  <pPitchRange>48-68</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 114; MS General: Steel Drums-->
+                        <program value="114"/> <!--Steel Drums-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

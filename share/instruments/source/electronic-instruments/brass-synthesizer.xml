@@ -1,0 +1,28 @@
+            <Instrument id="brass-synthesizer">
+                  <family>synths</family>
+                  <trackName>Brass Synthesizer</trackName>
+                  <longName>Brass Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Brass synthesizer.</description>
+                  <musicXMLid>brass.group.synth</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="synth-brass-1">
+                        <!--MIDI: Bank 0, Prog 62; MS General: Synth Brass 1-->
+                        <program value="62"/> <!--Synth Brass 1-->
+                  </Channel>
+                  <Channel name="synth-brass-2">
+                        <!--MIDI: Bank 0, Prog 63; MS General: Synth Brass 2-->
+                        <program value="63"/> <!--Synth Brass 2-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>
