@@ -132,7 +132,8 @@ writer and handles files, progress and retries.
   README describing the design). Playback
   markings (Live/Standby, On/Off on staff text): `StaffTextBase`, `PlaybackContext`,
   `audio/engine/internal/nodes/playbackstatetimeline.*`. Keyswitch maps: `muse/framework/vst/internal/synth`,
-  mixer UI in `src/playback/qml`. String-name tablature clef: `ClefType::TAB_STRING_NAMES`. MIDI export
+  mixer UI in `src/playback/qml`. String-name tablature clef: `ClefType::TAB_STRING_NAMES`
+  (`docs/dev-notes/tab-string-names-clef.md` has the design notes). MIDI export
   option to lengthen a measure at a pause: `compat/midi/pausemap.*`. String Grip extension:
   `share/extensions/stringgrip`.
 - **Contributions meant for upstream.** `AI_POLICY.md` applies: disclose AI assistance in the pull request
