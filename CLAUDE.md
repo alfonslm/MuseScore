@@ -144,7 +144,7 @@ writer and handles files, progress and retries.
   described in `share/instruments/README.md`.
 - **No upstream pull requests.** Pull requests go to this fork's `beta` (or `main`), never to the upstream
   repositories, so fork code doesn't have to meet upstream's contribution rules or stay mergeable upstream.
-  `AI_POLICY.md` and `.github/pull_request_template.md` are upstream's contribution process; the template
-  still pre-fills this fork's pull requests, but its checklist (CLA, `Assisted-by:` trailer) is upstream's.
-  Keeping the fork's own changes small and separate still matters, for a different reason: it keeps merging
-  upstream into the fork easy.
+  Upstream's contribution files (AI policy, contributing guide, issue templates, triage workflows) are not
+  kept here; the pull request template is the fork's own. Keeping the fork's own changes small and separate
+  still matters, for a different reason: it keeps merging upstream into the fork easy. When an upstream
+  merge reports a modify/delete conflict on one of those removed files, keep the deletion (`git rm`).
