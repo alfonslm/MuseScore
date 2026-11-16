@@ -1,18 +1,35 @@
 # VOCALOID7 ⇄ MuseScore: handoff
 
-Working notes for whoever continues this (human or agent). Written 2026-11-12, status updated 2026-11-14.
+Working notes for whoever continues this (human or agent). Written 2026-11-12, last updated 2026-11-16.
 
-**Where things are (2026-11-14):**
+**Where things are (2026-11-16):** everything below is merged into `beta` in both repositories.
 
-- The fork's integration branch is `beta` in both repositories; see `CLAUDE.md` at the repository root for
-  the branch and submodule conventions.
-- Route A (MIDI export option) is in the integration branch of PR 13 and reaches `beta` with it. Its own
-  PR 12 (against `main`) was closed without merging; nothing is lost.
-- Route D and the "keep running when stopped" option: framework side merged into `alfonslm/muse_framework`
-  `beta` (PR 4); MuseScore side is PR 15 (`claude/vst-transport` → `beta`), all checks green.
-- Nothing has been tried with VOCALOID7 yet. That is the next step, and it needs the user.
-- Route D leftovers (`systemTime`, `continousTimeSamples`, cycle fields in `ProcessContext`) are on
-  hold: `alfonslm/muse_framework` PR 6 (another session) reworks the same player and engine code.
+| Pull request | What |
+|---|---|
+| alfonslm/MuseScore#13 (integration) | Route A: MIDI export option "Keep measure numbers at caesuras and pauses" |
+| alfonslm/muse_framework#4, alfonslm/MuseScore#15 | Route D: tempo, time signature and bar position for VST plugins |
+| alfonslm/MuseScore#17 | Route A follow-ups: real-length time signatures for pickups; playback speed applied the right way round in MIDI export |
+| alfonslm/muse_framework#11, alfonslm/MuseScore#25 | "Keep running when playback is stopped", per VST instrument (mixer sound menu) |
+
+Verified by the user on 2026-11-15, on macOS arm64 builds from CI (unsigned; see section 7):
+
+- VOCALOID7 loaded as a VST3 instrument in MuseScore works as intended (routes C and D).
+- Without "Keep running when playback is stopped", Kontakt 8 instruments stay silent while stopped; with it on
+  for the VOCALOID7 instrument only, Vocaloid's editor keeps working while stopped.
+
+Not verified:
+
+- The MIDI export option (route A) has not been tried with Vocaloid's standalone editor.
+- No unit tests of this work have run in CI: "Check: Unit Tests (utest)" is disabled on the fork
+  (`disabled_fork`). Only the Qt-free ones ran locally (see sections 4 and 6).
+
+Open:
+
+- **Known issue, not caused by this work:** MuseScore crashes on quit when VST plugins such as Kontakt 8 or
+  VOCALOID7 were loaded (section 6, "Crash on quit").
+- Route D leftovers (`systemTime`, `continousTimeSamples`, cycle fields in `ProcessContext`) wait on
+  `alfonslm/muse_framework` PR 6 (another session), which reworks the same player and engine code.
+- Section 4, items 2, 5 and 7; routes B and E (section 6).
 
 ## 1. Goal
 
@@ -24,9 +41,9 @@ Routes that were evaluated, in the user's order of interest:
 
 | | Route | Status |
 |---|---|---|
-| A | MIDI export where a pause lengthens its bar instead of inserting a bar | written, on the `beta` line via PR 13; untested with Vocaloid |
-| C | Load VOCALOID7 as a VST3 in MuseScore as it is today | needs a 10-minute test **by the user** |
-| D | Send tempo / beat position to VST plugins | written; framework merged (alfonslm/muse_framework#4), MuseScore side in alfonslm/MuseScore#15; untested with a plugin |
+| A | MIDI export where a pause lengthens its bar instead of inserting a bar | merged; not yet tried with Vocaloid's editor |
+| C | Load VOCALOID7 as a VST3 in MuseScore as it is today | done by the user, 2026-11-15: works |
+| D | Send tempo / beat position to VST plugins | merged; works with VOCALOID7 according to the user |
 | E | ARA2 hosting in MuseScore | not started; large |
 | B | Direct `.vpr` (Vocaloid project) export with lyrics | not started; optional |
 
@@ -179,7 +196,8 @@ playback inside MuseScore. If it does not start or ignores position, go to D.
 
 ### D. Tempo and musical position in `ProcessContext`
 
-**Status (2026-11-14): first version written, not yet run with a plugin.**
+**Status (2026-11-16): merged into `beta` in both repositories; the user reports it works with VOCALOID7.
+The paragraphs below were written while it was in progress; the PR descriptions have the final state.**
 
 **Both PRs were moved onto the fork's `beta` line the same day** (user's decision): framework PR 4 merges
 framework `beta` and targets `beta`; MuseScore PR 15 merges the integration branch of PR 13
@@ -315,7 +333,39 @@ on `lyricsexport`. Only worth it if retyping lyrics after MIDI import is the pai
   Not buildable this way: `src/importexport/midi` (uses `QIODevice`), anything QML, and the
   score-file based tests (`ScoreRW`).
 
+### Crash on quit with VST plugins loaded (known issue, not fixed)
+
+Reported 2026-11-15 with Kontakt 8 and VOCALOID7 loaded. Four macOS crash reports, three of them from a `beta`
+build without the per-instrument option, so it is older than that change:
+
+- All four crash on the main thread inside `exit()` → `__cxa_finalize_ranges`, i.e. in static destructors
+  after `main` has returned.
+  - Two are `EXC_BAD_ACCESS` in Kontakt 8's own Qt:
+    `NI::UIA::DETAIL::AppModuleStartup::forceShutdownFallback` → `ni::qt::Module::~Module` →
+    `QApplication::~QApplication` → `qAccessibleCleanup`.
+  - Two are `SIGABRT` from `std::terminate`: an exception escaped a static destructor; the reports don't
+    say whose.
+- In all four, the plugins' libraries are still loaded at that point and about 120 threads are alive. Kontakt's
+  "shutdown fallback" means its normal module exit (`bundleExit`) never ran.
+
+Likely cause, not yet verified:
+
+- `~VstPluginInstance()` (`muse/framework/vst/internal/vstplugininstance.cpp`) hands the deactivation and the
+  release of the provider and the module to a main-thread `Async::call`. At shutdown that call probably
+  never runs, so the modules stay loaded until `exit()`.
+- `VstModulesRepository::deInit()` only drops the repository's own references; the instances still hold
+  theirs.
+- `~VstPluginInstance()` also calls `setActive(false)` without `setProcessing(false)` first. That matters
+  when a plugin is still processing at shutdown: playing while quitting, or keep running when stopped.
+
+A fix would release all plugin instances and modules on the main thread in `VSTModule::onDeinit()`, after
+the audio engine has stopped, keeping the existing rule that editors are closed before `setActive(false)`.
+It can only be checked on the user's Mac with the plugins.
+
 ## 8. Open questions for the user
+
+Status 2026-11-16: question 1 and test C are moot, since VOCALOID7 now runs inside MuseScore. The `.vpr`
+sample in question 2 is still needed for route B.
 
 1. What exactly goes wrong in the standalone Vocaloid editor today, and which file is imported
    (MIDI? something else)? A screenshot would settle whether the inserted bar was the problem.
