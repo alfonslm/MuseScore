@@ -118,6 +118,16 @@ jobs:
       env:
         ASAN_OPTIONS: "detect_leaks=0"
 
+    # The test log is tens of thousands of lines; this puts the failed cases at its end and in the run summary
+    - name: List failed tests
+      if: failure()
+      run: |
+        LOG=build.debug/Testing/Temporary/LastTest.log
+        if [ -f "$LOG" ]; then
+          echo "Failed test cases:" | tee -a $GITHUB_STEP_SUMMARY
+          grep -a -h -F "[  FAILED  ]" "$LOG" | sed 's/\x1b\[[0-9;]*m//g' | sort -u | tee -a $GITHUB_STEP_SUMMARY || true
+        fi
+
     - name: Code coverage
       if: github.event_name == 'schedule' || inputs.code_coverage
       run: |

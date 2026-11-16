@@ -178,6 +178,22 @@ writer and handles files, progress and retries.
 - When a task is worth splitting up or handing off, prefer nested workers (subagents started from within
   the current session) over creating new sessions. Start a separate session only when a nested worker
   can't do the job or the user asks for one.
+- Match the worker to the job. For a feature that is too big for one sitting:
+  - **The managing session** decides what is built. It reviews where things stand and writes the
+    architecture: the boundaries, the order of the work packages and how each one is verified. It reviews
+    the result. It does not hand its decisions down as hints; they go into a document the workers read.
+  - **An Opus worker** turns the architecture into a detailed outline: every file, interface, call
+    sequence and test, so that no design decision is left to whoever writes the code. It writes no
+    product code.
+  - **A Sonnet worker** writes the code from the outline, one work package at a time.
+  - **A Haiku worker** fetches facts. Anything from the internet (documentation, headers, vendor pages)
+    is fetched by a Haiku worker and saved to a file that the others read; the other workers don't browse.
+    It also does first summaries of large inputs.
+  `docs/vocaloid/ARA-HOST-ARCHITECTURE.md` is an example of the first step.
+- An upstream merge uses the same chain: a Haiku worker summarises what changed upstream since the last
+  merge (by area, pointing out renamed APIs and files the fork has also changed); an Opus worker makes the
+  first draft of the merge from that summary and manages a Sonnet worker that does the first review of the
+  draft; the managing session does the final review.
 
 ## CI
 
