@@ -39,6 +39,7 @@ public:
     Stem& operator=(const Stem&) = delete;
 
     Stem* clone() const override { return new Stem(*this); }
+    void setOwnershipParent(DummyParentOr<Chord> parent) { EngravingItem::setOwnershipParent(parent); }
 
     EngravingItem* elementBase() const override;
 
@@ -87,7 +88,7 @@ public:
 
 private:
     friend class Factory;
-    Stem(Chord* parent = 0);
+    Stem(DummyParentOr<Chord> parent);
 
     Spatium m_baseLength = 0.0_sp;
 

@@ -1,0 +1,17 @@
+            <Instrument id="tenor-gemshorn">
+                  <family>gemshorns</family>
+                  <trackName>Tenor Gemshorn</trackName>
+                  <longName>Tenor Gemshorn</longName>
+                  <shortName>T. Gh.</shortName>
+                  <description>Tenor ocarina made from an animal horn. Pitched in C (an octave below the soprano).</description>
+                  <musicXMLid>wind.flutes.gemshorn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-75</aPitchRange>
+                  <pPitchRange>60-75</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

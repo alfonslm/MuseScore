@@ -1,0 +1,28 @@
+            <Instrument id="prim">
+                  <family>tamburicas</family>
+                  <trackName>Prim</trackName>
+                  <longName>Prim</longName>
+                  <shortName>Pr.</shortName>
+                  <description>The smallest tamburica, mostly used as a lead instrument.</description>
+                  <musicXMLid>pluck.tambura</musicXMLid>
+                  <StringData>
+                        <frets>15</frets>
+                        <string>52</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>64-91</aPitchRange>
+                  <pPitchRange>64-91</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>7</transposeDiatonic>
+                  <transposeChromatic>12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 24; MS General: Nylon String Guitar-->
+                        <program value="24"/> <!--Acoustic Guitar (nylon)-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

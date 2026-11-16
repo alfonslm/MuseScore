@@ -39,6 +39,7 @@ class Tapping : public Articulation
 public:
     Tapping(const Tapping&);
     Tapping* clone() const override { return new Tapping(*this); }
+    void setOwnershipParent(DummyParentOr<ChordRest> parent) { EngravingItem::setOwnershipParent(parent); }
 
     struct LayoutData : public Articulation::LayoutData
     {
@@ -72,7 +73,7 @@ public:
 
 protected:
     friend class mu::engraving::Factory;
-    Tapping(ChordRest* parent);
+    Tapping(DummyParentOr<ChordRest> parent);
 
 private:
     TappingHand m_hand = TappingHand::INVALID;
@@ -103,9 +104,10 @@ class TappingHalfSlur : public Slur
     void setIsHalfSlurAbove(bool v) { m_isHalfSlurAbove = v; }
 
 public:
-    TappingHalfSlur(EngravingItem* parent);
+    TappingHalfSlur(DummyParentOr<Tapping> parent);
     TappingHalfSlur(const TappingHalfSlur&);
     TappingHalfSlur* clone() const override { return new TappingHalfSlur(*this); }
+    void setOwnershipParent(DummyParentOr<Tapping> parent) { EngravingItem::setOwnershipParent(parent); }
     TappingHalfSlurSegment* newSlurTieSegment() override { return new TappingHalfSlurSegment(this); }
 
     Tapping* tapping() const { return toTapping(ownershipParent()); }

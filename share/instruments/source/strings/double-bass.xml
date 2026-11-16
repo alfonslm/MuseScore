@@ -1,0 +1,5 @@
+            <Instrument id="double-bass">
+                  <init>contrabass</init>
+                  <family>orchestral-strings</family>
+                  <description>Contrabass (double bass).</description>
+            </Instrument>

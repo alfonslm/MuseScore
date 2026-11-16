@@ -239,6 +239,7 @@ private:
     void convertOctaveShifts(Measure* measure, int part, int staff, int track);
 
     ovebase::NoteContainer* getContainerByPos(int part, int staff, const ovebase::MeasurePos& pos);
+    QList<ovebase::NoteContainer*> getContainersByPos(int part, int staff, const ovebase::MeasurePos& pos);
     // ovebase::MusicData* getMusicDataByUnit(int part, int staff, int measure, int unit, ovebase::MusicDataType type);
     ovebase::MusicData* getCrossMeasureElementByPos(int part, int staff, const ovebase::MeasurePos& pos, int voice,
                                                     ovebase::MusicDataType type);
@@ -1578,7 +1579,7 @@ void OveToMScore::convertNotes(Measure* measure, int part, int staff, int track)
 
             cr = measure->findChord(Fraction::fromTicks(tick), noteTrack);
             if (cr == 0) {
-                cr = Factory::createChord(m_score->dummy()->segment());
+                cr = Factory::createChord(m_score->dummy());
                 cr->setTrack(noteTrack);
 
                 // grace
@@ -1772,7 +1773,6 @@ void OveToMScore::convertNotes(Measure* measure, int part, int staff, int track)
                     TDuration duration = OveNoteType_To_Duration(container->getNoteType());
                     tuplet->setBaseLen(duration);
                     tuplet->setTick(Fraction::fromTicks(tick));
-                    tuplet->setOwnershipParent(measure);
                     // measure->add(tuplet);
                 }
             }
@@ -2092,7 +2092,7 @@ void OveToMScore::convertLyrics(Measure* measure, int part, int staff, int track
         ovebase::Lyric* oveLyric = static_cast<ovebase::Lyric*>(lyrics[i]);
         int tick = m_mtt->getTick(measure->measureNumber(), oveLyric->getTick());
 
-        Lyrics* lyric = Factory::createLyrics(m_score->dummy()->chord());
+        Lyrics* lyric = Factory::createLyrics(m_score->dummy());
         lyric->setVerse(oveLyric->getVerse());
         lyric->setPlainText(oveLyric->getLyric());
         lyric->setTrack(track);
@@ -2129,7 +2129,7 @@ void OveToMScore::convertHarmonies(Measure* measure, int part, int staff, int tr
         ovebase::Harmony* harmonyPtr = static_cast<ovebase::Harmony*>(harmonies[i]);
         int absTick = m_mtt->getTick(measure->measureNumber(), harmonyPtr->getTick());
 
-        Harmony* harmony = Factory::createHarmony(m_score->dummy()->segment());
+        Harmony* harmony = Factory::createHarmony(m_score->dummy());
         HarmonyInfo* info = new HarmonyInfo(measure->score());
 
         // TODO - does this need to be key-aware?
@@ -2207,6 +2207,21 @@ ovebase::NoteContainer* OveToMScore::getContainerByPos(int part, int staff, cons
     }
 
     return 0;
+}
+
+QList<ovebase::NoteContainer*> OveToMScore::getContainersByPos(int part, int staff, const ovebase::MeasurePos& pos)
+{
+    QList<ovebase::NoteContainer*> result;
+    ovebase::MeasureData* measureData = m_ove->getMeasureData(part, staff, pos.getMeasure());
+    if (measureData != 0) {
+        for (ovebase::NoteContainer* container : measureData->getNoteContainers()) {
+            if (pos == container->start()->shiftMeasure(0)) {
+                result.push_back(container);
+            }
+        }
+    }
+
+    return result;
 }
 
 void OveToMScore::convertRepeats(Measure* measure, int part, int staff, int track)
@@ -2461,26 +2476,64 @@ void OveToMScore::convertGlissandos(Measure* measure, int part, int staff, int t
     }
 
     QList<ovebase::MusicData*> glissandos = measureData->getCrossMeasureElements(ovebase::MusicDataType::Glissando,
-                                                                                 ovebase::MeasureData::PairType::All);
+                                                                                 ovebase::MeasureData::PairType::Start);
+
+    // A glissando has no voice of its own, so it takes the first voice that has a chord at both ends
+    auto chordAt = [this](const Fraction& tick, int noteTrack) -> Chord* {
+        ChordRest* cr = m_score->findCR(tick, noteTrack);
+        return cr && cr->isChord() && cr->tick() == tick ? toChord(cr) : nullptr;
+    };
 
     for (int i = 0; i < glissandos.size(); ++i) {
         ovebase::Glissando* glissandoPtr = static_cast<ovebase::Glissando*>(glissandos[i]);
-        ovebase::NoteContainer* startContainer = getContainerByPos(part, staff, glissandoPtr->start()->shiftMeasure(0));
-        ovebase::NoteContainer* endContainer = getContainerByPos(
-            part,
-            staff,
-            glissandoPtr->stop()->shiftMeasure(glissandoPtr->start()->getMeasure()));
+        const int startMeasure = glissandoPtr->start()->getMeasure();
+        const QList<ovebase::NoteContainer*> startContainers = getContainersByPos(part, staff, glissandoPtr->start()->shiftMeasure(0));
+        const QList<ovebase::NoteContainer*> endContainers = getContainersByPos(part, staff,
+                                                                                glissandoPtr->stop()->shiftMeasure(startMeasure));
 
-        if (startContainer != 0 && endContainer != 0) {
-            int absTick = m_mtt->getTick(measure->measureNumber(), glissandoPtr->getTick());
-            ChordRest* cr = measure->findChordRest(Fraction::fromTicks(absTick), track);
-            if (cr != 0) {
-                Glissando* g = Factory::createGlissando(cr);
-                g->setGlissandoType(GlissandoType::WAVY);
-                g->setGlissandoStyle(cr->part()->instrument(cr->tick())->glissandoStyle());
-                cr->add(g);
+        Chord* startChord = nullptr;
+        Chord* endChord = nullptr;
+        for (ovebase::NoteContainer* startContainer : startContainers) {
+            const int noteTrack = track + startContainer->getVoice();
+            startChord = chordAt(Fraction::fromTicks(m_mtt->getTick(startMeasure, startContainer->getTick())), noteTrack);
+            if (!startChord) {
+                continue;
+            }
+            for (ovebase::NoteContainer* endContainer : endContainers) {
+                if (endContainer->getVoice() != startContainer->getVoice()) {
+                    continue;
+                }
+                endChord = chordAt(Fraction::fromTicks(m_mtt->getTick(startMeasure + glissandoPtr->stop()->getMeasure(),
+                                                                      endContainer->getTick())), noteTrack);
+                if (endChord) {
+                    break;
+                }
+            }
+            if (endChord) {
+                break;
             }
         }
+
+        if (!startChord || !endChord || startChord == endChord) {
+            continue;
+        }
+
+        Note* startNote = startChord->upNote();
+        Note* endNote = endChord->upNote();
+
+        Glissando* g = Factory::createGlissando(startNote);
+        g->setGlissandoType(glissandoPtr->getStraightWavy() ? GlissandoType::STRAIGHT : GlissandoType::WAVY);
+        if (!glissandoPtr->getText().isEmpty()) {
+            g->setText(glissandoPtr->getText());
+        }
+        g->setStartElement(startNote);
+        g->setTick(startChord->tick());
+        g->setTrack(startNote->track());
+        g->setEndElement(endNote);
+        g->setTick2(endChord->tick());
+        g->setTrack2(endNote->track());
+        g->setGlissandoStyle(startNote->part()->instrument(startChord->tick())->glissandoStyle());
+        m_score->addElement(g);
     }
 }
 
@@ -2535,7 +2588,7 @@ void OveToMScore::convertWedges(Measure* measure, int part, int staff, int track
             MeasureToTick::unitToTick(wedgePtr->stop()->getOffset(), m_ove->getQuarter()));
 
         if (absTick2 > absTick) {
-            Hairpin* hp = Factory::createHairpin(m_score->dummy()->segment());
+            Hairpin* hp = Factory::createHairpin(m_score->dummy());
 
             hp->setHairpinType(OveWedgeType_To_Type(wedgePtr->getWedgeType()));
             // hp->setYoff(wedgePtr->getYOffset());

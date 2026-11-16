@@ -46,5 +46,8 @@ public:
 
     bool isMidiExportRpns() const override;
     void setIsMidiExportRpns(bool exportRpns) override;
+
+    bool isMidiExportExtendMeasuresForPauses() const override;
+    void setIsMidiExportExtendMeasuresForPauses(bool extend) override;
 };
 }

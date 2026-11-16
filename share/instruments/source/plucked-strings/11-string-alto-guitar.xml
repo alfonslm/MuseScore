@@ -1,0 +1,40 @@
+            <Instrument id="11-string-alto-guitar">
+                  <family>guitars</family>
+                  <trackName>11-string Alto Guitar</trackName>
+                  <longName>11-string Alto Guitar</longName>
+                  <shortName>11-str. A. Guit.</shortName>
+                  <description>11-string alto guitar.</description>
+                  <musicXMLid>pluck.guitar</musicXMLid>
+                  <StringData>
+                        <frets>19</frets>
+                        <string>35</string>
+                        <string>36</string>
+                        <string>38</string>
+                        <string>39</string>
+                        <string>41</string>
+                        <string>43</string>
+                        <string>48</string>
+                        <string>53</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                  </StringData>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>34-86</aPitchRange>
+                  <pPitchRange>34-86</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 24; MS General: Nylon String Guitar-->
+                        <program value="24"/> <!--Acoustic Guitar (nylon)-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 28; MS General: Palm Muted Guitar-->
+                        <program value="28"/> <!--Electric Guitar (muted)-->
+                  </Channel>
+            </Instrument>

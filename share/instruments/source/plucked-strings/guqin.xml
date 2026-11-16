@@ -1,0 +1,29 @@
+            <Instrument id="guqin">
+                  <family>guqins</family>
+                  <trackName>Guqin</trackName>
+                  <longName>Guqin</longName>
+                  <shortName>Gq.</shortName>
+                  <description>Ancient Chinese plucked seven-string zither.</description>
+                  <musicXMLid>pluck.guqin</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>36</string>
+                        <string>38</string>
+                        <string>41</string>
+                        <string>43</string>
+                        <string>45</string>
+                        <string>48</string>
+                        <string>50</string>
+                  </StringData>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-72</aPitchRange>
+                  <pPitchRange>36-84</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

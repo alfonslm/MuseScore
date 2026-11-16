@@ -1,0 +1,18 @@
+            <Instrument id="d-quena">
+                  <family>quenas</family>
+                  <trackName>Quena</trackName>
+                  <longName>D Quena</longName>
+                  <shortName>D Qn.</shortName>
+                  <traitName type="tuning">D</traitName>
+                  <description>South American traditional flute pitched in D.</description>
+                  <musicXMLid>wind.flutes.quena</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>62-82</aPitchRange>
+                  <pPitchRange>62-86</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

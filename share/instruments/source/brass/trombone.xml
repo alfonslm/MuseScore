@@ -1,0 +1,27 @@
+            <Instrument id="trombone">
+                  <family>trombones</family>
+                  <trackName>Trombone</trackName>
+                  <longName>Trombone</longName>
+                  <shortName>Tbn.</shortName>
+                  <description>Orchestral trombone (either tenor or bass; this is often not explicitly specified in scores).</description>
+                  <musicXMLid>brass.trombone</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-71</aPitchRange>
+                  <pPitchRange>36-74</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

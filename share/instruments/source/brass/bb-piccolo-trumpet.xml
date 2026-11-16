@@ -1,0 +1,23 @@
+            <Instrument id="bb-piccolo-trumpet">
+                  <family>trumpets</family>
+                  <trackName>Piccolo Trumpet</trackName>
+                  <longName>Piccolo Trumpet</longName>
+                  <shortName>P. Tpt.</shortName>
+                  <traitName type="transposition">*B♭</traitName>
+                  <description>Piccolo trumpet in B♭.</description>
+                  <musicXMLid>brass.trumpet.piccolo</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>59-86</aPitchRange>
+                  <pPitchRange>59-89</pPitchRange>
+                  <transposeDiatonic>6</transposeDiatonic>
+                  <transposeChromatic>10</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

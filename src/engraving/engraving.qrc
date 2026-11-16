@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="engraving/instruments/instruments.xml">../../share/instruments/instruments.xml</file>
         <file alias="engraving/instruments/orders.xml">../../share/instruments/orders.xml</file>
         <file alias="engraving/instruments/string_tunings_presets.json">../../share/instruments/string_tunings_presets.json</file>
         <file alias="engraving/styles/legacy-style-defaults-v1.mss">data/styles/legacy-style-defaults-v1.mss</file>

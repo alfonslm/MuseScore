@@ -93,6 +93,7 @@ class Clef final : public EngravingItem
 public:
 
     Clef* clone() const override { return new Clef(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
     double mag() const override;
 
     Segment* segment() const { return (Segment*)ownershipParent(); }
@@ -147,8 +148,7 @@ public:
 
     ClefToBarlinePosition clefToBarlinePosition() const { return m_clefToBarlinePosition; }
     void setClefToBarlinePosition(ClefToBarlinePosition val) { m_clefToBarlinePosition = val; }
-    bool isHeader() const { return m_isHeader; }
-    void setIsHeader(bool val) { m_isHeader = val; }
+    bool isHeader() const;
 
     bool isTrailer() const { return m_isTrailer; }
     void setIsTrailer(bool val) { m_isTrailer = val; }
@@ -160,18 +160,19 @@ public:
 
     struct LayoutData : public EngravingItem::LayoutData {
         SymId symId = SymId::noSym;
+        std::vector<String> stringNames;   // used by TAB_STRING_NAMES clef, one entry per staff line, top to bottom
+        double stringNamesLineDist = 0.0;  // line distance (in the same units as stringNames' positions) used to lay them out
     };
     DECLARE_LAYOUTDATA_METHODS(Clef)
 
 private:
 
     friend class Factory;
-    Clef(Segment* parent);
+    Clef(DummyParentOr<Segment> parent);
 
     bool m_showCourtesy = true;
     bool m_isSmall = false;
     bool m_forInstrumentChange = false;
-    bool m_isHeader = false;
     bool m_isCourtesy = false;
     bool m_isTrailer = false;
     ClefToBarlinePosition m_clefToBarlinePosition = ClefToBarlinePosition::AUTO;

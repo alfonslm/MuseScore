@@ -1,0 +1,16 @@
+            <Instrument id="bass-clarinet">
+                  <family>clarinets</family>
+                  <description>Bass clarinet in B♭. An octave lower than the B♭ soprano clarinet.</description>
+                  <musicXMLid>wind.reed.clarinet.bass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>37-75</aPitchRange>
+                  <pPitchRange>34-82</pPitchRange>
+                  <transposeDiatonic>-8</transposeDiatonic>
+                  <transposeChromatic>-14</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+            </Instrument>

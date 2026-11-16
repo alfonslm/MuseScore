@@ -1,0 +1,20 @@
+            <Instrument id="english-horn">
+                  <family>oboes</family>
+                  <trackName>English Horn</trackName>
+                  <longName>English Horn</longName>
+                  <shortName>E. Hn.</shortName>
+                  <description>Oboe in F, sounding a perfect fifth below the standard oboe.</description>
+                  <musicXMLid>wind.reed.english-horn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>52-81</aPitchRange>
+                  <pPitchRange>52-83</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 69; MS General: English Horn-->
+                        <program value="69"/> <!--English Horn-->
+                  </Channel>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+            </Instrument>

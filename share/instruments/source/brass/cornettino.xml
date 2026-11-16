@@ -1,0 +1,17 @@
+            <Instrument id="cornettino">
+                  <family>cornetts</family>
+                  <trackName>Cornettino</trackName>
+                  <longName>Cornettino</longName>
+                  <shortName>Co.</shortName>
+                  <description>Medieval wind instrument, consisting of a conical wooden pipe covered in leather. The cornettino is the descant of the family.</description>
+                  <musicXMLid>brass.cornettino</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-95</aPitchRange>
+                  <pPitchRange>72-98</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

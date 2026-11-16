@@ -1,0 +1,21 @@
+            <Instrument id="a-bass-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Bass Clarinet</trackName>
+                  <longName>Bass Clarinet</longName>
+                  <shortName>B. Cl.</shortName>
+                  <traitName type="transposition">A</traitName>
+                  <description>Bass clarinet in A. Extremely rare and almost never used today. Notated in the treble clef (‘French notation’).</description>
+                  <musicXMLid>wind.reed.clarinet.bass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-74</aPitchRange>
+                  <pPitchRange>33-81</pPitchRange>
+                  <transposeDiatonic>-9</transposeDiatonic>
+                  <transposeChromatic>-15</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

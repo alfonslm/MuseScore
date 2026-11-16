@@ -28,7 +28,7 @@
 #include "types/typesconv.h"
 #include "types/symnames.h"
 
-#include "compat/dummyelement.h"
+#include "dom/dummyparent.h"
 
 #include "dom/factory.h"
 
@@ -82,6 +82,7 @@
 #include "dom/spacer.h"
 #include "dom/staff.h"
 #include "dom/stafftext.h"
+#include "dom/stavesharingchange.h"
 #include "dom/stafftypechange.h"
 #include "dom/sticking.h"
 #include "dom/stringtunings.h"
@@ -218,6 +219,8 @@ void SingleLayout::layoutItem(EngravingItem* item)
         break;
     case ElementType::STAFF_TEXT:   layout(toStaffText(item), ctx);
         break;
+    case ElementType::STAVE_SHARING_CHANGE: layout(toStaveSharingChange(item), ctx);
+        break;
     case ElementType::STAVE_SHARING_LABEL: layout(toStaveSharingLabel(item), ctx);
         break;
     case ElementType::STAFFTYPE_CHANGE: layout(toStaffTypeChange(item), ctx);
@@ -312,7 +315,7 @@ std::shared_ptr<IEngravingFont> SingleLayout::Context::engravingFont() const
     return m_score->engravingFont();
 }
 
-compat::DummyElement* SingleLayout::Context::dummyParent() const
+DummyParent* SingleLayout::Context::dummyParent() const
 {
     return m_score->dummy();
 }
@@ -838,7 +841,6 @@ void SingleLayout::layoutGroupBracket(Bracket* item, const Context& ctx)
 
     if (!item->text()) {
         const_cast<Bracket*>(item)->setText(new Text(const_cast<Bracket*>(item)));
-        item->text()->setOwnershipParent(const_cast<Bracket*>(item));
     }
 
     Text* text = item->text();
@@ -877,31 +879,7 @@ void SingleLayout::layout(ChordLine* item, const Context& ctx)
 {
     ChordLine::LayoutData* ldata = item->mutldata();
     ldata->setMag(1.0);
-    if (!item->modified()) {
-        double x2 = 0;
-        double y2 = 0;
-        double baseLength = item->spatium();
-        double horBaseLength = 1.2 * baseLength;     // let the symbols extend a bit more horizontally
-        x2 += item->isToTheLeft() ? -horBaseLength : horBaseLength;
-        y2 += item->isBelow() ? baseLength : -baseLength;
-        if (item->chordLineType() != ChordLineType::NOTYPE && !item->isWavy()) {
-            PainterPath path;
-            if (!item->isToTheLeft()) {
-                if (item->isStraight()) {
-                    path.lineTo(x2, y2);
-                } else {
-                    path.cubicTo(x2 / 2, 0.0, x2, y2 / 2, x2, y2);
-                }
-            } else {
-                if (item->isStraight()) {
-                    path.lineTo(x2, y2);
-                } else {
-                    path.cubicTo(0.0, y2 / 2, x2 / 2, y2, x2, y2);
-                }
-            }
-            ldata->path = path;
-        }
-    }
+    TLayout::layoutChordLinePath(item, ldata, item->spatium(), item->chordMag());
 
     ldata->setPos(0.0, 0.0);
 
@@ -936,14 +914,20 @@ void SingleLayout::layout(Clef* item, const Context& ctx)
         ldata->symId = SymId::noSym;
     }
 
+    if (item->clefType() == ClefType::TAB_STRING_NAMES) {
+        // no per-staff string data outside a real score context: show the plain TAB glyph
+        ldata->symId = SymId::sixStringTabClef;
+    }
+
     switch (item->clefType()) {
     case ClefType::C_19C:                                    // 19th C clef is like a G clef
         yoff = lineDist * 1.5;
         break;
-    case ClefType::TAB:         // TAB clef
-    case ClefType::TAB4:        // TAB clef 4 strings
-    case ClefType::TAB_SERIF:   // TAB clef alternate style
-    case ClefType::TAB4_SERIF:  // TAB clef alternate style
+    case ClefType::TAB:               // TAB clef
+    case ClefType::TAB4:              // TAB clef 4 strings
+    case ClefType::TAB_SERIF:         // TAB clef alternate style
+    case ClefType::TAB4_SERIF:        // TAB clef alternate style
+    case ClefType::TAB_STRING_NAMES:  // TAB clef showing the open string names
         yoff = lineDist * (lines - 1) * 0.5;
         break;
     case ClefType::PERC:        // percussion clefs
@@ -1112,7 +1096,6 @@ void SingleLayout::layout(HammerOnPullOffSegment* item, const Context& ctx)
     }
 
     HammerOnPullOffText* hopoText = hopoTexts.front();
-    hopoText->setOwnershipParent(item);
     hopoText->setXmlText("H/P");
 
     Align align;
@@ -1625,6 +1608,17 @@ void SingleLayout::layout(StaffText* item, const Context& ctx)
     }
 }
 
+void SingleLayout::layout(StaveSharingChange* item, const Context&)
+{
+    const FontMetrics metrics(item->font());
+    const RectF iconBox = metrics.boundingRect(item->iconCode());
+
+    Shape shape;
+    shape.add(iconBox, item);
+    item->mutldata()->setShape(shape);
+    item->mutldata()->setPos(PointF());
+}
+
 void SingleLayout::layout(StaveSharingLabel* item, const Context& ctx)
 {
     layoutTextBase(item, ctx, item->mutldata());
@@ -1675,7 +1669,6 @@ void SingleLayout::layout(Tapping* item, const Context& ctx)
         text = new TappingText(item);
     }
 
-    text->setOwnershipParent(item);
     item->setText(text);
     text->setTrack(item->track());
     DO_ASSERT(item->hand() != TappingHand::INVALID);
@@ -1978,7 +1971,6 @@ void SingleLayout::layout(VoltaSegment* item, const Context& ctx)
     double hookHeight = item->absoluteFromSpatium(item->volta()->beginHookHeight());
     if (item->text()) {
         Text* text = item->text();
-        text->setOwnershipParent(item);
         RectF textBBox = text->ldata()->bbox().translated(text->pos());
         text->mutldata()->moveY(hookHeight - textBBox.bottom());
         text->mutldata()->moveX(0.5 * spatium);

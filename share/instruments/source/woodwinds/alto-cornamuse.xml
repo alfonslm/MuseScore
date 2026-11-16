@@ -1,0 +1,16 @@
+            <Instrument id="alto-cornamuse">
+                  <family>cornamuses</family>
+                  <trackName>Alto Cornamuse</trackName>
+                  <longName>Alto Cornamuse</longName>
+                  <shortName>A. Cm.</shortName>
+                  <description>Renaissance double-reed instrument with straight end and single bore, pitched in G (a fourth below the soprano cornamuse).</description>
+                  <musicXMLid>wind.reed.cornamuse</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>55-67</aPitchRange>
+                  <pPitchRange>55-70</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

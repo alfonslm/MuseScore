@@ -50,6 +50,7 @@ public:
     Fermata& operator=(const Fermata&) = delete;
 
     Fermata* clone() const override { return new Fermata(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
 
     double mag() const override;
 
@@ -66,6 +67,7 @@ public:
     bool setProperty(Pid propertyId, const PropertyValue&) override;
     PropertyValue propertyDefault(Pid) const override;
     void resetProperty(Pid id) override;
+    PropertyPropagation propertyPropagation(const EngravingItem* destinationItem, Pid propertyId) const override;
 
     Segment* segment() const { return toSegment(ownershipParent()); }
     Measure* measure() const;
@@ -85,7 +87,7 @@ public:
 private:
 
     friend class Factory;
-    Fermata(EngravingItem* parent);
+    Fermata(DummyParentOr<Segment> parent);
 
     SymId m_symId = SymId::noSym;
     double m_timeStretch = -1.0;

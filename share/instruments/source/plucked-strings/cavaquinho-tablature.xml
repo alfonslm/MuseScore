@@ -1,0 +1,10 @@
+            <Instrument id="cavaquinho-tablature">
+                  <init>cavaquinho</init>
+                  <family>guitars</family>
+                  <trackName>Cavaquinho (tablature)</trackName>
+                  <longName>Cavaquinho</longName>
+                  <description>Small Portuguese 4-string guitar (tablature).</description>
+                  <musicXMLid>pluck.guitar</musicXMLid>
+                  <stafftype staffTypePreset="tab4StrSimple">tablature</stafftype>
+                  <genre>world</genre>
+            </Instrument>

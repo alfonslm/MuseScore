@@ -38,6 +38,7 @@
 #include "../editing/editchord.h"
 #include "../editing/editnote.h"
 #include "../editing/editparentheses.h"
+#include "../editing/editstavesharing.h"
 #include "../editing/noteinput.h"
 #include "../editing/transaction/transaction.h"
 #include "../editing/transpose.h"
@@ -58,6 +59,7 @@
 #include "fingering.h"
 #include "glissando.h"
 #include "guitarbend.h"
+#include "jianpuoctavedot.h"
 #include "laissezvib.h"
 #include "linkedobjects.h"
 #include "measure.h"
@@ -629,7 +631,7 @@ SymId Note::noteHead(int direction, NoteHeadGroup group, NoteHeadType t, int tpc
     return noteHeads[direction][int(group)][int(t)];
 }
 
-NoteHead::NoteHead(Note* parent)
+NoteHead::NoteHead(DummyParentOr<Note> parent)
     : Symbol(ElementType::NOTEHEAD, parent) {}
 
 //---------------------------------------------------------
@@ -654,7 +656,7 @@ NoteHeadGroup NoteHead::headGroup() const
 //   Note
 //---------------------------------------------------------
 
-Note::Note(Chord* ch)
+Note::Note(DummyParentOr<Chord> ch)
     : EngravingItem(ElementType::NOTE, ch, ElementFlag::MOVABLE)
 {
     m_playEvents.push_back(NoteEvent());      // add default play event
@@ -670,6 +672,7 @@ Note::~Note()
     }
 
     muse::DeleteAll(m_dots);
+    muse::DeleteAll(m_jianpuOctaveDots);
 }
 
 std::vector<Note*> Note::compoundNotes() const
@@ -795,12 +798,14 @@ Note::Note(const Note& n, bool link)
     for (NoteDot* dot : n.m_dots) {
         add(Factory::copyNoteDot(*dot));
     }
-    m_mark      = n.m_mark;
+    m_mark = n.m_mark;
+    m_jianpuDigit = n.m_jianpuDigit;
+    m_jianpuAccidental = n.m_jianpuAccidental;
 
     setDropTarget(false);
 }
 
-void Note::setOwnershipParent(Chord* ch)
+void Note::setOwnershipParent(DummyParentOr<Chord> ch)
 {
     EngravingItem::setOwnershipParent(ch);
 }
@@ -866,7 +871,7 @@ int Note::tpc2default(int p) const
         Fraction tick = chord()->tick();
         key = staff()->key(tick);
         if (concertPitch()) {
-            Interval interval = part()->instrument(tick)->transpose();
+            Interval interval = originPart()->instrument(tick)->transpose();
             if (!interval.isZero()) {
                 interval.flip();
                 key = Transpose::transposeKey(key, interval);
@@ -952,7 +957,7 @@ String Note::tpcUserName(const bool explicitAccidental, bool full) const
         // see Note::accessibleInfo(), but we return what we have
         return pitchName;
     }
-    if (staff()->isDrumStaff(tick()) && part()->instrument()->drumset()) {
+    if (staff()->isDrumStaff(tick()) && originPart()->instrument(tick())->drumset()) {
         // see Note::accessibleInfo(), but we return what we have
         return pitchName;
     }
@@ -1046,7 +1051,7 @@ SymId Note::noteHead() const
         if (st) {
             if (st->staffTypeForElement(chord())->isDrumStaff()) {
                 Fraction t = chord()->tick();
-                Instrument* inst = st->part()->instrument(t);
+                Instrument* inst = originPart()->instrument(t);
                 Drumset* d = inst->drumset();
                 if (d) {
                     return d->noteHeads(m_pitch, ht);
@@ -1723,7 +1728,8 @@ void Note::setupAfterRead(const Fraction& ctxTick, bool pasteMode)
 int Note::transposition() const
 {
     Fraction tick = chord() ? chord()->tick() : Fraction(-1, 1);
-    return staff() ? part()->instrument(tick)->transpose().chromatic : 0;
+    Part* origin = originPart();
+    return origin ? origin->instrument(tick)->transpose().chromatic : 0;
 }
 
 //---------------------------------------------------------
@@ -1834,6 +1840,9 @@ bool Note::acceptDrop(EditData& data) const
         case ActionIconType::SCOOP:
         case ActionIconType::NOTE_ANCHORED_LINE:
             return true;
+        case ActionIconType::STAVE_SHARING_CHANGE:
+        case ActionIconType::RESET_STAVE_SHARING_CHANGE:
+            return part() && part()->isSharedPart();
         default: break;
         }
         break;
@@ -2003,8 +2012,9 @@ EngravingItem* Note::drop(Transaction& tx, EditData& data)
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
-        case mu::engraving::ActionIconType::NOTE_ANCHORED_LINE:
+        case ActionIconType::NOTE_ANCHORED_LINE:
             score()->addNoteLine();
+            break;
         default:
             break;
         }
@@ -2051,7 +2061,7 @@ EngravingItem* Note::drop(Transaction& tx, EditData& data)
         const StaffGroup staffGroup = st->staffType(segment->tick())->group();
         DirectionV stemDirection = DirectionV::AUTO;
         if (staffGroup == StaffGroup::PERCUSSION) {
-            const Drumset* ds = st->part()->instrument(segment->tick())->drumset();
+            const Drumset* ds = originPart()->instrument(segment->tick())->drumset();
             DO_ASSERT(ds);
 
             if (ds) {
@@ -2096,7 +2106,7 @@ EngravingItem* Note::drop(Transaction& tx, EditData& data)
 
             const Sid styleId = gliss->getPropertyStyle(Pid::GLISS_STYLE);
             if (gliss->isStyled(Pid::GLISS_STYLE) && score()->style().isDefault(styleId)) {
-                const GlissandoStyle instrumentStyle = part()->instrument(gliss->tick())->glissandoStyle();
+                const GlissandoStyle instrumentStyle = originPart()->instrument(gliss->tick())->glissandoStyle();
                 if (instrumentStyle != gliss->glissandoStyle()) {
                     gliss->setGlissandoStyle(instrumentStyle);
                     gliss->setPropertyFlags(Pid::GLISS_STYLE, PropertyFlags::UNSTYLED);
@@ -2254,7 +2264,6 @@ void Note::updateAccidental(AccidentalState* as)
         if (acci != AccidentalType::NONE && !m_hidden) {
             if (m_accidental == 0) {
                 Accidental* a = Factory::createAccidental(this);
-                a->setOwnershipParent(this);
                 a->setAccidentalType(acci);
                 a->setVisible(visible());
                 score()->undoAddElement(a);
@@ -2352,6 +2361,9 @@ void Note::scanElements(std::function<void(EngravingItem*)> func)
     for (NoteDot* dot : m_dots) {
         func(dot);
     }
+    for (JianpuOctaveDot* od : m_jianpuOctaveDots) {
+        func(od);
+    }
 }
 
 //---------------------------------------------------------
@@ -2400,6 +2412,9 @@ void Note::setTrack(track_idx_t val)
         return;
     }
     for (NoteDot* dot : m_dots) {
+        dot->setTrack(val);
+    }
+    for (JianpuOctaveDot* dot : m_jianpuOctaveDots) {
         dot->setTrack(val);
     }
 }
@@ -2661,7 +2676,7 @@ int Note::ppitch() const
         Fraction tick = ch->tick();
 
         if (staff && staff->isDrumStaff(tick)) {
-            const Drumset* ds = staff->part()->instrument(tick)->drumset();
+            const Drumset* ds = originPart()->instrument(tick)->drumset();
             if (ds) {
                 DrumInstrumentVariant div = ds->findVariant(m_pitch, ch->articulations(), ch->tremoloType());
                 if (div.pitch != INVALID_PITCH) {
@@ -2846,7 +2861,7 @@ void Note::dragInEditMode(EditData& editData)
 void Note::verticalDrag(EditData& ed)
 {
     Fraction _tick = chord()->tick();
-    if (part()->instrument(_tick)->useDrumset()) {
+    if (originPart()->instrument(_tick)->useDrumset()) {
         return;
     }
 
@@ -2857,7 +2872,7 @@ void Note::verticalDrag(EditData& ed)
     int lineOffset = lrint(ed.moveDelta.y() / step);
 
     if (tab) {
-        const StringData* strData = part()->stringData(_tick, staffIdx());
+        const StringData* strData = originPart()->stringData(_tick, staffIdx());
         const int pitchOffset = staff()->pitchOffset(_tick);
         int nString = ned->string + (staffType()->upsideDown() ? -lineOffset : lineOffset);
         int nFret   = strData->fret(m_pitch + pitchOffset, nString, staff(), tick());
@@ -3388,6 +3403,9 @@ void Note::setScore(Score* s)
     for (NoteDot* dot : m_dots) {
         dot->setScore(s);
     }
+    for (JianpuOctaveDot* dot : m_jianpuOctaveDots) {
+        dot->setScore(s);
+    }
     for (EngravingItem* el : m_el) {
         el->setScore(s);
     }
@@ -3416,7 +3434,7 @@ String Note::accessibleInfo() const
         }
     }
 
-    const Drumset* drumset = part()->instrument(chord()->tick())->drumset();
+    const Drumset* drumset = originPart()->instrument(chord()->tick())->drumset();
     if (fixed() && headGroup() == NoteHeadGroup::HEAD_SLASH) {
         pitchName = chord()->noStem() ? muse::mtrc("engraving", "Beat slash") : muse::mtrc("engraving", "Rhythm slash");
     } else if (staff()->isDrumStaff(tick()) && drumset) {
@@ -3438,7 +3456,7 @@ String Note::accessibleInfo() const
 
 String Note::screenReaderInfo() const
 {
-    const Part* part = this->part();
+    const Part* part = originPart();
     if (!part) {
         return String(); // part is nullptr on Linux after an instrument is deleted.
     }
@@ -4257,5 +4275,19 @@ staff_idx_t Note::vStaffIdx() const
 {
     const Chord* c = chord();
     return c ? c->vStaffIdx() : EngravingItem::vStaffIdx();
+}
+
+void Note::setJianpuOctaveDotCount(size_t count)
+{
+    while (m_jianpuOctaveDots.size() < count) {
+        JianpuOctaveDot* dot = new JianpuOctaveDot(this);
+        dot->setOwnershipParent(this);
+        dot->setTrack(track());
+        m_jianpuOctaveDots.push_back(dot);
+    }
+    while (m_jianpuOctaveDots.size() > count) {
+        delete m_jianpuOctaveDots.back();
+        m_jianpuOctaveDots.pop_back();
+    }
 }
 }

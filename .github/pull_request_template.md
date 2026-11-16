@@ -1,15 +1,15 @@
-Resolves: #NNNNN <!-- Replace `NNNNN` with a GitHub issue number, or a direct link if the issue is not on GitHub -->
+<!-- This fork does not send pull requests upstream; pull requests go to beta (see CLAUDE.md). -->
 
-<!-- Add a short description of and motivation for the changes here -->
+## What and why
 
-<!-- Replace `[ ]` with `[x]` to fill the checkboxes below (failure to complete this checklist accurately will result in the PR being closed) -->
+<!-- What this changes and why. Link related pull requests or issues. -->
 
-- [ ] I signed the [CLA](https://musescore.org/en/cla) as [username](https://musescore.org/en/user): <!-- Type your MuseScore.org username unless you're a regular contributor. -->
-- [ ] The title of the PR describes the problem it addresses.
-- [ ] Each commit's message describes its purpose and effects, and references the issue it resolves. If changes are extensive, there is a sequence of easily reviewable commits.
-- [ ] The code in the PR follows [the coding rules](https://github.com/musescore/muse_framework/wiki/CodeGuidelines).
-- [ ] I understand all aspects of the code I'm contributing and I'm able to explain it if requested.
-- [ ] The code compiles and runs on my machine, preferably after each commit individually. I have manually tested and verified that my changes fulfil their intended purpose.
-- [ ] No prior attempts to resolve this problem exist, or if they do, I listed them in my PR description and described how I avoided repeating past mistakes.
-- [ ] There are no unnecessary changes.
-- [ ] I created a unit test or vtest to verify the changes I made (if applicable).
+## Paired framework change
+
+<!-- If this needs a change in alfonslm/muse_framework: link that pull request. Merge it first, with a merge
+commit, so the commit pinned in `muse` stays on the framework's beta. Otherwise: none. -->
+
+## Testing
+
+<!-- What was built, run or tested, and what was not. Several CI workflows are switched off in this fork;
+say which checks actually ran. -->

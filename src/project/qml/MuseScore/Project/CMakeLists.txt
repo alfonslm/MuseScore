@@ -20,6 +20,15 @@
 
 muse_create_qml_module(project_qml FOR project)
 
+# Muse.Interactive (used by AudioExportProgressDialog.qml) isn't built in every configuration, e.g. unit tests
+if (MUSE_MODULE_INTERACTIVE_QML)
+    set(MAYBE_INTERACTIVE_QML
+        TARGET muse_interactive_qml
+    )
+else()
+    set(MAYBE_INTERACTIVE_QML)
+endif()
+
 qt_add_qml_module(project_qml
     URI MuseScore.Project
     VERSION 1.0
@@ -34,6 +43,8 @@ qt_add_qml_module(project_qml
         internal/ConvertFileToScore/filelistmodel.h
         internal/ConvertFileToScore/reviewscorequalitymodel.cpp
         internal/ConvertFileToScore/reviewscorequalitymodel.h
+        internal/Export/audioexportprogressmodel.cpp
+        internal/Export/audioexportprogressmodel.h
         internal/Export/exportdialogmodel.cpp
         internal/Export/exportdialogmodel.h
         internal/NewScore/additionalinfomodel.cpp
@@ -67,6 +78,7 @@ qt_add_qml_module(project_qml
         AudioGenerationSettingsDialog.qml
         ConvertFileProcessingDialog.qml
         ConvertFileToScoreDialog.qml
+        DeleteCloudScoreDialog.qml
         internal/ConvertFileToScore/ConvertButtonBox.qml
         internal/ConvertFileToScore/ConvertFromLinkPanel.qml
         internal/ConvertFileToScore/FileItem.qml
@@ -81,6 +93,7 @@ qt_add_qml_module(project_qml
         internal/ConvertFileToScore/SelectFilePage.qml
         internal/ConvertFileToScore/SelectedFilesPage.qml
         internal/ConvertFileToScore/SingleFilePanel.qml
+        internal/ConvertFileToScore/TermsOfUseCheckBox.qml
         ExportDialog.qml
         internal/Export/AudioSettings.qml
         internal/Export/ExportOptionItem.qml
@@ -91,6 +104,7 @@ qt_add_qml_module(project_qml
         internal/Export/MeiSettingsPage.qml
         internal/Export/MidiSettingsPage.qml
         internal/Export/MnxSettingsPage.qml
+        internal/Export/MultiStemRenderSettings.qml
         internal/Export/Mp3SettingsPage.qml
         internal/Export/OggSettingsPage.qml
         internal/Export/FlacSettingsPage.qml
@@ -145,6 +159,7 @@ qt_add_qml_module(project_qml
         SaveToCloudDialog.qml
         ScoresPage.qml
         UploadProgressDialog.qml
+        AudioExportProgressDialog.qml
     RESOURCES
         internal/Migration/migration.png
         internal/SaveToCloud/images/Cloud.png
@@ -159,12 +174,18 @@ qt_add_qml_module(project_qml
         resources/ScoreProcessing.png
     IMPORTS
         TARGET muse_cloud_qml
+        ${MAYBE_INTERACTIVE_QML}
         TARGET muse_ui_qml
         TARGET muse_uicomponents_qml
         TARGET notationscene_qml
 )
 
 fixup_qml_module_dependencies(project_qml)
+
+target_link_libraries(project_qml PRIVATE
+    muse::uicomponents_qml
+    notationscene_qml
+)
 
 # Necessary for the auto-generated sources
 target_include_directories(project_qml PRIVATE
@@ -175,3 +196,7 @@ target_include_directories(project_qml PRIVATE
     internal/Properties
     internal/ScoresPage
 )
+
+if (MUE_BUILD_PROJECT_TESTS)
+    add_subdirectory(tests)
+endif()

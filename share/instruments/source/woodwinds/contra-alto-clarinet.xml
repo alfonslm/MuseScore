@@ -1,0 +1,20 @@
+            <Instrument id="contra-alto-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Contra-alto Clarinet</trackName>
+                  <longName>Contra-alto Clarinet</longName>
+                  <shortName>C-a. Cl.</shortName>
+                  <description>Contra-alto clarinet in E♭. An octave lower than the E♭ alto clarinet.</description>
+                  <musicXMLid>wind.reed.clarinet.contra-alto</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>30-70</aPitchRange>
+                  <pPitchRange>30-75</pPitchRange>
+                  <transposeDiatonic>-12</transposeDiatonic>
+                  <transposeChromatic>-21</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>concertband</genre>
+            </Instrument>

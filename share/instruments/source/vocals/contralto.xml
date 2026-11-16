@@ -1,0 +1,18 @@
+            <Instrument id="contralto">
+                  <family>voices</family>
+                  <trackName>Contralto</trackName>
+                  <longName>Contralto</longName>
+                  <shortName>Contr.</shortName>
+                  <description>Female alto voice.</description>
+                  <musicXMLid>voice.alto</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>55-74</aPitchRange>
+                  <pPitchRange>52-77</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

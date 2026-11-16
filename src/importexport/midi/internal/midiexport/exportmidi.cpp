@@ -22,6 +22,9 @@
 
 #include "exportmidi.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "engraving/dom/chordrest.h"
 #include "engraving/dom/key.h"
 #include "engraving/dom/lyrics.h"
@@ -43,6 +46,24 @@
 using namespace mu::engraving;
 
 namespace mu::iex::midi {
+//---------------------------------------------------------
+//   midiTempo
+//    MIDI tempo (microseconds per quarter note) of a tempo in quarter notes per second,
+//    played at the playback speed `tempoMultiplier` (0.5 = half speed)
+//---------------------------------------------------------
+
+int ExportMidi::midiTempo(double bps, double tempoMultiplier)
+{
+    static constexpr int MAX_MIDI_TEMPO = 0xFFFFFF; // stored in 3 bytes
+
+    const double actualBps = bps * (tempoMultiplier > 0.0 ? tempoMultiplier : 1.0);
+    if (!(actualBps > 0.0)) {
+        return MAX_MIDI_TEMPO;
+    }
+
+    return static_cast<int>(std::clamp<long>(std::lround(1000000.0 / actualBps), 1L, static_cast<long>(MAX_MIDI_TEMPO)));
+}
+
 //---------------------------------------------------------
 //   writeHeader
 //---------------------------------------------------------
@@ -81,6 +102,8 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
     //    write time signature
     //--------------------------------------------
 
+    std::map<int, Fraction> timeSigs; // by tick with pauses
+
     TimeSigMap* sigmap = m_score->sigmap();
     for (const RepeatSegment* rs : m_score->repeatList()) {
         int startTick  = rs->tick;
@@ -91,39 +114,50 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
         auto es = sigmap->lower_bound(endTick);
 
         for (auto is = bs; is != es; ++is) {
-            SigEvent se = is->second;
-            Fraction ts(se.timesig());
-            int n;
-            switch (ts.denominator()) {
-            case 1:  n = 0;
-                break;
-            case 2:  n = 1;
-                break;
-            case 4:  n = 2;
-                break;
-            case 8:  n = 3;
-                break;
-            case 16: n = 4;
-                break;
-            case 32: n = 5;
-                break;
-            default:
-                n = 2;
-                LOGD("ExportMidi: unknown time signature %s",
-                     qPrintable(ts.toString()));
-                break;
-            }
-
-            MidiEvent ev;
-            ev.setType(ME_META);
-            ev.setMetaType(META_TIME_SIGNATURE);
-            ev.setLen(4);
-            ev.setEData({ static_cast<unsigned char>(ts.numerator()),
-                          static_cast<unsigned char>(n),
-                          24,
-                          8 });
-            track.insert(CompatMidiRender::tick(context, is->first + tickOffset), ev);
+            timeSigs[CompatMidiRender::tick(context, is->first + tickOffset)] = is->second.timesig();
         }
+    }
+
+    // measures lengthened by a pause
+    if (context.applyCaesuras) {
+        for (const auto& [tick, ts] : context.pauseMap->timeSigEvents()) {
+            timeSigs[tick] = ts;
+        }
+    }
+
+    for (const auto& [tick, ts] : timeSigs) {
+        int n;
+        switch (ts.denominator()) {
+        case 1:  n = 0;
+            break;
+        case 2:  n = 1;
+            break;
+        case 4:  n = 2;
+            break;
+        case 8:  n = 3;
+            break;
+        case 16: n = 4;
+            break;
+        case 32: n = 5;
+            break;
+        case 64: n = 6;
+            break;
+        default:
+            n = 2;
+            LOGD("ExportMidi: unknown time signature %s",
+                 qPrintable(ts.toString()));
+            break;
+        }
+
+        MidiEvent ev;
+        ev.setType(ME_META);
+        ev.setMetaType(META_TIME_SIGNATURE);
+        ev.setLen(4);
+        ev.setEData({ static_cast<unsigned char>(ts.numerator()),
+                      static_cast<unsigned char>(n),
+                      24,
+                      8 });
+        track.insert(tick, ev);
     }
 
     //---------------------------------------------------
@@ -183,14 +217,11 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
     }
 
     const std::map<int, double>& tempoEvents = context.pauseMap->tempoEvents();
-    BeatsPerSecond tempoMultiplier = m_score->tempoTimeline().tempoMultiplier();
+    const double tempoMultiplier = m_score->tempoTimeline().tempoMultiplier().val;
     for (const auto& [tick, bps] : tempoEvents) {
         MidiEvent ev;
         ev.setType(ME_META);
-        //
-        // compute midi tempo: microseconds / quarter note
-        //
-        int tempo = lrint((1.0 / bps * tempoMultiplier.val) * 1000000.0);
+        const int tempo = midiTempo(bps, tempoMultiplier);
 
         ev.setMetaType(META_TEMPO);
         ev.setLen(3);
@@ -231,6 +262,7 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
     context.sndController = CompatMidiRender::getControllerForSnd(m_score, synthState.ccToUse());
     context.useDefaultArticulations = false;
     context.applyCaesuras = true;
+    context.pauseMode = m_pauseMode;
 
     CompatMidiRender::renderScore(m_score, events, context, midiExpandRepeats);
 

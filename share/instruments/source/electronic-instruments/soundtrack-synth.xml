@@ -1,0 +1,24 @@
+            <Instrument id="soundtrack-synth">
+                  <family>synths</family>
+                  <trackName>Soundtrack Synthesizer</trackName>
+                  <longName>Soundtrack Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Soundtrack synth effect (General MIDI program 98).</description>
+                  <musicXMLid>synth.effects.soundtrack</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 97; MS General: SoundTrack-->
+                        <program value="97"/> <!--FX 2 (soundtrack)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

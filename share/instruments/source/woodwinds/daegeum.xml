@@ -1,0 +1,16 @@
+            <Instrument id="daegeum">
+                  <family>flutes</family>
+                  <trackName>Daegeum</trackName>
+                  <longName>Daegeum</longName>
+                  <shortName>Dg.</shortName>
+                  <description>Large Korean transverse bamboo flute with a distinctive buzzing timbre.</description>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>58-89</aPitchRange>
+                  <pPitchRange>58-93</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

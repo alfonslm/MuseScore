@@ -1,0 +1,24 @@
+            <Instrument id="men">
+                  <family>voice-groups</family>
+                  <trackName>Men</trackName>
+                  <longName>Men</longName>
+                  <shortName>M.</shortName>
+                  <description>Men’s voices.</description>
+                  <musicXMLid>voice.male</musicXMLid>
+                  <clef>F</clef>
+                  <aPitchRange>41-67</aPitchRange>
+                  <pPitchRange>38-69</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="Tenor">
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <Channel name="Bass">
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

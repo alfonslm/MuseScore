@@ -1,0 +1,10 @@
+            <Instrument id="7-string-guitar-tablature">
+                  <init>7-string-guitar</init>
+                  <family>guitars</family>
+                  <trackName>7-string Guitar (tablature)</trackName>
+                  <longName>7-string Guitar</longName>
+                  <description>7-string guitar (tablature).</description>
+                  <musicXMLid>pluck.guitar.nylon-string</musicXMLid>
+                  <stafftype staffTypePreset="tab7StrCommon">tablature</stafftype>
+                  <genre>world</genre>
+            </Instrument>

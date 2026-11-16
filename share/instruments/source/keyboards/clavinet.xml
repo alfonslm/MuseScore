@@ -1,0 +1,22 @@
+            <Instrument id="clavinet">
+                  <family>keyboards</family>
+                  <trackName>Clavinet</trackName>
+                  <longName>Clavinet</longName>
+                  <shortName>Clav.</shortName>
+                  <description>Clavichord with electrically amplified strings. This alters the sound and removes the volume limitations.</description>
+                  <musicXMLid>keyboard.clavichord.synth</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>29-89</aPitchRange>
+                  <pPitchRange>29-89</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 7; MS General: Clavinet-->
+                        <program value="7"/> <!--Clavi-->
+                  </Channel>
+                  <genre>jazz</genre>
+            </Instrument>

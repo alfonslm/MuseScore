@@ -1,0 +1,18 @@
+            <Instrument id="alto-sackbut">
+                  <family>sackbuts</family>
+                  <trackName>Alto Sackbut</trackName>
+                  <longName>Alto Sackbut</longName>
+                  <shortName>A. Sack.</shortName>
+                  <description>Renaissance and Baroque trombone. A descendant of the slide trumpet.</description>
+                  <musicXMLid>brass.sackbutt.alto</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-74</aPitchRange>
+                  <pPitchRange>45-77</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

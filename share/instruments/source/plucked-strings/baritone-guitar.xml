@@ -1,0 +1,27 @@
+            <Instrument id="baritone-guitar">
+                  <family>guitars</family>
+                  <trackName>Baritone Guitar</trackName>
+                  <longName>Baritone Guitar</longName>
+                  <shortName>Bar. Guit.</shortName>
+                  <description>Baritone guitar.</description>
+                  <musicXMLid>pluck.guitar</musicXMLid>
+                  <StringData>
+                        <frets>19</frets>
+                        <string>35</string>
+                        <string>40</string>
+                        <string>45</string>
+                        <string>50</string>
+                        <string>54</string>
+                        <string>59</string>
+                  </StringData>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>35-78</aPitchRange>
+                  <pPitchRange>35-78</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 24; MS General: Nylon String Guitar-->
+                        <program value="24"/> <!--Acoustic Guitar (nylon)-->
+                  </Channel>
+            </Instrument>

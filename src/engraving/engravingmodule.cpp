@@ -75,6 +75,8 @@ static void engraving_init_qrc()
 {
 #ifndef NO_QT_SUPPORT
     Q_INIT_RESOURCE(engraving);
+    //! NOTE instruments.xml, assembled at configure time from share/instruments/source
+    Q_INIT_RESOURCE(engraving_instruments);
 
     Q_INIT_RESOURCE(fonts_Leland);
     Q_INIT_RESOURCE(fonts_Bravura);

@@ -53,5 +53,9 @@ public:
 
     virtual bool isMidiExportRpns() const = 0;
     virtual void setIsMidiExportRpns(bool exportRpns) = 0;
+
+    //! Lengthen the measure a pause (caesura, breath, section break) belongs to instead of inserting a measure
+    virtual bool isMidiExportExtendMeasuresForPauses() const = 0;
+    virtual void setIsMidiExportExtendMeasuresForPauses(bool extend) = 0;
 };
 }

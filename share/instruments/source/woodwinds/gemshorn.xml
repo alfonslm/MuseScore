@@ -1,0 +1,14 @@
+            <Instrument id="gemshorn">
+                  <family>gemshorns</family>
+                  <description>Soprano ocarina made from an animal horn. Pitched in C.</description>
+                  <musicXMLid>wind.flutes.gemshorn</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>72-87</aPitchRange>
+                  <pPitchRange>72-87</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

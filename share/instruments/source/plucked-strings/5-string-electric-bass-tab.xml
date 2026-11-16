@@ -1,0 +1,10 @@
+            <Instrument id="5-string-electric-bass-tab">
+                  <init>5-string-electric-bass</init>
+                  <family>bass-guitars</family>
+                  <trackName>5-str. Electric Bass (tablature)</trackName>
+                  <longName>5-str. Electric Bass</longName>
+                  <description>5-string electric bass guitar (tablature).</description>
+                  <stafftype staffTypePreset="tab5StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+            </Instrument>

@@ -1,0 +1,19 @@
+            <Instrument id="subcontra-alto-flute">
+                  <family>flutes</family>
+                  <trackName>Sub Contra-alto Flute</trackName>
+                  <longName>Sub Contra-alto Flute</longName>
+                  <shortName>Sc-a. Fl.</shortName>
+                  <description>Flute in G, sounding two octaves below the alto flute.</description>
+                  <musicXMLid>wind.flutes.flute.subcontrabass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>31-60</aPitchRange>
+                  <pPitchRange>31-64</pPitchRange>
+                  <transposeDiatonic>-17</transposeDiatonic>
+                  <transposeChromatic>-29</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+            </Instrument>

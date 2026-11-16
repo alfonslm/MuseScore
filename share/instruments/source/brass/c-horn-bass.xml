@@ -1,0 +1,21 @@
+            <Instrument id="c-horn-bass">
+                  <family>horns</family>
+                  <trackName>Horn (bass clef)</trackName>
+                  <longName>Horn</longName>
+                  <shortName>Hn.</shortName>
+                  <traitName type="transposition">C</traitName>
+                  <description>Horn in low C (notated in bass clef).</description>
+                  <musicXMLid>brass.natural-horn</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>34-67</aPitchRange>
+                  <pPitchRange>30-72</pPitchRange>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

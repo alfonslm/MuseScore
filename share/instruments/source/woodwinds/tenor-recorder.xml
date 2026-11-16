@@ -1,0 +1,17 @@
+            <Instrument id="tenor-recorder">
+                  <family>recorders</family>
+                  <trackName>Tenor Recorder</trackName>
+                  <longName>Tenor Recorder</longName>
+                  <shortName>T. Rec.</shortName>
+                  <description>Recorder pitched in C (an octave below the soprano).</description>
+                  <musicXMLid>wind.flutes.recorder.tenor</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-81</aPitchRange>
+                  <pPitchRange>60-91</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

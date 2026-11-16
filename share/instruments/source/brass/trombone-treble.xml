@@ -1,0 +1,24 @@
+            <Instrument id="trombone-treble">
+                  <family>trombones</family>
+                  <trackName>Trombone (treble clef)</trackName>
+                  <longName>Trombone</longName>
+                  <shortName>Tbn.</shortName>
+                  <description>Trombone (notated in treble clef as a transposing instrument in B♭).</description>
+                  <musicXMLid>brass.trombone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-71</aPitchRange>
+                  <pPitchRange>36-74</pPitchRange>
+                  <transposeDiatonic>-8</transposeDiatonic>
+                  <transposeChromatic>-14</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

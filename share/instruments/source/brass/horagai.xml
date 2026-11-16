@@ -1,0 +1,17 @@
+            <Instrument id="horagai">
+                  <family>conches</family>
+                  <trackName>Horagai</trackName>
+                  <longName>Horagai</longName>
+                  <shortName>Hor.</shortName>
+                  <description>Type of conch shell used as a trumpet in Japan, fitted with a bronze or wooden mouthpiece.</description>
+                  <musicXMLid>brass.horagai</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>24-60</aPitchRange>
+                  <pPitchRange>24-60</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

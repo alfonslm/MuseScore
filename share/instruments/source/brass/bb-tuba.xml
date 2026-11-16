@@ -1,0 +1,18 @@
+            <Instrument id="bb-tuba">
+                  <family>tubas</family>
+                  <trackName>Contrabass Tuba</trackName>
+                  <longName>B♭ Contrabass Tuba</longName>
+                  <shortName>B♭ Cb. Tb.</shortName>
+                  <traitName type="tuning">*B♭</traitName>
+                  <description>Contrabass tuba in B♭ (notated in bass clef at concert pitch).</description>
+                  <musicXMLid>brass.tuba</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>28-58</aPitchRange>
+                  <pPitchRange>22-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>orchestra</genre>
+            </Instrument>

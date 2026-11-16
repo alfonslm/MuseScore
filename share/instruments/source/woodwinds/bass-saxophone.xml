@@ -1,0 +1,20 @@
+            <Instrument id="bass-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Bass Saxophone</trackName>
+                  <longName>Bass Saxophone</longName>
+                  <shortName>B. Sax.</shortName>
+                  <description>Saxophone in B♭ (an octave below the tenor).</description>
+                  <musicXMLid>wind.reed.saxophone.bass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>32-65</aPitchRange>
+                  <pPitchRange>32-70</pPitchRange>
+                  <transposeDiatonic>-15</transposeDiatonic>
+                  <transposeChromatic>-26</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>jazz</genre>
+            </Instrument>

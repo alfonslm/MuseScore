@@ -1,0 +1,17 @@
+            <Instrument id="soprano-c-clef">
+                  <family>voices</family>
+                  <trackName>Soprano (C clef)</trackName>
+                  <longName>Soprano</longName>
+                  <shortName>S.</shortName>
+                  <description>Soprano voice (notated in C clef).</description>
+                  <musicXMLid>voice.soprano</musicXMLid>
+                  <clef>C1</clef>
+                  <aPitchRange>60-79</aPitchRange>
+                  <pPitchRange>60-84</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

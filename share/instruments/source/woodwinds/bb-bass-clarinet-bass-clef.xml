@@ -1,0 +1,20 @@
+            <Instrument id="bb-bass-clarinet-bass-clef">
+                  <family>clarinets</family>
+                  <trackName>Bass Clarinet (bass clef)</trackName>
+                  <longName>Bass Clarinet</longName>
+                  <shortName>B. Cl.</shortName>
+                  <traitName type="transposition">*(B♭)</traitName>
+                  <description>Bass clarinet in B♭. An octave lower than the B♭ soprano clarinet. Notated in the bass clef (‘German notation’).</description>
+                  <musicXMLid>wind.reed.clarinet.bass</musicXMLid>
+                  <transposingClef>F</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>37-75</aPitchRange>
+                  <pPitchRange>34-82</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+            </Instrument>

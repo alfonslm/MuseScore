@@ -43,7 +43,8 @@ class StaffTextBase : public TextBase
     OBJECT_ALLOCATOR(engraving, StaffTextBase)
 
 public:
-    StaffTextBase(const ElementType& type, Segment* parent, TextStyleType tid, ElementFlags = ElementFlag::ON_STAFF);
+    StaffTextBase(const ElementType& type, DummyParentOr<Segment> parent, TextStyleType tid, ElementFlags = ElementFlag::ON_STAFF);
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
 
     void clear();
 
@@ -73,6 +74,13 @@ public:
 
     bool positionRelativeToNoteheadRest() const override { return true; }
 
+    const PlaybackStateParams& playbackState() const { return m_playbackState; }
+    void setPlaybackState(const PlaybackStateParams& params) { m_playbackState = params; }
+
+    PropertyValue getProperty(Pid propertyId) const override;
+    bool setProperty(Pid propertyId, const PropertyValue& v) override;
+    PropertyValue propertyDefault(Pid id) const override;
+
     void added() override;
     void removed() override;
 
@@ -84,5 +92,6 @@ private:
     int m_aeolusStops[4] { 0, 0, 0, 0 };
     bool m_swing = false;
     int m_capo = 0;
+    PlaybackStateParams m_playbackState;
 };
 }

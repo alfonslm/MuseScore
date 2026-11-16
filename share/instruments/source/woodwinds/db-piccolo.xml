@@ -1,0 +1,20 @@
+            <Instrument id="db-piccolo">
+                  <family>flutes</family>
+                  <trackName>Piccolo</trackName>
+                  <longName>Piccolo</longName>
+                  <shortName>Picc.</shortName>
+                  <traitName type="transposition">D♭</traitName>
+                  <description>Piccolo in D♭, sounding a semitone above the standard piccolo.</description>
+                  <musicXMLid>wind.flutes.flute.piccolo</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8va</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>75-106</aPitchRange>
+                  <pPitchRange>75-109</pPitchRange>
+                  <transposeDiatonic>8</transposeDiatonic>
+                  <transposeChromatic>13</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+            </Instrument>

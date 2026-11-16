@@ -1,0 +1,18 @@
+            <Instrument id="a-dizi">
+                  <family>dizis</family>
+                  <trackName>Dizi</trackName>
+                  <longName>A Dizi</longName>
+                  <shortName>A Di.</shortName>
+                  <traitName type="tuning">A</traitName>
+                  <description>Chinese bamboo transverse flute, pitched in A.</description>
+                  <musicXMLid>wind.flutes.di-zi</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>76-102</aPitchRange>
+                  <pPitchRange>76-107</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

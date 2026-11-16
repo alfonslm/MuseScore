@@ -1,0 +1,17 @@
+            <Instrument id="contrabass-recorder">
+                  <family>recorders</family>
+                  <trackName>Contrabass Recorder</trackName>
+                  <longName>Contrabass Recorder</longName>
+                  <shortName>Cb. Rec.</shortName>
+                  <description>Recorder pitched in F (an octave below the bass).</description>
+                  <musicXMLid>wind.flutes.recorder.contrabass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-62</aPitchRange>
+                  <pPitchRange>41-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 74; MS General: Recorder-->
+                        <program value="74"/> <!--Recorder-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

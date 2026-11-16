@@ -1,0 +1,30 @@
+            <Instrument id="violas">
+                  <family>orchestral-strings</family>
+                  <trackName>Violas (section)</trackName>
+                  <longName>Violas</longName>
+                  <shortName>Vlas.</shortName>
+                  <description>Viola section.</description>
+                  <musicXMLid>strings.group</musicXMLid>
+                  <clef>C3</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-79</aPitchRange>
+                  <pPitchRange>48-93</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 31, Prog 48; MS General: Violas Fast Expr.-->
+                        <controller ctrl="32" value="31"/> <!--Bank LSB-->
+                        <program value="48"/> <!--String Ensemble 1-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 30, Prog 45; MS General: Violas Pizzicato-->
+                        <controller ctrl="32" value="30"/> <!--Bank LSB-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 31, Prog 44; MS General: Violas Tremolo Expr.-->
+                        <controller ctrl="32" value="31"/> <!--Bank LSB-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

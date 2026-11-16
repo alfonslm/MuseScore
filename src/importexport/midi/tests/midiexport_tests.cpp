@@ -20,12 +20,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
+#include <cmath>
+#include <map>
 #include <memory>
 #include <string>
 #include <string_view>
 
 #include <gtest/gtest.h>
 
+#include <QBuffer>
+#include <QByteArray>
 #include <QString>
 
 #include "global/io/ifilesystem.h"
@@ -42,6 +47,7 @@
 #include "engraving/tests/utils/scorerw.h"
 
 #include "importexport/midi/internal/midiexport/exportmidi.h"
+#include "importexport/midi/internal/midishared/midifile.h"
 
 #include "utils/smfyamlserializer.h"
 
@@ -235,6 +241,151 @@ TEST_F(MidiExportTests, testVoltaTemp) {
 // test changing Dynamic in prima and seconda volta
 TEST_F(MidiExportTests, testVoltaDynamic) {
     exportAndCompareWithRef("testVoltaDynamic");
+}
+
+//---------------------------------------------------------
+//   Pauses written by lengthening their measure (PauseMapMode::ExtendMeasure),
+//   and the playback speed
+//---------------------------------------------------------
+
+namespace {
+struct ExportedMidi {
+    int division = 0;
+    std::map<int, Fraction> timeSigs; // by tick
+    std::map<int, int> tempos;        // by tick, microseconds per quarter note
+    int lastNoteTick = 0;
+};
+}
+
+static ExportedMidi exportToMemory(MasterScore* score, PauseMapMode mode)
+{
+    ExportMidi em(score);
+    em.setPauseMode(mode);
+
+    QByteArray data;
+    {
+        QBuffer buffer(&data);
+        buffer.open(QIODevice::WriteOnly);
+        EXPECT_TRUE(em.write(&buffer, true, true));
+    }
+
+    QBuffer buffer(&data);
+    buffer.open(QIODevice::ReadOnly);
+    MidiFile file;
+    EXPECT_TRUE(file.read(&buffer));
+
+    ExportedMidi result;
+    result.division = file.division();
+
+    for (const MidiTrack& track : file.tracks()) {
+        for (const auto& [tick, ev] : track.events()) {
+            if (ev.type() == ME_META && ev.metaType() == META_TIME_SIGNATURE) {
+                result.timeSigs[tick] = Fraction(ev.edata()[0], 1 << ev.edata()[1]);
+            } else if (ev.type() == ME_META && ev.metaType() == META_TEMPO) {
+                result.tempos[tick] = (ev.edata()[0] << 16) | (ev.edata()[1] << 8) | ev.edata()[2];
+            } else if (ev.type() == ME_NOTEON || ev.type() == ME_NOTEOFF) {
+                result.lastNoteTick = std::max(result.lastNoteTick, tick);
+            }
+        }
+    }
+
+    return result;
+}
+
+//! Seconds from the start to `tick`, as a MIDI player counts them
+static double secondsAt(const ExportedMidi& midi, int tick)
+{
+    double secs = 0.0;
+    int prevTick = 0;
+    int usPerQuarter = 500000; // MIDI default: 120 bpm
+    for (const auto& [t, tempo] : midi.tempos) {
+        if (t >= tick) {
+            break;
+        }
+        secs += double(t - prevTick) / midi.division * usPerQuarter / 1000000.0;
+        prevTick = t;
+        usPerQuarter = tempo;
+    }
+    return secs + double(tick - prevTick) / midi.division * usPerQuarter / 1000000.0;
+}
+
+//! Number of bars from the start to `tick` according to the time signatures of the file.
+//! Fails the test if a time signature does not start on a bar line of the previous one.
+static double barsAt(const ExportedMidi& midi, int tick)
+{
+    double bars = 0.0;
+    auto it = midi.timeSigs.cbegin();
+    while (it != midi.timeSigs.cend() && it->first < tick) {
+        const auto next = std::next(it);
+        const int end = (next == midi.timeSigs.cend() || next->first > tick) ? tick : next->first;
+        const double barTicks = 4.0 * midi.division * it->second.numerator() / it->second.denominator();
+        const double segmentBars = (end - it->first) / barTicks;
+        if (end != tick) {
+            EXPECT_DOUBLE_EQ(segmentBars, std::round(segmentBars)) << "time signature at tick " << next->first
+                                                                   << " is not on a bar line";
+        }
+        bars += segmentBars;
+        it = next;
+    }
+    return bars;
+}
+
+TEST_F(MidiExportTests, pausesExtendMeasure)
+{
+    std::unique_ptr<MasterScore> score(ScoreRW::readScore(MIDI_EXPORT_DATA_DIR + u"/testPauses.mscx"));
+    ASSERT_TRUE(score);
+    score->doLayout();
+    score->rebuildMidiMapping();
+
+    const ExportedMidi legacy = exportToMemory(score.get(), PauseMapMode::InsertMeasure);
+    const ExportedMidi extended = exportToMemory(score.get(), PauseMapMode::ExtendMeasure);
+
+    ASSERT_FALSE(extended.timeSigs.empty());
+    EXPECT_EQ(extended.timeSigs.cbegin()->first, 0);
+
+    // The last note is in the score's last measure, not in an inserted one
+    const int lastBar = static_cast<int>(std::floor(barsAt(extended, extended.lastNoteTick)));
+    EXPECT_EQ(lastBar + 1, static_cast<int>(score->nmeasures()));
+
+    // Inserting measures moves the last note to a later measure
+    EXPECT_GT(legacy.lastNoteTick, extended.lastNoteTick);
+
+    // Both ways the pauses last as long as in the score
+    EXPECT_NEAR(secondsAt(extended, extended.lastNoteTick), secondsAt(legacy, legacy.lastNoteTick), 0.01);
+}
+
+TEST_F(MidiExportTests, playbackSpeed)
+{
+    std::unique_ptr<MasterScore> score(ScoreRW::readScore(MIDI_EXPORT_DATA_DIR + u"/testPauses.mscx"));
+    ASSERT_TRUE(score);
+    score->doLayout();
+    score->rebuildMidiMapping();
+
+    const ExportedMidi normal = exportToMemory(score.get(), PauseMapMode::ExtendMeasure);
+
+    ASSERT_TRUE(score->setTempoMultiplier(BeatsPerSecond(0.5)));
+    score->updateRepeatListTempo();
+    const ExportedMidi halfSpeed = exportToMemory(score.get(), PauseMapMode::ExtendMeasure);
+
+    // The score is at 120 bpm: at half speed that is 60 bpm, one quarter note per second
+    ASSERT_FALSE(halfSpeed.tempos.empty());
+    EXPECT_EQ(halfSpeed.tempos.cbegin()->second, 1000000);
+
+    // Half speed takes twice as long, pauses included
+    EXPECT_EQ(halfSpeed.lastNoteTick, normal.lastNoteTick);
+    EXPECT_NEAR(secondsAt(halfSpeed, halfSpeed.lastNoteTick), 2.0 * secondsAt(normal, normal.lastNoteTick), 0.02);
+}
+
+TEST_F(MidiExportTests, midiTempo)
+{
+    EXPECT_EQ(ExportMidi::midiTempo(2.0, 1.0), 500000);
+    EXPECT_EQ(ExportMidi::midiTempo(2.0, 0.5), 1000000);
+    EXPECT_EQ(ExportMidi::midiTempo(2.0, 2.0), 250000);
+
+    // Out of MIDI's range (3 bytes) or invalid
+    EXPECT_EQ(ExportMidi::midiTempo(0.01, 0.05), 0xFFFFFF);
+    EXPECT_EQ(ExportMidi::midiTempo(0.0, 1.0), 0xFFFFFF);
+    EXPECT_EQ(ExportMidi::midiTempo(2.0, 0.0), 500000);
 }
 
 // test changing StaffText in prima and seconda volta

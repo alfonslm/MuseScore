@@ -1,0 +1,22 @@
+            <Instrument id="ondes-martenot">
+                  <family>synths</family>
+                  <trackName>Ondes Martenot</trackName>
+                  <longName>Ondes Martenot</longName>
+                  <shortName>O.M.</shortName>
+                  <description>Ondes Martenot.</description>
+                  <musicXMLid>keyboard.ondes-martenot</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 79; MS General: Ocarina-->
+                        <program value="79"/> <!--Ocarina-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

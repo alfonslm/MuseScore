@@ -1,0 +1,10 @@
+            <Instrument id="bandurria-tablature">
+                  <init>bandurria</init>
+                  <family>bandurrias</family>
+                  <trackName>Bandurria (tablature)</trackName>
+                  <longName>Bandurria</longName>
+                  <description>Spanish folk instrument similar to the mandolin. (Tablature).</description>
+                  <musicXMLid>pluck.bandurria</musicXMLid>
+                  <stafftype staffTypePreset="tab6StrCommon">tablature</stafftype>
+                  <genre>popular</genre>
+            </Instrument>

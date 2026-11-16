@@ -1,0 +1,19 @@
+            <Instrument id="mezzo-soprano">
+                  <family>voices</family>
+                  <trackName>Mezzo-soprano</trackName>
+                  <longName>Mezzo-soprano</longName>
+                  <shortName>Mzs.</shortName>
+                  <description>Mezzo-soprano voice.</description>
+                  <musicXMLid>voice.mezzo-soprano</musicXMLid>
+                  <clef>G</clef>
+                  <aPitchRange>57-77</aPitchRange>
+                  <pPitchRange>57-81</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 52; MS General: Choir Aahs-->
+                        <program value="52"/> <!--Choir Aahs-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>choral</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

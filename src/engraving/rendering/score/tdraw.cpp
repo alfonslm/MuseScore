@@ -78,6 +78,8 @@
 #include "dom/instrchange.h"
 #include "dom/instrumentname.h"
 
+#include "dom/jianpudurationline.h"
+#include "dom/jianpuoctavedot.h"
 #include "dom/jump.h"
 
 #include "dom/keysig.h"
@@ -128,6 +130,7 @@
 #include "dom/stafftype.h"
 #include "dom/stafftypechange.h"
 #include "dom/staffvisibilityindicator.h"
+#include "dom/stavesharingchange.h"
 #include "dom/stavesharinglabel.h"
 #include "dom/stem.h"
 #include "dom/stemslash.h"
@@ -276,6 +279,10 @@ void TDraw::drawItem(const EngravingItem* item, Painter* painter, const PaintOpt
     case ElementType::INSTRUMENT_NAME: draw(item_cast<const InstrumentName*>(item), painter, opt);
         break;
 
+    case ElementType::JIANPU_DURATION_LINE: draw(item_cast<const JianpuDurationLine*>(item), painter, opt);
+        break;
+    case ElementType::JIANPU_OCTAVE_DOT: draw(item_cast<const JianpuOctaveDot*>(item), painter, opt);
+        break;
     case ElementType::JUMP:         draw(item_cast<const Jump*>(item), painter, opt);
         break;
 
@@ -357,6 +364,8 @@ void TDraw::drawItem(const EngravingItem* item, Painter* painter, const PaintOpt
     case ElementType::STAFF_STATE:          draw(item_cast<const StaffState*>(item), painter, opt);
         break;
     case ElementType::STAFF_TEXT:           draw(item_cast<const StaffText*>(item), painter, opt);
+        break;
+    case ElementType::STAVE_SHARING_CHANGE: draw(item_cast<const StaveSharingChange*>(item), painter, opt);
         break;
     case ElementType::STAVE_SHARING_LABEL:  draw(item_cast<const StaveSharingLabel*>(item), painter, opt);
         break;
@@ -1224,11 +1233,58 @@ void TDraw::draw(const Clef* item, Painter* painter, const PaintOptions& opt)
         return;
     }
 
-    if (ldata->symId == SymId::noSym || (item->staff() && !const_cast<const Staff*>(item->staff())->staffType(item->tick())->genClef())) {
+    const bool drawStringNames = item->clefType() == ClefType::TAB_STRING_NAMES && !ldata->stringNames.empty();
+
+    if ((ldata->symId == SymId::noSym && !drawStringNames)
+        || (item->staff() && !const_cast<const Staff*>(item->staff())->staffType(item->tick())->genClef())) {
         return;
     }
 
     painter->setPen(item->curColor(opt));
+
+    if (drawStringNames) {
+        // Use the line distance layoutClef computed the bbox from, rather than re-deriving
+        // it from the staff type at the clef's own tick: that lookup can select a different
+        // staff-type instance than the one layoutClef used for this clef (e.g. around a
+        // staff-type change coinciding with the clef), leaving the drawn text out of sync
+        // with its measured/laid-out bbox.
+        const double lineDistAbs = ldata->stringNamesLineDist;
+        const int lines = static_cast<int>(ldata->stringNames.size());
+        const double halfHeight = lineDistAbs * (lines - 1) * 0.5;
+
+        // Size the letters from the staff's own line distance rather than a fixed point
+        // size: a fixed size overlaps on a tightly-spaced tab staff (or leaves the letters
+        // too small on a widely-spaced one). Measure a probe font's cap height and scale so
+        // the drawn cap height is a fixed fraction of the space between two lines.
+        Font probeFont(u"Edwin", Font::Type::Text);
+        probeFont.setPointSizeF(10.0);
+        const double probeCapHeight = FontMetrics(probeFont).capHeight();
+        const double pointSize = probeCapHeight > 0.0
+                                 ? 10.0 * (lineDistAbs * 0.65) / probeCapHeight
+                                 : 10.0 * item->magS();
+
+        for (int i = 0; i < lines; ++i) {
+            const String& name = ldata->stringNames[i];
+            if (name.empty()) {
+                continue;
+            }
+            // Build the font fresh for each letter rather than sharing one Font/FontMetrics
+            // pair across the loop: a plain text font ("Edwin" here, rather than
+            // Sid::staffTextFontFace, which is user/score-configurable and may point at a
+            // music-symbol font that remaps plain Latin letters to unrelated glyphs).
+            Font font(u"Edwin", Font::Type::Text);
+            font.setPointSizeF(pointSize);
+            FontMetrics fm(font);
+            const RectF r = fm.boundingRect(name);
+            const double lineY = -halfHeight + i * lineDistAbs;
+            const double x = -(r.left() + r.width() * 0.5);
+            const double y = lineY - (r.top() + r.bottom()) * 0.5;
+            painter->setFont(font);
+            painter->drawText(PointF(x, y), name);
+        }
+        return;
+    }
+
     item->drawSymbol(ldata->symId, painter);
 }
 
@@ -1254,6 +1310,19 @@ void TDraw::draw(const DeadSlapped* item, Painter* painter, const PaintOptions& 
 void TDraw::draw(const Dynamic* item, Painter* painter, const PaintOptions& opt)
 {
     drawTextBase(item, painter, opt);
+}
+
+void TDraw::draw(const JianpuDurationLine* item, Painter* painter, const PaintOptions& opt)
+{
+    TRACE_DRAW_ITEM;
+
+    const JianpuDurationLine::LayoutData* ldata = item->ldata();
+    IF_ASSERT_FAILED(ldata) {
+        return;
+    }
+
+    painter->setPen(Pen(item->curColor(opt), ldata->lineWidth, PenStyle::SolidLine, PenCapStyle::FlatCap));
+    painter->drawLine(LineF(0.0, 0.0, ldata->len, 0.0));
 }
 
 void TDraw::draw(const Expression* item, Painter* painter, const PaintOptions& opt)
@@ -1418,6 +1487,9 @@ void TDraw::draw(const FretDiagram* item, Painter* painter, const PaintOptions& 
     // Draw dots, sym pen is used to draw them (and markers)
     Pen symPen(pen);
     symPen.setCapStyle(PenCapStyle::FlatCap);
+    // Raise the miter limit so the triangle's apex isn't bevelled (needs ~2.24)
+    symPen.setJoinStyle(PenJoinStyle::MiterJoin);
+    symPen.setMiterLimit(3.0);
     double symPenWidth = ldata->stringLineWidth * 1.2;
     symPen.setWidthF(symPenWidth);
 
@@ -1450,9 +1522,8 @@ void TDraw::draw(const FretDiagram* item, Painter* painter, const PaintOptions& 
                 painter->drawRect(RectF(x, y, dotd, dotd));
                 break;
             case FretDotType::TRIANGLE:
-                painter->drawLine(LineF(x, y + dotd, x + .5 * dotd, y));
-                painter->drawLine(LineF(x + .5 * dotd, y, x + dotd, y + dotd));
-                painter->drawLine(LineF(x + dotd, y + dotd, x, y + dotd));
+                painter->setBrush(BrushStyle::NoBrush);
+                painter->drawPolygon(PolygonF({ PointF(x, y + dotd), PointF(x + .5 * dotd, y), PointF(x + dotd, y + dotd) }));
                 break;
             case FretDotType::NORMAL:
             default:
@@ -2116,6 +2187,19 @@ void TDraw::draw(const KeySig* item, Painter* painter, const PaintOptions& opt)
     const KeySig::LayoutData* ldata = item->ldata();
 
     painter->setPen(item->curColor(opt));
+
+    if (item->staff() && item->staff()->isJianpuStaff(item->tick())) {
+        if (ldata->jianpuLabel.isEmpty()) {
+            return;
+        }
+        const StaffType* staffType = item->staff()->staffTypeForElement(item);
+        Font f(staffType->jianpuFont());
+        f.setPointSizeF(f.pointSizeF() * item->mag());
+        painter->setFont(f);
+        painter->drawText(PointF(ldata->bbox().x(), ldata->bbox().bottom()), ldata->jianpuLabel);
+        return;
+    }
+
     double _spatium = item->spatium();
     double step = _spatium * (item->staff() ? item->staff()->staffTypeForElement(item)->lineDistance().val() * 0.5 : 0.5);
     int lines = item->staff() ? item->staff()->staffTypeForElement(item)->lines() : 5;
@@ -2333,6 +2417,33 @@ void TDraw::draw(const MMRestRange* item, Painter* painter, const PaintOptions& 
     drawTextBase(item, painter, opt);
 }
 
+//---------------------------------------------------------
+//   drawJianpuAccidental
+//    Draws a Jianpu accidental mark smaller and above-left of the digit,
+//    without shifting the digit itself (which stays aligned with beams/dots).
+//---------------------------------------------------------
+
+static void drawJianpuAccidental(Painter* painter, const Font& digitFont, const FontMetrics& digitFm, const String& accidental,
+                                 double digitStartX, double baselineY)
+{
+    if (accidental.isEmpty()) {
+        return;
+    }
+
+    static constexpr double JIANPU_ACCIDENTAL_MAG = 0.7;
+    Font accFont(digitFont);
+    accFont.setPointSizeF(digitFont.pointSizeF() * JIANPU_ACCIDENTAL_MAG);
+    painter->setFont(accFont);
+
+    FontMetrics accFm(accFont);
+    const double gap = accFont.pointSizeF() * 0.1;
+    const double accX = digitStartX - accFm.width(accidental) - gap;
+    const double accY = baselineY - digitFm.ascent() * 0.5;
+    painter->drawText(PointF(accX, accY), accidental);
+
+    painter->setFont(digitFont);
+}
+
 void TDraw::draw(const Note* item, Painter* painter, const PaintOptions& opt)
 {
     TRACE_DRAW_ITEM;
@@ -2375,8 +2486,20 @@ void TDraw::draw(const Note* item, Painter* painter, const PaintOptions& opt)
         const double yOffset = tab->fretFontYOffset();
         painter->drawText(PointF(startPosX, yOffset * item->magS()), item->fretString());
     }
-    // NOT tablature
-    else {
+    // Jianpu
+    else if (staffType && item->onJianpuStaff()) {
+        Font f(staffType->jianpuFont());
+        f.setPointSizeF(f.pointSizeF() * item->magS());
+        painter->setFont(f);
+
+        FontMetrics fm(f);
+        const double fw = fm.width(item->jianpuDigit());
+        const double bw = ldata->bbox().width();
+        const double startPosX = ldata->bbox().x() + (bw - fw) * .5;
+        const double startPosY = ldata->bbox().bottom();
+        drawJianpuAccidental(painter, f, fm, item->jianpuAccidental(), startPosX, startPosY);
+        painter->drawText(PointF(startPosX, startPosY), item->jianpuDigit());
+    } else {
         // skip drawing, if second note of a cross-measure value
         if (item->chord() && item->chord()->crossMeasure() == CrossMeasure::SECOND) {
             return;
@@ -2385,7 +2508,7 @@ void TDraw::draw(const Note* item, Painter* painter, const PaintOptions& opt)
         // by coloring the notehead
         if (item->chord() && item->chord()->segment() && item->staff() && !opt.isPrinting
             && MScore::warnPitchRange && !item->staff()->isDrumStaff(item->chord()->tick())) {
-            const Instrument* in = item->part()->instrument(item->chord()->tick());
+            const Instrument* in = item->originPart()->instrument(item->chord()->tick());
             int i = item->ppitch();
             if (i < in->minPitchP() || i > in->maxPitchP()) {
                 painter->setPen(item->selected() ? config->criticalSelectedColor() : config->criticalColor());
@@ -2396,7 +2519,7 @@ void TDraw::draw(const Note* item, Painter* painter, const PaintOptions& opt)
         // Warn if notes are unplayable based on previous harp diagram setting
         if (item->chord() && item->chord()->segment() && item->staff() && !opt.isPrinting
             && !item->staff()->isDrumStaff(item->chord()->tick())) {
-            HarpPedalDiagram* prevDiagram = item->part()->currentHarpDiagram(item->chord()->segment()->tick());
+            HarpPedalDiagram* prevDiagram = item->originPart()->currentHarpDiagram(item->chord()->segment()->tick());
             if (prevDiagram && !prevDiagram->isTpcPlayable(item->tpc())) {
                 painter->setPen(item->selected() ? config->criticalSelectedColor() : config->criticalColor());
             }
@@ -2441,6 +2564,23 @@ void TDraw::draw(const NoteLineSegment* item, Painter* painter, const PaintOptio
 {
     TRACE_DRAW_ITEM;
     drawTextLineBaseSegment(item, painter, opt);
+}
+
+void TDraw::draw(const JianpuOctaveDot* item, Painter* painter, const PaintOptions& opt)
+{
+    TRACE_DRAW_ITEM;
+
+    const JianpuOctaveDot::LayoutData* ldata = item->ldata();
+    IF_ASSERT_FAILED(ldata) {
+        return;
+    }
+
+    double rad = ldata->radius;
+    double x = ldata->len * 0.5; // draw dot in the middle
+
+    painter->setPen(Pen(item->curColor(opt)));
+    painter->setBrush(Brush(item->curColor(opt)));
+    painter->drawEllipse(PointF(x, 0), rad, rad);
 }
 
 void TDraw::draw(const OttavaSegment* item, Painter* painter, const PaintOptions& opt)
@@ -2575,6 +2715,21 @@ void TDraw::draw(const Rest* item, Painter* painter, const PaintOptions& opt)
 
     painter->setPen(item->curColor(opt));
 
+    bool jianpu = item->staff() && item->staff()->isJianpuStaff(item->tick());
+    if (jianpu) {
+        const Staff* staff = item->staff();
+        const StaffType* staffType = staff->staffTypeForElement(item);
+        const double height = staffType->jianpuBoxH() * item->magS();
+
+        Font f(staffType->jianpuFont());
+        f.setPointSizeF(f.pointSizeF() * item->magS());
+        painter->setFont(f);
+        painter->setPen(item->curColor(opt));
+        double startPosX = ldata->bbox().x();
+        painter->drawText(PointF(startPosX, height * .5), String(u"0"));
+        return;
+    }
+
     if (DeadSlapped* ds = item->deadSlapped()) {
         draw(ds, painter, opt);
     } else {
@@ -2607,11 +2762,12 @@ void TDraw::draw(const ShadowNote* item, Painter* painter, const PaintOptions&)
     Pen pen(item->color(), lw, PenStyle::SolidLine, PenCapStyle::FlatCap);
     painter->setPen(pen);
 
+    bool jianpu = item->staff() && item->staff()->isJianpuStaff(item->tick());
     bool up = item->computeUp();
 
-    // Draw the accidental
+    // Draw the accidental (Jianpu shows its accidental as part of the digit label instead)
     SymId acc = Accidental::subtype2symbol(item->accidentalType());
-    if (acc != SymId::noSym) {
+    if (!jianpu && acc != SymId::noSym) {
         PointF posAcc;
         posAcc.rx() -= item->symWidth(acc) + item->style().styleAbsolute(Sid::accidentalNoteDistance) * item->mag();
         item->drawSymbol(acc, painter, posAcc);
@@ -2683,8 +2839,103 @@ void TDraw::draw(const ShadowNote* item, Painter* painter, const PaintOptions&)
         int l = item->staffType()->lines() * 2 + yOffset / step; // first ledger line below staff
         for (int i = l; i <= item->lineIndex(); i += 2) {
             double y = step * (i - item->lineIndex());
-            painter->drawLine(LineF(x1, y, x2, y));
+            if (jianpu && i < 9) {
+                // jianpu ledger line width is double in the 5-line staff
+                painter->drawLine(LineF(x1 - 2 * extraLen, y, x2 + 2 * extraLen, y));
+            } else {
+                // Normal ledger lines below staff
+                painter->drawLine(LineF(x1, y, x2, y));
+            }
         }
+    }
+
+    // Draw jianpu digit
+    if (jianpu) {
+        const Staff* staff = item->staff();
+        const StaffType* staffType = staff->staffTypeForElement(item);
+        Font f(staffType->jianpuFont());
+        f.setPointSizeF(f.pointSizeF() * item->magS());
+        painter->setFont(f);
+
+        FontMetrics fm(f);
+        const double jianpuWidth = fm.width(item->jianpuDigit());
+        const double jianpuHeight = staffType->jianpuBoxH() * item->magS();
+
+        auto bbox = item->ldata()->bbox();
+        double jianpuX = (noteheadWidth - jianpuWidth) * .5;
+        double jianpuY = bbox.y();
+        const bool beamAbove = item->style().styleV(Sid::jianpuDiminutionBeamPlacement).value<PlacementV>() == PlacementV::ABOVE;
+        const double beamDistance = item->style().styleAbsolute(Sid::jianpuDiminutionBeamDistance) * item->magS();
+        const double beamThickness = item->style().styleAbsolute(Sid::jianpuDiminutionBeamThickness) * item->magS();
+        const double dotDistance = item->style().styleAbsolute(Sid::jianpuOctaveDotDistance) * item->magS();
+        const double dotRadius = item->style().styleAbsolute(Sid::jianpuOctaveDotRadius) * item->magS();
+
+        if (item->lineIndex() >= 0) {
+            jianpuY = bbox.height() + bbox.y();
+            jianpuY -= jianpuHeight;
+            jianpuY -= dotDistance * abs(item->jianpuOctaveDots());
+            jianpuY -= beamDistance * item->jianpuDiminutionLines();
+        }
+
+        // Save painter state before drawing beams and dots, as they may change pen width
+        painter->save();
+        pen.setWidthF(1.0);
+        painter->setPen(pen);
+        painter->setBrush(Brush(pen.color()));
+
+        auto drawOctaveDots = [&jianpuY, &noteheadWidth, &dotDistance, &dotRadius, &item, &painter]() {
+            for (int i = 0; i < abs(item->jianpuOctaveDots()); i++) {
+                jianpuY += dotDistance;
+                painter->drawEllipse(PointF(noteheadWidth * .5, jianpuY), dotRadius, dotRadius);
+            }
+        };
+
+        auto drawBeam = [&jianpuY, &noteheadWidth, &beamDistance, &beamThickness, &item, &pen, &painter]() {
+            painter->save();
+            pen.setWidthF(beamThickness);
+            painter->setPen(pen);
+            for (int i = 0; i < item->jianpuDiminutionLines(); i++) {
+                jianpuY += beamDistance;
+                painter->drawLine(LineF(0.0, jianpuY, noteheadWidth, jianpuY));
+            }
+            painter->restore();
+        };
+
+        // Draw beams above the jianpu digit
+        bool hasBeamAbove = false;
+        double toNoteDistance = 0;
+        if (beamAbove && item->jianpuDiminutionLines()) {
+            hasBeamAbove = true;
+            jianpuY -= beamDistance; // Pre offset for 1st beam
+            toNoteDistance = beamDistance;
+            drawBeam();
+        }
+
+        // Draw octave dots above the jianpu digit
+        if (item->jianpuOctaveDots() < 0) {
+            jianpuY -= hasBeamAbove ? 0.0 : dotDistance; // Pre offset for 1st dot if no beam
+            toNoteDistance = dotDistance;
+            drawOctaveDots();
+        }
+
+        // Draw jianpu digit
+        jianpuY += toNoteDistance; // Spacing for beams or dots to the notehead
+        jianpuY += jianpuHeight; // Spacing from jianpu digit
+        drawJianpuAccidental(painter, f, fm, item->jianpuAccidental(), jianpuX, jianpuY);
+        painter->drawText(jianpuX, jianpuY, item->jianpuDigit());
+
+        // Draw beams below the jianpu digit
+        if (!beamAbove && item->jianpuDiminutionLines()) {
+            drawBeam();
+        }
+
+        // Draw octave dots below the jianpu digit
+        if (item->jianpuOctaveDots() > 0) {
+            drawOctaveDots();
+        }
+
+        // Restore painter state after drawing beams and dots
+        painter->restore();
     }
 
     item->drawArticulations(painter);

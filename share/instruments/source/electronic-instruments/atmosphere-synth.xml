@@ -1,0 +1,24 @@
+            <Instrument id="atmosphere-synth">
+                  <family>synths</family>
+                  <trackName>Atmosphere Synthesizer</trackName>
+                  <longName>Atmosphere Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Atmosphere synth effect (General MIDI program 100).</description>
+                  <musicXMLid>synth.effects.atmosphere</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 99; MS General: Atmosphere-->
+                        <program value="99"/> <!--FX 4 (atmosphere)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

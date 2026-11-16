@@ -1,0 +1,17 @@
+            <Instrument id="alto-chalumeau">
+                  <family>chalumeaus</family>
+                  <trackName>Alto Chalumeau</trackName>
+                  <longName>Alto Chalumeau</longName>
+                  <shortName>A. Cha.</shortName>
+                  <description>Predecessor of the modern-day clarinet, pitched in F (a fourth above the tenor chalumeau).</description>
+                  <musicXMLid>wind.reed.chalumeau</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-67</aPitchRange>
+                  <pPitchRange>53-70</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

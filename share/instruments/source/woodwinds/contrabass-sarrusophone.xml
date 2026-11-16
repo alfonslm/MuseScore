@@ -1,0 +1,19 @@
+            <Instrument id="contrabass-sarrusophone">
+                  <family>sarrusophones</family>
+                  <trackName>Contrabass Sarrusophone</trackName>
+                  <longName>Contrabass Sarrusophone</longName>
+                  <shortName>Cb. Sar.</shortName>
+                  <description>Single- or double-reed metal instrument with a conical bore, in E♭ (an octave below the baritone).</description>
+                  <musicXMLid>wind.reed.sarrusaphone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>25-53</aPitchRange>
+                  <pPitchRange>25-56</pPitchRange>
+                  <transposeDiatonic>-19</transposeDiatonic>
+                  <transposeChromatic>-33</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

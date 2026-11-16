@@ -1,0 +1,35 @@
+            <Instrument id="viola">
+                  <family>orchestral-strings</family>
+                  <trackName>Viola</trackName>
+                  <longName>Viola</longName>
+                  <shortName>Vla.</shortName>
+                  <description>Solo viola.</description>
+                  <musicXMLid>strings.viola</musicXMLid>
+                  <StringData>
+                        <frets>24</frets>
+                        <string>48</string>
+                        <string>55</string>
+                        <string>62</string>
+                        <string>69</string>
+                  </StringData>
+                  <clef>C3</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-79</aPitchRange>
+                  <pPitchRange>48-93</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel name="arco">
+                        <!--MIDI: Bank 0, Prog 41; MS General: Viola-->
+                        <program value="41"/> <!--Viola-->
+                  </Channel>
+                  <Channel name="pizzicato">
+                        <!--MIDI: Bank 0, Prog 45; MS General: Strings Pizzicato-->
+                        <program value="45"/> <!--Pizzicato Strings-->
+                  </Channel>
+                  <Channel name="tremolo">
+                        <!--MIDI: Bank 0, Prog 44; MS General: Strings Tremolo-->
+                        <program value="44"/> <!--Tremolo Strings-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+            </Instrument>

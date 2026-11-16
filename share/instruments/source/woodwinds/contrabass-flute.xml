@@ -1,0 +1,19 @@
+            <Instrument id="contrabass-flute">
+                  <family>flutes</family>
+                  <trackName>Contrabass Flute</trackName>
+                  <longName>Contrabass Flute</longName>
+                  <shortName>Cb. Fl.</shortName>
+                  <description>Flute in C, sounding two octaves lower than the standard flute.</description>
+                  <musicXMLid>wind.flutes.flute.contrabass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-65</aPitchRange>
+                  <pPitchRange>36-69</pPitchRange>
+                  <transposeDiatonic>-14</transposeDiatonic>
+                  <transposeChromatic>-24</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 73; MS General: Flute-->
+                        <program value="73"/> <!--Flute-->
+                  </Channel>
+            </Instrument>

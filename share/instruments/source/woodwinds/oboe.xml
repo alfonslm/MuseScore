@@ -1,0 +1,19 @@
+            <Instrument id="oboe">
+                  <family>oboes</family>
+                  <trackName>Oboe</trackName>
+                  <longName>Oboe</longName>
+                  <shortName>Ob.</shortName>
+                  <description>Standard concert oboe.</description>
+                  <musicXMLid>wind.reed.oboe</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>58-87</aPitchRange>
+                  <pPitchRange>58-96</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 68; MS General: Oboe-->
+                        <program value="68"/> <!--Oboe-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+            </Instrument>

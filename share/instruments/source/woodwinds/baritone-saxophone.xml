@@ -1,0 +1,24 @@
+            <Instrument id="baritone-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Baritone Saxophone</trackName>
+                  <longName>Baritone Saxophone</longName>
+                  <shortName>Bar. Sax.</shortName>
+                  <description>Saxophone in E♭ (an octave below the alto).</description>
+                  <musicXMLid>wind.reed.saxophone.baritone</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-68</aPitchRange>
+                  <pPitchRange>36-80</pPitchRange>
+                  <transposeDiatonic>-12</transposeDiatonic>
+                  <transposeChromatic>-21</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

@@ -1,0 +1,10 @@
+            <Instrument id="viola-da-gamba-tablature">
+                  <init>viola-da-gamba</init>
+                  <family>viols</family>
+                  <trackName>Bass Viol (tablature)</trackName>
+                  <longName>Bass Viol</longName>
+                  <shortName>B. Vl.</shortName>
+                  <description>Bass viola da gamba (tablature). Third lowest member of the viol family.</description>
+                  <stafftype staffTypePreset="tab6StrFrench">tablature</stafftype>
+                  <genre>earlymusic</genre>
+            </Instrument>

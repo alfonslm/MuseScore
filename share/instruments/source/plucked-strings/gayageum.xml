@@ -1,0 +1,23 @@
+            <Instrument id="gayageum">
+                  <family>gayageums</family>
+                  <trackName>Gayageum</trackName>
+                  <longName>Gayageum</longName>
+                  <shortName>Gyg.</shortName>
+                  <description>Korean plucked twelve-string zither.</description>
+                  <musicXMLid>pluck.kayagum</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>43-74</aPitchRange>
+                  <pPitchRange>43-74</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 107; MS General: Koto-->
+                        <program value="107"/> <!--Koto-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

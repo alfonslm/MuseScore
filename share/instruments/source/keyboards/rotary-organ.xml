@@ -1,0 +1,20 @@
+            <Instrument id="rotary-organ">
+                  <family>organs</family>
+                  <trackName>Rotary Organ</trackName>
+                  <longName>Rotary Organ</longName>
+                  <shortName>Rot. Org.</shortName>
+                  <description>Hammond organ with Leslie rotary speaker.</description>
+                  <musicXMLid>keyboard.organ.rotary</musicXMLid>
+                  <staves>3</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <clef staff="3">F</clef>
+                  <barlineSpan staff="3">1</barlineSpan>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 18; MS General: Rock Organ-->
+                        <program value="18"/> <!--Rock Organ-->
+                  </Channel>
+            </Instrument>

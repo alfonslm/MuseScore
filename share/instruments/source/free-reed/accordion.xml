@@ -1,0 +1,22 @@
+            <Instrument id="accordion">
+                  <family>accordions</family>
+                  <trackName>Accordion</trackName>
+                  <longName>Accordion</longName>
+                  <shortName>Acc.</shortName>
+                  <description>Bellows-driven free-reed instrument with a keyboard or buttons on one end, and buttons on the other.</description>
+                  <musicXMLid>keyboard.accordion</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-93</aPitchRange>
+                  <pPitchRange>28-97</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 21; MS General: Accordion-->
+                        <program value="21"/> <!--Accordion-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+            </Instrument>

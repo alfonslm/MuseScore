@@ -1,0 +1,20 @@
+            <Instrument id="mellophone">
+                  <family>bugles</family>
+                  <trackName>Mellophone</trackName>
+                  <longName>Mellophone</longName>
+                  <shortName>Mello.</shortName>
+                  <description>Mellophone bugle in F.</description>
+                  <musicXMLid>brass.mellophone</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>47-74</aPitchRange>
+                  <pPitchRange>47-77</pPitchRange>
+                  <transposeDiatonic>-4</transposeDiatonic>
+                  <transposeChromatic>-7</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <genre>jazz</genre>
+                  <genre>marching</genre>
+            </Instrument>

@@ -1,0 +1,22 @@
+            <Instrument id="saxhorn">
+                  <family>saxhorns</family>
+                  <trackName>Saxhorn</trackName>
+                  <longName>Saxhorn</longName>
+                  <shortName>Saxhorn</shortName>
+                  <description>Soprano saxhorn.</description>
+                  <musicXMLid>brass.saxhorn</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>45-72</aPitchRange>
+                  <pPitchRange>45-75</pPitchRange>
+                  <transposeDiatonic>-5</transposeDiatonic>
+                  <transposeChromatic>-9</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 60; MS General: French Horns-->
+                        <program value="60"/> <!--French Horn-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

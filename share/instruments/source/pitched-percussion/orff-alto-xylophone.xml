@@ -1,0 +1,18 @@
+            <Instrument id="orff-alto-xylophone">
+                  <family>orff-percussion</family>
+                  <trackName>Orff Alto Xylophone</trackName>
+                  <longName>Orff Alto Xylophone</longName>
+                  <shortName>O. A. Xyl.</shortName>
+                  <description>Alto xylophone for the Orff Schulwerk.</description>
+                  <musicXMLid>pitched-percussion.xylophone.alto</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-81</aPitchRange>
+                  <pPitchRange>60-81</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 12; MS General: Marimba-->
+                        <program value="12"/> <!--Marimba-->
+                  </Channel>
+                  <genre>classroom</genre>
+            </Instrument>

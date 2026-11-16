@@ -34,6 +34,7 @@
 #include "../dom/ornament.h"
 #include "../dom/rest.h"
 #include "../dom/score.h"
+#include "../dom/staff.h"
 #include "../dom/select.h"
 #include "../dom/trill.h"
 
@@ -92,6 +93,28 @@ static std::vector<Fermata*> fermataCopiesOnOtherStaves(const Fermata* fermata)
     return result;
 }
 
+//! Hiding a fermata in the full score is about the score: the player of the instrument
+//! still needs it in the part, so the copy in the part is made visible again
+static void undoKeepFermataVisibleInParts(Fermata* hiddenFermata)
+{
+    if (!hiddenFermata->score()->isMaster() || !hiddenFermata->staff()) {
+        return;
+    }
+
+    const std::vector<Staff*> linkedStaves = hiddenFermata->staff()->staffList();
+    for (EngravingObject* obj : hiddenFermata->linkList()) {
+        if (obj == hiddenFermata || !obj->isFermata()) {
+            continue;
+        }
+
+        Fermata* inPart = toFermata(obj);
+        if (inPart->score() != hiddenFermata->score() && !inPart->visible()
+            && muse::contains(linkedStaves, inPart->staff())) {
+            inPart->undoChangeProperty(Pid::VISIBLE, true);
+        }
+    }
+}
+
 void EditVisibility::hideFermatasOnOtherStaves(Transaction& tx, Score* score)
 {
     for (EngravingItem* e : score->selection().elements()) {
@@ -101,6 +124,7 @@ void EditVisibility::hideFermatasOnOtherStaves(Transaction& tx, Score* score)
 
         for (Fermata* other : fermataCopiesOnOtherStaves(toFermata(e))) {
             undoChangeVisible(tx, other, false);
+            undoKeepFermataVisibleInParts(other);
         }
         undoChangeVisible(tx, e, true);
     }
@@ -124,6 +148,17 @@ static bool chordHasVisibleNote(const Chord* chord)
 {
     for (const Note* note : chord->notes()) {
         if (note->visible()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static bool beamHasVisibleNote(const Beam* beam)
+{
+    for (const EngravingItem* item : beam->elements()) {
+        if (item->isChord() && chordHasVisibleNote(toChord(item))) {
             return true;
         }
     }
@@ -159,20 +194,10 @@ static void undoChangeNoteVisibility(Note* note, bool visible)
     Beam* beam = noteChord->beam();
     std::vector<Chord*> chords;
 
-    bool chordHasVisibleNote_ = visible || chordHasVisibleNote(noteChord);
-    bool beamHasVisibleNote_ = chordHasVisibleNote_;
-
     if (beam) {
         for (EngravingItem* item : beam->elements()) {
-            if (!item->isChord()) {
-                continue;
-            }
-
-            Chord* chord = toChord(item);
-            chords.push_back(chord);
-
-            if (!beamHasVisibleNote_ && chord != noteChord) {
-                beamHasVisibleNote_ = chordHasVisibleNote(chord);
+            if (item->isChord()) {
+                chords.push_back(toChord(item));
             }
         }
     } else {
@@ -191,7 +216,10 @@ static void undoChangeNoteVisibility(Note* note, bool visible)
     for (const Chord* chord : chords) {
         for (const EngravingObject* obj : chord->linkList()) {
             const Chord* linkedChord = toChord(obj);
-            chordHasVisibleNote_ = chordHasVisibleNote(linkedChord);
+            const bool chordHasVisibleNote_ = chordHasVisibleNote(linkedChord);
+            // note visibility can differ between scores, so check this score's own beam
+            const Beam* linkedBeam = linkedChord->beam();
+            const bool beamHasVisibleNote_ = chordHasVisibleNote_ || (linkedBeam && beamHasVisibleNote(linkedBeam));
             for (EngravingObject* child : linkedChord->getChildren()) {
                 const ElementType type = child->type();
 

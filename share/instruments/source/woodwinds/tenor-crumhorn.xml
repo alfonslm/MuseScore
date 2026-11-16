@@ -1,0 +1,17 @@
+            <Instrument id="tenor-crumhorn">
+                  <family>crumhorns</family>
+                  <trackName>Tenor Crumhorn</trackName>
+                  <longName>Tenor Crumhorn</longName>
+                  <shortName>T. Crh.</shortName>
+                  <description>Renaissance double-reed instrument with curved end, pitched in C (an octave below the soprano crumhorn).</description>
+                  <musicXMLid>wind.reed.crumhorn.tenor</musicXMLid>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-62</aPitchRange>
+                  <pPitchRange>48-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

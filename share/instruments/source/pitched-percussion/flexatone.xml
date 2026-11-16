@@ -1,0 +1,17 @@
+            <Instrument id="flexatone">
+                  <family>flexatones</family>
+                  <trackName>Flexatone</trackName>
+                  <longName>Flexatone</longName>
+                  <shortName>Flt.</shortName>
+                  <description>Flexatone.</description>
+                  <musicXMLid>metal.flexatone</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>76-93</aPitchRange>
+                  <pPitchRange>76-93</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 14; MS General: Tubular Bells-->
+                        <program value="14"/> <!--Tubular Bells-->
+                  </Channel>
+            </Instrument>

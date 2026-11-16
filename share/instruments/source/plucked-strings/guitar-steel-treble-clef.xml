@@ -1,0 +1,30 @@
+            <Instrument id="guitar-steel-treble-clef">
+                  <family>guitars</family>
+                  <trackName>Acoustic Guitar (treble clef)</trackName>
+                  <longName>Guitar</longName>
+                  <shortName>Guit.</shortName>
+                  <description>Acoustic steel-string guitar (staff notation, with normal treble clef).</description>
+                  <musicXMLid>pluck.guitar.acoustic</musicXMLid>
+                  <StringData>
+                        <frets>20</frets>
+                        <string>52</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                        <string>71</string>
+                        <string>76</string>
+                  </StringData>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-83</aPitchRange>
+                  <pPitchRange>40-84</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>-7</transposeDiatonic>
+                  <transposeChromatic>-12</transposeChromatic>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 25; MS General: Steel String Guitar-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+            </Instrument>

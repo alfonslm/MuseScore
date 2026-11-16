@@ -1,0 +1,17 @@
+            <Instrument id="bass-f-tuba">
+                  <family>tubas</family>
+                  <trackName>Bass Tuba</trackName>
+                  <longName>F Bass Tuba</longName>
+                  <shortName>F Ba. Tb.</shortName>
+                  <traitName type="tuning">*F</traitName>
+                  <description>Bass tuba in F (notated in bass clef at concert pitch).</description>
+                  <musicXMLid>brass.tuba.bass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>26-64</aPitchRange>
+                  <pPitchRange>24-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+            </Instrument>

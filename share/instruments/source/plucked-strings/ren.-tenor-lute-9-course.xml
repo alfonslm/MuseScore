@@ -1,0 +1,33 @@
+            <Instrument id="ren.-tenor-lute-9-course">
+                  <family>lutes</family>
+                  <trackName>Tenor Lute</trackName>
+                  <longName>Tenor Lute</longName>
+                  <shortName>Lt.</shortName>
+                  <traitName type="course">9-course</traitName>
+                  <description>9-course Renaissance tenor lute.</description>
+                  <musicXMLid>pluck.lute</musicXMLid>
+                  <StringData>
+                        <frets>13</frets>
+                        <string open="1">36</string>
+                        <string>38</string>
+                        <string>41</string>
+                        <string>43</string>
+                        <string>48</string>
+                        <string>53</string>
+                        <string>57</string>
+                        <string>62</string>
+                        <string>67</string>
+                  </StringData>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>36-79</aPitchRange>
+                  <pPitchRange>36-79</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 8, Prog 25; MS General: 12-String Guitar-->
+                        <controller ctrl="32" value="8"/> <!--Bank LSB-->
+                        <program value="25"/> <!--Acoustic Guitar (steel)-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

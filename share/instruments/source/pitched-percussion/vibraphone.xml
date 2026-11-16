@@ -1,0 +1,22 @@
+            <Instrument id="vibraphone">
+                  <family>keyboard-percussion</family>
+                  <trackName>Vibraphone</trackName>
+                  <longName>Vibraphone</longName>
+                  <shortName>Vib.</shortName>
+                  <description>Tuned aluminium bars arranged like piano keys, with resonator tubes and a sustain pedal. Some have variable-speed electric motors that rapidly open and close the resonators to create tremolo.</description>
+                  <musicXMLid>pitched-percussion.vibraphone</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>53-89</aPitchRange>
+                  <pPitchRange>48-96</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 11; MS General: Vibraphone-->
+                        <program value="11"/> <!--Vibraphone-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

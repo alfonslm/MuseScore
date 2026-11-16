@@ -1,0 +1,18 @@
+            <Instrument id="b-duduk">
+                  <family>duduks</family>
+                  <trackName>Duduk</trackName>
+                  <longName>B Duduk</longName>
+                  <shortName>B Du.</shortName>
+                  <traitName type="tuning">B</traitName>
+                  <description>Armenian double-reed instrument made of apricot wood, pitched in B.</description>
+                  <musicXMLid>wind.reed.duduk</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>68-83</aPitchRange>
+                  <pPitchRange>66-86</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

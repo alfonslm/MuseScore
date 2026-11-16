@@ -1,0 +1,26 @@
+            <Instrument id="glockenspiel">
+                  <family>keyboard-percussion</family>
+                  <trackName>Glockenspiel</trackName>
+                  <longName>Glockenspiel</longName>
+                  <shortName>Glock.</shortName>
+                  <description>Tuned metal bars arranged like piano keys. Played with mallets. Sounds two octaves higher than written.</description>
+                  <musicXMLid>pitched-percussion.glockenspiel</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>G15ma</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>79-108</aPitchRange>
+                  <pPitchRange>76-108</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <transposeDiatonic>14</transposeDiatonic>
+                  <transposeChromatic>24</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 9; MS General: Glockenspiel-->
+                        <program value="9"/> <!--Glockenspiel-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+                  <genre>classroom</genre>
+            </Instrument>

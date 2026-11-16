@@ -1,0 +1,16 @@
+            <Instrument id="bass-cornamuse">
+                  <family>cornamuses</family>
+                  <trackName>Bass Cornamuse</trackName>
+                  <longName>Bass Cornamuse</longName>
+                  <shortName>B. Cm.</shortName>
+                  <description>Renaissance double-reed instrument with straight end and single bore, pitched in F (a ninth below the alto cornamuse).</description>
+                  <musicXMLid>wind.reed.cornamuse</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-55</aPitchRange>
+                  <pPitchRange>41-58</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

@@ -1,0 +1,16 @@
+            <Instrument id="bass-harmonica-hohner">
+                  <family>harmonicas</family>
+                  <trackName>Bass Hohner Harmonica</trackName>
+                  <longName>Bass Hohner Harmonica</longName>
+                  <shortName>Bs. Harm.</shortName>
+                  <description>Hohner 31-hole bass harmonica.</description>
+                  <musicXMLid>wind.reed.harmonica.bass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-72</aPitchRange>
+                  <pPitchRange>40-72</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

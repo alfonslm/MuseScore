@@ -38,6 +38,7 @@ set(MODULE_TEST_SRC
     ${CMAKE_CURRENT_LIST_DIR}/breath_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/bsptree_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/capo_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/chordline_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/chordsymbol_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/clef_courtesy_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/clef_tests.cpp
@@ -60,6 +61,9 @@ set(MODULE_TEST_SRC
     ${CMAKE_CURRENT_LIST_DIR}/hideemptystaves_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/implodeexplode_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/instrumentchange_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/instrumenttemplates_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/jianpudurationline_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/jianpuoctavedot_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/join_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/keysig_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/layoutelements_tests.cpp
@@ -67,6 +71,7 @@ set(MODULE_TEST_SRC
     ${CMAKE_CURRENT_LIST_DIR}/measure_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/midi/midirenderer_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/midi/midirenderer_bend_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/midi/pausemap_tests.cpp
     #${CMAKE_CURRENT_LIST_DIR}/midimapping_tests.cpp doesn't compile and needs actualization
     ${CMAKE_CURRENT_LIST_DIR}/note_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/parent_tests.cpp
@@ -79,11 +84,14 @@ set(MODULE_TEST_SRC
     ${CMAKE_CURRENT_LIST_DIR}/rhythmicgrouping_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/selectionfilter_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/selectionrange_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/slur_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/spanners_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/split_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/splitstaff_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/staffmove_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/stavecentering_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/stavesharing_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/styledproperties_rw_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/system_locks_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/system_dividers_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/tempotimeline_tests.cpp
@@ -105,6 +113,7 @@ set(MODULE_TEST_SRC
     ${CMAKE_CURRENT_LIST_DIR}/lyrics_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/automation/utils/automationtestutils.h
     ${CMAKE_CURRENT_LIST_DIR}/page_locks_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/savehiddenparts_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/automation/automation_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/automation/automationrw_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/automation/scoreautomationcontroller_tests.cpp
@@ -124,6 +133,7 @@ if(MUE_BUILD_ENGRAVING_PLAYBACK)
 set(MODULE_TEST_SRC ${MODULE_TEST_SRC}
     ${CMAKE_CURRENT_LIST_DIR}/playback/playbackeventsrendering_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/playback/playbackmodel_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/playback/musicaltimemapbuilder_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/playback/playbackcontext_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/playback/bendsrenderer_tests.cpp
 )

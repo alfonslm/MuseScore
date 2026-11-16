@@ -1,0 +1,24 @@
+            <Instrument id="bb-clarinet">
+                  <family>clarinets</family>
+                  <trackName>Clarinet</trackName>
+                  <longName>Clarinet</longName>
+                  <shortName>Cl.</shortName>
+                  <traitName type="transposition">*B♭</traitName>
+                  <description>Soprano clarinet in B♭. One of the standard orchestral clarinets.</description>
+                  <musicXMLid>wind.reed.clarinet.bflat</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>50-89</aPitchRange>
+                  <pPitchRange>50-94</pPitchRange>
+                  <transposeDiatonic>-1</transposeDiatonic>
+                  <transposeChromatic>-2</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 71; MS General: Clarinet-->
+                        <program value="71"/> <!--Clarinet-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+                  <genre>orchestra</genre>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

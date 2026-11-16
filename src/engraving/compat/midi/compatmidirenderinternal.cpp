@@ -1606,7 +1606,7 @@ void CompatMidiRendererInternal::renderScore(EventsHolder& events, const Context
     EventsHolder pitchWheelEvents = pitchWheelRender.renderPitchWheel();
     events.mergePitchWheelEvents(pitchWheelEvents);
     if (m_context.applyCaesuras) {
-        m_context.pauseMap->calculate(score);
+        m_context.pauseMap->calculate(score, m_context.pauseMode);
     }
 }
 

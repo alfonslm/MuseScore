@@ -1,0 +1,11 @@
+            <Instrument id="banjo-tablature">
+                  <init>banjo</init>
+                  <family>banjos</family>
+                  <trackName>Banjo (tablature)</trackName>
+                  <longName>Banjo</longName>
+                  <description>5-string banjo (tablature).</description>
+                  <musicXMLid>pluck.banjo</musicXMLid>
+                  <stafftype staffTypePreset="tab5StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>jazz</genre>
+            </Instrument>

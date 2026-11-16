@@ -1,0 +1,17 @@
+            <Instrument id="harmonica-c16c">
+                  <family>harmonicas</family>
+                  <trackName>16-Hole Chromatic Harmonica</trackName>
+                  <longName>16-Hole C Chromatic Harmonica</longName>
+                  <shortName>Harm.</shortName>
+                  <traitName type="tuning">*C</traitName>
+                  <description>16-hole chromatic harmonica pitched in C.</description>
+                  <musicXMLid>wind.reed.harmonica</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-98</aPitchRange>
+                  <pPitchRange>48-98</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+            </Instrument>

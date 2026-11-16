@@ -1,0 +1,18 @@
+            <Instrument id="tenor-bass-steel-drums">
+                  <family>steel-drums</family>
+                  <trackName>Tenor Bass Steel Pans</trackName>
+                  <longName>Tenor Bass Steel Pans</longName>
+                  <shortName>T.B. Pans</shortName>
+                  <description>Tenor bass steel pans.</description>
+                  <musicXMLid>metal.steel-drums</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-60</aPitchRange>
+                  <pPitchRange>41-60</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 114; MS General: Steel Drums-->
+                        <program value="114"/> <!--Steel Drums-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

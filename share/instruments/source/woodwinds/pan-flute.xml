@@ -1,0 +1,17 @@
+            <Instrument id="pan-flute">
+                  <family>pan-flutes</family>
+                  <trackName>Pan Flute</trackName>
+                  <longName>Pan Flute</longName>
+                  <shortName>Pn. Fl.</shortName>
+                  <description>End-blown flute made of a row of closed tubes.</description>
+                  <musicXMLid>wind.flutes.panpipes</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-96</aPitchRange>
+                  <pPitchRange>60-96</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 75; MS General: Pan Flute-->
+                        <program value="75"/> <!--Pan Flute-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

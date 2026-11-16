@@ -1,0 +1,17 @@
+            <Instrument id="didgeridoo">
+                  <family>didgeridoos</family>
+                  <trackName>Didgeridoo</trackName>
+                  <longName>Didgeridoo</longName>
+                  <shortName>Doo.</shortName>
+                  <description>Aboriginal Australian drone instrument.</description>
+                  <musicXMLid>brass.didgeridoo</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>24-36</aPitchRange>
+                  <pPitchRange>24-36</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 57; MS General: Trombone-->
+                        <program value="57"/> <!--Trombone-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

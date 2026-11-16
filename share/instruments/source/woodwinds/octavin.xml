@@ -1,0 +1,16 @@
+            <Instrument id="octavin">
+                  <family>octavins</family>
+                  <trackName>Octavin</trackName>
+                  <longName>Octavin</longName>
+                  <shortName>Oct.</shortName>
+                  <description>Very rare single-reed, conical bore woodwind instrument.</description>
+                  <musicXMLid>wind.reed.octavin</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>56-86</aPitchRange>
+                  <pPitchRange>56-91</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 69; MS General: English Horn-->
+                        <program value="69"/> <!--English Horn-->
+                  </Channel>
+            </Instrument>

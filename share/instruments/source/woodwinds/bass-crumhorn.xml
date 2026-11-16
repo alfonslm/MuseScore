@@ -1,0 +1,17 @@
+            <Instrument id="bass-crumhorn">
+                  <family>crumhorns</family>
+                  <trackName>Bass Crumhorn</trackName>
+                  <longName>Bass Crumhorn</longName>
+                  <shortName>B. Crh.</shortName>
+                  <description>Renaissance double-reed instrument with curved end, pitched in F (an octave below the alto crumhorn).</description>
+                  <musicXMLid>wind.reed.crumhorn.bass</musicXMLid>
+                  <clef>F</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>41-55</aPitchRange>
+                  <pPitchRange>41-58</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>earlymusic</genre>
+            </Instrument>

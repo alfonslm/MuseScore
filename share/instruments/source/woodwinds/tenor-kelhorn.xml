@@ -1,0 +1,16 @@
+            <Instrument id="tenor-kelhorn">
+                  <family>kelhorns</family>
+                  <trackName>Tenor Kelhorn</trackName>
+                  <longName>Tenor Kelhorn</longName>
+                  <shortName>T. Kh.</shortName>
+                  <description>20th-century instrument similar to the crumhorn and cornamuse, pitched in C (an octave below the soprano kelhorn).</description>
+                  <clef>G8vb</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>48-62</aPitchRange>
+                  <pPitchRange>48-65</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+                  <genre>world</genre>
+            </Instrument>

@@ -1,0 +1,19 @@
+            <Instrument id="subcontrabass-saxophone">
+                  <family>saxophones</family>
+                  <trackName>Subcontrabass Saxophone</trackName>
+                  <longName>Subcontrabass Saxophone</longName>
+                  <shortName>Scb. Sax.</shortName>
+                  <description>Saxophone in B♭ (an octave below the bass).</description>
+                  <musicXMLid>wind.reed.saxophone.subcontrabass</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F8vb</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>20-52</aPitchRange>
+                  <pPitchRange>20-60</pPitchRange>
+                  <transposeDiatonic>-22</transposeDiatonic>
+                  <transposeChromatic>-38</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 67; MS General: Baritone Sax-->
+                        <program value="67"/> <!--Baritone Sax-->
+                  </Channel>
+            </Instrument>

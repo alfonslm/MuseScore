@@ -1,0 +1,24 @@
+            <Instrument id="choir-synth">
+                  <family>synths</family>
+                  <trackName>Choir Synthesizer</trackName>
+                  <longName>Choir Synthesizer</longName>
+                  <shortName>Synth.</shortName>
+                  <description>Choir synth pad (General MIDI program 92).</description>
+                  <musicXMLid>synth.pad.choir</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>36-96</aPitchRange>
+                  <pPitchRange>21-108</pPitchRange>
+                  <glissandoStyle>portamento</glissandoStyle>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 91; MS General: Space Voice-->
+                        <program value="91"/> <!--Pad 4 (choir)-->
+                  </Channel>
+                  <genre>popular</genre>
+                  <genre>marching</genre>
+                  <genre>electronic</genre>
+            </Instrument>

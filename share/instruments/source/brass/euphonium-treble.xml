@@ -1,0 +1,21 @@
+            <Instrument id="euphonium-treble">
+                  <family>euphoniums</family>
+                  <trackName>Euphonium (treble clef)</trackName>
+                  <longName>Euphonium</longName>
+                  <shortName>Euph.</shortName>
+                  <description>Euphonium (notated in treble clef as a transposing instrument in B♭).</description>
+                  <musicXMLid>brass.euphonium</musicXMLid>
+                  <transposingClef>G</transposingClef>
+                  <concertClef>F</concertClef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>40-70</aPitchRange>
+                  <pPitchRange>34-74</pPitchRange>
+                  <transposeDiatonic>-8</transposeDiatonic>
+                  <transposeChromatic>-14</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 58; MS General: Tuba-->
+                        <program value="58"/> <!--Tuba-->
+                  </Channel>
+                  <genre>concertband</genre>
+                  <genre>marching</genre>
+            </Instrument>

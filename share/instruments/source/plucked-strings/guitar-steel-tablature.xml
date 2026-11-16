@@ -1,0 +1,11 @@
+            <Instrument id="guitar-steel-tablature">
+                  <init>guitar-steel</init>
+                  <family>guitars</family>
+                  <trackName>Acoustic Guitar (tablature)</trackName>
+                  <longName>Guitar</longName>
+                  <description>Acoustic steel-string guitar (tablature).</description>
+                  <musicXMLid>pluck.guitar.acoustic</musicXMLid>
+                  <stafftype staffTypePreset="tab6StrCommon">tablature</stafftype>
+                  <genre>common</genre>
+                  <genre>classroom</genre>
+            </Instrument>

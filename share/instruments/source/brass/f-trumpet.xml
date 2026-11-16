@@ -1,0 +1,23 @@
+            <Instrument id="f-trumpet">
+                  <family>trumpets</family>
+                  <trackName>Trumpet</trackName>
+                  <longName>Trumpet</longName>
+                  <shortName>Tpt.</shortName>
+                  <traitName type="transposition">F</traitName>
+                  <description>Trumpet in F.</description>
+                  <musicXMLid>brass.trumpet</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>65-82</aPitchRange>
+                  <pPitchRange>59-91</pPitchRange>
+                  <transposeDiatonic>3</transposeDiatonic>
+                  <transposeChromatic>5</transposeChromatic>
+                  <Channel name="open">
+                        <!--MIDI: Bank 0, Prog 56; MS General: Trumpet-->
+                        <program value="56"/> <!--Trumpet-->
+                  </Channel>
+                  <Channel name="mute">
+                        <!--MIDI: Bank 0, Prog 59; MS General: Harmon Mute Trumpet-->
+                        <program value="59"/> <!--Muted Trumpet-->
+                  </Channel>
+            </Instrument>

@@ -1113,6 +1113,7 @@ enum class ClefType {
     TAB4       = int(mu::engraving::ClefType::TAB4),
     TAB_SERIF  = int(mu::engraving::ClefType::TAB_SERIF),
     TAB4_SERIF = int(mu::engraving::ClefType::TAB4_SERIF),
+    TAB_STRING_NAMES = int(mu::engraving::ClefType::TAB_STRING_NAMES),
     C4_8VB     = int(mu::engraving::ClefType::C4_8VB),
     G8_VB_C    = int(mu::engraving::ClefType::G8_VB_C),
     MAX        = int(mu::engraving::ClefType::MAX),
@@ -1475,6 +1476,7 @@ enum class StaffGroup {
     STANDARD   = int(mu::engraving::StaffGroup::STANDARD),
     PERCUSSION = int(mu::engraving::StaffGroup::PERCUSSION),
     TAB        = int(mu::engraving::StaffGroup::TAB),
+    JIANPU     = int(mu::engraving::StaffGroup::JIANPU),
 };
 Q_ENUM_NS(StaffGroup);
 
@@ -1512,6 +1514,7 @@ enum class StaffTypes {
     TAB_8SIMPLE    = int(mu::engraving::StaffTypes::TAB_8SIMPLE),
     TAB_9SIMPLE    = int(mu::engraving::StaffTypes::TAB_9SIMPLE),
     TAB_10SIMPLE   = int(mu::engraving::StaffTypes::TAB_10SIMPLE),
+    JIANPU         = int(mu::engraving::StaffTypes::JIANPU),
     PERC_DEFAULT   = int(mu::engraving::StaffTypes::PERC_DEFAULT),
     TAB_DEFAULT    = int(mu::engraving::StaffTypes::TAB_DEFAULT),
 };

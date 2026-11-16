@@ -1,0 +1,16 @@
+            <Instrument id="harmonica">
+                  <family>harmonicas</family>
+                  <description>10-hole diatonic harmonica pitched in C.</description>
+                  <musicXMLid>wind.reed.harmonica</musicXMLid>
+                  <clef>G</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>60-96</aPitchRange>
+                  <pPitchRange>60-96</pPitchRange>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 22; MS General: Harmonica-->
+                        <program value="22"/> <!--Harmonica-->
+                  </Channel>
+                  <genre>common</genre>
+                  <genre>popular</genre>
+                  <genre>jazz</genre>
+            </Instrument>

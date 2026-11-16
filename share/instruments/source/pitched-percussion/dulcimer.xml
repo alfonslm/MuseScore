@@ -1,0 +1,21 @@
+            <Instrument id="dulcimer">
+                  <family>keyboard-percussion</family>
+                  <trackName>Dulcimer</trackName>
+                  <longName>Dulcimer</longName>
+                  <shortName>Dlc.</shortName>
+                  <description>Hammered dulcimer.</description>
+                  <musicXMLid>pitched-percussion.hammer-dulcimer</musicXMLid>
+                  <staves>2</staves>
+                  <clef>G</clef>
+                  <bracket>1</bracket>
+                  <bracketSpan>2</bracketSpan>
+                  <barlineSpan>2</barlineSpan>
+                  <clef staff="2">F</clef>
+                  <aPitchRange>48-86</aPitchRange>
+                  <pPitchRange>48-86</pPitchRange>
+                  <singleNoteDynamics>0</singleNoteDynamics>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 15; MS General: Dulcimer-->
+                        <program value="15"/> <!--Dulcimer-->
+                  </Channel>
+            </Instrument>

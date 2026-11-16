@@ -48,9 +48,10 @@ class TempoText final : public TextBase
     DECLARE_CLASSOF(ElementType::TEMPO_TEXT)
 
 public:
-    TempoText(Segment* parent);
+    TempoText(DummyParentOr<Segment> parent);
 
     TempoText* clone() const override { return new TempoText(*this); }
+    void setOwnershipParent(DummyParentOr<Segment> parent) { EngravingItem::setOwnershipParent(parent); }
 
     Segment* segment() const { return toSegment(ownershipParent()); }
     Measure* measure() const { return toMeasure(ownershipParent()->ownershipParent()); }

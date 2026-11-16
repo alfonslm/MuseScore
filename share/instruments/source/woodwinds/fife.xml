@@ -1,0 +1,19 @@
+            <Instrument id="fife">
+                  <family>fifes</family>
+                  <trackName>Fife</trackName>
+                  <longName>B♭ Fife</longName>
+                  <shortName>B♭ Fife</shortName>
+                  <traitName type="tuning">B♭</traitName>
+                  <description>Fife pitched in B♭ (when all 6 holes are covered), notated in A♭, sounding a minor sixth higher than written.</description>
+                  <musicXMLid>wind.flutes.fife</musicXMLid>
+                  <clef>G8va</clef>
+                  <barlineSpan>1</barlineSpan>
+                  <aPitchRange>74-103</aPitchRange>
+                  <pPitchRange>74-109</pPitchRange>
+                  <transposeDiatonic>5</transposeDiatonic>
+                  <transposeChromatic>8</transposeChromatic>
+                  <Channel>
+                        <!--MIDI: Bank 0, Prog 72; MS General: Piccolo-->
+                        <program value="72"/> <!--Piccolo-->
+                  </Channel>
+            </Instrument>
