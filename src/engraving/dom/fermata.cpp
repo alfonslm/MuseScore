@@ -22,6 +22,8 @@
 
 #include "fermata.h"
 
+#include "global/containers.h"
+
 #include "types/symnames.h"
 #include "types/translatablestring.h"
 
@@ -229,6 +231,27 @@ void Fermata::resetProperty(Pid id)
         break;
     }
     EngravingItem::resetProperty(id);
+}
+
+//---------------------------------------------------------
+//   propertyPropagation
+//    The copies of a fermata on different staves are linked, but
+//    their visibility, colour and position are independent, in the
+//    parts as well: only the copy on the corresponding staff of a
+//    part follows (see EngravingItem::propertyPropagation for the
+//    same rule within one score).
+//---------------------------------------------------------
+
+PropertyPropagation Fermata::propertyPropagation(const EngravingItem* destinationItem, Pid propertyId) const
+{
+    const bool perStaff = propertyId == Pid::VISIBLE || propertyId == Pid::COLOR
+                          || propertyGroup(propertyId) == PropertyGroup::POSITION;
+    if (perStaff && destinationItem->score() != score() && staff()
+        && !muse::contains(staff()->staffList(), destinationItem->staff())) {
+        return PropertyPropagation::NONE;
+    }
+
+    return EngravingItem::propertyPropagation(destinationItem, propertyId);
 }
 
 //---------------------------------------------------------

@@ -106,6 +106,7 @@ class ChordRest;
 class Element;
 class EventsHolder;
 class Excerpt;
+class Fermata;
 class FiguredBass;
 class Harmony;
 class InstrumentTemplate;
@@ -369,6 +370,7 @@ public:
     void undoAddElement(EngravingItem* element, bool addToLinkedStaves = true, bool ctrlModifier = false,
                         EngravingItem* elementToRelink = nullptr);
     void undoAddCR(ChordRest* element, Measure*, const Fraction& tick);
+    void undoAddFermataToAllStaves(Fermata* fermata);
     void undoRemoveElement(EngravingItem* element, bool removeLinked = true);
     void undoRemoveHopoText(HammerOnPullOffText* hopoText);
     void undoChangeSpannerElements(Spanner* spanner, EngravingItem* startElement, EngravingItem* endElement);

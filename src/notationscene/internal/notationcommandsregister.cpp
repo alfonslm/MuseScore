@@ -1668,6 +1668,20 @@ static const std::vector<CommandInfo> s_commandInfos = {
         Decoration()
     },
     CommandInfo{
+        FERMATA_HIDE_EXCEPT_HERE_COMMAND,
+        TranslatableString("action", "Hide except here"),
+        TranslatableString("action", "Hide fermata on all other staves"),
+        InputSchema(),
+        Decoration()
+    },
+    CommandInfo{
+        FERMATA_SHOW_ON_ALL_STAVES_COMMAND,
+        TranslatableString("action", "Show on all staves"),
+        TranslatableString("action", "Show fermata on all staves"),
+        InputSchema(),
+        Decoration()
+    },
+    CommandInfo{
         TOGGLE_AUTOPLACE_COMMAND,
         TranslatableString("action", "Toggle automatic placement for selected elements"),
         TranslatableString("action", "Toggle automatic placement for selected elements"),

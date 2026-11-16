@@ -10309,6 +10309,16 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="0" colspan="3">
+            <widget class="QCheckBox" name="fermataAddToAllStaves">
+             <property name="toolTip">
+              <string>When adding a fermata, add it to every staff. It can then be hidden on individual staves (right-click the fermata, then 'Hide except here').</string>
+             </property>
+             <property name="text">
+              <string>Add fermatas to all staves</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="3">
             <spacer name="horizontalSpacer_38">
              <property name="orientation">

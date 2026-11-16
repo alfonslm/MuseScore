@@ -39,6 +39,7 @@
 #include "../dom/excerpt.h"
 #include "../dom/expression.h"
 #include "../dom/factory.h"
+#include "../dom/fermata.h"
 #include "../dom/fingering.h"
 #include "../dom/figuredbass.h"
 #include "../dom/fret.h"
@@ -4074,6 +4075,62 @@ void Score::undoInsertStaff(Staff* staff, staff_idx_t ridx, bool createRests)
     // and it doesn't work to adjust bracket & barlines until all staves are added
     // TODO: adjust brackets only when appropriate
     //adjustBracketsIns(idx, idx+1);
+}
+
+//---------------------------------------------------------
+//   undoAddFermataToAllStaves
+//    Fermatas are universal markings: when one is added to a
+//    staff, add a linked copy on every other staff that has a
+//    chord, rest or barline at the same position (unless the
+//    "fermataAddToAllStaves" style is off).
+//    Copies are ordinary linked fermatas, so their type and
+//    playback follow the original, while visibility stays
+//    independent per staff (see EngravingItem::propertyPropagation).
+//---------------------------------------------------------
+
+void Score::undoAddFermataToAllStaves(Fermata* fermata)
+{
+    if (!fermata || !style().styleB(Sid::fermataAddToAllStaves)) {
+        return;
+    }
+
+    Segment* seg = fermata->segment();
+    if (!seg || !(seg->isChordRestType() || seg->isEndBarLineType())) {
+        return;
+    }
+
+    const track_idx_t sourceTrack = fermata->track();
+    const staff_idx_t sourceStaffIdx = track2staff(sourceTrack);
+    const voice_idx_t sourceVoice = track2voice(sourceTrack);
+
+    for (staff_idx_t staffIdx = 0; staffIdx < nstaves(); ++staffIdx) {
+        if (staffIdx == sourceStaffIdx) {
+            continue;
+        }
+
+        const track_idx_t firstTrack = staff2track(staffIdx);
+        if (seg->findAnnotation(ElementType::FERMATA, firstTrack, firstTrack + VOICES - 1)) {
+            // Already has one, e.g. a linked staff or a fermata entered by hand
+            continue;
+        }
+
+        track_idx_t track = staff2track(staffIdx, sourceVoice);
+        if (!seg->element(track)) {
+            track = firstTrack;
+            if (!seg->element(track)) {
+                // Nothing starts here on this staff
+                continue;
+            }
+        }
+
+        Fermata* newFermata = toFermata(fermata->linkedClone());
+        newFermata->setScore(this);
+        newFermata->setSelected(false);
+        newFermata->setTrack(track);
+        newFermata->setOwnershipParent(seg);
+        newFermata->setPlacement(track & 1 ? PlacementV::BELOW : PlacementV::ABOVE);
+        undoAddElement(newFermata);
+    }
 }
 
 //---------------------------------------------------------

@@ -27,6 +27,7 @@
 #include "../types/symnames.h"
 
 #include "articulation.h"
+#include "fermata.h"
 #include "marker.h"
 #include "masterscore.h"
 #include "measure.h"
@@ -473,6 +474,7 @@ EngravingItem* BarLine::drop(Transaction& tx, EditData& data)
         e->setTrack(track());
         e->setOwnershipParent(segment());
         score()->undoAddElement(e);
+        score()->undoAddFermataToAllStaves(toFermata(e));
         return e;
     } else if (e->isMeasureNumber() || e->isJump() || e->isMarker() || e->isLayoutBreak()) {
         if (Measure* m = measure()) {

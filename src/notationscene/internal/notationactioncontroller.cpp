@@ -432,6 +432,8 @@ void NotationActionController::init()
     registerCommand(MIRROR_NOTEHEAD_COMMAND, &Interaction::mirrorNotes);
     registerCommand(SET_VISIBLE_COMMAND, &Interaction::setSelectionVisible, true);
     registerCommand(UNSET_VISIBLE_COMMAND, &Interaction::setSelectionVisible, false);
+    registerCommand(FERMATA_HIDE_EXCEPT_HERE_COMMAND, &Interaction::hideFermatasOnOtherStaves);
+    registerCommand(FERMATA_SHOW_ON_ALL_STAVES_COMMAND, &Interaction::showFermatasOnAllStaves);
     registerCommand(TOGGLE_AUTOPLACE_COMMAND, &Interaction::toggleAutoplace, false);
     registerCommand(AUTOPLACE_ENABLED_COMMAND, &Interaction::toggleAutoplace, true);
 

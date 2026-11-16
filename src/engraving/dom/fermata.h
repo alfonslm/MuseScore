@@ -67,6 +67,7 @@ public:
     bool setProperty(Pid propertyId, const PropertyValue&) override;
     PropertyValue propertyDefault(Pid) const override;
     void resetProperty(Pid id) override;
+    PropertyPropagation propertyPropagation(const EngravingItem* destinationItem, Pid propertyId) const override;
 
     Segment* segment() const { return toSegment(ownershipParent()); }
     Measure* measure() const;

@@ -28,11 +28,13 @@
 #include "../dom/beam.h"
 #include "../dom/chord.h"
 #include "../dom/engravingitem.h"
+#include "../dom/fermata.h"
 #include "../dom/note.h"
 #include "../dom/notedot.h"
 #include "../dom/ornament.h"
 #include "../dom/rest.h"
 #include "../dom/score.h"
+#include "../dom/staff.h"
 #include "../dom/select.h"
 #include "../dom/trill.h"
 
@@ -70,6 +72,75 @@ void EditVisibility::toggleVisible(Transaction& tx, Score* score)
 
     for (EngravingItem* item : score->selection().elements()) {
         undoChangeVisible(tx, item, newVisible);
+    }
+}
+
+//! The linked copies of a fermata that sit on the same position on other staves
+//! (parts are not included: they follow the master through property propagation)
+static std::vector<Fermata*> fermataCopiesOnOtherStaves(const Fermata* fermata)
+{
+    std::vector<Fermata*> result;
+    for (EngravingObject* obj : fermata->linkList()) {
+        if (obj == fermata || !obj->isFermata()) {
+            continue;
+        }
+
+        Fermata* other = toFermata(obj);
+        if (other->score() == fermata->score() && other->segment() == fermata->segment()) {
+            result.push_back(other);
+        }
+    }
+    return result;
+}
+
+//! Hiding a fermata in the full score is about the score: the player of the instrument
+//! still needs it in the part, so the copy in the part is made visible again
+static void undoKeepFermataVisibleInParts(Fermata* hiddenFermata)
+{
+    if (!hiddenFermata->score()->isMaster() || !hiddenFermata->staff()) {
+        return;
+    }
+
+    const std::vector<Staff*> linkedStaves = hiddenFermata->staff()->staffList();
+    for (EngravingObject* obj : hiddenFermata->linkList()) {
+        if (obj == hiddenFermata || !obj->isFermata()) {
+            continue;
+        }
+
+        Fermata* inPart = toFermata(obj);
+        if (inPart->score() != hiddenFermata->score() && !inPart->visible()
+            && muse::contains(linkedStaves, inPart->staff())) {
+            inPart->undoChangeProperty(Pid::VISIBLE, true);
+        }
+    }
+}
+
+void EditVisibility::hideFermatasOnOtherStaves(Transaction& tx, Score* score)
+{
+    for (EngravingItem* e : score->selection().elements()) {
+        if (!e->isFermata()) {
+            continue;
+        }
+
+        for (Fermata* other : fermataCopiesOnOtherStaves(toFermata(e))) {
+            undoChangeVisible(tx, other, false);
+            undoKeepFermataVisibleInParts(other);
+        }
+        undoChangeVisible(tx, e, true);
+    }
+}
+
+void EditVisibility::showFermatasOnAllStaves(Transaction& tx, Score* score)
+{
+    for (EngravingItem* e : score->selection().elements()) {
+        if (!e->isFermata()) {
+            continue;
+        }
+
+        for (Fermata* other : fermataCopiesOnOtherStaves(toFermata(e))) {
+            undoChangeVisible(tx, other, true);
+        }
+        undoChangeVisible(tx, e, true);
     }
 }
 

@@ -34,6 +34,11 @@ public:
     static void setSelectedElementsInvisible(Transaction& tx, Score* score);
     static void toggleVisible(Transaction& tx, Score* score);
 
+    //! For each selected fermata: hide its copies on all other staves and keep this one visible
+    static void hideFermatasOnOtherStaves(Transaction& tx, Score* score);
+    //! For each selected fermata: show it and all of its copies on the other staves
+    static void showFermatasOnAllStaves(Transaction& tx, Score* score);
+
     static void undoChangeVisible(Transaction& tx, EngravingItem* item, bool visible);
 };
 }

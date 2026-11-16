@@ -680,6 +680,7 @@ void EditStyle::classBegin()
         { StyleId::fermataPosAbove,         false, fermataPosAbove,       resetFermataPosAbove },
         { StyleId::fermataPosBelow,         false, fermataPosBelow,       resetFermataPosBelow },
         { StyleId::fermataMinDistance,      false, fermataMinDistance,    resetFermataMinDistance },
+        { StyleId::fermataAddToAllStaves,   false, fermataAddToAllStaves, 0 },
 
         { StyleId::staffTextPlacement,      false, staffTextPlacement,    resetStaffTextPlacement },
         { StyleId::staffTextPosAbove,       false, staffTextPosAbove,     resetStaffTextPosAbove },

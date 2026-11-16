@@ -50,6 +50,7 @@ private:
     muse::uicomponents::MenuItemList makeDefaultCopyPasteItems();
     muse::uicomponents::MenuItemList makeMeasureItems();
     muse::uicomponents::MenuItemList makeStaffTextItems();
+    muse::uicomponents::MenuItemList makeFermataItems();
     muse::uicomponents::MenuItemList makeSystemTextItems();
     muse::uicomponents::MenuItemList makeTimeSignatureItems();
     muse::uicomponents::MenuItemList makeInstrumentNameItems();
