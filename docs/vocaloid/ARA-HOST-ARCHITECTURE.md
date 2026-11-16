@@ -78,7 +78,7 @@ Decisions:
    types.
 5. **Conversion is a pure function.** `MusicalTimeMap` → ARA tempo entries and bar signatures is plain
    data in, plain data out, with no ARA calls, so it is unit-tested exhaustively. It also owns the policy for
-   what ARA cannot express (see section 5).
+   what ARA cannot express (see section 6).
 6. **Opt-in per instrument,** stored like "keep running when stopped": a key in the instrument's
    `AudioUnitConfig` (host-set, so `isPluginStateConfigKey()` keeps it apart from plugin state). The mixer's
    sound menu shows the item only for plugins whose module has an ARA factory. Binding has to happen when the
@@ -95,7 +95,7 @@ Each has a deliverable the user or CI can check. Do not start a package before t
 | # | Package | What it adds | How it is verified |
 |---|---|---|---|
 | 1 | **ARA probe** | Vendored headers, CMake option, `AraFactoryProbe`: given a loaded VST3 module, find the ARA main factory and read the factory's fields (API generations, factory id, document archive id, content types it can analyse or accept, supported playback transformations). A diagnostic entry that lists this for every scanned plugin. | Unit test with a fake VST3 factory object. On the user's Mac: the diagnostic shows what VOCALOID7 reports. **This output decides the rest**: it tells us whether VOCALOID7 exposes ARA through VST3 at all in a host it doesn't know, and which API generation to speak. |
-| 2 | **Musical content** | `AraMusicalContent`: the conversion of decision 5, with the pause and irregular-bar policy. | Unit tests only: plain tempo, tempo changes, fermata stretch, a caesura, pickup bar, a bar lengthened by a pause, time-signature changes, empty map. |
+| 2 | **Musical content** | App side: the builder also produces the map without standstills (section 6, decision 1). Framework side: `AraMusicalContent`, the conversion of that map to ARA tempo entries and bar signatures (section 6, decisions 2 and 3). | Unit tests only: plain tempo, tempo changes, fermata stretch, a caesura, pickup bar, a bar lengthened by a pause, time-signature changes, empty map. |
 | 3 | **Document** | `AraDocument` and `IAraHost`: create the document controller from the factory, a document, one musical context served from package 2 through the content-access callbacks, one region sequence per bound instance; update the musical context when the map changes; the other host callback tables with the minimal behaviour ARA requires. App side: `PlaybackController` pushes the map. | Unit tests against a **fake ARA plugin** written for the tests (a struct of C function pointers that records the calls it gets and reads the host's content back through the callbacks). Asserts the order of calls ARA requires. |
 | 4 | **Binding and the switch** | `VstPluginInstance` binds to the document with the roles the plugin offers, before the point ARA requires; teardown in the right order; the config key; the mixer menu item (MuseScore side). | Unit tests for the config key and menu model; macOS CI build; then the user tries VOCALOID7: does its tempo track show MuseScore's tempo map and bars, and does it stay in sync through a fermata and a caesura. |
 | 5 | **Playback requests** | The plugin asking the host to start, stop or move the playhead (ARA playback controller) is forwarded to MuseScore's playback. | Fake plugin in unit tests; user check. |
@@ -103,35 +103,90 @@ Each has a deliverable the user or CI can check. Do not start a package before t
 
 Packages 5 and 6 are outlined only after the user's result for package 4.
 
-## 5. Known hard points the outline must settle
+## 5. Facts from the ARA headers
 
-1. **Pauses.** In `MusicalTimeMap` a caesura is two tempo points with the same `quarters` and different
-   `secs`: the music stands still. Find out from the ARA header what a tempo-entry list may contain (must
-   quarter positions strictly increase? is a tempo of zero allowed?) and choose a representation. If a
-   standstill cannot be expressed, the fallback is the one route A uses for MIDI: lengthen the bar by a whole
-   number of beats at a sane tempo so that later bars keep their numbers (`PauseMap`, ExtendMeasure mode,
-   `src/engraving/compat/midi/pausemap.*`). Note that this would need bar entries and tempo entries to agree
-   with what the MIDI export writes, since the user imports that file into Vocaloid for the notes.
-2. **Irregular bars.** `BarPoint::lengthQuarters` describes pickups and lengthened bars. ARA bar signatures
-   are numerator/denominator at a quarter position. State how each irregular bar is expressed.
-3. **What a generator plugin needs.** ARA was designed around audio sources that the plugin analyses.
-   VOCALOID7 generates audio. The probe (package 1) and the header tell what the minimum document is: does a
-   playback renderer need an audio source, an audio modification and a playback region to render anything,
-   and if so what does the host provide for a plugin that has no input audio.
-4. **When to bind.** The exact point in the VST3 instance's life at which
-   `bindToDocumentControllerWithRoles` must be called, relative to `initialize`, `setActive`, and creating
-   the edit controller and the view. Quote the header.
-5. **Unknown-host risk.** Yamaha lists the hosts it supports. A plugin may refuse or misbehave in a host it
-   doesn't know. Package 1 exists to find this out for one day of work instead of six weeks.
+Read from `ARAInterface.h` and `ARAVST3.h` of ARA_API (release 2.3.0, 2025-11-07, Apache-2.0; the API is
+headers only). Line references are to those files at that release.
 
-## 6. Who does what
+- **Finding the factory.** A VST3 plugin with ARA has an extra class in its module factory with the category
+  `"ARA Main Factory Class"` (`kARAMainFactoryClass`), implementing `ARA::IMainFactory`
+  (IID `DB2A1669-FAFD42A5-A82F864F-7B6872EA`), whose `getFactory()` returns the `ARAFactory` struct. The
+  audio processor class implements `ARA::IPlugInEntryPoint2` (IID `CD9A5913-C9EB46D7-96CA53AD-D1DB89F5`).
+  This is where the probe of work package 1 looks, in the same loop over `factory.classInfos()` that
+  `VstPluginInstance::load()` already runs for `kVstAudioEffectClass`.
+- **Binding.** `IPlugInEntryPoint2::bindToDocumentControllerWithRoles(controllerRef, knownRoles,
+  assignedRoles)`, roles `kARAPlaybackRendererRole`, `kARAEditorRendererRole`, `kARAEditorViewRole`.
+  `ARAVST3.h`: "This may be called only once during the lifetime of the IAudioProcessor component, before
+  the first call to setActive () or setState () or getProcessContextRequirements () or the creation of the
+  GUI". And: "when tearing down the plug-in, the actual order for deleting the IAudioProcessor instance and
+  for deleting ARA document controller is undefined. Plug-ins must handle both potential destruction
+  orders".
+- **Tempo map.** A list of sync points `ARAContentTempoEntry { timePosition (seconds), quarterPosition }`,
+  sorted by time. The tempo between two neighbours is the slope between them, and the tempo before the first
+  and after the last point is that of the first and last section. So: "there must always be at least 2 sync
+  points", and "there must be a tempo sync point given at quarter 0" (`ARAInterface.h`, about line 1300 to
+  1330). The header does not say that a section may have a slope of zero.
+- **Bars.** `ARAContentBarSignature { numerator, denominator, position (quarters) }`. "The distance between
+  two bar signatures must be an integer multiple of the bar length of the earlier of the two signatures."
+- **API generation.** The newest is `kARAAPIGeneration_2_3_Final`. Which generations VOCALOID7 accepts is
+  one of the things the probe reports (`lowestSupportedApiGeneration`, `highestSupportedApiGeneration`).
 
-- **Architecture (this document):** the managing session. Changes to it go through that session.
-- **Outline:** an Opus worker writes `ARA-HOST-OUTLINE.md` from this document, the code and the ARA
-  headers. It does not write product code.
-- **Code:** a Sonnet worker implements one work package at a time from the outline, on the paired
-  branches, with the tests the outline lists.
-- **Facts from the internet:** a Haiku worker fetches them (headers, documentation, vendor pages) and saves
-  them to files; nobody else browses. Fetched material so far is in the session's scratchpad under
-  `ara-research/` (the ARA headers verbatim, `notes.md`, `vocaloid.md`).
+`MusicalTimeMap` (`muse/framework/audio/common/musicaltimemap.h`) is the same shape as the ARA tempo map:
+`TempoPoint { secs, quarters, bps }` are sync points with linear movement between them, and `BarPoint`
+is a bar signature at a quarter position, plus `lengthQuarters` for a bar whose real length differs from
+its signature.
+
+## 6. Decisions on the hard points
+
+1. **Pauses are not sent as a standstill.** In `MusicalTimeMap` a caesura is two points with the same
+   `quarters` and different `secs`. As an ARA section that is a tempo of zero, which the header neither
+   allows nor forbids, and which a plugin that divides by the tempo may not survive. The conversion
+   therefore lengthens the bar that the pause belongs to by a whole number of beats, played at a tempo close
+   to the surrounding one so that the gap lasts exactly as long as the pause: the rule route A already uses
+   for MIDI export (`PauseMap`, ExtendMeasure mode, `src/engraving/compat/midi/pausemap.*`). This has a second
+   benefit that decides it: the user gets the notes into Vocaloid by importing that MIDI file, so the bars
+   and tempo Vocaloid reads over ARA must be the same ones the MIDI file has.
+   Consequence for the design: the conversion needs the pause rule as data, not as engraving code. Work
+   package 2 takes the lengthened bars and gap tempos from where route A computes them, on the app side,
+   and the framework receives a `MusicalTimeMap` that already has no standstill in it (a second map built
+   in the same builder, `src/engraving/playback/musicaltimemapbuilder.*`, next to the one the audio engine
+   uses, which keeps the true standstill for route D).
+2. **Irregular bars get their own signature.** A pickup or a lengthened bar is sent as a bar signature of
+   its real length (a one-quarter pickup in 4/4 is a 1/4 bar, a 4/4 bar lengthened by two beats is 6/4),
+   followed by a signature that restores the normal one. This satisfies the "integer multiple" rule above
+   and matches what the MIDI export writes. A real length that has no numerator/denominator form with a
+   denominator up to 64 is rounded to the nearest 64th and logged.
+3. **The list always starts at quarter 0 and has at least two points.** If the map has one point, a second
+   one is added one bar later at the same tempo. If the map is empty there is no musical context and ARA is
+   not offered for that score.
+4. **Binding happens in `VstPluginInstance::load()`**, on the main thread, right after
+   `VstPluginProvider::init()` has initialised the component and before anything that reaches `setState`
+   (`syncControllerToComponentState()`, `updatePluginConfig()`), `setActive` (`VstAudioClient`) or the view.
+   The document must therefore exist before the instance is loaded: `IAraHost` creates the document for a
+   plugin type on first use and keeps it for the life of the score.
+5. **Teardown** follows alfonslm/muse_framework#13: an instance's ARA binding ends with the instance
+   (`unload()` / the release path), and the document is destroyed in `VSTModule::onDeinit()` after
+   `VstInstancesRegister::unloadAll()` and before the module repository lets go of the modules. ARA allows
+   either order between instance and document controller; ours is instances first.
+6. **Still open, answered by the probe, not by design:** what a generator needs in the document before it
+   renders (an audio source, modification and playback region, or nothing), and whether VOCALOID7 offers
+   ARA to a host that Yamaha does not list. Work package 3 starts from the probe's output.
+
+## 7. Who does what, and where things stand
+
+- **Architecture (this document):** the managing session. Finished 2026-11-16; changes go through that
+  session.
+- **Outline (`ARA-HOST-OUTLINE.md`):** to be written by an Opus worker from this document, the code and
+  the ARA headers, with every file, interface, call sequence and test, so that no design decision is left to
+  the coder. **Not written yet.** A first attempt stopped at a usage limit before it produced anything, and
+  the user asked on 2026-11-16 not to start the workers for now.
+- **Code:** a Sonnet worker, one work package at a time from the outline. Not started.
+- **Facts from the internet:** fetched by a Haiku worker and saved to files. Done once: the two ARA API
+  headers, the licence and notes were fetched into the session's scratchpad, which does not survive the
+  session. To get them again: `ARA_API/ARAInterface.h`, `ARAVST3.h` and `LICENSE.txt` from the `ARA_API`
+  repository of the GitHub organisation `Celemony`, tag `releases/2.3.0`. Work package 1 vendors them into
+  the framework, after which they are in the repository.
+- **Not confirmed:** anything about VOCALOID7 itself. Yamaha's sites could not be reached from the cloud
+  session. Search results say VOCALOID6 follows the host's tempo only through ARA2; nothing was found for
+  VOCALOID7. See the open point in section 1.
 - **Review and merge:** the managing session reviews each package's pull requests and merges them.
