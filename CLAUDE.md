@@ -143,7 +143,12 @@ writer and handles files, progress and retries.
   `audio/engine/internal/nodes/playbackstatetimeline.*`. Keyswitch maps: `muse/framework/vst/internal/synth`,
   mixer UI in `src/playback/qml`. String-name tablature clef: `ClefType::TAB_STRING_NAMES`
   (`docs/dev-notes/tab-string-names-clef.md` has the design notes). MIDI export
-  option to lengthen a measure at a pause: `compat/midi/pausemap.*`. String Grip extension:
+  option to lengthen a measure at a pause: `compat/midi/pausemap.*`. Tempo, time signature and bar
+  position for VST plugins: `MusicalTimeMapBuilder` (`src/engraving/playback`),
+  `muse/framework/audio/common/musicaltimemap.h`, `VstAudioClient::updateProcessContext`. Per-instrument
+  "Keep running when playback is stopped" (mixer sound menu of a VST instrument):
+  `KEEP_RUNNING_WHEN_STOPPED_CONFIG_KEY`, `VstSynthesiser`, `InputResourceItem`. Notes on all of these, and on
+  using VOCALOID7 with the fork: `docs/vocaloid/HANDOFF.md`. String Grip extension:
   `share/extensions/stringgrip`; the string tuning it needs for violin, viola, violoncello and contrabass
   is in their instrument files under `share/instruments/source/strings/`.
 - **Instruments.** `share/instruments/instruments.xml` is not in this repository: the build assembles it
@@ -167,3 +172,17 @@ writer and handles files, progress and retries.
 
 - Open PRs as drafts. Once there are no more tests you want to run on a PR (CI is green and
   nothing else needs verifying), mark it ready for review without waiting to be asked.
+
+## Delegating work
+
+- When a task is worth splitting up or handing off, prefer nested workers (subagents started from within
+  the current session) over creating new sessions. Start a separate session only when a nested worker
+  can't do the job or the user asks for one.
+
+## CI
+
+- A pull request that changes only documentation (Markdown files, anything under `docs/`) or only
+  comments and whitespace in C/C++ files skips the macOS build, the visual tests and the unit tests; their
+  jobs show as "skipped". `Check: Needs build` (`.github/workflows/check_needs_build.yml`) decides, using
+  `buildscripts/ci/tools/needs_build.py`. Comment changes in other file types (QML, CMake, scripts) still
+  build, and so does a run that is started by hand.

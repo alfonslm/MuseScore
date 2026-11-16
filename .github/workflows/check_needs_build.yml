@@ -1,0 +1,45 @@
+name: 'Check: Needs build'
+
+# Decides whether a pull request can affect a build. A pull request that changes only
+# documentation, or only comments and whitespace in C/C++ files, doesn't need the builds
+# and tests; see buildscripts/ci/tools/needs_build.py for the exact rules.
+# Called by the build and test workflows, which skip their jobs when the answer is 'false'.
+# Runs that are not for a pull request (manual, scheduled, called by another workflow)
+# always build.
+
+on:
+  workflow_call:
+    outputs:
+      needs_build:
+        description: "'false' if the pull request changes only documentation and comments, otherwise 'true'"
+        value: ${{ jobs.check.outputs.needs_build }}
+
+jobs:
+  check:
+    name: "Needs build?"
+    runs-on: ubuntu-24.04
+    outputs:
+      needs_build: ${{ steps.check.outputs.needs_build }}
+    steps:
+    - name: Clone repository
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v7
+      with:
+        # The pull request's merge commit and its parents; the first parent is the base branch
+        fetch-depth: 2
+        filter: blob:none
+        sparse-checkout: buildscripts/ci/tools
+    - id: check
+      name: Check what the pull request changes
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+      run: |
+        if [ "$EVENT_NAME" != "pull_request" ]; then
+          echo "Not a pull request: building"
+          echo "needs_build=true" | tee -a $GITHUB_OUTPUT
+          exit 0
+        fi
+
+        # If the check itself fails, build
+        python3 buildscripts/ci/tools/needs_build.py HEAD^1 HEAD > needs_build.txt || echo "needs_build=true" > needs_build.txt
+        tee -a $GITHUB_OUTPUT < needs_build.txt

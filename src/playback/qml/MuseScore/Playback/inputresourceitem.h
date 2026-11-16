@@ -83,6 +83,9 @@ private:
 
     void updateAvailableResources(const muse::audio::AudioResourceMetaList& availableResources);
 
+    //! Whether this plugin instrument keeps running while playback is stopped (saved with the score)
+    bool keepRunningWhenStopped() const;
+
     std::map<muse::audio::AudioResourceType, ResourceByVendorMap > m_availableResourceMap;
     muse::audio::AudioInputParams m_currentInputParams;
 };
