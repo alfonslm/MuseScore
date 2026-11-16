@@ -187,11 +187,14 @@ framework `beta` and targets `beta`; MuseScore PR 15 merges the integration bran
 (parallel export, On/Off and Live/Standby markings, keyswitch maps); `main` has none of it. Route A (PR 12)
 is still based on `main`.
 
-**Host gap 1 below now has an option** (same two PRs): Diagnostic > VST > "Keep instruments running when
-playback is stopped" (`command://vst/keep-instruments-running`, off by default, applies to all VST
-instruments). Setting `audio/plugins/keepInstrumentsActiveWhenIdle` → `AudioEngineConfig` →
-`VstSynthesiser::shouldProcessWhenIdle()`; `AudioContext::withSourcesToProcessWhenIdle()` keeps such tracks
-in the mixer's idle set. Independent of Live/Standby, which only govern playback. Untested with a real plugin.
+**Host gap 1 below now has an option, per instrument** (since 2026-11-15; it started as one global switch in
+Diagnostic > VST): in the mixer, a VST instrument's sound menu has "Keep running when playback is stopped",
+off by default and saved with the score. It is the key `keepRunningWhenStopped` = `"1"` in the instrument's
+`AudioUnitConfig` (`KEEP_RUNNING_WHEN_STOPPED_CONFIG_KEY`, `audio/common/audiotypes.h`), read by
+`VstSynthesiser::shouldProcessWhenIdle()`; toggling it goes through `ISynthesizer::applyConfiguration()`, so
+the plugin is not reloaded. `AudioContext::withSourcesToProcessWhenIdle()` keeps such tracks in the mixer's
+idle set. Independent of Live/Standby, which only govern playback. The user confirmed on 2026-11-15 that
+VOCALOID7 works and Kontakt 8 instruments stay silent while stopped without it (with the global version).
 
 Framework `beta` itself has two audio test files that do not compile (`rpcpacker_tests.cpp` static
 assertion without `PlaybackStateEvent`; `AudioContextMock` without `saveSoundTracks`); a separate task was
