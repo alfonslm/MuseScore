@@ -28,6 +28,7 @@
 #include "../dom/beam.h"
 #include "../dom/chord.h"
 #include "../dom/engravingitem.h"
+#include "../dom/fermata.h"
 #include "../dom/note.h"
 #include "../dom/notedot.h"
 #include "../dom/ornament.h"
@@ -70,6 +71,52 @@ void EditVisibility::toggleVisible(Transaction& tx, Score* score)
 
     for (EngravingItem* item : score->selection().elements()) {
         undoChangeVisible(tx, item, newVisible);
+    }
+}
+
+//! The linked copies of a fermata that sit on the same position on other staves
+//! (parts are not included: they follow the master through property propagation)
+static std::vector<Fermata*> fermataCopiesOnOtherStaves(const Fermata* fermata)
+{
+    std::vector<Fermata*> result;
+    for (EngravingObject* obj : fermata->linkList()) {
+        if (obj == fermata || !obj->isFermata()) {
+            continue;
+        }
+
+        Fermata* other = toFermata(obj);
+        if (other->score() == fermata->score() && other->segment() == fermata->segment()) {
+            result.push_back(other);
+        }
+    }
+    return result;
+}
+
+void EditVisibility::hideFermatasOnOtherStaves(Transaction& tx, Score* score)
+{
+    for (EngravingItem* e : score->selection().elements()) {
+        if (!e->isFermata()) {
+            continue;
+        }
+
+        for (Fermata* other : fermataCopiesOnOtherStaves(toFermata(e))) {
+            undoChangeVisible(tx, other, false);
+        }
+        undoChangeVisible(tx, e, true);
+    }
+}
+
+void EditVisibility::showFermatasOnAllStaves(Transaction& tx, Score* score)
+{
+    for (EngravingItem* e : score->selection().elements()) {
+        if (!e->isFermata()) {
+            continue;
+        }
+
+        for (Fermata* other : fermataCopiesOnOtherStaves(toFermata(e))) {
+            undoChangeVisible(tx, other, true);
+        }
+        undoChangeVisible(tx, e, true);
     }
 }
 

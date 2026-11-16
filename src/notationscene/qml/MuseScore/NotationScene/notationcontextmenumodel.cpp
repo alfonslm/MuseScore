@@ -73,6 +73,8 @@ MenuItemList NotationContextMenuModel::makeItemsByElementType(ElementType elemen
         return makePageItems();
     case ElementType::STAFF_TEXT:
         return makeStaffTextItems();
+    case ElementType::FERMATA:
+        return makeFermataItems();
     case ElementType::SYSTEM_TEXT:
     case ElementType::TRIPLET_FEEL:
         return makeSystemTextItems();
@@ -169,6 +171,16 @@ MenuItemList NotationContextMenuModel::makeStaffTextItems()
     MenuItemList items = makeElementItems();
     items << makeSeparator();
     items << makeMenuItem(OPEN_STAFF_TEXT_PROPERTIES_COMMAND);
+
+    return items;
+}
+
+MenuItemList NotationContextMenuModel::makeFermataItems()
+{
+    MenuItemList items = makeElementItems();
+    items << makeSeparator();
+    items << makeMenuItem(FERMATA_HIDE_EXCEPT_HERE_COMMAND);
+    items << makeMenuItem(FERMATA_SHOW_ON_ALL_STAVES_COMMAND);
 
     return items;
 }

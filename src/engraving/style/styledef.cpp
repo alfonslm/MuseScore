@@ -2039,6 +2039,7 @@ const std::array<StyleDef::StyleValue, size_t(Sid::STYLES)> StyleDef::styleValue
     styleDef(fermataPosAbove,                            PointF(.0, -0.5)),
     styleDef(fermataPosBelow,                            PointF(.0, 0.5)),
     styleDef(fermataMinDistance,                         0.4_sp),
+    styleDef(fermataAddToAllStaves,                      true),
 
     styleDef(fingeringPlacement,                         PlacementV::ABOVE),
 

@@ -90,6 +90,8 @@ public:
 
     // Visibility
     void toggleVisible() override;
+    void hideFermatasOnOtherStaves() override;
+    void showFermatasOnAllStaves() override;
     void setSelectionVisible(bool visible) override;
 
     // Hit

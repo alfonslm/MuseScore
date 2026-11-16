@@ -33,6 +33,7 @@
 #include "chord.h"
 #include "clef.h"
 #include "factory.h"
+#include "fermata.h"
 #include "figuredbass.h"
 #include "harmony.h"
 #include "harppedaldiagram.h"
@@ -296,6 +297,9 @@ EngravingItem* ChordRest::drop(Transaction& tx, EditData& data)
         e->setTrack(track());
         e->setOwnershipParent(segment());
         score()->undoAddElement(e);
+        if (e->isFermata()) {
+            score()->undoAddFermataToAllStaves(toFermata(e));
+        }
         return e;
 
     case ElementType::DYNAMIC:

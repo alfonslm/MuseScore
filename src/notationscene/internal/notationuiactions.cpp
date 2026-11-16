@@ -2182,6 +2182,18 @@ const UiActionList NotationUiActions::s_actions = {
              TranslatableString("action", "Set invisible"),
              TranslatableString("action", "Make selected element(s) invisible")
              ),
+    UiAction("fermata-hide-except-here",
+             mu::context::UiCtxProjectOpened,
+             mu::context::CTX_NOTATION_OPENED,
+             TranslatableString("action", "Hide except here"),
+             TranslatableString("action", "Hide fermata on all other staves")
+             ),
+    UiAction("fermata-show-on-all-staves",
+             mu::context::UiCtxProjectOpened,
+             mu::context::CTX_NOTATION_OPENED,
+             TranslatableString("action", "Show on all staves"),
+             TranslatableString("action", "Show fermata on all staves")
+             ),
     UiAction("toggle-autoplace",
              mu::context::UiCtxProjectOpened,
              mu::context::CTX_NOTATION_OPENED,

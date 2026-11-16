@@ -575,6 +575,8 @@ void NotationActionController::init()
     registerCommand(MIRROR_NOTEHEAD_COMMAND, &Interaction::mirrorNotes);
     registerCommand(SET_VISIBLE_COMMAND, &Interaction::setSelectionVisible, true);
     registerCommand(UNSET_VISIBLE_COMMAND, &Interaction::setSelectionVisible, false);
+    registerCommand(FERMATA_HIDE_EXCEPT_HERE_COMMAND, &Interaction::hideFermatasOnOtherStaves);
+    registerCommand(FERMATA_SHOW_ON_ALL_STAVES_COMMAND, &Interaction::showFermatasOnAllStaves);
     registerCommand(TOGGLE_AUTOPLACE_COMMAND, &Interaction::toggleAutoplace, false);
     registerCommand(AUTOPLACE_ENABLED_COMMAND, &Interaction::toggleAutoplace, true);
 
@@ -997,6 +999,8 @@ void NotationActionController::init()
             { "mirror-note", MIRROR_NOTEHEAD_COMMAND, {} },
             { "set-visible", SET_VISIBLE_COMMAND, {} },
             { "unset-visible", UNSET_VISIBLE_COMMAND, {} },
+            { "fermata-hide-except-here", FERMATA_HIDE_EXCEPT_HERE_COMMAND, {} },
+            { "fermata-show-on-all-staves", FERMATA_SHOW_ON_ALL_STAVES_COMMAND, {} },
             { "toggle-autoplace", TOGGLE_AUTOPLACE_COMMAND, {} },
             { "autoplace-enabled", AUTOPLACE_ENABLED_COMMAND, {} },
             { "full-measure-rest", ADD_FULL_MEASURE_REST_COMMAND, {} },

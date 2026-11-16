@@ -659,6 +659,20 @@ void NotationInteraction::toggleVisible()
     });
 }
 
+void NotationInteraction::hideFermatasOnOtherStaves()
+{
+    transaction(TranslatableString("undoableAction", "Hide fermata on other staves"), [this](Transaction& tx) {
+        EditVisibility::hideFermatasOnOtherStaves(tx, score());
+    });
+}
+
+void NotationInteraction::showFermatasOnAllStaves()
+{
+    transaction(TranslatableString("undoableAction", "Show fermata on all staves"), [this](Transaction& tx) {
+        EditVisibility::showFermatasOnAllStaves(tx, score());
+    });
+}
+
 void NotationInteraction::setSelectionVisible(bool visible)
 {
     if (visible) {

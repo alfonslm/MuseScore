@@ -63,6 +63,8 @@ public:
     // Visibility
     virtual void toggleVisible() = 0;
     virtual void setSelectionVisible(bool visible) = 0;
+    virtual void hideFermatasOnOtherStaves() = 0;
+    virtual void showFermatasOnAllStaves() = 0;
 
     // Hit
     virtual EngravingItem* hitElement(const muse::PointF& pos, float width) const = 0;

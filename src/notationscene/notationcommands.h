@@ -480,6 +480,8 @@ inline static const muse::rcommand::Command TOGGLE_HIDE_EMPTY_COMMAND("command:/
 inline static const muse::rcommand::Command MIRROR_NOTEHEAD_COMMAND("command://notation/mirror-notehead");
 inline static const muse::rcommand::Command SET_VISIBLE_COMMAND("command://notation/set-visible");
 inline static const muse::rcommand::Command UNSET_VISIBLE_COMMAND("command://notation/unset-visible");
+inline static const muse::rcommand::Command FERMATA_HIDE_EXCEPT_HERE_COMMAND("command://notation/fermata-hide-except-here");
+inline static const muse::rcommand::Command FERMATA_SHOW_ON_ALL_STAVES_COMMAND("command://notation/fermata-show-on-all-staves");
 inline static const muse::rcommand::Command TOGGLE_AUTOPLACE_COMMAND("command://notation/toggle-autoplace");
 inline static const muse::rcommand::Command AUTOPLACE_ENABLED_COMMAND("command://notation/autoplace-enabled");
 inline static const muse::rcommand::Command VOICE_ASSIGNMENT_ALL_IN_INSTR_COMMAND("command://notation/voice-assignment-all-in-instrument");

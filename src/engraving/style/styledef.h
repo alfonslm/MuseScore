@@ -2047,6 +2047,7 @@ enum class Sid : short {
     fermataPosAbove,
     fermataPosBelow,
     fermataMinDistance,
+    fermataAddToAllStaves,
 
     fingeringPlacement,
 
