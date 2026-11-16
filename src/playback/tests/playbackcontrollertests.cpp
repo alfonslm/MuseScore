@@ -267,6 +267,7 @@ protected:
         ON_CALL(*m_notationPlayback, existingTrackIdSet()).WillByDefault(Return(engraving::InstrumentTrackIdSet { TRACK_ID }));
         ON_CALL(*m_notationPlayback, trackPlaybackData(_)).WillByDefault(ReturnRefOfCopy(playbackData));
         ON_CALL(*m_notationPlayback, multipliedTempo(_)).WillByDefault(ReturnRefOfCopy(notation::Tempo()));
+        ON_CALL(*m_notationPlayback, musicalTimeMap()).WillByDefault(ReturnRefOfCopy(muse::audio::MusicalTimeMap()));
         ON_CALL(*m_notationPlayback, playedTickToSec(_)).WillByDefault([](midi::tick_t tick) {
             return audio::secs_t(tick / static_cast<double>(TICKS_PER_SEC));
         });
