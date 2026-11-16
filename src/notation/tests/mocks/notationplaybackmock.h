@@ -59,6 +59,9 @@ public:
     MOCK_METHOD(muse::audio::secs_t, totalPlayTime, (), (const, override));
     MOCK_METHOD(muse::async::Channel<muse::audio::secs_t>, totalPlayTimeChanged, (), (const, override));
 
+    MOCK_METHOD(const muse::audio::MusicalTimeMap&, musicalTimeMap, (), (const, override));
+    MOCK_METHOD(muse::async::Notification, musicalTimeMapChanged, (), (const, override));
+
     MOCK_METHOD(muse::audio::secs_t, playedTickToSec, (muse::midi::tick_t tick), (const, override));
     MOCK_METHOD(muse::midi::tick_t, secToPlayedTick, (muse::audio::secs_t sec), (const, override));
     MOCK_METHOD(muse::midi::tick_t, secToTick, (muse::audio::secs_t sec), (const, override));
